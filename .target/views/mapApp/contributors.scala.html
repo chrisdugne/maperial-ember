@@ -1,0 +1,5 @@
+  <script type="text/x-handlebars" data-template-name="contributors">
+  	{{#each person in controller}}
+ 	   <a {{action showContributor person}}> {{person.login}} </a>
+  	{{/each}}
+  </script>
