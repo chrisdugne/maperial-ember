@@ -1,7 +1,7 @@
 
 @import views.html.header;
 @import views.html.footer;
-@import views.html.mapApp.app;
+@import views.html.ember.app;
 
 <!DOCTYPE html>
 
@@ -9,21 +9,17 @@
     <head>
         <title>@Messages("applicationName")</title>
 		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.css")" />
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/global/favicon.png")">
     </head>
     
   	<body>
-    	<div class="container">
-    	
-			@header()
-
-	        <div class="span10" id="content"></div>
-		
-			@footer()
-	    
-	    </div>
-		
 		@app()
+		@header()
+    	
+	    <div id="webapp"></div>
+		
+		@footer()
+		
 	    
 	    <!-- ================================================== -->
 	    <!-- Javascript - 
@@ -55,12 +51,11 @@
 	    
 		<!-- MapApp files --->
 	    <script type="text/javascript">
-	    	var App = Ember.Application.create();
+	    	var App = Ember.Application.create({rootElement: '#webapp'});
 	    </script>
 
-	    <script src="@routes.Assets.at("javascripts/mapApp/controllers.js")" type="text/javascript"></script>
-	    <script src="@routes.Assets.at("javascripts/mapApp/router.js")" type="text/javascript"></script>
-	    <script src="@routes.Assets.at("javascripts/mapApp/models/contributors.js")" type="text/javascript"></script>
+	    <script src="@routes.Assets.at("javascripts/ember/controllers.js")" type="text/javascript"></script>
+	    <script src="@routes.Assets.at("javascripts/ember/router.js")" type="text/javascript"></script>
 
 	    <script type="text/javascript">
 		    App.initialize();
