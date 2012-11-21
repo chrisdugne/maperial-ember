@@ -16,19 +16,19 @@ public class Application extends Controller
 	@Transactional
 	public static Result home()
 	{
-		Logger.debug("---------------");
-		Logger.debug("new user");
+		Logger.info("---------------");
+		Logger.info("new user");
 		User user = new User();
 		user.setEmail("chris.dugne@mapnify.com");
 		user.setGoogleUID("no");
 		user.setPassword("pwd");
 		user.setUserUID("777777");
-		Logger.debug("---------------");
-		Logger.debug("saving user");
+		Logger.info("---------------");
+		Logger.info("saving user");
 		
 		Ebean.save(user);
-		Logger.debug("---------------");
-		Logger.debug("rendering");
+		Logger.info("---------------");
+		Logger.info("rendering");
 		
 		return ok(main.render());
 	}
