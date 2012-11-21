@@ -14,8 +14,10 @@ object ApplicationBuild extends Build {
        (base / "app" / "assets" / "stylesheets" * "*.less")
   	)
 
+	val postgresql = "postgresql" % "postgresql" % "9.1-901.jdbc4"
+ 
     val appDependencies = Seq(
-      // Add your project dependencies here,
+  		postgresql
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
