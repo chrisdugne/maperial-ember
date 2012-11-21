@@ -14,7 +14,10 @@ public class Application extends Controller
 	public static Result home()
 	{
 		User user = new User();
-		user.email = "chris.dugne@mapnify.com";
+		user.setEmail("chris.dugne@mapnify.com");
+		user.setGoogleUID("no");
+		user.setPassword("pwd");
+		user.setUserUID("777777");
 		
 		Ebean.save(user);
 		
