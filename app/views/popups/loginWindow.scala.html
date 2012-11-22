@@ -1,0 +1,85 @@
+
+<div style="display: none;" id="loginWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginWindowLabel" aria-hidden="true">
+
+<!-- content COPIED FROM grooveshark.com -->
+<div class="lbcontainer">
+	<div id="lightbox-header">
+		<h2 class="title" data-translate-text="SIGN_IN">Sign In</h2>
+		<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
+			<i class="icon icon-ex-white-outline"></i>
+		</a>
+	</div>
+
+	<div id="lightbox-content" style="max-height: 553px;">
+		<div class="lightbox-content-block">
+			<div id="lb-nav-outer">
+				<div id="lb-nav-container" class="no-center">
+					<div id="lb-nav">
+						<a id="lb-twitter-login" class="btn share-btn third-party twitter">
+							<i class="icon icon-twitter-white-active"></i>
+							<span class="text" data-translate-text="SIGN_IN_TWITTER">Sign In with Twitter</span>
+						</a>
+						<a id="lb-google-login" class="btn share-btn third-party google last" data-translate-text="SIGN_IN_GOOGLE" data-dismiss="modal" onclick="googleAuthorize()">
+							<i class="icon icon-google-plus-white-active"></i>
+							<span class="text" data-translate-text="SIGN_IN_GOOGLE">Sign In with Google</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<p id="lightbox-error" class="error hide"></p>
+
+			<div id="lightbox-login-form-goes-here">
+				<div class="error hide">
+				
+					<div class="message">
+						<p class="error-text"></p>
+					</div>
+				</div>
+				<div class="positive hide">
+					<div class="message"></div>
+				</div>
+	
+				<p id="login-msg"></p>
+
+				<form id="lightbox-login-form" class="vertical" target="loginIframe" method="post" action="https://grooveshark.com/empty.html">
+    
+			        <div class="control-group">
+			
+			            <label class="control-label" for="username" data-translate-text="FORM_USERNAME">Username:</label>
+			
+			            <div class="controls">
+			                <input type="text" class="login-text" id="login-username" name="username">
+			            </div>
+			
+			        </div>
+    
+      				<div class="control-group last last-child">
+
+            			<label class="control-label" for="password" data-translate-text="FORM_PASSWORD">Password:</label>
+
+			            <div class="controls">
+			                <input type="password" class="login-text" id="login-password" name="password">
+			            </div>
+        
+            			<a class="forgot" data-translate-text="FORM_FORGOT_PASSWORD">Reset Your Password</a>
+
+        			</div>
+        
+    			</form>
+    		</div>
+    	</div>
+    </div>
+    
+    <div id="lightbox-footer">
+    	<div id="lightbox-footer-right" class="right">
+    		<a class="btn btn-large btn-primary submit" data-translate-text="SIGN_IN">Sign In</a>
+    	</div>
+    	<div id="lightbox-footer-left" class="left">
+    		<span class="no-account-text" data-translate-text="LB_SIGNUP_LOGIN_DONT_HAVE_ACCOUNT">No account? <a class="open-signup">Sign up!</a></span>
+    	</div>
+    </div>
+</div>
+<!-- /grooveshark.com -->
+
+</div>

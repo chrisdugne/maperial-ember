@@ -1,8 +1,29 @@
 //--------------------------------//
 
+/*
+	These 2 lines are the fallback for any browser that doesn't do gradients. See notes for stacking images only IE < 9 below.
+	
+	Line 1 sets a flat background color.
+	Line 2 sets the background image fallback.
+	The rest set a background image and gradient for specific browsers.
+	
+	Line 3 is for old webkit browsers.
+	Line 4 is for newer webkit browsers.
+	Line 5 is for Firefox 3.6 and up.
+	Line 6 is for Internet Explorer 10.
+	Line 7 is for Opera 11.10 and up.
+	Line 8 is what one day all the browsers will hopefully use.
+*/
 .header{
+	background: #000000;
+	background-image: url(IMAGE_URL); /* fallback */
+	background-image: url(IMAGE_URL), -webkit-gradient(linear, left top, left bottom, from(#444444), to(#000000)); /* Saf4+, Chrome */
+	background-image: url(IMAGE_URL), -webkit-linear-gradient(top, #444444, #000000); /* Chrome 10+, Saf5.1+ */
+	background-image: url(IMAGE_URL),    -moz-linear-gradient(top, #444444, #000000); /* FF3.6+ */
+	background-image: url(IMAGE_URL),     -ms-linear-gradient(top, #444444, #000000); /* IE10 */
+	background-image: url(IMAGE_URL),      -o-linear-gradient(top, #444444, #000000); /* Opera 11.10+ */
+	background-image: url(IMAGE_URL),         linear-gradient(top, #444444, #000000);
 	height: 70px;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#000000));
 }
 
 .header h1{
@@ -12,6 +33,16 @@
   font-weight: 200;
   line-height: 1;
   letter-spacing: -1px;
+}
+
+#logoHeader{
+	margin-top: 4px;
+}
+
+#signinButton {
+	margin-top: -52px;
+	float: right;
+	margin-right: 23px;
 }
 
 //--------------------------------//
