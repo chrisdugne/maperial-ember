@@ -1,8 +1,13 @@
 //------------------------------------------------------------------------------------------//
 
-var clientId = '643408271777.apps.googleusercontent.com';
 var apiKey = 'AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8';
 var scopes = 'https://www.googleapis.com/auth/plus.me';
+
+if(isLocal)
+	var clientId = '643408271777.apps.googleusercontent.com';
+else
+	var clientId = '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com';
+
 
 //------------------------------------------------------------------------------------------//
 
