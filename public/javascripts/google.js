@@ -8,7 +8,7 @@ if(isLocal)
 else
 	var clientId = '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com';
 
-
+ 
 //------------------------------------------------------------------------------------------//
 
 function googleLoad() {
