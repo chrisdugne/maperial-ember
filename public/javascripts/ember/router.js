@@ -5,15 +5,31 @@ App.Router = Ember.Router.extend({
     home: Ember.Route.extend({
       route: '/',
 	  connectOutlets: function(router){
-	    router.get('applicationController').connectOutlet('home');
+		  homeView(router);
 	  }
+    }),
+    dashboard: Ember.Route.extend({
+    	route: '/dashboard',
+    	connectOutlets: function(router){
+    		openView(router, "dashboard");
+    	}
     })
   })
 })
 
 
+function homeView(router)
+{
+    router.get('applicationController').connectOutlet('home');
+}
 
-
+function openView(router, view)
+{
+	if(loggedIn)
+		router.get('applicationController').connectOutlet(view);
+	else
+		router.transitionTo("home");
+}
 
 //App.Router = Ember.Router.extend({
 //  enableLogging: true,

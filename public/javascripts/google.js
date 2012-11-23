@@ -11,61 +11,70 @@ else
  
 //------------------------------------------------------------------------------------------//
 
-function googleLoad() {
-  gapi.client.setApiKey(apiKey);
-  window.setTimeout(checkGoogleAuth,1);
+function googleLoad() 
+{
+	gapi.client.setApiKey(apiKey);
+	window.setTimeout(checkGoogleAuth,1);
 }
 
-function checkGoogleAuth() {
-  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, googleAuthResult);
+function checkGoogleAuth() 
+{
+	gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, googleAuthResult);
 }
 
 //------------------------------------------------//
 
 function googleAuthResult(authResult) 
 {
-  var signinButton = document.getElementById('signinButton');
-  if (authResult && !authResult.error) 
-  {
-    signinButton.style.visibility = 'hidden';
-    makeApiCall();
-  }
-  else 
-  {
-    signinButton.style.visibility = '';
-    signinButton.onclick = openLoginWindow;
-  }
+	if (authResult && !authResult.error) 
+	{
+		loggedIn = true;
+		$("#signinButton").fadeOut(1350);
+		getGoogleUser();
+	}
+	else 
+	{
+		$("#signinButton").click(openLoginWindow);
+		App.get('router').transitionTo("home");
+	}
 }
 
 //------------------------------------------------------------------------------------------//
 
-function openLoginWindow() {
+function openLoginWindow() 
+{
 	$('#loginWindow').modal();
 }
 	
-//------------------------------------------------------------------------------------------//
-
-function googleAuthorize(event) {
-  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, googleAuthResult);
-  return false;
+function googleAuthorize(event) 
+{
+	gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, googleAuthResult);
+	return false;
 }
 
 //------------------------------------------------------------------------------------------//
-// demo to remove
 
-function makeApiCall() {
-	  gapi.client.load('plus', 'v1', function() {
-	      var request = gapi.client.plus.people.get({
-	          'userId': 'me'
-	            });
-	      request.execute(function(resp) {
-	          var heading = document.createElement('h4');
-	          var image = document.createElement('img');
-	          image.src = resp.image.url;
-	          heading.appendChild(image);
-	          heading.appendChild(document.createTextNode(resp.displayName));
+function getGoogleUser() 
+{
+	gapi.client.load('plus', 'v1', function() {
+		var request = gapi.client.plus.people.get({
+			'userId': 'me'
+		});
+		
+		request.execute(function(resp) 
+		{
+			var heading = document.createElement('h4');
+			var image = document.createElement('img');
+			
+			image.src = resp.image.url;
+			  
+			heading.appendChild(image);
+			heading.appendChild(document.createTextNode(resp.displayName));
+			
+			$("#user").append(heading);
+			$("#user").fadeIn(1350);
 
-	          document.getElementById('content').appendChild(heading);
-	        });
-	    });
-	}
+			App.get('router').transitionTo("dashboard");
+		});
+	});
+}
