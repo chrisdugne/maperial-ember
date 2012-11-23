@@ -4,7 +4,7 @@
 
 App.ApplicationController = Ember.Controller.extend();
 App.ApplicationView = Ember.View.extend({
-  templateName: 'application'
+	templateName: 'application'
 });
 
 //-------------------------------------------------//
@@ -13,13 +13,16 @@ App.ApplicationView = Ember.View.extend({
 // Home : http://mapnify.herokuapp.com/
 App.HomeController = Ember.ObjectController.extend();
 App.HomeView = Ember.View.extend({
-  templateName: 'home'
+	templateName: 'home'
 });
 
 // Dashboard 
 App.DashboardController = Ember.ObjectController.extend();
 App.DashboardView = Ember.View.extend({
-	templateName: 'dashboard'
+	templateName: 'dashboard',
+	didInsertElement: function(){
+		renderDemoExtJS();		
+	}
 });
 
 //---------------------------------------------------------------------//

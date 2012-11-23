@@ -5,7 +5,7 @@ App.Router = Ember.Router.extend({
     home: Ember.Route.extend({
       route: '/',
 	  connectOutlets: function(router){
-		  homeView(router);
+	    router.get('applicationController').connectOutlet('home');
 	  }
     }),
     dashboard: Ember.Route.extend({
@@ -16,12 +16,6 @@ App.Router = Ember.Router.extend({
     })
   })
 })
-
-
-function homeView(router)
-{
-    router.get('applicationController').connectOutlet('home');
-}
 
 function openView(router, view)
 {
