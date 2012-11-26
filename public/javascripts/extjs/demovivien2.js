@@ -1,5 +1,12 @@
 Ext.require(['*']);
 
+function removeAllExtJs()
+{
+	$("#extjsdiv").remove();
+	$("#window1").remove();
+	$("#window2").remove();
+}
+
 function renderDemoExtJS()
 {
 	Ext.onReady(function(){
@@ -161,6 +168,7 @@ function renderDemoExtJS()
 	    });
 
 	    var accordion = Ext.create('Ext.Panel', {
+	    	id: "accordion",
 	        title: 'Layer config',
 	        collapsible: true,
 	        collapsed : false,
@@ -222,6 +230,7 @@ function renderDemoExtJS()
 
 	    var window = Ext.create('Ext.Window',{
 	        title : "Layer config (floating)",
+	        id: "window1",
 	        x : 800,
 	        y : 70,
 	        width : 300,
@@ -237,6 +246,7 @@ function renderDemoExtJS()
 	            
 	    var window2 = Ext.create('Ext.Window',{
 	        title : "ColorBar config (floating)",
+	        id: "window2",
 	        x : 250,
 	        y : 50,
 	        width : 300,

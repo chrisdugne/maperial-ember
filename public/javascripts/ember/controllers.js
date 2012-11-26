@@ -19,20 +19,28 @@ App.HomeView = Ember.View.extend({
 // Dashboard 
 App.DashboardController = Ember.ObjectController.extend();
 App.DashboardView = Ember.View.extend({
-	templateName: 'dashboard',
+	templateName: 'dashboard'
+});
+
+//---------------------------------------------------------------------//
+// Tests
+
+// TestExtjs 
+App.TestExtjsController = Ember.ObjectController.extend();
+App.TestExtjsView = Ember.View.extend({
+	templateName: 'testextjs',
 	didInsertElement: function(){
 		renderDemoExtJS();		
 	}
 });
 
-//---------------------------------------------------------------------//
-// DEMO
+//Tryscreen 
+App.TryscreenController = Ember.ObjectController.extend();
+App.TryscreenView = Ember.View.extend({
+	templateName: 'tryscreen',
+	didInsertElement: function(){
+		renderTryscreenUI();		
+	}
+});
 
-//App.AllContributorsController = Ember.ArrayController.extend();
-//App.AllContributorsView = Ember.View.extend({
-//  templateName: 'contributors'
-//});
-//
-//App.OneContributorController = Ember.ObjectController.extend();
-//App.OneContributorView = Ember.View.extend({
-//  templateName: 'a-contributor'
+//---------------------------------------------------------------------//

@@ -37,7 +37,7 @@ function googleAuthResult(authResult)
 	else 
 	{
 		$("#signinButton").click(openLoginWindow);
-		App.get('router').transitionTo("home");
+		Ember.Route.transitionTo("home");
 	}
 }
 
@@ -84,7 +84,9 @@ function getGoogleUser()
 			$("#user").append(heading);
 			$("#user").fadeIn(1350);
 
-			App.get('router').transitionTo("dashboard");
+			// no redirection if we are on tryscreen for example
+			if(App.get('router').currentState.name == "home")
+				App.get('router').transitionTo("dashboard");
 		});
 	});
 }

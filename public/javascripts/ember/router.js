@@ -2,48 +2,60 @@
 App.Router = Ember.Router.extend({
   enableLogging: true,
   root: Ember.Route.extend({
-    home: Ember.Route.extend({
-      route: '/',
-	  connectOutlets: function(router){
-	    router.get('applicationController').connectOutlet('home');
-	  }
-    }),
-    dashboard: Ember.Route.extend({
-    	route: '/dashboard',
-    	connectOutlets: function(router){
-    		openView(router, "dashboard");
-    	}
-    })
+	  //-------------------//
+	  // HOME
+		home: Ember.Route.extend({
+		  route: '/',
+		  connectOutlets: function(router){
+		    router.get('applicationController').connectOutlet('home');
+		  }
+		}),
+	  //-------------------//
+	  // DASHBOARD
+	    dashboard: Ember.Route.extend({
+	    	route: '/dashboard',
+	    	openTestExtjs: Ember.Route.transitionTo('testextjs'),
+	    	openTryscreen: Ember.Route.transitionTo('tryscreen'),
+	    	connectOutlets: function(router){
+	    		openView(router, "dashboard");
+	    	}
+	    }),
+	  //-------------------//
+	  // Try Screen
+	    tryscreen: Ember.Route.extend({
+	    	route: '/tryscreen',
+	    	openHome: function(router){
+	    		cleanTryscreenUI();
+	    		router.transitionTo('home');
+	    	},
+	    	connectOutlets: function(router){
+	    		openView(router, "tryscreen");
+	    	}
+	    }),
+	    //-------------------//
+	    // DEMO EXTJS
+	    testextjs: Ember.Route.extend({
+	    	route: '/testextjs',
+	    	openDashboard: function(router){
+	    		removeAllExtJs();
+	    		router.transitionTo('dashboard');
+	    	},
+	    	connectOutlets: function(router){
+	    		openView(router, "testExtjs");
+	    	}
+	    })
   })
 })
 
 function openView(router, view)
 {
-	if(loggedIn)
-		router.get('applicationController').connectOutlet(view);
-	else
+	if(view != "tryscreen" && !loggedIn)
 		router.transitionTo("home");
+	else
+		router.get('applicationController').connectOutlet(view);
 }
 
-//App.Router = Ember.Router.extend({
-//  enableLogging: true,
-//  root: Ember.Route.extend({
-//    contributors: Ember.Route.extend({
-//      route: '/',
-//      showContributor: Ember.Route.transitionTo('aContributor'),
-//	  connectOutlets: function(router){
-//		    router.get('applicationController').connectOutlet('allContributors', App.Contributor.find());
-//		  }
-//    }),
-//    aContributor: Ember.Route.extend({
-//	  route: '/:githubUserName', 
-//	  showAllContributors: Ember.Route.transitionTo('contributors'),
-//	  connectOutlets: function(router, context){
-//	    router.get('applicationController').connectOutlet('oneContributor', context);
-//	  },
-//	  serialize: function(router, context){
-//	    return {githubUserName: context.get('login')}
-//	  }
-//	})
-//  })
-//})
+function openTryscreen()
+{
+	App.get('router').transitionTo("tryscreen");
+}
