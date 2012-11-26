@@ -17,6 +17,7 @@ function renderTryscreenUI()
 		hide: {effect: 'fade', duration: 250}
 	});
 
+	$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
 }
 
 function cleanTryscreenUI()

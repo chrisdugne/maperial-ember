@@ -59,7 +59,6 @@
 	    closeText : 'close',
 	    dialogClass : '',
 	    draggable : true,
-	    snap : true,
 	    hide : null,
 	    height : 'auto',
 	    maxHeight : false,
@@ -586,6 +585,7 @@
 			  $t.css('left', left);
 			  left += w + 5;
 		  });
+
 		  /* end */
 	  },
 	  

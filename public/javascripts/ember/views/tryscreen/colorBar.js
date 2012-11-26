@@ -6,7 +6,6 @@ function renderColorBar()
 		dialogClass: 'no-close'
 	});
 	
-	$("#colorbar").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
 }
 
 function cleanColorBar()
