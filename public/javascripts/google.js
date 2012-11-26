@@ -78,7 +78,7 @@ function getGoogleUser()
 //				image.src = resp.picture;
 			  
 			heading.appendChild(image);
-			heading.appendChild(document.createTextNode(resp.name));
+			//heading.appendChild(document.createTextNode(resp.name));
 			heading.appendChild(document.createTextNode(resp.email));
 			
 			$("#user").append(heading);
