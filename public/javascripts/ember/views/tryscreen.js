@@ -11,6 +11,7 @@ function renderTryscreenUI()
 	
 	$("#colorpicker").dialogr({
 		position : [380,210],
+		closeOnEscape: false,
 		dialogClass: 'no-close',
 		autoOpen: false,
 		show: {effect: 'fade', duration: 250},
