@@ -14,7 +14,6 @@ App.Router = Ember.Router.extend({
 	  // DASHBOARD
 	    dashboard: Ember.Route.extend({
 	    	route: '/dashboard',
-	    	openTestExtjs: Ember.Route.transitionTo('testextjs'),
 	    	openTryscreen: Ember.Route.transitionTo('tryscreen'),
 	    	connectOutlets: function(router){
 	    		openView(router, "dashboard");
@@ -30,18 +29,6 @@ App.Router = Ember.Router.extend({
 	    	},
 	    	connectOutlets: function(router){
 	    		openView(router, "tryscreen");
-	    	}
-	    }),
-	    //-------------------//
-	    // DEMO EXTJS
-	    testextjs: Ember.Route.extend({
-	    	route: '/testextjs',
-	    	openDashboard: function(router){
-	    		removeAllExtJs();
-	    		router.transitionTo('dashboard');
-	    	},
-	    	connectOutlets: function(router){
-	    		openView(router, "testExtjs");
 	    	}
 	    })
   })

@@ -22,17 +22,6 @@ App.DashboardView = Ember.View.extend({
 	templateName: 'dashboard'
 });
 
-//---------------------------------------------------------------------//
-// Tests
-
-// TestExtjs 
-App.TestExtjsController = Ember.ObjectController.extend();
-App.TestExtjsView = Ember.View.extend({
-	templateName: 'testextjs',
-	didInsertElement: function(){
-		renderDemoExtJS();		
-	}
-});
 
 //Tryscreen 
 App.TryscreenController = Ember.ObjectController.extend();
