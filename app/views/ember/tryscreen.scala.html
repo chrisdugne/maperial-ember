@@ -1,8 +1,10 @@
 <script type="text/x-handlebars" data-template-name="tryscreen">
 
- 	<a {{action openHome}} id="homeButton" class="btn btn-large btn-primary submit">Home</a>
-
-    <div id="map"></div>
+ 	{{#if user.get("loggedIn")}}
+ 		<a {{action openHome}} id="homeButton" class="btn btn-large btn-primary submit">Home</a>
+	{{/if}}
+    
+	<div id="map"></div>
 
  	<div id="colorbar" title="Color Bar" class="popup">
 		<div id="colorbartestcolor" class="square" onclick="openColorPicker(this)"></div>

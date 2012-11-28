@@ -5,7 +5,7 @@ var apiKey = 'AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8';
 var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
 //var scopes = 'https://www.googleapis.com/auth/userinfo.email';
 
-if(isLocal)
+if(user.isLocal())
 	var clientId = '643408271777.apps.googleusercontent.com';
 else
 	var clientId = '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com';
@@ -30,7 +30,7 @@ function googleAuthResult(authResult)
 {
 	if (authResult && !authResult.error) 
 	{
-		loggedIn = true;
+		user.set("loggedIn", true);
 		$("#signinButton").fadeOut(1350);
 		getGoogleUser();
 	}

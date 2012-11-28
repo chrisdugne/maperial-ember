@@ -2,19 +2,22 @@
 // global vars
 //------------------------------------------------------//
 
-var isLocal = window.location.hostname == "localhost";
+//var isLocal = window.location.hostname == "localhost";
 
 //------------------------------------------------------//
 // User data
 
-var loggedIn = false;
+//var loggedIn = false;
 
 //------------------------------------------------------//
 
-var DEBUG = false;
+//var DEBUG = false;
 
 //------------------------------------------------------//
 
+var user = User.create();
+
+App.initialize();
 resizeWindow();
 
 $(window).resize(function() {
