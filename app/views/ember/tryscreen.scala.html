@@ -1,6 +1,6 @@
 <script type="text/x-handlebars" data-template-name="tryscreen">
 
- 	{{#if user.get("loggedIn")}}
+ 	{{#if app.user.loggedIn}}
  		<a {{action openHome}} id="homeButton" class="btn btn-large btn-primary submit">Home</a>
 	{{/if}}
     

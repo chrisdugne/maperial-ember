@@ -1,10 +1,10 @@
 (function( app ) {
 	'use strict';
 
-	var TryscreenView = Ember.View.extend({
+	var HomeView = Ember.View.extend({
 		templateName: 'home'
 	});
 	
-	app.TryscreenView = TryscreenView;
+	app.HomeView = HomeView;
 
 })( window.Webapp);

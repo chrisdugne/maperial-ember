@@ -1,27 +1,15 @@
 //------------------------------------------------------------------------------------------//
 
-var apiKey = 'AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8';
-//var scopes = 'https://www.googleapis.com/auth/plus.me';
-var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-//var scopes = 'https://www.googleapis.com/auth/userinfo.email';
-
-if(user.isLocal())
-	var clientId = '643408271777.apps.googleusercontent.com';
-else
-	var clientId = '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com';
-
- 
-//------------------------------------------------------------------------------------------//
-
-function googleLoad() 
+function googleLoad(app) 
 {
-	gapi.client.setApiKey(apiKey);
+	gapi.client.setApiKey(window.Webapp.globals.apiKey);
 	window.setTimeout(checkGoogleAuth,1);
 }
 
 function checkGoogleAuth() 
 {
-	gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, googleAuthResult);
+	var globals = window.Webapp.globals;
+	gapi.auth.authorize({client_id: globals.googleClientId, scope: globals.scopes, immediate: true}, googleAuthResult);
 }
 
 //------------------------------------------------//
@@ -30,7 +18,7 @@ function googleAuthResult(authResult)
 {
 	if (authResult && !authResult.error) 
 	{
-		user.set("loggedIn", true);
+		window.Webapp.user.loggedIn = true;
 		$("#signinButton").fadeOut(1350);
 		getGoogleUser();
 	}
@@ -50,7 +38,8 @@ function openLoginWindow()
 	
 function googleAuthorize(event) 
 {
-	gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, googleAuthResult);
+	var globals = window.Webapp.globals;
+	gapi.auth.authorize({client_id: globals.googleClientId, scope: globals.scopes, immediate: false}, googleAuthResult);
 	return false;
 }
 
@@ -81,12 +70,13 @@ function getGoogleUser()
 			//heading.appendChild(document.createTextNode(resp.name));
 			heading.appendChild(document.createTextNode(resp.email));
 			
-			$("#user").append(heading);
-			$("#user").fadeIn(1350);
+			$("#userDisplay").append(heading);
+			$("#userDisplay").fadeIn(1350);
 
 			// no redirection if we are on tryscreen for example
-			if(App.get('router').currentState.name == "home")
-				App.get('router').transitionTo("dashboard");
+			if(window.Webapp.router.currentState != undefined 
+			&& window.Webapp.router.currentState.name == "home")
+				window.Webapp.router.transitionTo("dashboard");
 		});
 	});
 }
