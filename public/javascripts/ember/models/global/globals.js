@@ -17,7 +17,5 @@
 	else
 		app.globals.googleClientId = '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com';
 	
-
-	console.log("ee " + app.user.name);
 	
 })( window.Webapp);

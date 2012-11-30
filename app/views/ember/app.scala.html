@@ -1,9 +1,12 @@
 
-@import views.html.ember.home;
-@import views.html.ember.dashboard;
-@import views.html.ember.tryscreen;
+@import views.html.ember.header;
+
+@import views.html.ember.pages.home;
+@import views.html.ember.pages.dashboard;
+@import views.html.ember.pages.tryscreen;
 
 <script type="text/x-handlebars" data-template-name="application">
+	@header()
 	{{outlet}}
 </script>
 

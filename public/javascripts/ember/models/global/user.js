@@ -9,5 +9,5 @@
 	});
 	
 	app.user = User.create();
-	console.log("created a user : " + app.user.name);
+	
 })( window.Webapp);

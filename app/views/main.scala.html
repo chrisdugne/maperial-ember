@@ -1,5 +1,4 @@
 
-@import views.html.header;
 @import views.html.footer;
 @import views.html.ember.app;
 @import views.html.popups.loginWindow;
@@ -17,12 +16,10 @@
 	    <!-- ================================================== -->
 	    <!-- frame -->
 
-		@header()
-    	
 	    <div id="webappDiv"></div>
+                     
+	    @footer()
 		
-		@footer()
-
 	    <!-- ================================================== -->
 		
 	    <!-- popups -->
@@ -89,7 +86,6 @@
 		
 		<!-- Try screen --->
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8&sensor=false"></script>
-	    <script src="@routes.Assets.at("javascripts/ember/views/tryscreen/tryscreen.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/views/tryscreen/colorBar.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/views/tryscreen/colorPicker.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/views/tryscreen/style.js")" type="text/javascript"></script>
