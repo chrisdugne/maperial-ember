@@ -5,13 +5,15 @@
 	<div {{action openHome}} class="btn-large btn-primary headerButton">Home</div>
 {{/if}}
 
-   <div id="map"></div>
-	<div id="colorbar" title="Color Bar" class="popup">
+   <canvas id="map" style="border: none;"></canvas>
+
+
+<div id="colorbar" title="Color Bar" class="popup">
 	<div id="colorbartestcolor" class="square" onclick="openColorPicker(this)"></div>
 </div>
 
-	<div id="style" title="Style" class="popup">
+<div id="style" title="Style" class="popup">
 	<div id="styletestcolor" class="square" onclick="openColorPicker(this)"></div>
 </div>
 
-	<div id="colorpicker" class="popup"></div>
+<div id="colorpicker" class="popup"></div>

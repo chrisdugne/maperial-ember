@@ -2,6 +2,10 @@
 //	 Utils
 // ----------------------------//
 
+function getScript(src) {
+   document.write('<' + 'script src="' + src + '"' + ' type="text/javascript"><' + '/script>');
+}
+
 /*
  * zeroPad(5, 2) 	--> "05"
    zeroPad(1234, 2) --> "1234"

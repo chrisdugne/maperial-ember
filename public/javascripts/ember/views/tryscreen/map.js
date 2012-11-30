@@ -2,14 +2,11 @@
 
 function renderMap()
 {
-	var mapOptions = {
-			zoom: 13,
-			center: new google.maps.LatLng(45.75, 3.15),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
+	var maps = new GLMap ( "map" );
+	maps.Start();
 
-	new google.maps.Map($("#map")[0], mapOptions);
-	$("#map").css("height", $("#webappDiv").height() );
+	$("#testMap").css("height", $("#webappDiv").height() );
+	$("#testMap").css("width", $("#webappDiv").width() );
 }
 
 function cleanMap()
