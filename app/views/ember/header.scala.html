@@ -1,14 +1,13 @@
 
 <div id="header">
-	<div class="span1">
+	<div {{action openHome}} class="span1 pointerCursor">
 		<img id="logoHeader" src="@routes.Assets.at("images/global/logo.png")"/>
 	</div>
-	<div class="span1">
+	<div {{action openHome}} class="span1 pointerCursor">
 		<h1>@Messages("applicationName")</h1>
 	</div>
 </div>
 
 <div id="signinButton" class="btn-large btn-primary">Sign In</div>
-<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary headerButton">Try</div>
 
 <div id="userDisplay" class="hide googleUser"></div>

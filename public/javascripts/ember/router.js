@@ -4,14 +4,16 @@
 	var Router = Ember.Router.extend({
 	  enableLogging: true,
 	  root: Ember.Route.extend({
+		  openHome: Ember.Route.transitionTo('home'),
 		  //-------------------//
 		  // HOME
 			home: Ember.Route.extend({
 			  route: '/',
-			  openTryscreen: Ember.Route.transitionTo('tryscreen'),
 			  connectOutlets: function(router){
-			    router.get('applicationController').connectOutlet('home');
-			  }
+			    router.get('applicationController').connectOutlet('home', window.Webapp.user);
+			  },
+			  openTryscreen: Ember.Route.transitionTo('tryscreen'),
+			  openDashboard: Ember.Route.transitionTo('dashboard')
 			}),
 		  //-------------------//
 		  // DASHBOARD
@@ -25,12 +27,10 @@
 		  // Try Screen
 		    tryscreen: Ember.Route.extend({
 		    	route: '/tryscreen',
-		    	openHome: function(router){
-		    		router.transitionTo('home');
-		    	},
 		    	connectOutlets: function(router){
 		    		openView(router, "tryscreen", window.Webapp.user);
-		    	}
+		    	},
+			    openDashboard: Ember.Route.transitionTo('dashboard')
 		    })
 	  })
 	})

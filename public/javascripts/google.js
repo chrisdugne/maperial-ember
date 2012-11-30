@@ -73,10 +73,6 @@ function getGoogleUser()
 			$("#userDisplay").append(heading);
 			$("#userDisplay").fadeIn(1350);
 
-			// no redirection if we are on tryscreen for example
-			if(window.Webapp.router.currentState != undefined 
-			&& window.Webapp.router.currentState.name == "home")
-				window.Webapp.router.transitionTo("dashboard");
 		});
 	});
 }

@@ -1,4 +1,10 @@
-<script type="text/x-handlebars" data-template-name="home">
+
+{{#if loggedIn}}
+	<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
+{{else}}
+	<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary headerButton">Try</div>
+{{/if}}
+
 <div id="home_image"></div>
 <div class="container hometext">
 
@@ -56,4 +62,3 @@
 
   </div>
 </div>
-</script>

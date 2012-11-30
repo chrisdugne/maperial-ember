@@ -1,3 +1,4 @@
+<!-- ------------------------------------------------------------------- -->
 
 @import views.html.ember.header;
 
@@ -5,11 +6,25 @@
 @import views.html.ember.pages.dashboard;
 @import views.html.ember.pages.tryscreen;
 
+<!-- ------------------------------------------------------------------- -->
+
 <script type="text/x-handlebars" data-template-name="application">
 	@header()
 	{{outlet}}
 </script>
 
-@home()
-@dashboard()
-@tryscreen()
+<!-- ------------------------------------------------------------------- -->
+
+<script type="text/x-handlebars" data-template-name="home">
+	@home()
+</script>
+
+<script type="text/x-handlebars" data-template-name="dashboard">
+	@dashboard()
+</script>
+
+<script type="text/x-handlebars" data-template-name="tryscreen">
+	@tryscreen()
+</script>
+
+<!-- ------------------------------------------------------------------- -->

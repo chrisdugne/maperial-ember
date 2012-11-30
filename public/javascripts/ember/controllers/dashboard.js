@@ -2,7 +2,7 @@
 (function( app ) {
 	'use strict';
 
-	var DashboardController = Ember.Controller.extend({});
+	var DashboardController = Ember.ObjectController.extend({});
 
 	app.DashboardController = DashboardController;
 
