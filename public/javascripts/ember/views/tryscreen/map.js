@@ -5,8 +5,8 @@ function renderMap()
 	var maps = new GLMap ( "map" );
 	maps.Start();
 
-	$("#testMap").css("height", $("#webappDiv").height() );
-	$("#testMap").css("width", $("#webappDiv").width() );
+	$("#map").css("height", $("#webappDiv").height() );
+	$("#map").css("width", $("#webappDiv").width() );
 }
 
 function cleanMap()
