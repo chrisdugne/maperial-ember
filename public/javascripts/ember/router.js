@@ -29,7 +29,7 @@
 		    		router.transitionTo('home');
 		    	},
 		    	connectOutlets: function(router){
-		    		openView(router, "tryscreen");
+		    		openView(router, "tryscreen", window.Webapp.user);
 		    	}
 		    })
 	  })
@@ -39,11 +39,10 @@
 })( window.Webapp );
 
 
-function openView(router, view)
+function openView(router, view, context)
 {
-	console.log("openView : " + view);
 	if(view != "tryscreen" && !window.Webapp.user.loggedIn)
 		router.transitionTo("home");
 	else
-		router.get('applicationController').connectOutlet(view);
+		router.get('applicationController').connectOutlet(view, context);
 }

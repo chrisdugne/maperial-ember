@@ -1,8 +1,8 @@
 <script type="text/x-handlebars" data-template-name="tryscreen">
- 	{{#if app.user.loggedIn}}
-		loggedIn
+ 	{{#if loggedIn}}
+		<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
 	{{else}}
-		<a {{action openHome}} id="homeButton" class="btn btn-large btn-primary submit">Home</a>
+		<div {{action openHome}} class="btn-large btn-primary headerButton">Home</div>
 	{{/if}}
 
     <div id="map"></div>

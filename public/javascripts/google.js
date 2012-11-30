@@ -18,7 +18,7 @@ function googleAuthResult(authResult)
 {
 	if (authResult && !authResult.error) 
 	{
-		window.Webapp.user.loggedIn = true;
+		window.Webapp.user.set("loggedIn", true);
 		$("#signinButton").fadeOut(1350);
 		getGoogleUser();
 	}

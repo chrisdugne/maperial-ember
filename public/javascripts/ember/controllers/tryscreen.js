@@ -2,7 +2,7 @@
 (function( app ) {
 	'use strict';
 
-	var TryscreenController = Ember.Controller.extend({});
+	var TryscreenController = Ember.ObjectController.extend({});
 
 	app.TryscreenController = TryscreenController;
 
