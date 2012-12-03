@@ -15,6 +15,8 @@ public class ColorBar extends Model{
 	@Id
 	private String colorBarUID;
 
+	private String name;
+
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	
@@ -30,7 +32,15 @@ public class ColorBar extends Model{
 		this.colorBarUID = colorBarUID;
 	}
 
-	// -----------------------------------------------------------------------------------------------//
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
+	// -----------------------------------------------------------------------------------------------//
+
 	private static final long serialVersionUID = 7522352657099709486L;
 }

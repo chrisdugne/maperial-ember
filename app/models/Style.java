@@ -15,9 +15,11 @@ public class Style extends Model{
 	@Id
 	private String styleUID;
 
+	private String name;
+
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
-	
+
 	public static Model.Finder<String, Style> find = new Finder<String, Style>(String.class, Style.class);
 
 	// -----------------------------------------------------------------------------------------------//
@@ -28,6 +30,14 @@ public class Style extends Model{
 
 	public void setStyleUID(String styleUID) {
 		this.styleUID = styleUID;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	// -----------------------------------------------------------------------------------------------//

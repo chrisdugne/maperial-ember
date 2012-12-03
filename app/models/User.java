@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -19,6 +21,13 @@ public class User extends Model {
 	private String email;
 	private String name;
 	private String password;
+	
+	private List<Map> maps;
+	private List<Style> styles;
+	private List<DataSet> datasets;
+	private List<ColorBar> colorbars;
+	private List<Font> fonts;
+	private List<Icon> icons;
 
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -65,6 +74,54 @@ public class User extends Model {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Map> getMaps() {
+		return maps;
+	}
+
+	public void setMaps(List<Map> maps) {
+		this.maps = maps;
+	}
+
+	public List<Style> getStyles() {
+		return styles;
+	}
+
+	public void setStyles(List<Style> styles) {
+		this.styles = styles;
+	}
+
+	public List<DataSet> getDatasets() {
+		return datasets;
+	}
+
+	public void setDatasets(List<DataSet> datasets) {
+		this.datasets = datasets;
+	}
+
+	public List<ColorBar> getColorbars() {
+		return colorbars;
+	}
+
+	public void setColorbars(List<ColorBar> colorbars) {
+		this.colorbars = colorbars;
+	}
+
+	public List<Font> getFonts() {
+		return fonts;
+	}
+
+	public void setFonts(List<Font> fonts) {
+		this.fonts = fonts;
+	}
+
+	public List<Icon> getIcons() {
+		return icons;
+	}
+
+	public void setIcons(List<Icon> icons) {
+		this.icons = icons;
 	}
 
 	// -----------------------------------------------------------------------------------------------//

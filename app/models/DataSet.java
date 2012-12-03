@@ -14,6 +14,9 @@ public class DataSet extends Model{
 
 	@Id
 	private String dataSetUID;
+	
+	private String name;
+	private Long uploadTime;
 
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -29,6 +32,22 @@ public class DataSet extends Model{
 	
 	public void setDataSetUID(String dataSetUID) {
 		this.dataSetUID = dataSetUID;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getUploadTime() {
+		return uploadTime;
+	}
+
+	public void setUploadTime(Long uploadTime) {
+		this.uploadTime = uploadTime;
 	}
 
 	// -----------------------------------------------------------------------------------------------//
