@@ -17,10 +17,10 @@ object ApplicationBuild extends Build {
 	val postgresql = "postgresql" % "postgresql" % "9.1-901.jdbc4"
  
     val appDependencies = Seq(
-  		postgresql
+  		javaCore, javaJdbc, javaEbean, postgresql
     )
 
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
+    val main = play.Project(appName, appVersion, appDependencies).settings(
       lessEntryPoints <<= baseDirectory(customLessEntryPoints)
     )
 
