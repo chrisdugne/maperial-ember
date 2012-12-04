@@ -12,7 +12,7 @@ import domain.UserManager;
 import play.mvc.Result;
 
 
-public class UserService extends Application
+public class UserService extends Application 
 {
 	// ---------------------------------------------//
 
