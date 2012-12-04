@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.db.ebean.Model;
@@ -18,6 +19,11 @@ public class DataSet extends Model{
 	private String name;
 	private Long uploadTime;
 
+	// -----------------------------------------------------------------------------------------------//
+
+	@ManyToOne
+	private User user;
+	
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	

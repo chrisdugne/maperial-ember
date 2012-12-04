@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import play.db.ebean.Model;
@@ -16,9 +17,21 @@ public class Map extends Model{
 	private String mapUID;
 	
 	private String name;
+	
+
+	@ManyToOne
 	private Style style;
+
+	@ManyToOne
 	private ColorBar colorbar;
+
+	@ManyToOne
 	private DataSet dataset;
+
+	// -----------------------------------------------------------------------------------------------//
+
+	@ManyToOne
+	private User user;
 
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries

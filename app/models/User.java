@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import play.db.ebean.Model;
@@ -22,11 +23,22 @@ public class User extends Model {
 	private String name;
 	private String password;
 	
+	@OneToMany
 	private List<Map> maps;
+
+	@OneToMany
 	private List<Style> styles;
+	
+	@OneToMany
 	private List<DataSet> datasets;
+	
+	@OneToMany
 	private List<ColorBar> colorbars;
+	
+	@OneToMany
 	private List<Font> fonts;
+	
+	@OneToMany
 	private List<Icon> icons;
 
 	// -----------------------------------------------------------------------------------------------//
