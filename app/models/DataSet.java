@@ -5,6 +5,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -14,9 +16,12 @@ public class DataSet extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
+	@Expose
 	private String dataSetUID;
 	
+	@Expose
 	private String name;
+	@Expose
 	private Long uploadTime;
 
 	// -----------------------------------------------------------------------------------------------//

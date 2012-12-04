@@ -18,4 +18,4 @@
 		app.globals.googleClientId = '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com';
 	
 	
-})( window.Webapp);
+})(window.Webapp);

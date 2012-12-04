@@ -7,38 +7,49 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="public.user")
-public class User extends Model {
+public class User extends Model { 
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
+	@Expose
 	private String userUID;
 	
-	private String googleUID;
+	@Expose
 	private String email;
+	@Expose
 	private String name;
+	@Expose
 	private String password;
 	
 	@OneToMany
+	@Expose
 	private List<Map> maps;
 
 	@OneToMany
+	@Expose
 	private List<Style> styles;
 	
 	@OneToMany
+	@Expose
 	private List<DataSet> datasets;
 	
 	@OneToMany
+	@Expose
 	private List<ColorBar> colorbars;
 	
 	@OneToMany
+	@Expose
 	private List<Font> fonts;
 	
 	@OneToMany
+	@Expose
 	private List<Icon> icons;
 
 	// -----------------------------------------------------------------------------------------------//
@@ -54,14 +65,6 @@ public class User extends Model {
 
 	public void setUserUID(String userUID) {
 		this.userUID = userUID;
-	}
-
-	public String getGoogleUID() {
-		return googleUID;
-	}
-
-	public void setGoogleUID(String googleUID) {
-		this.googleUID = googleUID;
 	}
 
 	public String getEmail() {

@@ -5,6 +5,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -14,8 +16,10 @@ public class Icon extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
+	@Expose
 	private String iconUID;
 	
+	@Expose
 	private String name;
 
 	// -----------------------------------------------------------------------------------------------//

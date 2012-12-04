@@ -6,7 +6,7 @@
 	  root: Ember.Route.extend({
 		  openHome: Ember.Route.transitionTo('home'),
 		  //-------------------//
-		  // HOME
+		  // Home
 			home: Ember.Route.extend({
 			  route: '/',
 			  connectOutlets: function(router){
@@ -16,11 +16,11 @@
 			  openDashboard: Ember.Route.transitionTo('dashboard')
 			}),
 		  //-------------------//
-		  // DASHBOARD
+		  // Dashboard
 		    dashboard: Ember.Route.extend({
 		    	route: '/dashboard',
 		    	connectOutlets: function(router){
-		    		openView(router, "dashboard");
+		    		openView(router, "dashboard", window.Webapp.user);
 		    	}
 		    }),
 		  //-------------------//

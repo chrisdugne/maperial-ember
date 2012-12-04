@@ -3,9 +3,8 @@
 
 	var User = Ember.Object.extend({
 		email: "",
-		name: "out",
-		loggedIn: false,
-		debug: false
+		name: "",
+		loggedIn: false
 	});
 	
 	app.user = User.create();

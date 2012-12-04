@@ -1,6 +1,6 @@
 
 @import views.html.footer;
-@import views.html.ember.app;
+@import views.html.templates.app;
 @import views.html.popups.loginWindow;
 
 <!DOCTYPE html>
@@ -75,9 +75,6 @@
 
 	    <script src="http://map.x-ray.fr/js/maps.js" type="text/javascript"></script>
 
-		<!-- Google Auth Management --->
-	    <script src="@routes.Assets.at("javascripts/google.js")" type="text/javascript"></script>
-		
 		<!-- EmberJS MC -->
 
 	    <script src="@routes.Assets.at("javascripts/ember/app.js")" type="text/javascript"></script>
@@ -86,8 +83,8 @@
 	    <script src="@routes.Assets.at("javascripts/ember/models/global/user.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/models/global/globals.js")" type="text/javascript"></script>
 	    
+	    <script src="@routes.Assets.at("javascripts/ember/domain/userManager.js")" type="text/javascript"></script>
 
-	    <script src="@routes.Assets.at("javascripts/ember/controllers/application.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/controllers/home.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/controllers/dashboard.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/ember/controllers/tryscreen.js")" type="text/javascript"></script>
@@ -111,6 +108,9 @@
 		
 		<!-- --------------------------------------------->
 	    
+		<!-- Google Auth Management --->
+	    <script src="@routes.Assets.at("javascripts/google.js")" type="text/javascript"></script>
+
 		<!-- Google API + init --->
     	<script src="https://apis.google.com/js/client.js?onload=googleLoad"></script>
 		 

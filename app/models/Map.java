@@ -5,6 +5,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -13,18 +15,23 @@ public class Map extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
+	@Expose
 	@Id
 	private String mapUID;
 	
+	@Expose
 	private String name;
 	
 
+	@Expose
 	@ManyToOne
 	private Style style;
 
+	@Expose
 	@ManyToOne
 	private ColorBar colorbar;
 
+	@Expose
 	@ManyToOne
 	private DataSet dataset;
 

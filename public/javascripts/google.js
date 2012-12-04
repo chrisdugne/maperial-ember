@@ -1,4 +1,5 @@
 //------------------------------------------------------------------------------------------//
+// Logging in through the init process (onload)
 
 function googleLoad(app) 
 {
@@ -12,24 +13,8 @@ function checkGoogleAuth()
 	gapi.auth.authorize({client_id: globals.googleClientId, scope: globals.scopes, immediate: true}, googleAuthResult);
 }
 
-//------------------------------------------------//
-
-function googleAuthResult(authResult) 
-{
-	if (authResult && !authResult.error) 
-	{
-		window.Webapp.user.set("loggedIn", true);
-		$("#signinButton").fadeOut(1350);
-		getGoogleUser();
-	}
-	else 
-	{
-		$("#signinButton").click(openLoginWindow);
-		Ember.Route.transitionTo("home");
-	}
-}
-
 //------------------------------------------------------------------------------------------//
+// Logging in through the login window
 
 function openLoginWindow() 
 {
@@ -43,9 +28,26 @@ function googleAuthorize(event)
 	return false;
 }
 
+//------------------------------------------------//
+
+function googleAuthResult(authResult) 
+{
+	if (authResult && !authResult.error) 
+	{
+		window.Webapp.user.set("loggedIn", true);
+		$("#signinButton").fadeOut(1350);
+		getGoogleUserInfo();
+	}
+	else 
+	{
+		$("#signinButton").click(openLoginWindow);
+		Ember.Route.transitionTo("home");
+	}
+}
+
 //------------------------------------------------------------------------------------------//
 
-function getGoogleUser() 
+function getGoogleUserInfo() 
 {
 //	gapi.client.load('plus', 'v1', function() {
 //		var request = gapi.client.plus.people.get({
@@ -58,21 +60,28 @@ function getGoogleUser()
 		});
 		
 		
-		request.execute(function(resp) 
+		request.execute(function(response) 
 		{
 			var heading = document.createElement('h4');
-			var image = document.createElement('img');
+			//var image = document.createElement('img');
 
-//			if(resp.picture)
-//				image.src = resp.picture;
-			  
-			heading.appendChild(image);
-			//heading.appendChild(document.createTextNode(resp.name));
-			heading.appendChild(document.createTextNode(resp.email));
+//			if(response.picture)
+//				image.src = response.picture;
+			 
+			window.Webapp.user.name = response.name;
+			window.Webapp.user.email = response.email;
+			
+			heading.appendChild(document.createTextNode(response.email));
+			
+			//heading.appendChild(image);
+			//heading.appendChild(document.createTextNode(response.name));
 			
 			$("#userDisplay").append(heading);
 			$("#userDisplay").fadeIn(1350);
-
+			
+			
+			// call to userManager.getGoogleUser();
+			getGoogleUser();
 		});
 	});
 }
