@@ -12,7 +12,18 @@ function getGoogleUser()
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	console.log("user found : " +  data);
+	    	console.log("user data : " + data);
+	    	var user = $.parseJSON(data);
+	    	
+	    	window.Webapp.user.userUID = user.userUID;
+	    	window.Webapp.user.email = user.email;
+	    	window.Webapp.user.name = user.name;
+	    	window.Webapp.user.maps = user.maps;
+	    	window.Webapp.user.styles = user.styles;
+	    	window.Webapp.user.datasets = user.datasets;
+	    	window.Webapp.user.colorbars = user.colorbars;
+	    	window.Webapp.user.fonts = user.fonts;
+	    	window.Webapp.user.icons = user.icons;
 		}
 	});
 }
