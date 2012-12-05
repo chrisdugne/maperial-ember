@@ -2,39 +2,114 @@
 	'use strict';
 
 	var Router = Ember.Router.extend({
-	  enableLogging: true,
-	  root: Ember.Route.extend({
-		  openHome: Ember.Route.transitionTo('home'),
-		  //-------------------//
-		  // Home
+		enableLogging: true,
+		root: Ember.Route.extend({
+			
+			//-------------------//
+			// Common actions to all views
+			
+			openHome: Ember.Route.transitionTo('home'),
+			openDashboard: Ember.Route.transitionTo('dashboard'),
+			
+			//-------------------//
+			// Home
+			
 			home: Ember.Route.extend({
-			  route: '/',
-			  connectOutlets: function(router){
-			    router.get('applicationController').connectOutlet('home', window.Webapp.user);
-			  },
-			  openTryscreen: Ember.Route.transitionTo('tryscreen'),
-			  openDashboard: Ember.Route.transitionTo('dashboard')
+				route: '/',
+				connectOutlets: function(router){
+					router.get('applicationController').connectOutlet('home', window.Webapp.user);
+				},
+				openTryscreen: Ember.Route.transitionTo('tryscreen'),
 			}),
-		  //-------------------//
-		  // Dashboard
-		    dashboard: Ember.Route.extend({
-		    	route: '/dashboard',
-		    	connectOutlets: function(router){
-		    		openView(router, "dashboard", window.Webapp.user);
-		    	}
-		    }),
-		  //-------------------//
-		  // Try Screen
-		    tryscreen: Ember.Route.extend({
-		    	route: '/tryscreen',
-		    	connectOutlets: function(router){
-		    		openView(router, "tryscreen", window.Webapp.user);
-		    	},
-			    openDashboard: Ember.Route.transitionTo('dashboard')
-		    })
-	  })
+			
+			//-------------------//
+			// Dashboard
+			
+			dashboard: Ember.Route.extend({
+				route: '/dashboard',
+				connectOutlets: function(router){
+					openView(router, "dashboard", window.Webapp.user);
+				},
+				newMap: Ember.Route.transitionTo('mapCreation'),
+				newStyle: Ember.Route.transitionTo('styleEditor'),
+				newColorbar: Ember.Route.transitionTo('colorbarEditor'),
+				newDataset: Ember.Route.transitionTo('datasetEditor'),
+				manageIcons: Ember.Route.transitionTo('iconsEditor'),
+				manageFonts: Ember.Route.transitionTo('fontsEditor')
+			}),
+			
+			//-------------------//
+			// Try Screen
+			
+			tryscreen: Ember.Route.extend({
+				route: '/tryscreen',
+				connectOutlets: function(router){
+					openView(router, "tryscreen", window.Webapp.user);
+				} 
+			}),
+			
+			//-------------------//
+			// Map Creation
+			
+			mapCreation: Ember.Route.extend({
+				route: '/mapCreation',
+				connectOutlets: function(router){
+					openView(router, "mapCreation", window.Webapp.user);
+				}
+			}),
+			
+			//-------------------//
+			// Style Editor
+			
+			styleEditor: Ember.Route.extend({
+				route: '/styleEditor',
+				connectOutlets: function(router){
+					openView(router, "styleEditor", window.Webapp.user);
+				}
+			}),
+			
+			//-------------------//
+			// Colorbar Editor
+			
+			colorbarEditor: Ember.Route.extend({
+				route: '/colorbarEditor',
+				connectOutlets: function(router){
+					openView(router, "colorbarEditor", window.Webapp.user);
+				}
+			}),
+			
+			//-------------------//
+			// Dataset Editor
+			
+			datasetEditor: Ember.Route.extend({
+				route: '/datasetEditor',
+				connectOutlets: function(router){
+					openView(router, "datasetEditor", window.Webapp.user);
+				}
+			}),
+			
+			//-------------------//
+			// Fonts Editor
+			
+			fontsEditor: Ember.Route.extend({
+				route: '/fontsEditor',
+				connectOutlets: function(router){
+					openView(router, "fontsEditor", window.Webapp.user);
+				}
+			}),
+			
+			//-------------------//
+			// Icons Editor
+			
+			iconsEditor: Ember.Route.extend({
+				route: '/iconsEditor',
+				connectOutlets: function(router){
+					openView(router, "iconsEditor", window.Webapp.user);
+				}
+			})
+		})
 	})
-
+	
 	app.Router = Router;
 })( window.Webapp );
 

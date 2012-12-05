@@ -1,10 +1,10 @@
-@(title:String)	
+@(title:String, actionName:String)	
 	
 <div class="span6 data-box">
 
 	<div class="data-box-titlebar ui-helper-clearfix">
 		<span class="data-box-title">@title</span>
-		<img class="addDataButton" src="@routes.Assets.at("images/icons/add.png")"/>
+		<div class="addDataButton pointerCursor" {{action @actionName}}></div>
 	</div>
 
 	<div id="colorbars" class="data-box-content">

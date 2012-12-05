@@ -4,12 +4,12 @@ import models.User;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.mvc.Result;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import domain.UserManager;
-
-import play.mvc.Result;
 
 
 public class UserService extends Application 

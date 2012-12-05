@@ -4,7 +4,6 @@ import PlayProject._
 
 object ApplicationBuild extends Build {
 
-
     val appName         = "MapnifyClient"
     val appVersion      = "1.0-SNAPSHOT"
 

@@ -62,23 +62,11 @@ function getGoogleUserInfo()
 		
 		request.execute(function(response) 
 		{
-			var heading = document.createElement('h4');
-			//var image = document.createElement('img');
-
 //			if(response.picture)
 //				image.src = response.picture;
 			 
-			window.Webapp.user.name = response.name;
-			window.Webapp.user.email = response.email;
-			
-			heading.appendChild(document.createTextNode(response.email));
-			
-			//heading.appendChild(image);
-			//heading.appendChild(document.createTextNode(response.name));
-			
-			$("#userDisplay").append(heading);
-			$("#userDisplay").fadeIn(1350);
-			
+			window.Webapp.user.set("name", response.name);
+			window.Webapp.user.set("email", response.email);
 			
 			// call to userManager.getGoogleUser();
 			getGoogleUser();
