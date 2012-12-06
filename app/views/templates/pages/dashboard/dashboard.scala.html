@@ -1,0 +1,29 @@
+@import views.html.templates.components.databox;
+@import views.html.templates.pages.dashboard.datasets;
+
+<div class="container-fluid">
+
+  <div class="marketing">
+		<h1>Dashboard</h1>
+   		<p class="marketing-byline">All your data is here</p>
+		<hr class="soften">
+		
+		<div class="row-fluid">
+			@databox("Your maps", "newMap"){ @datasets() }
+			@databox("Your styles", "newStyle"){ @datasets() }
+		</div>
+		
+		<div class="row-fluid">
+			@databox("Your colorbars", "newColorbar"){ @datasets() }
+			@databox("Your datasets", "newDataset"){ @datasets() }
+		</div>
+
+		<div class="row-fluid">
+			@databox("Your icons", "manageIcons"){ @datasets() }
+			@databox("Your fonts", "manageFonts"){ @datasets() }
+		</div>
+		
+	</div>
+</div>
+
+

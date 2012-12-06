@@ -1,5 +1,6 @@
 package controllers;
 
+import oauth.signpost.OAuthProvider;
 import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;

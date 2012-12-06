@@ -21,6 +21,9 @@ public class Style extends Model{
 
 	@Expose
 	private String name;
+	
+	@Expose
+	private Boolean isPublic;
 
 	// -----------------------------------------------------------------------------------------------//
 
@@ -50,6 +53,14 @@ public class Style extends Model{
 		this.name = name;
 	}
 
+	public Boolean getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+	
 	// -----------------------------------------------------------------------------------------------//
 
 	private static final long serialVersionUID = -1480435014105026829L;

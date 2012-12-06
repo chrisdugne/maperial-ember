@@ -22,6 +22,9 @@ public class Font extends Model{
 	@Expose
 	private String name;
 
+	@Expose
+	private Boolean isPublic;
+	
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
@@ -48,6 +51,14 @@ public class Font extends Model{
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Boolean getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 
 	// -----------------------------------------------------------------------------------------------//
