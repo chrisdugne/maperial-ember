@@ -22,7 +22,6 @@ function renderTryscreenUI()
                "http://map.x-ray.fr/js/maps.js"],
            function()
            {
-				console.log("renderTryscreenUI");
 				$("#signinButton").click(openLoginWindow);
 				
 				renderColorBar();

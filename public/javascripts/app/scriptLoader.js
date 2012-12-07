@@ -29,13 +29,13 @@ function getScripts(scripts, callback)
 
 function loadScript(src) 
 {
-	console.log("loading " + src);
-	
 	if(scriptCache[src])
 	{
 		getScripts(scriptsRemaining, callbackFunction);
 		return;
 	}
+
+	console.log("loading " + src);
 	
 	$.getScript(src, function() {
 		scriptCache[src] = "ok";
