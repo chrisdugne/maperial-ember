@@ -14,15 +14,3 @@
 	app.ColorbarEditorView = ColorbarEditorView;
 
 })( window.Webapp);
-
-//--------------------------------------------------------------------------//
-
-function renderColorbarEditorUI()
-{
-	
-}
-
-function cleanColorbarEditorUI()
-{
-	
-}

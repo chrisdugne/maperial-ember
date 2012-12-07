@@ -14,15 +14,3 @@
 	app.DashboardView = DashboardView;
 
 })( window.Webapp);
-
-//--------------------------------------------------------------------------//
-
-function renderDashboardUI()
-{
-	
-}
-
-function cleanDashboardUI()
-{
-	
-}

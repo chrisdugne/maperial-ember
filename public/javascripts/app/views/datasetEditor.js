@@ -14,15 +14,3 @@
 	app.DatasetEditorView = DatasetEditorView;
 
 })( window.Webapp);
-
-//--------------------------------------------------------------------------//
-
-function renderDatasetUI()
-{
-	$('#uploadDatasetWindow').modal();
-}
-
-function cleanDatasetUI()
-{
-	
-}

@@ -1,27 +1,18 @@
-//--------------------------------------------------------------------------//
 
 (function( app ) {
 	'use strict';
 
-	var TryscreenView = Ember.View.extend({
-		templateName: 'tryscreen',
-		didInsertElement: function(){
-			renderTryscreenUI();
-		},
-		willDestroyElement: function(){
-			cleanTryscreenUI();
-		}
-	});
-	
-	app.TryscreenView = TryscreenView;
+	var TryscreenController = Ember.ObjectController.extend({});
 
-})( window.Webapp);
+	app.TryscreenController = TryscreenController;
+
+})( window.Webapp );
 
 //--------------------------------------------------------------------------//
 
 function renderTryscreenUI()
 {
-	$("#tryButton").hide();
+	$("#signinButton").click(openLoginWindow);
 	
 	renderColorBar();
 	renderStyle();
@@ -29,6 +20,7 @@ function renderTryscreenUI()
 	
 	renderMap();
 	$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+
 }
 
 function cleanTryscreenUI()
@@ -37,6 +29,4 @@ function cleanTryscreenUI()
 	cleanStyle();
 	cleanColorPicker();
 	cleanMap();
-	
-	$("#tryButton").show();
 }

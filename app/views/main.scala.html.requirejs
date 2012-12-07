@@ -1,0 +1,46 @@
+
+@import views.html.footer;
+@import views.html.templates.app;
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@Messages("applicationName")</title>
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.css")" />
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/global/favicon.png")">
+    </head>
+    
+  	<body id="body">
+	    <!-- ================================================== -->
+	    <!-- frame -->
+
+	    <div id="webappDiv"></div>
+                     
+	    @footer()
+		
+	    <!-- ================================================== -->
+	    
+		@app()
+		
+	    <!-- ================================================== -->
+	    <!-- Javascript - 
+	    		Placed at the end of the document so the pages (appear to) load faster -->
+		
+	    <script data-main="@routes.Assets.at("javascripts/app.js")" src="@routes.Assets.at("javascripts/libs/require.js")"></script>
+		 
+		<!-- Analytics 
+	    <script type="text/javascript">
+	      var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-34545115-1']);
+	      
+		  (function() {
+			  	        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                      })();
+	    </script>
+	    --->
+    </body>
+        
+</html>

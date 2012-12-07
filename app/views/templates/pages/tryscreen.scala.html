@@ -1,4 +1,6 @@
 
+@import views.html.popups.loginWindow;
+
 {{#if loggedIn}}
 	<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
 {{else}}
@@ -17,3 +19,5 @@
 </div>
 
 <div id="colorpicker" class="popup"></div>
+
+@loginWindow()

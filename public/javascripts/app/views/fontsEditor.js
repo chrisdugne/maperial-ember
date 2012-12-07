@@ -14,15 +14,3 @@
 	app.FontsEditorView = FontsEditorView;
 
 })( window.Webapp);
-
-//--------------------------------------------------------------------------//
-
-function renderFontsEditorUI()
-{
-	
-}
-
-function cleanFontsEditorUI()
-{
-	
-}

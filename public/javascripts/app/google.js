@@ -15,11 +15,6 @@ function checkGoogleAuth()
 
 //------------------------------------------------------------------------------------------//
 // Logging in through the login window
-
-function openLoginWindow() 
-{
-	$('#loginWindow').modal();
-}
 	
 function googleAuthorize(event) 
 {

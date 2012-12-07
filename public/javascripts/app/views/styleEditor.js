@@ -15,14 +15,3 @@
 
 })( window.Webapp);
 
-//--------------------------------------------------------------------------//
-
-function renderStyleEditorUI()
-{
-	
-}
-
-function cleanStyleEditorUI()
-{
-	
-}

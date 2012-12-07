@@ -15,14 +15,3 @@
 
 })( window.Webapp);
 
-//--------------------------------------------------------------------------//
-
-function renderMapCreationUI()
-{
-	
-}
-
-function cleanMapCreationUI()
-{
-	
-}

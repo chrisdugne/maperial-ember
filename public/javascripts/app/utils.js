@@ -2,9 +2,35 @@
 //	 Utils
 // ----------------------------//
 
-function getScript(src) {
-   document.write('<' + 'script src="' + src + '"' + ' type="text/javascript"><' + '/script>');
+var scriptsRemaining;
+var callbackFunction;
+function getScripts(scripts, callback) 
+{
+	callbackFunction = callback;
+	
+	if(scripts.length > 0)
+	{
+		var script = scripts.shift();
+		scriptsRemaining = scripts;
+		loadScript(script);
+	}
+	else
+	{
+		callback();
+	}
 }
+
+function loadScript(src) 
+{
+	console.log("loading " + src);
+	
+	$.getScript(src, function() {
+		getScripts(scriptsRemaining, callbackFunction);
+	});
+	   
+}
+
+// ----------------------------//
 
 /*
  * zeroPad(5, 2) 	--> "05"

@@ -14,15 +14,3 @@
 	app.IconsEditorView = IconsEditorView;
 
 })( window.Webapp);
-
-//--------------------------------------------------------------------------//
-
-function renderIconsEditorUI()
-{
-	
-}
-
-function cleanIconsEditorUI()
-{
-	
-}
