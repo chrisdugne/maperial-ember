@@ -19,7 +19,7 @@
 
 function renderDatasetUI()
 {
-	$('#uploadDatasetButton').modal();
+	$('#uploadDatasetWindow').modal();
 }
 
 function cleanDatasetUI()

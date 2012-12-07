@@ -18,8 +18,7 @@ function checkGoogleAuth()
 
 function openLoginWindow() 
 {
-//	$('#loginWindow').modal();
-	$('#uploadDatasetWindow').modal();
+	$('#loginWindow').modal();
 }
 	
 function googleAuthorize(event) 

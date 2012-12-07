@@ -1,17 +1,14 @@
 
 <div style="display: none;" id="uploadDatasetWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="uploadDatasetWindowLabel" aria-hidden="true">
-
 	<div class="span7">
-	    <div class="page-header">
-	        <h1>Upload your dataset</h1>
-	    </div>
-  
 	    <!-- The file upload form used as target for the file upload widget -->
 	    <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-	        
-	        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-	        <div class="row fileupload-buttonbar">
-	            <div class="span7">
+		    <br/>
+		    <div class="row">
+		        <div class="span4">
+			        <h1>Upload your datasets</h1>
+	            </div>
+		        <div class="span2">
 	                <!-- The fileinput-button span is used to style the file input field as button -->
 	                <span class="btn-small btn-success fileinput-button">
 	                    <i class="icon-plus icon-white"></i>
@@ -19,10 +16,11 @@
 	                    <input type="file" name="files[]" multiple>
 	                </span>
 	            </div>
-	        </div>
-            
-	        <br>
-	        
+		    </div>
+			<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
+				<i class="icon icon-ex-white-outline"></i>
+			</a>
+	  
 	        <!-- The table listing the files available for upload/download -->
 	        <table role="presentation" class="table table-striped">
 	        	<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
@@ -58,51 +56,49 @@
 	    </div>
 	</div>
 	
-	
-	
 	<!-- The template to display files available for upload -->
 	<script id="template-upload" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-        <td class="name span2"><span>{%=file.name%}</span></td>
-        <td class="size span2"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-            <td>
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-            </td>
-            <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn-small btn-success">
-                    <i class="icon-upload icon-white"></i>
-                </button>
-            {% } %}</td>
-        {% } else { %}
-            <td colspan="2"></td>
-        {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn-small btn-danger">
-                <i class="icon-ban-circle icon-white"></i>
-            </button>
-        {% } %}</td>
-    </tr>
-{% } %}
+		{% for (var i=0, file; file=o.files[i]; i++) { %}
+		    <tr class="template-upload fade">
+		        <td class="name span2"><p class="filename">{%=file.name%}</p></td>
+		        <td class="size span2"><span>{%=o.formatFileSize(file.size)%}</span></td>
+		        {% if (file.error) { %}
+		            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+		        {% } else if (o.files.valid && !i) { %}
+		            <td>
+		                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+		            </td>
+		            <td class="start">{% if (!o.options.autoUpload) { %}
+		                <button class="btn-small btn-success">
+		                    <i class="icon-upload icon-white"></i>
+		                </button>
+		            {% } %}</td>
+		        {% } else { %}
+		            <td colspan="2"></td>
+		        {% } %}
+		        <td class="cancel">{% if (!i) { %}
+		            <button class="btn-small btn-danger">
+		                <i class="icon-ban-circle icon-white"></i>
+		            </button>
+		        {% } %}</td>
+		    </tr>
+		{% } %}
 	</script>
 
 	<!-- The template to display files available for download -->
 	<script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        <td class="name span3"><span>{%=file.name%}</span></td>
-        <td class="size span3"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td colspan="2"></td>
-        <td class="span1">
-            <button class="btn-small btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                <i class="icon-trash icon-white"></i>
-            </button>
-        </td>
-    </tr>
-{% } %}
+		{% for (var i=0, file; file=o.files[i]; i++) { %}
+		    <tr class="template-download fade">
+		        <td class="name span3"><p class="filename">{%=file.name%}</p></td>
+		        <td class="size span3"><span>{%=o.formatFileSize(file.size)%}</span></td>
+		        <td colspan="2"></td>
+		        <td class="span1">
+		            <button class="btn-small btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+		                <i class="icon-trash icon-white"></i>
+		            </button>
+		        </td>
+		    </tr>
+		{% } %}
 	</script>
 	
     </div>
