@@ -1,6 +1,6 @@
 (function( win ) {
 	'use strict';
-
+	
 	win.Webapp = Ember.Application.create({
 		VERSION: '1.0',
 		rootElement: '#webappDiv',
