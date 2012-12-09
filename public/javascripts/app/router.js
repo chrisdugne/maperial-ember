@@ -35,7 +35,9 @@
 				newColorbar: Ember.Route.transitionTo('colorbarEditor'),
 				newDataset: Ember.Route.transitionTo('datasetEditor'),
 				manageIcons: Ember.Route.transitionTo('iconsEditor'),
-				manageFonts: Ember.Route.transitionTo('fontsEditor')
+				manageFonts: Ember.Route.transitionTo('fontsEditor'),
+				openTest1: Ember.Route.transitionTo('test1'),
+				openTest2: Ember.Route.transitionTo('test2')
 			}),
 			
 			//-------------------//
@@ -105,6 +107,29 @@
 				route: '/iconsEditor',
 				connectOutlets: function(router){
 					openView(router, "iconsEditor", window.Webapp.user);
+				}
+			}),
+
+			//----------------------------------------------------------------------------//
+			// tests - à virer
+
+			//-------------------//
+			// Test 1
+			
+			test1: Ember.Route.extend({
+				route: '/test1',
+				connectOutlets: function(router){
+					openView(router, "test1", window.Webapp.user);
+				}
+			}),
+			
+			//-------------------//
+			// Test 2
+			
+			test2: Ember.Route.extend({
+				route: '/test2',
+				connectOutlets: function(router){
+					openView(router, "test2", window.Webapp.user);
 				}
 			})
 		})
