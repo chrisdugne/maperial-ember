@@ -1,4 +1,6 @@
 /*
+ * ----------------------------------------------
+
  * jQuery File Upload Plugin JS Example 6.11
  * https://github.com/blueimp/jQuery-File-Upload
  *
@@ -7,13 +9,24 @@
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
+ * 
+ * ----------------------------------------------
+ * 
+ * Modified to be a mapnify extension
+ * 
  */
 
-/*jslint nomen: true, unparam: true, regexp: true */
-/*global $, window, document */
+var extensionUpload = new Object();
+extensionUpload.init = function () {
+    
+	//-----------------------------------//
 
-$(function () {
-    'use strict';
+	p("init extensionUpload");
+	
+	// init templates
+    factory();
+    
+    //-----------------------------------//
 
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
@@ -82,4 +95,4 @@ $(function () {
         });
     }
 
-});
+};

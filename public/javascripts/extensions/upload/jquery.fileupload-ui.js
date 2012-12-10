@@ -12,27 +12,8 @@
 /*jslint nomen: true, unparam: true, regexp: true */
 /*global define, window, URL, webkitURL, FileReader */
 
-(function (factory) {
-    'use strict';
-    
-    if (typeof define === 'function' && define.amd) {
-        // Register as an anonymous AMD module:
-        define([
-            'jquery',
-            'tmpl',
-            'load-image',
-            './jquery.fileupload-fp'
-        ], factory);
-    } else {
-        // Browser globals:
-        factory(
-            window.jQuery,
-            window.tmpl,
-            window.loadImage
-        );
-    }
-}(function ($, tmpl, loadImage) {
-    'use strict';
+
+function factory () {
 
     // The UI version extends the file upload widget
     // and adds complete user interface interaction:
@@ -729,4 +710,4 @@
 
     });
 
-}));
+}

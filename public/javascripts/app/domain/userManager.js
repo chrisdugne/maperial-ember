@@ -12,7 +12,7 @@ function getGoogleUser()
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	console.log("user data : " + data);
+	    	p("user data : " + data);
 	    	var user = $.parseJSON(data);
 	    	
 	    	window.Webapp.user.userUID = user.userUID;
