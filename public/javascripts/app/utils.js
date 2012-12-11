@@ -30,6 +30,8 @@ function dateTime()
     	 + zeroPad(now.getDate(), 2);
 }
 
+//----------------------------------------------------------------------------------------//
+
 /*
  * helpers for html encoding and decoding
  */
@@ -41,6 +43,7 @@ function htmlDecode(value){
 	  return $('<div/>').html(value).text();
 }
 
+//----------------------------------------------------------------------------------------//
 
 /*
  */
@@ -57,6 +60,12 @@ function rgb2hex(rgb)
 	("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
 }
 
+//----------------------------------------------------------------------------------------//
+
+/***
+ * bytes = 36550
+ * return 36.55 KB
+ */
 function formatFileSize (bytes) 
 {
     if (typeof bytes !== 'number') {
@@ -69,4 +78,14 @@ function formatFileSize (bytes)
         return (bytes / 1000000).toFixed(2) + ' MB';
     }
     return (bytes / 1000).toFixed(2) + ' KB';
+}
+
+//----------------------------------------------------------------------------------------//
+
+/**
+ * return : concat of 'currenttimestamp' and '13digits random number'
+ */
+function generateUID() 
+{
+	return new Date().getTime() + zeroPad(Math.floor(Math.random()*Math.pow(10, 13)), 13);	
 }

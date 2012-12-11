@@ -484,7 +484,7 @@ function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVa
       context.lineWidth="1";   
       context.strokeStyle  = color.toHex();
       context.fillStyle    = color.toHex();
-      drawArrow            (context,width+offsetX+7*fontsize/2,j+offsetY,width+offsetX+fontsize/3,j+offsetY);
+      CanvasUtilities.drawArrow (context,width+offsetX+7*fontsize/2,j+offsetY,width+offsetX+fontsize/3,j+offsetY);
       //Box
       context.strokeStyle  = "#000";
       context.fillStyle    = "#000";

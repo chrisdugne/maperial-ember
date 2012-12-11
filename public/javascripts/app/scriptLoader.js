@@ -37,7 +37,8 @@ function loadScript(src)
 
 	p("loading " + src);
 	
-	$.getScript(src, function() {
+	$.getScript(src, function() 
+	{
 		scriptCache[src] = "ok";
 		getScripts(scriptsRemaining, callbackFunction);
 	});

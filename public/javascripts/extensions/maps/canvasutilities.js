@@ -1,4 +1,3 @@
-                                                                                                                                          'use strict';
 // Copyright Patrick Horgan patrick at dbp-consulting dot com
 // Permission to use granted as long as you keep this notice intact
 // use strict is everywhere because some browsers still don't support
@@ -6,6 +5,8 @@
 // use.
 // Part is derivitive of work by Juan Mendes as noted below as appropriate.
 // Some things depend on code in http://dbp-consulting/scripts/utilities.js
+
+this.CanvasUtilities = {};
 
 CanvasRenderingContext2D.prototype.clear = 
   CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
@@ -113,7 +114,7 @@ CanvasRenderingContext2D.prototype.roundedRect2 =
     this.restore();
 }
 
-var drawLineAngle=function(ctx,x0,y0,angle,length)
+CanvasUtilities.drawLineAngle=function(ctx,x0,y0,angle,length)
 {
     ctx.save();
     ctx.moveTo(x0,y0);
@@ -122,7 +123,7 @@ var drawLineAngle=function(ctx,x0,y0,angle,length)
     ctx.restore();
 }
       
-var drawHead=function(ctx,x0,y0,x1,y1,x2,y2,style)
+CanvasUtilities.drawHead=function(ctx,x0,y0,x1,y1,x2,y2,style)
 {
   'use strict';
   // all cases do this.
@@ -188,7 +189,7 @@ var drawHead=function(ctx,x0,y0,x1,y1,x2,y2,style)
   ctx.restore();
 };
 
-var drawArcedArrow=function(ctx,x,y,r,startangle,endangle,anticlockwise,style,which,angle,d)
+CanvasUtilities.drawArcedArrow=function(ctx,x,y,r,startangle,endangle,anticlockwise,style,which,angle,d)
 {
     'use strict';
     style=typeof(style)!='undefined'? style:3;
@@ -212,7 +213,7 @@ var drawArcedArrow=function(ctx,x,y,r,startangle,endangle,anticlockwise,style,wh
 	    destx=sx-10*Math.cos(lineangle);
 	    desty=sy-10*Math.sin(lineangle);
 	}
-	drawArrow(ctx,sx,sy,destx,desty,style,2,angle,d);
+	CanvasUtilities.drawArrow(ctx,sx,sy,destx,desty,style,2,angle,d);
     }
     if(which&2){	    // draw the origination end
 	sx=Math.cos(endangle)*r+x;
@@ -225,12 +226,12 @@ var drawArcedArrow=function(ctx,x,y,r,startangle,endangle,anticlockwise,style,wh
 	    destx=sx+10*Math.cos(lineangle);
 	    desty=sy+10*Math.sin(lineangle);
 	}
-	drawArrow(ctx,sx,sy,destx,desty,style,2,angle,d);
+	CanvasUtilities.drawArrow(ctx,sx,sy,destx,desty,style,2,angle,d);
     }
     ctx.restore();
 }
 
-var drawArrow=function(ctx,x1,y1,x2,y2,style,which,angle,d)
+CanvasUtilities.drawArrow=function(ctx,x1,y1,x2,y2,style,which,angle,d)
 {
   'use strict';
   style=typeof(style)!='undefined'? style:3;
@@ -239,7 +240,7 @@ var drawArrow=function(ctx,x1,y1,x2,y2,style,which,angle,d)
   d    =typeof(d)    !='undefined'? d    :10;
   // default to using drawHead to draw the head, but if the style
   // argument is a function, use it instead
-  var toDrawHead=typeof(style)!='function'?drawHead:style;
+  var toDrawHead=typeof(style)!='function'?CanvasUtilities.drawHead:style;
 
   // For ends with arrow we actually want to stop before we get to the arrow
   // so that wide lines won't put a flat end on the arrow.
@@ -298,7 +299,7 @@ var drawArrow=function(ctx,x1,y1,x2,y2,style,which,angle,d)
 // x, y - coordinate of top left corner
 // xextent - width
 // yextent - height
-function boundingBox(x,y,xextent,yextent)
+CanvasUtilities.boundingBox=function(x,y,xextent,yextent)
 {
     'use strict';
     this.x1=x;
@@ -312,7 +313,7 @@ function boundingBox(x,y,xextent,yextent)
 // size two containing the resultant x,y offset onto the canvas.
 // There are events, like key events for which this will not work.  They
 // are not mouse events and don't have the x,y coordinates.
-function getCanvasCursorPosition(e,canvas)
+CanvasUtilities.getCanvasCursorPosition=function(e,canvas)
 {
     'use strict';
     var x;
@@ -346,7 +347,7 @@ var CVS_BUTTON_TOGGLE=1;
 var CVS_BUTTON_LEFT_ARROW=2;
 var CVS_BUTTON_RIGHT_ARROW=3;
 
-function button(ctx,x,y,width,height,eventmanager,onchange,name,type,state,color)
+CanvasUtilities.button=function(ctx,x,y,width,height,eventmanager,onchange,name,type,state,color)
 {
     'use strict';
     var self=this;
@@ -524,7 +525,7 @@ function button(ctx,x,y,width,height,eventmanager,onchange,name,type,state,color
     }
 
     // an easy way to keep track of us on screen.
-    this.bb=new boundingBox(this.x,this.y,this.width,this.height);
+    this.bb=new CanvasUtilities.boundingBox(this.x,this.y,this.width,this.height);
 
     // called from event manager to ask us if an x,y pair is us.  Return true
     // to get whatever event it is.
@@ -564,7 +565,7 @@ function button(ctx,x,y,width,height,eventmanager,onchange,name,type,state,color
 //	    for particular events
 // onchange - a routine we call we our value changes
 // name - our name - useful for debugging
-function slider(ctx,x, y, length, width, orientation, min, max, step, value,eventmanager,onchange,name)
+CanvasUtilities.slider=function(ctx,x, y, length, width, orientation, min, max, step, value,eventmanager,onchange,name)
 {
     'use strict';
     var self=this;
@@ -842,9 +843,9 @@ function slider(ctx,x, y, length, width, orientation, min, max, step, value,even
 
     // an easy way to keep track of us on screen.
     if(this.orientation==SLIDER_HORIZONTAL){
-	this.bb=new boundingBox(this.x,this.y,this.length,this.width);
+	this.bb=new CanvasUtilities.boundingBox(this.x,this.y,this.length,this.width);
     }else{
-	this.bb=new boundingBox(this.x,this.y,this.width,this.length);
+	this.bb=new CanvasUtilities.boundingBox(this.x,this.y,this.width,this.length);
 
     }
 
@@ -880,7 +881,7 @@ function slider(ctx,x, y, length, width, orientation, min, max, step, value,even
 }
 
 // object used by event manager to keep track of interested parties
-function eventListener(id, eventType, hit, callback)
+CanvasUtilities.eventListener=function(id, eventType, hit, callback)
 {
     'use strict';
     this.id=id;	// unique sequential id so people can cancel
@@ -893,7 +894,7 @@ function eventListener(id, eventType, hit, callback)
 
 // eventManager receives events from the browser and passes them on to things
 // on the canvas which registered rectangular areas they cared about.
-function eventManager(canvasManager)
+CanvasUtilities.eventManager=function(canvasManager)
 {
     'use strict';
     var self=this;  // We get called in other context, so remember us
@@ -935,7 +936,7 @@ function eventManager(canvasManager)
 	    }
 	}
 	// If we get down here, we're adding a new eventListener
-	queue[queue.length]=new eventListener(this.id,eventType, hit, callback);
+	queue[queue.length]=new CanvasUtilities.eventListener(this.id,eventType, hit, callback);
 	if(queue.length==1){
 	    // First thing added to this queue, so start listening for this
 	    // event on the canvas
@@ -1005,7 +1006,7 @@ function eventManager(canvasManager)
 	    self.canvasManager.canvas.blur();
 	}
 
-	var xy=getCanvasCursorPosition(e,self.canvasManager.canvas);
+	var xy=CanvasUtilities.getCanvasCursorPosition(e,self.canvasManager.canvas);
 	var queue=self.queues[e.type];
 	var passon=true;  //  if true we didn't consume the event
 
@@ -1056,7 +1057,7 @@ function eventManager(canvasManager)
     hookEvent(this.canvasManager.canvas,'mouseover',this.eventhandler);
 }
 
-function Clock(id)
+CanvasUtilities.Clock=function(id)
 {
   var clockcanvas=document.getElementById(id);
   var ctx=clockcanvas.getContext('2d');
@@ -1070,10 +1071,10 @@ function Clock(id)
 
   this.start=function()
   {
-    setInterval(this.drawclock,1000);  // 1000ms is 1 sec
+    setInterval(CanvasUtilities.drawclock,1000);  // 1000ms is 1 sec
   }
 
-  var drawbody=function()
+  this.drawbody=function()
   {
     ctx.save();
     // Shadows from the clock itself
@@ -1094,7 +1095,7 @@ function Clock(id)
     ctx.restore();
   }
 
-  var drawback=function()
+  this.drawback=function()
   {
     ctx.save();
     // draw a dark circle in middle, later after the hands are drawn we'll
@@ -1151,7 +1152,7 @@ function Clock(id)
     ctx.restore();
   }
 
-  var drawhands=function()
+  this.drawhands=function()
   {
     ctx.save();
     ctx.shadowBlur=Math.max(.04*radius,1);
@@ -1177,7 +1178,7 @@ function Clock(id)
     var hourx=(.5*radius)*Math.cos(hourangle)+xc;
     var houry=(.5*radius)*Math.sin(hourangle)+yc;
     ctx.lineWidth=Math.max(.03*radius,1);
-    drawArrow(ctx,xc,yc,hourx,houry,3,1,Math.PI/4,.15*radius);
+    CanvasUtilities.drawArrow(ctx,xc,yc,hourx,houry,3,1,Math.PI/4,.15*radius);
     // and the heavier back end
     var hourx=.2*radius*Math.cos(hourangle+pi)+xc;
     var houry=.2*radius*Math.sin(hourangle+pi)+yc;
@@ -1196,7 +1197,7 @@ function Clock(id)
     var minx=(.85*radius)*Math.cos(minuteangle)+xc;
     var miny=(.85*radius)*Math.sin(minuteangle)+yc;
     ctx.lineWidth=Math.max(.03*radius,1);// set up lineWidth for the drawArrow
-    drawArrow(ctx,xc,yc,minx,miny,3,1,Math.PI/4,.2*radius);
+    CanvasUtilities.drawArrow(ctx,xc,yc,minx,miny,3,1,Math.PI/4,.2*radius);
     // Now the back heavier part
     var minx=.25*radius*Math.cos(minuteangle+pi)+xc;
     var miny=.25*radius*Math.sin(minuteangle+pi)+yc;
@@ -1215,7 +1216,7 @@ function Clock(id)
     var secx=(.75*radius)*Math.cos(secondangle)+xc;
     var secy=(.75*radius)*Math.sin(secondangle)+yc;
     ctx.lineWidth=1.01;
-    drawArrow(ctx,xc,yc,secx,secy,3,1,Math.PI/20,.22*radius);
+    CanvasUtilities.drawArrow(ctx,xc,yc,secx,secy,3,1,Math.PI/20,.22*radius);
     // thicker back part later
     var secx=.25*radius*Math.cos(secondangle+pi)+xc;
     var secy=.25*radius*Math.sin(secondangle+pi)+yc;
@@ -1239,7 +1240,7 @@ function Clock(id)
     ctx.fill();
   }
 
-  var drawhighlights=function()
+  this.drawhighlights=function()
   {
     ctx.save();
     // draw a highlight around the edge of the glass

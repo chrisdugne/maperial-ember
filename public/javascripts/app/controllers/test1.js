@@ -56,7 +56,7 @@ function renderTest1UI()
 					  //window.setInterval(function(){maps.DrawScene(false,true);}, 2000);
 			
 					  // ok that's all we have to do to set up menu :-) 
-					  MapnifyInitMenu($("#mapnifyMenu"));
+					 // MapnifyInitMenu($("#mapnifyMenu"));
 					  // and the color scale <;-()
 					  bar = new Bar(50,355,$("#mapnifyColorBar"),50,40,true,25.4,375.89);
 					  

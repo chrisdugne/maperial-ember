@@ -32,7 +32,7 @@ extensionUpload.init = function () {
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: '//map.x-ray.fr/server/'
+        url: '//map.x-ray.fr:81/server/'
     });
 
     // Enable iframe cross-domain access via redirect option:
@@ -48,7 +48,7 @@ extensionUpload.init = function () {
 //    dataType:"jsonp",
 //    contentType:"application/x-javascript",
     $('#fileupload').fileupload('option', {
-        url: '//map.x-ray.fr/server/',
+        url: '//map.x-ray.fr:81/server/',
         maxFileSize: 5000000,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         process: [
@@ -71,7 +71,7 @@ extensionUpload.init = function () {
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {
         $.ajax({
-            url: '//map.x-ray.fr/server/',
+            url: '//map.x-ray.fr:81/server/',
             type: 'HEAD'
         }).fail(function () {
             $('<span class="alert alert-error"/>')

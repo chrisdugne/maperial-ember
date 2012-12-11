@@ -59,18 +59,6 @@
 
 	<!-- The template to display files available for download -->
 	<script id="template-download" type="text/x-tmpl">
-		{% for (var i=0, file; file=o.files[i]; i++) { %}
-		    <tr class="template-download fade">
-		        <td class="name span3"><p class="filename">{%=file.name%}</p></td>
-		        <td class="size span3"><span>{%=o.formatFileSize(file.size)%}</span></td>
-		        <td colspan="2"></td>
-		        <td class="span1">
-		            <button class="btn-small btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-		                <i class="icon-trash icon-white"></i>
-		            </button>
-		        </td>
-		    </tr>
-		{% } %}
 	</script>
 	
     </div>
