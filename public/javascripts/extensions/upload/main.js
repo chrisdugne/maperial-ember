@@ -36,63 +36,73 @@ extensionUpload.init = function () {
     });
 
     // Enable iframe cross-domain access via redirect option:
-    $('#fileupload').fileupload(
-        'option',
-        'redirect',
-        window.location.href.replace(
-            /\/[^\/]*$/,
-            '/cors/result.html?%s'
-        )
-    );
+//    $('#fileupload').fileupload(
+//        'option',
+//        'redirect',
+//        window.location.href.replace(
+//            /\/[^\/]*$/,
+//            '/cors/result.html?%s'
+//        )
+//    );
 
-    if (window.location.hostname === 'localhost') {
-        // Demo settings:
-        $('#fileupload').fileupload('option', {
-            url: '//map.x-ray.fr/server/',
-            maxFileSize: 5000000,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            process: [
-                {
-                    action: 'load',
-                    fileTypes: /^image\/(gif|jpeg|png)$/,
-                    maxFileSize: 20000000 // 20MB
-                },
-                {
-                    action: 'resize',
-                    maxWidth: 1440,
-                    maxHeight: 900
-                },
-                {
-                    action: 'save'
-                }
-            ]
-        });
-        // Upload server status check for browsers with CORS support:
-        if ($.support.cors) {
-            $.ajax({
-                url: '//map.x-ray.fr/server/',
-                type: 'HEAD'
-            }).fail(function () {
-                $('<span class="alert alert-error"/>')
-                    .text('Upload server currently unavailable - ' +
-                            new Date())
-                    .appendTo('#fileupload');
-            });
-        }
-    } else {
-        // Load existing files:
-        $.ajax({
-            // Uncomment the following to send cross-domain cookies:
-            //xhrFields: {withCredentials: true},
-            url: $('#fileupload').fileupload('option', 'url'),
-            dataType: 'json',
-            context: $('#fileupload')[0]
-        }).done(function (result) {
-            if (result && result.length) {
-                $(this).fileupload('option', 'done')
-                    .call(this, null, {result: result});
+//    dataType:"jsonp",
+//    contentType:"application/x-javascript",
+    $('#fileupload').fileupload('option', {
+        url: '//map.x-ray.fr/server/',
+        maxFileSize: 5000000,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        process: [
+            {
+                action: 'load',
+                fileTypes: /^image\/(gif|jpeg|png)$/,
+                maxFileSize: 20000000 // 20MB
+            },
+            {
+                action: 'resize',
+                maxWidth: 1440,
+                maxHeight: 900
+            },
+            {
+                action: 'save'
             }
+        ]
+    });
+    
+    // Upload server status check for browsers with CORS support:
+    if ($.support.cors) {
+        $.ajax({
+            url: '//map.x-ray.fr/server/',
+            type: 'HEAD'
+        }).fail(function () {
+            $('<span class="alert alert-error"/>')
+                .text('Upload server currently unavailable - ' +
+                        new Date())
+                .appendTo('#fileupload');
         });
     }
+    
+    //-------------------------------------------------------------------//  
+
+    $('#fileupload').bind('fileuploaddone', 
+		function (e, data) 
+		{
+			p("Done");
+		}
+    );
+
+    $('#fileupload').bind('fileuploadfail', 
+		function (e, data) 
+		{
+			p("Fail");
+		}
+    );
+    
+    $('#fileupload').bind('fileuploadalways', 
+		function (e, data) 
+		{
+    		p("always");
+    		window.Webapp.user.datasets.pushObject(data.files[0]);
+    	}
+    );
 
 };

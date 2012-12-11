@@ -7,7 +7,7 @@
 		name: "",
 		maps: [],
 		styles: [],
-		datasets: [],
+		datasets: Ember.Array,
 		colorbars: [],
 		fonts: [],
 		icons: [],

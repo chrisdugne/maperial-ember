@@ -63,6 +63,7 @@
             // API call). See the basic file upload widget for more information:
             add: function (e, data) {
                 $(this).fileupload('process', data).done(function () {
+                	console.log("DONE");
                     data.submit();
                 });
             }

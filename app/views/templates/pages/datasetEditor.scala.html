@@ -11,6 +11,32 @@
 		<div class="span3">
 			<div id="uploadDatasetButton" class="btn-large btn-primary">Upload datasets</div>
 		</div>
+
+		<div class="span3">
+			You have uploaded {{datasets.length}} datasets.
+		</div>
+
+		<div class="span5">
+		    <table role="presentation" class="table table-striped">
+	        	<tbody class="files">
+		    		{{#each dataset in datasets}}
+					    <tr class="template-download">
+					        <td class="name span3"><p class="filename">{{dataset.name}}</p></td>
+						    {{#with dataset}}
+					        <td class="size span3"><span>{{fileSize size}}</span></td>
+					        {{/with}}
+					        <td colspan="2"></td>
+					        <td class="span1">
+					            <button class="btn-small btn-danger">
+					                <i class="icon-trash icon-white"></i>
+					            </button>
+					        </td>
+					    </tr>
+				    {{/each}}
+			    </tbody>
+	        </table>
+		</div>
+		
 		
 	</div>
 </div>
