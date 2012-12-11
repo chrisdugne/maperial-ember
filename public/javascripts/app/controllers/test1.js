@@ -23,23 +23,23 @@ function renderTest1UI()
 	            "http://map.x-ray.fr/js/render-line.js",
 	      
 	            //menu dep
-	            "assets/javascripts/libs/maps/v_colortool.js",
-	            "assets/javascripts/libs/maps/v_symbolizer.js",
-	            "assets/javascripts/libs/maps/colorpicker.js",
+	            "assets/javascripts/extensions/maps/v_colortool.js",
+	            "assets/javascripts/extensions/maps/v_symbolizer.js",
+	            "assets/javascripts/extensions/maps/colorpicker.js",
 
 	            //CB dep
-	            "assets/javascripts/libs/maps/canvasutilities.js",
+	            "assets/javascripts/extensions/maps/canvasutilities.js",
 	            "http://map.x-ray.fr/js/RGBColor.js",
 	               
 	            //ajax spin wait
-	            "assets/javascripts/libs/maps/ajaxwaitspin.js",
+	            "assets/javascripts/extensions/maps/ajaxwaitspin.js",
 
 	            //colorBar script
-	            "assets/javascripts/libs/maps/colorBar.js",
+	            "assets/javascripts/extensions/maps/colorBar.js",
 
 	            //menu script
 	            /// ATTENTION c'est moi qui lit les json de style dans ce test, ils seront dispo pour le renderTile (variable style)
-	            "assets/javascripts/libs/maps/v_mapnifyMenu.js",
+	            "assets/javascripts/extensions/maps/v_mapnifyMenu.js",
 
 	            "http://map.x-ray.fr/js/maps.js"],
 	           function()
@@ -49,9 +49,9 @@ function renderTest1UI()
 					$(function(){
 					  
 					  // met's load the map
-					  var maps = new GLMap ( "testMap" );
-					  maps.Start ();
-					  window.setInterval(function(){maps.DrawScene(false,true);}, 2000);
+					  //var maps = new GLMap ( "testMap" );
+					  //maps.Start ();
+					  //window.setInterval(function(){maps.DrawScene(false,true);}, 2000);
 			
 					  // ok that's all we have to do to set up menu :-) 
 					  MapnifyInitMenu($("#mapnifyMenu"));

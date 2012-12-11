@@ -221,7 +221,7 @@ function generateGuid() {
 // color Bar object
 // offsets are "in canvas" offset. They are provided because **** YOU MUST NOT USE CSS PADDING *** for canvas !!!!!!    
      
-function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVal){
+function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVal,_isMovable){
   
   /////////////////////////
   //settings default params (private variable)
@@ -378,8 +378,10 @@ function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVa
        open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }       
     });
     */
-    _mainDiv.draggable();//.resizable({handles : "e, w" });
-    _mainDiv.draggable({ cancel: "canvas" }); //disable draggable for inner canvas obj
+    if ( _isMovable ){
+       _mainDiv.draggable();//.resizable({handles : "e, w" });
+       _mainDiv.draggable({ cancel: "canvas" }); //disable draggable for inner canvas obj
+    }
  
 //    _mainDiv.animate({left:"800"},1000);
 //    _mainDiv.animate({top:"90"},1000);
