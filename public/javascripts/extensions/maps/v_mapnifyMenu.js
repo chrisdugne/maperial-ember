@@ -1,55 +1,22 @@
-var serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";
-var serverRootDirD = "http://map.x-ray.fr/";
-
-/*
-function require(script) {
-    $.ajax({
-        url: script,
-        dataType: "script",
-        async: false,           // <-- this is the key
-        success: function () {
-            // all good...
-        },
-        error: function () {
-            throw new Error("Could not load script " + script);
-        }
-    });
-}
-
-function getScript(src) {
-   //$('head').append('<' + 'script src="' + src + '"' + ' type="text/javascript"><' + '/script>');
-   require(src);
-}
-
-function getCss(src) {
-   $('head').append('<link rel="stylesheet" type="text/css" href="' + src + '" />');
-}
-           
-getScript("js/v_colortool.js");
-getScript("js/v_symbolizer.js");
-getScript("js/colorpicker.js");
-
-getCss("css/colorpicker.css");
-getCss("css/v_mapnifyMenu.css");
-*/
-                               
-//////////
-///
-/// ATTENTION c'est moi qui lit les json de style, ils seront dispo pour le renderTile (variable style)
-///
-/////////
-
-
 //////////////////////////////////////////////////////////////
 // SOME GLOBAL VARS
+
+var serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";			// local
+//var serverRootDirV = "http://serv.x-ray.fr/project/mycarto/wwwClient/"; 		// not local ...
+var serverRootDirD = "http://map.x-ray.fr/";
+
 // id <-> name/filter mapping
 var mappingArray = Array();
+
 // groups of layer (roads, urban, landscape, ...)
 var groups = null; 
+
 // the style (json)
 var __style = null;   // <<<<=== THIS IS WHAT YOU WANT FOR maps.js and renderTile.js
+
 // the mapping (json)
 var mapping = null; // link id (in style) with a "real" name & filter
+
 // current zooms
 var activZooms = Array();
 
@@ -269,6 +236,7 @@ function MapnifyInitMenu(container,isMovable){
        url: serverRootDirV+'style/group.json',
        async: false,
        dataType: 'json',
+       //contentType:"application/x-javascript",
        success: function (data) {
           groups = data;
           LoadMapping();
@@ -298,6 +266,7 @@ function MapnifyInitMenu(container,isMovable){
        url: serverRootDirV+'style/mapping.json',
        async: false,
        dataType: 'json',
+       //contentType:"application/x-javascript",
        success: function (data) {
           mapping = data;
           __LoadMapping(data);
@@ -626,6 +595,7 @@ function MapnifyInitMenu(container,isMovable){
        url: serverRootDirV+'style/style.json',
        async: false,
        dataType: 'json',
+       //contentType:"application/x-javascript",
        success: function (data) {
           __style = data;
           __LoadStyle(data);

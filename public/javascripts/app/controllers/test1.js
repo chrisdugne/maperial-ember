@@ -30,17 +30,19 @@ function renderTest1UI()
 	            //CB dep
 	            "assets/javascripts/extensions/maps/canvasutilities.js",
 	            "http://map.x-ray.fr/js/RGBColor.js",
+	            "assets/javascripts/extensions/maps/map.js",
 	               
 	            //ajax spin wait
 	            "assets/javascripts/extensions/maps/ajaxwaitspin.js",
-
+	            
 	            //colorBar script
 	            "assets/javascripts/extensions/maps/colorBar.js",
-
+	            
 	            //menu script
 	            /// ATTENTION c'est moi qui lit les json de style dans ce test, ils seront dispo pour le renderTile (variable style)
 	            "assets/javascripts/extensions/maps/v_mapnifyMenu.js",
 
+	            //maps script
 	            "http://map.x-ray.fr/js/maps.js"],
 	           function()
 	           {
