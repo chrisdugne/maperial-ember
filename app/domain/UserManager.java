@@ -1,9 +1,11 @@
 package domain;
 
+import models.Dataset;
 import models.User;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.Logger;
 import play.db.ebean.Transactional;
 import utils.Utils;
 
@@ -41,6 +43,15 @@ public class UserManager {
 	    Ebean.save(user);  
 		
 		return user;
+	}
+
+	//------------------------------------------------------------------------------------//
+
+	public static void addDataset(String userUID, Dataset dataset) 
+	{
+		User user = User.find.where().ilike("userUID", userUID).findUnique();
+		
+		Logger.debug("add Dataset for user " + user.getEmail());
 	}
 	
 	//------------------------------------------------------------------------------------//

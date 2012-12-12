@@ -81,11 +81,3 @@ function formatFileSize (bytes)
 }
 
 //----------------------------------------------------------------------------------------//
-
-/**
- * return : concat of 'currenttimestamp' and '13digits random number'
- */
-function generateUID() 
-{
-	return new Date().getTime() + zeroPad(Math.floor(Math.random()*Math.pow(10, 13)), 13);	
-}

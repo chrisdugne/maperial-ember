@@ -11,13 +11,13 @@ import play.db.ebean.Model;
 
 @Entity
 @Table(name="public.dataset")
-public class DataSet extends Model{
+public class Dataset extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String dataSetUID;
+	private String datasetUID;
 	
 	@Expose
 	private String name;
@@ -34,16 +34,16 @@ public class DataSet extends Model{
 	// -- Queries
 	
 
-	public static Model.Finder<String, DataSet> find = new Finder<String, DataSet>(String.class, DataSet.class);
+	public static Model.Finder<String, Dataset> find = new Finder<String, Dataset>(String.class, Dataset.class);
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getDataSetUID() {
-		return dataSetUID;
+	public String getDatasetUID() {
+		return datasetUID;
 	}
 	
-	public void setDataSetUID(String dataSetUID) {
-		this.dataSetUID = dataSetUID;
+	public void setDatasetUID(String datasetUID) {
+		this.datasetUID = datasetUID;
 	}
 	
 	public String getName() {

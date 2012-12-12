@@ -33,7 +33,7 @@ public class Map extends Model{
 
 	@Expose
 	@ManyToOne
-	private DataSet dataset;
+	private Dataset dataset;
 
 	// -----------------------------------------------------------------------------------------------//
 
@@ -79,11 +79,11 @@ public class Map extends Model{
 		this.colorbar = colorbar;
 	}
 
-	public DataSet getDataset() {
+	public Dataset getDataset() {
 		return dataset;
 	}
 
-	public void setDataset(DataSet dataset) {
+	public void setDataset(Dataset dataset) {
 		this.dataset = dataset;
 	}
 	

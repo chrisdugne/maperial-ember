@@ -102,6 +102,17 @@ extensionUpload.init = function () {
 		{
     		p("always");
     		window.Webapp.user.datasets.pushObject(data.files[0]);
+    		
+    		//---------------------------//
+    		// save coté serveur, a voir si on appel bien depuis ici
+    		
+    		var dataset = {
+    			name : data.files[0].name,
+    			uid : "234523452"
+    		};
+    		
+    		
+    		DatasetManager.addDataset(dataset);
     	}
     );
 

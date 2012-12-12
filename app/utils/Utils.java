@@ -192,23 +192,17 @@ public class Utils {
 
 	//======================================================================================//
 	
-	public static String generateUID(){
-		String uid = UID.generate();
-
-		return uid.replaceAll("-", "234");
+	public static void main(String[] args){
+		System.out.println(generateUID());
 	}
-	
-	//This is org.codehaus.xfire.util.UID
-	private static class UID
+
+	public static String generateUID()
 	{
+		String timestamp = Long.toHexString(System.currentTimeMillis());
+		Double d = Math.random() * Math.pow(2, 32);
+		String random = Long.toHexString(d.longValue()); 
 		
-		public static String generate()
-		{
-			return String.valueOf(System.currentTimeMillis()) + counter++ + random.nextInt();
-		}
-		
-		private static int counter;
-		private static Random random = new Random(System.currentTimeMillis());
+		return timestamp + random;
 	}
 
 }

@@ -1,5 +1,7 @@
 
-function getGoogleUser()
+this.UserManager = {};
+
+UserManager.getGoogleUser = function()
 {
 	var params = new Object();
 	params["user"] = window.Webapp.user;

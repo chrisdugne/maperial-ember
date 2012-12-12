@@ -38,7 +38,7 @@ public class User extends Model {
 	
 	@OneToMany
 	@Expose
-	private List<DataSet> datasets;
+	private List<Dataset> datasets;
 	
 	@OneToMany
 	@Expose
@@ -107,11 +107,11 @@ public class User extends Model {
 		this.styles = styles;
 	}
 
-	public List<DataSet> getDatasets() {
+	public List<Dataset> getDatasets() {
 		return datasets;
 	}
 
-	public void setDatasets(List<DataSet> datasets) {
+	public void setDatasets(List<Dataset> datasets) {
 		this.datasets = datasets;
 	}
 

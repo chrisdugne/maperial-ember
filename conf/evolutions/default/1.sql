@@ -12,11 +12,11 @@ create table public.colorbar (
 ;
 
 create table public.dataset (
-  data_set_uid              varchar(255) not null,
+  dataset_uid               varchar(255) not null,
   name                      varchar(255),
   upload_time               bigint,
   user_user_uid             varchar(255),
-  constraint pk_dataset primary key (data_set_uid))
+  constraint pk_dataset primary key (dataset_uid))
 ;
 
 create table public.font (
@@ -40,7 +40,7 @@ create table public.map (
   name                      varchar(255),
   style_style_uid           varchar(255),
   colorbar_color_bar_uid    varchar(255),
-  dataset_data_set_uid      varchar(255),
+  dataset_dataset_uid       varchar(255),
   user_user_uid             varchar(255),
   constraint pk_map primary key (map_uid))
 ;
@@ -87,8 +87,8 @@ alter table public.map add constraint fk_public.map_style_5 foreign key (style_s
 create index ix_public.map_style_5 on public.map (style_style_uid);
 alter table public.map add constraint fk_public.map_colorbar_6 foreign key (colorbar_color_bar_uid) references public.colorbar (color_bar_uid);
 create index ix_public.map_colorbar_6 on public.map (colorbar_color_bar_uid);
-alter table public.map add constraint fk_public.map_dataset_7 foreign key (dataset_data_set_uid) references public.dataset (data_set_uid);
-create index ix_public.map_dataset_7 on public.map (dataset_data_set_uid);
+alter table public.map add constraint fk_public.map_dataset_7 foreign key (dataset_dataset_uid) references public.dataset (dataset_uid);
+create index ix_public.map_dataset_7 on public.map (dataset_dataset_uid);
 alter table public.map add constraint fk_public.map_user_8 foreign key (user_user_uid) references public.user (user_uid);
 create index ix_public.map_user_8 on public.map (user_user_uid);
 alter table public.style add constraint fk_public.style_user_9 foreign key (user_user_uid) references public.user (user_uid);

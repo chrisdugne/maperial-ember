@@ -63,8 +63,7 @@ function getGoogleUserInfo()
 			window.Webapp.user.set("name", response.name);
 			window.Webapp.user.set("email", response.email);
 			
-			// call to userManager.getGoogleUser();
-			getGoogleUser();
+			UserManager.getGoogleUser();
 		});
 	});
 }

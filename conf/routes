@@ -2,14 +2,23 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+####################################################################################
 # Home page
 GET     /                           controllers.Application.home()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-####################################################################################
-#
 
+####################################################################################
+# Services
+
+#---------------------------------------------------------------------------
+#   UserService 
 
 POST /getGoogleUser				controllers.UserService.getGoogleUser()
+
+#---------------------------------------------------------------------------
+#   DatasetService 
+
+POST /addDataset					controllers.DatasetService.addDataset()
