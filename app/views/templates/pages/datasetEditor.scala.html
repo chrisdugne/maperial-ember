@@ -21,12 +21,12 @@
 	        	<tbody class="files">
 		    		{{#each dataset in datasets}}
 					    <tr class="template-download">
-					        <td class="name span3"><p class="filename">{{dataset.name}}</p></td>
+					        <td class="name"><p class="filename">{{dataset.name}}</p></td>
 						    {{#with dataset}}
-					        <td class="size span3"><span>{{fileSize size}}</span></td>
+					        <td class="size"><span>{{fileSize size}}</span></td>
 					        {{/with}}
 					        <td colspan="2"></td>
-					        <td class="span1">
+					        <td>
 					            <button class="btn-small btn-danger">
 					                <i class="icon-trash icon-white"></i>
 					            </button>
