@@ -12,7 +12,7 @@
 	
 function renderDatasetUI()
 {
-	getScripts([
+	ScriptLoader.getScripts([
 	           //-- extension.upload
 	           "assets/javascripts/extensions/upload/tmpl.min.js",
                "assets/javascripts/extensions/upload/load-image.min.js",

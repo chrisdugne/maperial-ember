@@ -1,25 +1,24 @@
-// ----------------------------//
-//	 ScriptLoader
-// ----------------------------//
+// -------------------------------------------//
+//	 			ScriptLoader
+// -------------------------------------------//
 
-var scriptCache = new Object();
+this.ScriptLoader = {};
 
-// ----------------------------//
+ScriptLoader.scriptCache = new Object();
+ScriptLoader.scriptsRemaining;
+ScriptLoader.callbackFunction;
+		
+// -------------------------------------------//
 
-var scriptsRemaining;
-var callbackFunction;
-
-// ----------------------------//
-
-function getScripts(scripts, callback) 
+ScriptLoader.getScripts = function(scripts, callback) 
 {
-	callbackFunction = callback;
+	ScriptLoader.callbackFunction = callback;
 	
 	if(scripts.length > 0)
 	{
 		var script = scripts.shift();
-		scriptsRemaining = scripts;
-		loadScript(script);
+		ScriptLoader.scriptsRemaining = scripts;
+		ScriptLoader.loadScript(script);
 	}
 	else
 	{
@@ -27,22 +26,32 @@ function getScripts(scripts, callback)
 	}
 }
 
-function loadScript(src) 
+// -------------------//
+
+ScriptLoader.loadScript = function(src) 
 {
-	if(scriptCache[src])
+	
+	if(ScriptLoader.scriptCache[src])
 	{
-		getScripts(scriptsRemaining, callbackFunction);
+		ScriptLoader.loadNextScript();
 		return;
 	}
 
-	p("loading " + src);
+	console.log("loading " + src);
 	
 	$.getScript(src, function() 
 	{
-		scriptCache[src] = "ok";
-		getScripts(scriptsRemaining, callbackFunction);
+		ScriptLoader.scriptCache[src] = "ok";
+		ScriptLoader.loadNextScript();
 	});
 	   
+}
+
+// -------------------//
+
+ScriptLoader.loadNextScript = function() 
+{
+	ScriptLoader.getScripts(ScriptLoader.scriptsRemaining, ScriptLoader.callbackFunction);
 }
 
 // ----------------------------//
