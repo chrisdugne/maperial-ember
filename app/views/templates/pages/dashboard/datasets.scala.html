@@ -1,7 +1,22 @@
 
-<div class="span3">
-	Datasets
 	
-	{{datasets.length}}
+<div class="span12">
+    <table role="presentation" class="table table-striped">
+       	<tbody class="files">
+      	 	<tr class="title template-download">
+		        <td class="name span5"><p class="filename">File</p></td>
+		        <td class="size span3"><span>Size</span></td>
+		        <td class="span3"><span>Upload date</span></td>
+		    </tr>
+    		{{#each dataset in datasets}}
+			    <tr class="template-download">
+			        <td class="name span5"><p class="filename">{{dataset.name}}</p></td>
+				    {{#with dataset}}
+			        <td class="size span3"><span>{{fileSize size}}</span></td>
+			        <td class="span3"><span>{{formatDate uploadTime}}</span></td>
+			        {{/with}}
+			    </tr>
+		    {{/each}}
+	    </tbody>
+       </table>
 </div>
-

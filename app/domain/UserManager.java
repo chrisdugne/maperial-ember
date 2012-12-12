@@ -5,7 +5,6 @@ import models.User;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.Logger;
 import play.db.ebean.Transactional;
 import utils.Utils;
 
@@ -47,11 +46,15 @@ public class UserManager {
 
 	//------------------------------------------------------------------------------------//
 
+	@Transactional
 	public static void addDataset(String userUID, Dataset dataset) 
 	{
 		User user = User.find.where().ilike("userUID", userUID).findUnique();
-		
-		Logger.debug("add Dataset for user " + user.getEmail());
+
+		dataset.setUser(user);
+
+		Ebean.save(dataset);  
+		Ebean.save(user);  
 	}
 	
 	//------------------------------------------------------------------------------------//

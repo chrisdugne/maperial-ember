@@ -21,7 +21,10 @@ public class Dataset extends Model{
 	
 	@Expose
 	private String name;
-	
+
+	@Expose
+	private Long size;
+
 	@Expose
 	private Long uploadTime;
 
@@ -33,7 +36,6 @@ public class Dataset extends Model{
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	
-
 	public static Model.Finder<String, Dataset> find = new Finder<String, Dataset>(String.class, Dataset.class);
 
 	// -----------------------------------------------------------------------------------------------//
@@ -60,6 +62,22 @@ public class Dataset extends Model{
 
 	public void setUploadTime(Long uploadTime) {
 		this.uploadTime = uploadTime;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public Long getSize() {
+		return size;
+	}
+
+	public void setSize(Long size) {
+		this.size = size;
 	}
 
 	// -----------------------------------------------------------------------------------------------//

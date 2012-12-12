@@ -13,7 +13,6 @@ import com.google.gson.GsonBuilder;
 
 import domain.UserManager;
 
-
 public class DatasetService extends Application 
 {
 	// ---------------------------------------------//
@@ -21,6 +20,7 @@ public class DatasetService extends Application
 	public static Result addDataset()
 	{
 		//----------//
+
 		JsonNode params = request().body().asJson();
 		JsonNode userJson = params.get("user");
 		JsonNode datasetJson = params.get("dataset");
@@ -32,9 +32,11 @@ public class DatasetService extends Application
 		String userUID = userJson.get("userUID").asText();
 		String datasetUID = datasetJson.get("uid").asText();
 		String datasetName = datasetJson.get("name").asText();
+		Long datasetSize = datasetJson.get("size").asLong();
 		
 		dataset.setDatasetUID(datasetUID);
 		dataset.setName(datasetName);
+		dataset.setSize(datasetSize);
 		dataset.setUploadTime(new Date().getTime());
 
 		//----------//
@@ -48,4 +50,5 @@ public class DatasetService extends Application
 	}
 
 	// ---------------------------------------------//
+
 }

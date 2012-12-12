@@ -32,7 +32,7 @@ extensionUpload.init = function () {
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: '//map.x-ray.fr:81/server/'
+        url: '//map.x-ray.fr:8081/dataset'
     });
 
     // Enable iframe cross-domain access via redirect option:
@@ -48,7 +48,7 @@ extensionUpload.init = function () {
 //    dataType:"jsonp",
 //    contentType:"application/x-javascript",
     $('#fileupload').fileupload('option', {
-        url: '//map.x-ray.fr:81/server/',
+        url: '//map.x-ray.fr:8081/dataset',
         maxFileSize: 5000000,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         process: [
@@ -71,7 +71,7 @@ extensionUpload.init = function () {
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {
         $.ajax({
-            url: '//map.x-ray.fr:81/server/',
+            url: '//map.x-ray.fr:8081/dataset',
             type: 'HEAD'
         }).fail(function () {
             $('<span class="alert alert-error"/>')
@@ -86,34 +86,27 @@ extensionUpload.init = function () {
     $('#fileupload').bind('fileuploaddone', 
 		function (e, data) 
 		{
-			p("Done");
+    		// data.files[0] = file envoyé
+    		// data.result.files[0] = file retour upload
+			
+    		window.Webapp.user.datasets.pushObject(data.files[0]);
+
+    		var dataset = {
+				name : data.result.files[0].name,
+				size : data.result.files[0].size,
+				uid  : data.result.files[0].id
+    		};
+    		
+    		DatasetManager.addDataset(dataset);
 		}
     );
 
     $('#fileupload').bind('fileuploadfail', 
 		function (e, data) 
 		{
-			p("Fail");
+			console.log("Upload Fail");
 		}
     );
     
-    $('#fileupload').bind('fileuploadalways', 
-		function (e, data) 
-		{
-    		p("always");
-    		window.Webapp.user.datasets.pushObject(data.files[0]);
-    		
-    		//---------------------------//
-    		// save coté serveur, a voir si on appel bien depuis ici
-    		
-    		var dataset = {
-    			name : data.files[0].name,
-    			uid : "234523452"
-    		};
-    		
-    		
-    		DatasetManager.addDataset(dataset);
-    	}
-    );
 
 };

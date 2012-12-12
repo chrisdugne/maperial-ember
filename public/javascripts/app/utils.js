@@ -2,10 +2,7 @@
 //	 Utils
 // ----------------------------//
 
-function p(message) 
-{
-	console.log(message);
-}
+this.Utils = {};
 
 // ----------------------------//
 
@@ -13,7 +10,7 @@ function p(message)
  * zeroPad(5, 2) 	--> "05"
    zeroPad(1234, 2) --> "1234"
  */
-function zeroPad(num, places) 
+Utils.zeroPad = function(num, places) 
 {
 	var zero = places - num.toString().length + 1;
 	return Array(+(zero > 0 && zero)).join("0") + num;
@@ -22,12 +19,12 @@ function zeroPad(num, places)
 /*
  * now as YYYY-MM-DD
  */
-function dateTime()
+Utils.dateTime = function()
 {
     var now = new Date();
     return now.getFullYear() + "-" 
-    	 + zeroPad(now.getMonth()+1, 2) + "-" 
-    	 + zeroPad(now.getDate(), 2);
+    	 + Utils.zeroPad(now.getMonth()+1, 2) + "-" 
+    	 + Utils.zeroPad(now.getDate(), 2);
 }
 
 //----------------------------------------------------------------------------------------//
@@ -35,11 +32,11 @@ function dateTime()
 /*
  * helpers for html encoding and decoding
  */
-function htmlEncode(value){
+Utils.htmlEncode = function (value){
 	  return $('<div/>').text(value).html();
 }
 
-function htmlDecode(value){
+Utils.htmlDecode = function(value){
 	  return $('<div/>').html(value).text();
 }
 
@@ -47,7 +44,7 @@ function htmlDecode(value){
 
 /*
  */
-function rgb2hex(rgb)
+Utils.rgb2hex = function(rgb)
 {
 	rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
 
@@ -66,7 +63,7 @@ function rgb2hex(rgb)
  * bytes = 36550
  * return 36.55 KB
  */
-function formatFileSize (bytes) 
+Utils.formatFileSize = function (bytes) 
 {
     if (typeof bytes !== 'number') {
         return '';
@@ -79,5 +76,29 @@ function formatFileSize (bytes)
     }
     return (bytes / 1000).toFixed(2) + ' KB';
 }
+//----------------------------------------------------------------------------------------//
+
+/***
+ * timestamp = 1355342389711
+ * return 12/12/2012
+ * 
+ * @Improve #MAP-12
+ */
+Utils.formatDate = function(timestamp) 
+{
+	var now = new Date(timestamp);
+    var day = Utils.zeroPad(now.getDate(), 2);
+    var month = Utils.zeroPad(now.getMonth() + 1, 2); //Months are zero based
+    var year = now.getFullYear();
+    
+    return day + "/" + month + "/" + year;
+}
 
 //----------------------------------------------------------------------------------------//
+
+// raccourci de console.log pour fast debug 
+// = pas dans Utils
+function p(message) 
+{
+	console.log(message);
+}
