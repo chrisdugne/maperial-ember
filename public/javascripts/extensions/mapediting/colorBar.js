@@ -37,7 +37,15 @@ getCss("css/v_mapnifyColorBar.css");
 // For a value in [0 ; 255], looking for previous and next index currently in map is done using GetNextAndPreviousIndex()
 // For a value in [0 ; 255], looking for the corresponding color is done using Get(index,isInterpolated,withMark,isHsl)
 
-function Rainbow(){ 
+// -------------------------------------------//
+//	 			ColorBar
+// -------------------------------------------//
+
+this.ColorBar = {};
+
+// -------------------------------------------//
+
+ColorBar.Rainbow = function(){ 
   var colors = null; // private !!!
                 
   this.Colors = function(){  // getter
@@ -202,18 +210,6 @@ function Rainbow(){
   this.Clear();       // initialize data
 }
       
-function generateGuid() {
-  var result, i, j;
-  result = '';
-  for(j=0; j<32; j++) {
-      if( j == 8 || j == 12|| j == 16|| j == 20)
-          result = result + '_';
-      i = Math.floor(Math.random()*16).toString(16).toUpperCase();
-      result = result + i;
-  }
-  return result;
-}
-      
       
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -221,7 +217,7 @@ function generateGuid() {
 // color Bar object
 // offsets are "in canvas" offset. They are provided because **** YOU MUST NOT USE CSS PADDING *** for canvas !!!!!!    
      
-function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVal,_isMovable){
+ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVal,_isMovable){
   
   /////////////////////////
   //settings default params (private variable)
@@ -240,7 +236,7 @@ function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVa
   var canvasW         ;
   var canvasH         ;
 
-  var globalUID       = generateGuid(); // allow multiple colorBar ;-)
+  var globalUID       = Utils.generateGuid(); // allow multiple colorBar ;-)
 
   canvasId        = "cb_canvas_"+globalUID;
   colorPickerId   = "colorpicker_colorBar_"+globalUID;
@@ -341,10 +337,10 @@ function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVa
     $('#cb_Clear_' + globalUID).click(function()    {self.Clear();       });
    
     // add colorPicker (new version with jquery)
-    $("<div class=\"colorSelector\" id=\"" + colorPickerId + "\"><div style=\"background-color:" + RGBAToHex("rgba(30,50,80,1.0)") + "\"></div></div>").appendTo($("#cb_colorpicker_"+globalUID));
+    $("<div class=\"colorSelector\" id=\"" + colorPickerId + "\"><div style=\"background-color:" + ColorTools.RGBAToHex("rgba(30,50,80,1.0)") + "\"></div></div>").appendTo($("#cb_colorpicker_"+globalUID));
          
     $("#"+colorPickerId).ColorPicker({
-      	color: RGBAToHex("rgba(30,50,80,1.0)"),
+      	color: ColorTools.RGBAToHex("rgba(30,50,80,1.0)"),
       	//flat : true,
        	onShow: function (colpkr) {
             $(colpkr).fadeIn(500);
@@ -709,7 +705,7 @@ function Bar(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVa
   // Instantiation and callback setup
   /////////////////////////
   // instanciate rainbow map
-  rainbow = new Rainbow();
+  rainbow = new ColorBar.Rainbow();
 
   this.ReInit(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVal);
   

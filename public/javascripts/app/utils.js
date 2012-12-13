@@ -82,16 +82,33 @@ Utils.formatFileSize = function (bytes)
  * timestamp = 1355342389711
  * return 12/12/2012
  * 
+ * timestamp = undefined => use today.
+ * 
  * @Improve #MAP-12
  */
 Utils.formatDate = function(timestamp) 
 {
-	var now = new Date(timestamp);
+	var now = timestamp == undefined ? new Date() : new Date(timestamp);
     var day = Utils.zeroPad(now.getDate(), 2);
     var month = Utils.zeroPad(now.getMonth() + 1, 2); //Months are zero based
     var year = now.getFullYear();
     
     return day + "/" + month + "/" + year;
+}
+
+//----------------------------------------------------------------------------------------//
+
+Utils.generateGuid = function() 
+{
+  var result, i, j;
+  result = '';
+  for(j=0; j<32; j++) {
+      if( j == 8 || j == 12|| j == 16|| j == 20)
+          result = result + '_';
+      i = Math.floor(Math.random()*16).toString(16).toUpperCase();
+      result = result + i;
+  }
+  return result;
 }
 
 //----------------------------------------------------------------------------------------//

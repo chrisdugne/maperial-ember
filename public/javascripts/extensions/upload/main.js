@@ -16,12 +16,12 @@
  * 
  */
 
-var extensionUpload = new Object();
-extensionUpload.init = function () {
-    
+this.extensionUpload = {};
+extensionUpload.init = function () 
+{
 	//-----------------------------------//
 
-	p("init extensionUpload");
+	console.log("init extensionUpload");
 	
 	// init templates
     factory();
@@ -32,7 +32,7 @@ extensionUpload.init = function () {
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: '//map.x-ray.fr:8081/dataset'
+        url: '//map.x-ray.fr/api/dataset'
     });
 
     // Enable iframe cross-domain access via redirect option:
@@ -48,7 +48,7 @@ extensionUpload.init = function () {
 //    dataType:"jsonp",
 //    contentType:"application/x-javascript",
     $('#fileupload').fileupload('option', {
-        url: '//map.x-ray.fr:8081/dataset',
+        url: '//map.x-ray.fr/api/dataset',
         maxFileSize: 5000000,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         process: [
@@ -71,7 +71,7 @@ extensionUpload.init = function () {
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {
         $.ajax({
-            url: '//map.x-ray.fr:8081/dataset',
+            url: '//map.x-ray.fr/api/dataset',
             type: 'HEAD'
         }).fail(function () {
             $('<span class="alert alert-error"/>')
@@ -89,7 +89,7 @@ extensionUpload.init = function () {
     		// data.files[0] = file envoyé
     		// data.result.files[0] = file retour upload
 			
-    		window.Webapp.user.datasets.pushObject(data.files[0]);
+    		window.Webapp.user.datasets.pushObject(data.result.files[0]);
 
     		var dataset = {
 				name : data.result.files[0].name,

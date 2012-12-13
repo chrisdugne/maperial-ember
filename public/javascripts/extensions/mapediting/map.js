@@ -1,6 +1,8 @@
-                                                             function Map() {
+
+this.Map = function() {
     this.array = [];
 }
+
 Map.prototype.put = function(key, value) {
     var index = this.getIndex(key);
     if (index > -1) {

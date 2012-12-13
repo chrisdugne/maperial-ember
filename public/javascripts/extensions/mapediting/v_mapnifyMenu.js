@@ -1,24 +1,34 @@
+
+
+// -------------------------------------------//
+//	 	MapnifyMenu
+// -------------------------------------------//
+
+this.MapnifyMenu = {};
+
+// -------------------------------------------//
+
 //////////////////////////////////////////////////////////////
 // SOME GLOBAL VARS
 
-var serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";			// local
-//var serverRootDirV = "http://serv.x-ray.fr/project/mycarto/wwwClient/"; 		// not local ...
-var serverRootDirD = "http://map.x-ray.fr/";
+MapnifyMenu.serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";			// local
+//MapnifyMenu.serverRootDirV = "http://serv.x-ray.fr/project/mycarto/wwwClient/"; 		// not local ...
+MapnifyMenu.serverRootDirD = "http://map.x-ray.fr/";
 
 // id <-> name/filter mapping
-var mappingArray = Array();
+MapnifyMenu.mappingArray = Array();
 
 // groups of layer (roads, urban, landscape, ...)
-var groups = null; 
+MapnifyMenu.groups = null; 
 
 // the style (json)
-var __style = null;   // <<<<=== THIS IS WHAT YOU WANT FOR maps.js and renderTile.js
+MapnifyMenu.__style = null;   // <<<<=== THIS IS WHAT YOU WANT FOR maps.js and renderTile.js
 
 // the mapping (json)
-var mapping = null; // link id (in style) with a "real" name & filter
+MapnifyMenu.mapping = null; // link id (in style) with a "real" name & filter
 
 // current zooms
-var activZooms = Array();
+MapnifyMenu.activZooms = Array();
 
 //////////////////////////////////////////////////////////////
 // set param = value for layer uid at zoom
@@ -52,7 +62,7 @@ function SetParam(uid,zoom,param,value){
 }
 */
 
-function SetParamId(uid,ruid,param,value){
+MapnifyMenu.SetParamId = function(uid,ruid,param,value){
    if ( __style[uid] == undefined ){
       console.log( uid + " not in style");
       return;
@@ -76,7 +86,7 @@ function SetParamId(uid,ruid,param,value){
    return false;
 }
 
-function SetParamIdZ(uid,ruid,param,value,zooms){
+MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
    if ( __style[uid] == undefined ){
       console.log( uid + " not in style");
       return;
@@ -148,7 +158,7 @@ function GetParam(uid,zoom,param){
 }
 */
 
-function GetParamId(uid,ruid,param){
+MapnifyMenu.GetParamId = function(uid,ruid,param){
   if ( __style[uid] == undefined ){
       console.log(uid + " not in style");
       return;
@@ -168,23 +178,10 @@ function GetParamId(uid,ruid,param){
    return undefined;
 }
 
-//////////////////////////////////////////////////////////////
-// uid generator
-function generateGuid() {
-  var result, i, j;
-  result = '';
-  for(j=0; j<32; j++) {
-      if( j == 8 || j == 12|| j == 16|| j == 20)
-          result = result + '_';
-      i = Math.floor(Math.random()*16).toString(16).toUpperCase();
-      result = result + i;
-  }
-  return result;
-}
 
 //////////////////////////////////////////////////////////////
 // Closure for colorpicker callback
-function GetColorPickerCallBack(_uid,_ruleId,pName){
+MapnifyMenu.GetColorPickerCallBack = function(_uid,_ruleId,pName){
    return function (hsb, hex, rgb) {
       $("#colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
       //SetParamId(_uid,_ruleId,pName,HexToRGBA(hex));
@@ -196,7 +193,7 @@ function GetColorPickerCallBack(_uid,_ruleId,pName){
 
 //////////////////////////////////////////////////////////////
 // Closure for spinner callback
-function GetSpinnerCallBack(_uid,_ruleId,pName){  
+MapnifyMenu.GetSpinnerCallBack = function(_uid,_ruleId,pName){  
    return function (event, ui) {
       var newV = ui.value;
       //SetParamId(_uid,_ruleId,pName,newV);
@@ -207,7 +204,7 @@ function GetSpinnerCallBack(_uid,_ruleId,pName){
   
 //////////////////////////////////////////////////////////////
 // Closure for checkbox callback
-function GetCheckBoxCallBack(_uid){
+MapnifyMenu.GetCheckBoxCallBack = function(_uid){
     return function() {
        var vis = $("#check_" + _uid + ":checked").val()?true:false;
        __style[_uid]["visible"] = vis; 
@@ -218,7 +215,7 @@ function GetCheckBoxCallBack(_uid){
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 // the menu class ...  
-function MapnifyInitMenu(container,isMovable){
+MapnifyMenu.init = function(container,isMovable){
 
   var mapnifyParentEl = container;
 
@@ -233,7 +230,7 @@ function MapnifyInitMenu(container,isMovable){
   function LoadGroup(){
     console.log("Loading groups");
     $.ajax({
-       url: serverRootDirV+'style/group.json',
+       url: MapnifyMenu.serverRootDirV+'style/group.json',
        async: false,
        dataType: 'json',
        //contentType:"application/x-javascript",
@@ -263,7 +260,7 @@ function MapnifyInitMenu(container,isMovable){
   function LoadMapping(){
     console.log("Loading mapping");
     $.ajax({
-       url: serverRootDirV+'style/mapping.json',
+       url: MapnifyMenu.serverRootDirV+'style/mapping.json',
        async: false,
        dataType: 'json',
        //contentType:"application/x-javascript",
@@ -530,9 +527,9 @@ function MapnifyInitMenu(container,isMovable){
 
                  var ruleId = __style[uid]["s"][rule]["s"][def]["id"];//generateGuid();    
                         
-                 for( var p in SymbolizerParams[__style[uid]["s"][rule]["s"][def]["rt"]] ){  // this is read from a list of known params. 
+                 for( var p in Symbolizer.params[__style[uid]["s"][rule]["s"][def]["rt"]] ){  // this is read from a list of known params. 
                  
-                    var paramName = GetSymbolizerParamName(__style[uid]["s"][rule]["s"][def]["rt"],p);
+                    var paramName = Symbolizer.getParamName(__style[uid]["s"][rule]["s"][def]["rt"],p);
                     var paramValue = GetParamId(uid,ruleId,paramName);
                     //console.log( paramName + " : " + paramValue ) ;
                      
@@ -592,7 +589,7 @@ function MapnifyInitMenu(container,isMovable){
   function LoadStyle(){
     console.log("Loading style");
     $.ajax({
-       url: serverRootDirV+'style/style.json',
+       url: MapnifyMenu.serverRootDirV+'style/style.json',
        async: false,
        dataType: 'json',
        //contentType:"application/x-javascript",
@@ -608,7 +605,7 @@ function MapnifyInitMenu(container,isMovable){
   // let's go
   Load(); // will call LoadMapping and then LoadStyle ...
     
-}// end class MapnifyInitMenu()
+}// end class MapnifyMenu.init
 
 
 
