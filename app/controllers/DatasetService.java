@@ -30,7 +30,7 @@ public class DatasetService extends Application
 		Dataset dataset = new Dataset();
 
 		String userUID = userJson.get("userUID").asText();
-		String datasetUID = datasetJson.get("uid").asText();
+		String datasetUID = datasetJson.get("datasetUID").asText();
 		String datasetName = datasetJson.get("name").asText();
 		Long datasetSize = datasetJson.get("size").asLong();
 		
@@ -49,6 +49,30 @@ public class DatasetService extends Application
 		return ok(gson.toJson(dataset));
 	}
 
+	
+	// ---------------------------------------------//
+	
+	
+	public static Result removeDataset()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode datasetJson = params.get("dataset");
+		
+		//----------//
+
+		String datasetUID = datasetJson.get("datasetUID").asText();
+		
+		//----------//
+		
+		UserManager.removeDataset(datasetUID);
+		
+		//----------//
+		
+		return ok();
+	}
+	
 	// ---------------------------------------------//
 
 }

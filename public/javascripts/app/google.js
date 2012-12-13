@@ -1,48 +1,55 @@
-//------------------------------------------------------------------------------------------//
-// Logging in through the init process (onload)
+// -------------------------------------------//
+//	 	Google Login Lib
+// -------------------------------------------//
 
-function googleLoad(app) 
+this.GoogleAuth = {};
+
+// -------------------------------------------//
+
+// Logging in through the init process (onload = GoogleAuthOnload)
+// <script src="https://apis.google.com/js/client.js?onload=GoogleAuthOnload"></script>
+GoogleAuthOnload = function(app) 
 {
-	gapi.client.setApiKey(window.Webapp.globals.apiKey);
-	window.setTimeout(checkGoogleAuth,1);
+	gapi.client.setApiKey(Globals.apiKey);
+	window.setTimeout(GoogleAuth.checkGoogleAuth,1);
 }
 
-function checkGoogleAuth() 
+// -------------------------------------------//
+
+GoogleAuth.checkGoogleAuth = function() 
 {
-	var globals = window.Webapp.globals;
-	gapi.auth.authorize({client_id: globals.googleClientId, scope: globals.scopes, immediate: true}, googleAuthResult);
+	gapi.auth.authorize({client_id: Globals.googleClientId, scope: Globals.scopes, immediate: true}, GoogleAuth.googleAuthResult);
 }
 
 //------------------------------------------------------------------------------------------//
 // Logging in through the login window
 	
-function googleAuthorize(event) 
+GoogleAuth.googleAuthorize = function(event) 
 {
-	var globals = window.Webapp.globals;
-	gapi.auth.authorize({client_id: globals.googleClientId, scope: globals.scopes, immediate: false}, googleAuthResult);
+	gapi.auth.authorize({client_id: Globals.googleClientId, scope: Globals.scopes, immediate: false}, GoogleAuth.googleAuthResult);
 	return false;
 }
 
 //------------------------------------------------//
 
-function googleAuthResult(authResult) 
+GoogleAuth.googleAuthResult = function(authResult) 
 {
 	if (authResult && !authResult.error) 
 	{
 		window.Webapp.user.set("loggedIn", true);
 		$("#signinButton").fadeOut(1350);
-		getGoogleUserInfo();
+		GoogleAuth.getUser();
 	}
 	else 
 	{
-		$("#signinButton").click(openLoginWindow);
+		$("#signinButton").click(GoogleAuth.openLoginWindow);
 		Ember.Route.transitionTo("home");
 	}
 }
 
 //------------------------------------------------------------------------------------------//
 
-function getGoogleUserInfo() 
+GoogleAuth.getUser = function() 
 {
 //	gapi.client.load('plus', 'v1', function() {
 //		var request = gapi.client.plus.people.get({

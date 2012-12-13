@@ -32,7 +32,7 @@ extensionUpload.init = function ()
     $('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: '//map.x-ray.fr/api/dataset'
+        url: Globals.mapServer + '/dataset'
     });
 
     // Enable iframe cross-domain access via redirect option:
@@ -48,7 +48,7 @@ extensionUpload.init = function ()
 //    dataType:"jsonp",
 //    contentType:"application/x-javascript",
     $('#fileupload').fileupload('option', {
-        url: '//map.x-ray.fr/api/dataset',
+        url: Globals.mapServer + '/dataset',
         maxFileSize: 5000000,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         process: [
@@ -71,7 +71,7 @@ extensionUpload.init = function ()
     // Upload server status check for browsers with CORS support:
     if ($.support.cors) {
         $.ajax({
-            url: '//map.x-ray.fr/api/dataset',
+            url: Globals.mapServer + '/dataset',
             type: 'HEAD'
         }).fail(function () {
             $('<span class="alert alert-error"/>')
@@ -94,7 +94,7 @@ extensionUpload.init = function ()
     		var dataset = {
 				name : data.result.files[0].name,
 				size : data.result.files[0].size,
-				uid  : data.result.files[0].id
+				datasetUID  : data.result.files[0].datasetUID
     		};
     		
     		DatasetManager.addDataset(dataset);

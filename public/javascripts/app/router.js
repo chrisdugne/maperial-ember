@@ -19,7 +19,7 @@
 				connectOutlets: function(router){
 					router.get('applicationController').connectOutlet('home', window.Webapp.user);
 				},
-				openTryscreen: Ember.Route.transitionTo('tryscreen'),
+				openTryscreen: Ember.Route.transitionTo('tryscreen')
 			}),
 			
 			//-------------------//
@@ -87,7 +87,12 @@
 				route: '/datasetEditor',
 				connectOutlets: function(router){
 					openView(router, "datasetEditor", window.Webapp.user);
+				},
+				deleteDataset: function(router, event){
+					var dataset = event.context;
+					DatasetManager.deleteDataset(dataset);
 				}
+				
 			}),
 			
 			//-------------------//

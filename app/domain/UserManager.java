@@ -54,7 +54,16 @@ public class UserManager {
 		dataset.setUser(user);
 
 		Ebean.save(dataset);  
-		Ebean.save(user);  
+	}
+
+	//------------------------------------------------------------------------------------//
+
+	@Transactional
+	public static void removeDataset(String datasetUID) 
+	{
+		Dataset dataset = Dataset.find.where().ilike("datasetUID", datasetUID).findUnique();
+
+		Ebean.delete(dataset);
 	}
 	
 	//------------------------------------------------------------------------------------//

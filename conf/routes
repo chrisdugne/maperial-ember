@@ -22,3 +22,4 @@ POST /getGoogleUser				controllers.UserService.getGoogleUser()
 #   DatasetService 
 
 POST /addDataset					controllers.DatasetService.addDataset()
+POST /removeDataset					controllers.DatasetService.removeDataset()

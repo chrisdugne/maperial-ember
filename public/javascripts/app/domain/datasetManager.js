@@ -1,5 +1,10 @@
+// -------------------------------------------//
+//	 			DatasetManager
+// -------------------------------------------//
 
 this.DatasetManager = {};
+
+// -------------------------------------------//
 
 DatasetManager.addDataset = function(dataset)
 {
@@ -15,8 +20,36 @@ DatasetManager.addDataset = function(dataset)
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	p("file saved");
-	    	p("data : " + data);
+	    	
 		}
 	});
 }
+
+// -------------------------------------------//
+
+DatasetManager.deleteDataset = function(dataset)
+{
+	$.ajax({  
+	    type: "DELETE",  
+	    url: Globals.mapServer + "/dataset?key=" + dataset.datasetUID,
+	    dataType: "text",
+	    success: function (data, textStatus, jqXHR)
+		{
+	    	// remove from the user list
+    		window.Webapp.user.datasets.removeObject(dataset);
+    		
+    		// remove from the db
+    		var params = new Object();
+    		params["dataset"] = dataset;
+    		
+    		$.ajax({  
+    		    type: "POST",  
+    		    url: "/removeDataset",
+    		    data: JSON.stringify(params),  
+    		    contentType: "application/json; charset=utf-8"
+    		});
+		}
+	});
+}
+
+// -------------------------------------------//
