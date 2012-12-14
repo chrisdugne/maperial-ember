@@ -19,7 +19,8 @@
 				connectOutlets: function(router){
 					router.get('applicationController').connectOutlet('home', window.Webapp.user);
 				},
-				openTryscreen: Ember.Route.transitionTo('tryscreen')
+				openTryscreen: Ember.Route.transitionTo('tryscreen'),
+				openLoginWindow: function(){app.HomeController.openLoginWindow()}
 			}),
 			
 			//-------------------//
@@ -47,7 +48,8 @@
 				route: '/tryscreen',
 				connectOutlets: function(router){
 					openView(router, "tryscreen", window.Webapp.user);
-				} 
+				},
+				openLoginWindow: function(){app.HomeController.openLoginWindow()}
 			}),
 			
 			//-------------------//

@@ -1,0 +1,55 @@
+
+<div style="display: none;" id="loginWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginWindowLabel" aria-hidden="true">
+
+<!-- content COPIED FROM grooveshark.com -->
+<div class="lbcontainer">
+	<div id="lightbox-header">
+		<h2 class="title" data-translate-text="SIGN_IN">Sign In with </h2>
+		<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
+			<i class="icon icon-ex-white-outline"></i>
+		</a>
+	</div>
+
+	<div id="lightbox-content" style="max-height: 553px;">
+		<div class="lightbox-content-block">
+			<div id="lb-nav-outer">
+				<div class="no-center">
+					<div id="lb-nav">
+						<a id="lb-twitter-login" class="btn share-btn third-party twitter">
+							<i class="icon icon-twitter-white-active"></i>
+							<span class="text">Twitter</span>
+						</a>
+						<a id="lb-google-login" class="btn share-btn third-party google last" data-dismiss="modal" onclick="googleAuthorize()">
+							<i class="icon icon-google-plus-white-active"></i>
+							<span class="text">Google</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div id="lb-nav-outer">
+				<div class="no-center">
+					<div id="lb-nav">
+						<a id="lb-twitter-login" class="btn share-btn third-party facebook">
+							<i class="icon icon-facebook-white-active"></i>
+							<span class="text">Facebook</span>
+						</a>
+						<a id="lb-twitter-login" class="btn share-btn btn-primary third-party last" data-dismiss="modal" onclick="googleAuthorize()">
+							<i class="icon icon-star-white-active"></i>
+							<span class="text">via le CAS de Djoul qui deboite</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+    <div id="lightbox-footer">
+    	<div id="lightbox-footer-left" class="right">
+    		<span class="no-account-text">Just choose the way you like to sign in with your email</span>
+    	</div>
+    </div>
+</div>
+<!-- /grooveshark.com -->
+
+</div>

@@ -22,8 +22,6 @@ function renderTryscreenUI()
                "http://map.x-ray.fr/js/maps.js"],
            function()
            {
-				$("#signinButton").click(openLoginWindow);
-				
 				renderColorBar();
 				renderStyle();
 				initColorPicker();

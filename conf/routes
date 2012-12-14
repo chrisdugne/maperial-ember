@@ -23,3 +23,8 @@ POST /getGoogleUser				controllers.UserService.getGoogleUser()
 
 POST /addDataset					controllers.DatasetService.addDataset()
 POST /removeDataset					controllers.DatasetService.removeDataset()
+
+#---------------------------------------------------------------------------
+#   MapnifyAuth
+ 
+GET  /mapnifyCode					authentication.MapnifyOAuth2.receivedCode()
