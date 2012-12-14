@@ -116,7 +116,7 @@ MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
       return;
    }
    
-   console.log(activZooms);
+   console.log(MapnifyMenu.activZooms);
    
    for(var rule in MapnifyMenu.__style[uid]["s"]){
       var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
