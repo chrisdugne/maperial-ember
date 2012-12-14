@@ -36,23 +36,23 @@ MapnifyMenu.activZooms = Array();
 ///@todo check that zoom issue repeted zoom !!
 /*
 function SetParam(uid,zoom,param,value){
-   if ( __style[uid] == undefined ){
+   if ( MapnifyMenu.__style[uid] == undefined ){
       console.log( uid + " not in style");
       return;
    }
-   for(var rule in __style[uid]["s"]){
-        var zmin = __style[uid]["s"][rule]["zmin"];
-        var zmax = __style[uid]["s"][rule]["zmax"];
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+        var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+        var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
         if ( zoom <= zmax && zoom >= zmin ){
-             for( var d in __style[uid]["s"][rule]["s"]){ //def
+             for( var d in MapnifyMenu.__style[uid]["s"][rule]["s"]){ //def
                 for ( var p in __style[uid]["s"][rule]["s"][d] ){ // params
                     if ( p == param ){
-                        __style[uid]["s"][rule]["s"][d][p] = value;
+                        MapnifyMenu.__style[uid]["s"][rule]["s"][d][p] = value;
                         return true;
                     }
                 }
                 console.log(" not found , adding!" , uid , zoom , param);
-                __style[uid]["s"][rule]["s"][d][param] = value;
+                MapnifyMenu.__style[uid]["s"][rule]["s"][d][param] = value;
                return true;
              }
         }
@@ -63,21 +63,21 @@ function SetParam(uid,zoom,param,value){
 */
 
 MapnifyMenu.SetParamId = function(uid,ruid,param,value){
-   if ( __style[uid] == undefined ){
+   if ( MapnifyMenu.__style[uid] == undefined ){
       console.log( uid + " not in style");
       return;
    }
-   for(var rule in __style[uid]["s"]){
-      for( var d in __style[uid]["s"][rule]["s"]){ //def
-         if( __style[uid]["s"][rule]["s"][d]["id"] == ruid ){
-            for( var p in __style[uid]["s"][rule]["s"][d] ){ // params
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+      for( var d in MapnifyMenu.__style[uid]["s"][rule]["s"]){ //def
+         if( MapnifyMenu.__style[uid]["s"][rule]["s"][d]["id"] == ruid ){
+            for( var p in MapnifyMenu.__style[uid]["s"][rule]["s"][d] ){ // params
                if ( p == param ){
-                  __style[uid]["s"][rule]["s"][d][p] = value;
+                  MapnifyMenu.__style[uid]["s"][rule]["s"][d][p] = value;
                   return true;
                }
             }
             //console.log(" not found , adding!" , uid , ruid , param);
-            __style[uid]["s"][rule]["s"][d][param] = value;
+            MapnifyMenu.__style[uid]["s"][rule]["s"][d][param] = value;
             return true;            
          }
       }
@@ -87,7 +87,7 @@ MapnifyMenu.SetParamId = function(uid,ruid,param,value){
 }
 
 MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
-   if ( __style[uid] == undefined ){
+   if ( MapnifyMenu.__style[uid] == undefined ){
       console.log( uid + " not in style");
       return;
    }
@@ -95,11 +95,11 @@ MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
    var def = null;
    var stop = false;
    //get the good def..
-   for(var rule in __style[uid]["s"]){
-      var zmin = __style[uid]["s"][rule]["zmin"];
-      //var zmax = __style[uid]["s"][rule]["zmax"];
-      for( var d in __style[uid]["s"][rule]["s"]){ //def
-           if( __style[uid]["s"][rule]["s"][d]["id"] == ruid ){
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+      var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+      //var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
+      for( var d in MapnifyMenu.__style[uid]["s"][rule]["s"]){ //def
+           if( MapnifyMenu.__style[uid]["s"][rule]["s"][d]["id"] == ruid ){
               def = d;
               console.log("found def : " + def);
               stop = true;
@@ -118,12 +118,12 @@ MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
    
    console.log(activZooms);
    
-   for(var rule in __style[uid]["s"]){
-      var zmin = __style[uid]["s"][rule]["zmin"];
-      //var zmax = __style[uid]["s"][rule]["zmax"];
-      if ( $.inArray(zmin, activZooms) > -1 ){ 
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+      var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+      //var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
+      if ( $.inArray(zmin, MapnifyMenu.activZooms) > -1 ){ 
          console.log("changing for z " + zmin);
-         __style[uid]["s"][rule]["s"][def][param] = value;
+         MapnifyMenu.__style[uid]["s"][rule]["s"][def][param] = value;
       }
    }
    //console.log(" not found !" , uid , ruid , param);
@@ -135,19 +135,19 @@ MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
 ///@todo check that zoom issue min/max can overlap ???
 ///@todo check that zoom issue repeted zoom !! 
 /*
-function GetParam(uid,zoom,param){
-  if ( __style[uid] == undefined ){
+function MapnifyMenu.GetParam(uid,zoom,param){
+  if ( MapnifyMenu.__style[uid] == undefined ){
       console.log(uid + " not in style");
       return;
    }
-   for(var rule in __style[uid]["s"]){
-        var zmin = __style[uid]["s"][rule]["zmin"];
-        var zmax = __style[uid]["s"][rule]["zmax"];
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+        var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+        var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
         if ( zoom <= zmax && zoom >= zmin ){
-             for( var d in __style[uid]["s"][rule]["s"]){ //def
-                for ( var p in __style[uid]["s"][rule]["s"][d] ){ // params
+             for( var d in MapnifyMenu.__style[uid]["s"][rule]["s"]){ //def
+                for ( var p in MapnifyMenu.__style[uid]["s"][rule]["s"][d] ){ // params
                     if ( p == param ){
-                        return __style[uid]["s"][rule]["s"][d][p];
+                        return MapnifyMenu.__style[uid]["s"][rule]["s"][d][p];
                     }
                 }
              }
@@ -159,16 +159,16 @@ function GetParam(uid,zoom,param){
 */
 
 MapnifyMenu.GetParamId = function(uid,ruid,param){
-  if ( __style[uid] == undefined ){
+  if ( MapnifyMenu.__style[uid] == undefined ){
       console.log(uid + " not in style");
       return;
    }
-   for(var rule in __style[uid]["s"]){
-      for( var d in __style[uid]["s"][rule]["s"]){ //def
-         if ( __style[uid]["s"][rule]["s"][d]["id"] == ruid ){
-            for ( var p in __style[uid]["s"][rule]["s"][d] ){ // params
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+      for( var d in MapnifyMenu.__style[uid]["s"][rule]["s"]){ //def
+         if ( MapnifyMenu.__style[uid]["s"][rule]["s"][d]["id"] == ruid ){
+            for ( var p in MapnifyMenu.__style[uid]["s"][rule]["s"][d] ){ // params
                if ( p == param ){
-                   return __style[uid]["s"][rule]["s"][d][p];
+                   return MapnifyMenu.__style[uid]["s"][rule]["s"][d][p];
                }
             }
          }
@@ -179,39 +179,6 @@ MapnifyMenu.GetParamId = function(uid,ruid,param){
 }
 
 
-//////////////////////////////////////////////////////////////
-// Closure for colorpicker callback
-MapnifyMenu.GetColorPickerCallBack = function(_uid,_ruleId,pName){
-   return function (hsb, hex, rgb) {
-      $("#colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
-      //SetParamId(_uid,_ruleId,pName,HexToRGBA(hex));
-      console.log(activZooms);
-      SetParamIdZ(_uid,_ruleId,pName,HexToRGBA(hex));
-      //console.log("changed value : " + GetParamId(_uid,_ruleId,pName) , _uid, _ruleId);
-   }
-}
-
-//////////////////////////////////////////////////////////////
-// Closure for spinner callback
-MapnifyMenu.GetSpinnerCallBack = function(_uid,_ruleId,pName){  
-   return function (event, ui) {
-      var newV = ui.value;
-      //SetParamId(_uid,_ruleId,pName,newV);
-      SetParamIdZ(_uid,_ruleId,pName,newV);
-      //console.log("changed value : " + GetParamId(_uid,_ruleId,pName) , _uid, _ruleId);
-   }
-}
-  
-//////////////////////////////////////////////////////////////
-// Closure for checkbox callback
-MapnifyMenu.GetCheckBoxCallBack = function(_uid){
-    return function() {
-       var vis = $("#check_" + _uid + ":checked").val()?true:false;
-       __style[_uid]["visible"] = vis; 
-       //console.log( _uid, "visible",  vis );
-    }
-};   
-      
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 // the menu class ...  
@@ -235,21 +202,21 @@ MapnifyMenu.init = function(container,isMovable){
        dataType: 'json',
        //contentType:"application/x-javascript",
        success: function (data) {
-          groups = data;
+          MapnifyMenu.groups = data;
           LoadMapping();
        }
     });
   }
 
-  function __LoadMapping(data){
+  function __LoadMapping(){
      console.log("##### MAPPING ####");
-     for(var entrie in mapping){
-        console.log(mapping[entrie]["name"]);
+     for(var entrie in MapnifyMenu.mapping){
+        console.log(MapnifyMenu.mapping[entrie]["name"]);
         // build mappingArray object
-        for( var layer in mapping[entrie]["layers"]){
-           //console.log("    filter : " + mapping[entrie]["layers"][layer]["filter"]);
-           //console.log("    uid : " + mapping[entrie]["layers"][layer]["id"]);
-           mappingArray[ mapping[entrie]["layers"][layer]["id"] ] = { name : mapping[entrie]["name"] , filter : mapping[entrie]["layers"][layer]["filter"]};
+        for( var layer in MapnifyMenu.mapping[entrie]["layers"]){
+           //console.log("    filter : " + MapnifyMenu.mapping[entrie]["layers"][layer]["filter"]);
+           //console.log("    uid : " + MapnifyMenu.mapping[entrie]["layers"][layer]["id"]);
+           MapnifyMenu.mappingArray[ MapnifyMenu.mapping[entrie]["layers"][layer]["id"] ] = { name : MapnifyMenu.mapping[entrie]["name"] , filter : MapnifyMenu.mapping[entrie]["layers"][layer]["filter"]};
         }
      }
      LoadStyle();  
@@ -265,8 +232,8 @@ MapnifyMenu.init = function(container,isMovable){
        dataType: 'json',
        //contentType:"application/x-javascript",
        success: function (data) {
-          mapping = data;
-          __LoadMapping(data);
+          MapnifyMenu.mapping = data;
+          __LoadMapping();
        }
     });
   }
@@ -284,7 +251,7 @@ MapnifyMenu.init = function(container,isMovable){
 
  
   // Dirty version ... draw view on the fly ...
-  function __LoadStyle(data){
+  function __LoadStyle(){
   
     mapnifyParentEl.empty();   
   
@@ -300,11 +267,11 @@ MapnifyMenu.init = function(container,isMovable){
   }  
 
   function UpdateActivZoom(){
-     activZooms = [];
+     MapnifyMenu.activZooms = [];
      for ( var z = 1 ; z < 19 ; ++z){
         if ( $("#zcheck" + z).is(":checked") ){
            //console.log(z + "is checked");
-           activZooms.push(z);     
+           MapnifyMenu.activZooms.push(z);     
         }
         else{
            //nothing !
@@ -374,19 +341,19 @@ MapnifyMenu.init = function(container,isMovable){
   var zoomFromId = {};
 
   function __FillZoomDef(mainDiv){
-     for ( var group in groups ){
-      //console.log(groups[group]);
-      for ( var uid in __style ){
-         //console.log(group,uid, mappingArray[uid].name);
-         if ( $.inArray(mappingArray[uid].name,groups[group]) >= 0) {
-           //console.log("found ! : " + mappingArray[uid].name );
+     for ( var group in MapnifyMenu.groups ){
+      //console.log(MapnifyMenu.groups[group]);
+      for ( var uid in MapnifyMenu.__style ){
+         //console.log(group,uid, MapnifyMenu.mappingArray[uid].name);
+         if ( $.inArray(MapnifyMenu.mappingArray[uid].name,MapnifyMenu.groups[group]) >= 0) {
+           //console.log("found ! : " + MapnifyMenu.mappingArray[uid].name );
            var ruleNum = 0;
-           for( var rule in __style[uid]["s"] ){
-              var zmin = __style[uid]["s"][rule]["zmin"];
-              //var zmax = __style[uid]["s"][rule]["zmax"];
+           for( var rule in MapnifyMenu.__style[uid]["s"] ){
+              var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+              //var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
               ///@todo this is a test considering zmin = zmax
-              for ( var def in __style[uid]["s"][rule]["s"] ){
-                  var ruleId = __style[uid]["s"][rule]["s"][def]["id"];
+              for ( var def in MapnifyMenu.__style[uid]["s"][rule]["s"] ){
+                  var ruleId = MapnifyMenu.__style[uid]["s"][rule]["s"][def]["id"];
                   zoomFromId[ruleId] = zmin;
                   
                   if ( idsFromZoom[zmin] == undefined ){
@@ -403,15 +370,49 @@ MapnifyMenu.init = function(container,isMovable){
   }
 
 
+  //////////////////////////////////////////////////////////////
+  // Closure for colorpicker callback
+  GetColorPickerCallBack = function(_uid,_ruleId,pName){
+     return function (hsb, hex, rgb) {
+        $("#colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
+        //MapnifyMenu.SetParamId(_uid,_ruleId,pName,ColorTools.HexToRGBA(hex));
+        console.log(MapnifyMenu.activZooms);
+        MapnifyMenu.SetParamIdZ(_uid,_ruleId,pName,ColorTools.HexToRGBA(hex));
+        //console.log("changed value : " + GetParamId(_uid,_ruleId,pName) , _uid, _ruleId);
+     }
+  }
+  
+  //////////////////////////////////////////////////////////////
+  // Closure for spinner callback
+  GetSpinnerCallBack = function(_uid,_ruleId,pName){  
+     return function (event, ui) {
+        var newV = ui.value;
+        //MapnifyMenu.SetParamId(_uid,_ruleId,pName,newV);
+        MapnifyMenu.SetParamIdZ(_uid,_ruleId,pName,newV);
+        //console.log("changed value : " + GetParamId(_uid,_ruleId,pName) , _uid, _ruleId);
+     }
+  }
+    
+  //////////////////////////////////////////////////////////////
+  // Closure for checkbox callback
+  GetCheckBoxCallBack = function(_uid){
+      return function() {
+         var vis = $("#check_" + _uid + ":checked").val()?true:false;
+         MapnifyMenu.__style[_uid]["visible"] = vis; 
+         //console.log( _uid, "visible",  vis );
+      }
+  }; 
+
+
   // note that ruleId is uniq (for each symbolizer ...)
 
   function AddColorPicker(_paramName,_paramValue,_uid,_ruleId,_container){
      // add to view
-     $("<li>" + _paramName + " : " + "<div class=\"colorSelector \" id=\"colorpicker_" + _ruleId + "\"><div style=\"background-color:" + RGBAToHex(_paramValue) + "\"></div></div> </li>").appendTo(_container);
+     $("<li>" + _paramName + " : " + "<div class=\"colorSelector \" id=\"colorpicker_" + _ruleId + "\"><div style=\"background-color:" + ColorTools.RGBAToHex(_paramValue) + "\"></div></div> </li>").appendTo(_container);
      
      // plug callback
      $("#colorpicker_"+_ruleId).ColorPicker({
-        	color: RGBAToHex(_paramValue),   // set initial value
+        	color: ColorTools.RGBAToHex(_paramValue),   // set initial value
          	onShow: function (colpkr) {
               $(colpkr).fadeIn(500);
               return false;
@@ -450,7 +451,7 @@ MapnifyMenu.init = function(container,isMovable){
 
     var groupNum = 0;
 
-    for ( var group in groups ){
+    for ( var group in MapnifyMenu.groups ){
 
       console.log(group);
 
@@ -460,15 +461,15 @@ MapnifyMenu.init = function(container,isMovable){
 
       groupNum++;
 
-      for ( var uid in __style ){
+      for ( var uid in MapnifyMenu.__style ){
 
-         //console.log(group,uid, mappingArray[uid].name);
+         //console.log(group,uid, MapnifyMenu.mappingArray[uid].name);
 
-         if ( $.inArray(mappingArray[uid].name,groups[group]) >= 0) {
+         if ( $.inArray(MapnifyMenu.mappingArray[uid].name,MapnifyMenu.groups[group]) >= 0) {
 
-           //console.log("found ! : " + mappingArray[uid].name );
+           //console.log("found ! : " + MapnifyMenu.mappingArray[uid].name );
 
-           $("<h2>" + mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+           $("<h2>" + MapnifyMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
            var divIn = $("<div class=\"inner\" id=\"divinner_" + groupNum + "_" + uid + "\"></div>");
            divIn.appendTo(groupAcc);
            
@@ -476,11 +477,11 @@ MapnifyMenu.init = function(container,isMovable){
            var ul = $("<ul></ul>");
            ul.appendTo(divIn);
                     
-           $("<li>" + "Filter : " + mappingArray[uid].filter + "</li>").appendTo(ul);
+           $("<li>" + "Filter : " + MapnifyMenu.mappingArray[uid].filter + "</li>").appendTo(ul);
            $("<li>" + "Visible  : " + "<input type=\"checkbox\" id=\"check_" + uid + "\" />" + "</li>").appendTo(ul);
            $("#check_" + uid).click( GetCheckBoxCallBack(uid) );
-           $("#check_" + uid).attr('checked', __style[uid]["visible"]);
-           $("<li>" + "Place : " + __style[uid]["layer"] + "</li>").appendTo(ul);
+           $("#check_" + uid).attr('checked', MapnifyMenu.__style[uid]["visible"]);
+           $("<li>" + "Place : " + MapnifyMenu.__style[uid]["layer"] + "</li>").appendTo(ul);
    
            $("<strong>Rules :</strong>").appendTo(divIn);
   
@@ -494,12 +495,12 @@ MapnifyMenu.init = function(container,isMovable){
            /*
            for( var rule in __style[uid]["s"] ){
            */
-           if ( __style[uid]["s"].length > 0) {
+           if ( MapnifyMenu.__style[uid]["s"].length > 0) {
               var rule = 0;
   
               /*
-              var zmin = __style[uid]["s"][rule]["zmin"];
-              var zmax = __style[uid]["s"][rule]["zmax"];
+              var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+              var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
               */
               
               /*
@@ -520,17 +521,17 @@ MapnifyMenu.init = function(container,isMovable){
               ruleNum++;
               */
               
-              for ( var def in __style[uid]["s"][rule]["s"] ){       // a rule (in the sens of zoom can have multiple def in the sens of symbolizer ...)
-                 $("<strong>" + __style[uid]["s"][rule]["s"][def]["rt"] + "</strong>").appendTo(divIn/*In*/);
+              for ( var def in MapnifyMenu.__style[uid]["s"][rule]["s"] ){       // a rule (in the sens of zoom can have multiple def in the sens of symbolizer ...)
+                 $("<strong>" + MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"] + "</strong>").appendTo(divIn/*In*/);
                  var ulul = $("<ul></ul>");
                  ulul.appendTo(divIn/*In*/);
 
-                 var ruleId = __style[uid]["s"][rule]["s"][def]["id"];//generateGuid();    
+                 var ruleId = MapnifyMenu.__style[uid]["s"][rule]["s"][def]["id"];//generateGuid();    
                         
-                 for( var p in Symbolizer.params[__style[uid]["s"][rule]["s"][def]["rt"]] ){  // this is read from a list of known params. 
+                 for( var p in Symbolizer.params[MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"]] ){  // this is read from a list of known params. 
                  
-                    var paramName = Symbolizer.getParamName(__style[uid]["s"][rule]["s"][def]["rt"],p);
-                    var paramValue = GetParamId(uid,ruleId,paramName);
+                    var paramName = Symbolizer.getParamName(MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"],p);
+                    var paramValue = MapnifyMenu.GetParamId(uid,ruleId,paramName);
                     //console.log( paramName + " : " + paramValue ) ;
                      
                     if ( paramName == "width" ){  
@@ -594,8 +595,8 @@ MapnifyMenu.init = function(container,isMovable){
        dataType: 'json',
        //contentType:"application/x-javascript",
        success: function (data) {
-          __style = data;
-          __LoadStyle(data);
+          MapnifyMenu.__style = data;
+          __LoadStyle();
        }  
     });   
   }
