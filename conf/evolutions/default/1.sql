@@ -76,24 +76,24 @@ create sequence public.style_seq;
 
 create sequence public.user_seq;
 
-alter table public.colorbar add constraint fk_public.colorbar_user_1 foreign key (user_user_uid) references public.user (user_uid);
-create index ix_public.colorbar_user_1 on public.colorbar (user_user_uid);
-alter table public.dataset add constraint fk_public.dataset_user_2 foreign key (user_user_uid) references public.user (user_uid);
-create index ix_public.dataset_user_2 on public.dataset (user_user_uid);
-alter table public.font add constraint fk_public.font_user_3 foreign key (user_user_uid) references public.user (user_uid);
-create index ix_public.font_user_3 on public.font (user_user_uid);
-alter table public.icon add constraint fk_public.icon_user_4 foreign key (user_user_uid) references public.user (user_uid);
-create index ix_public.icon_user_4 on public.icon (user_user_uid);
-alter table public.map add constraint fk_public.map_style_5 foreign key (style_style_uid) references public.style (style_uid);
-create index ix_public.map_style_5 on public.map (style_style_uid);
-alter table public.map add constraint fk_public.map_colorbar_6 foreign key (colorbar_color_bar_uid) references public.colorbar (color_bar_uid);
-create index ix_public.map_colorbar_6 on public.map (colorbar_color_bar_uid);
-alter table public.map add constraint fk_public.map_dataset_7 foreign key (dataset_dataset_uid) references public.dataset (dataset_uid);
-create index ix_public.map_dataset_7 on public.map (dataset_dataset_uid);
-alter table public.map add constraint fk_public.map_user_8 foreign key (user_user_uid) references public.user (user_uid);
-create index ix_public.map_user_8 on public.map (user_user_uid);
-alter table public.style add constraint fk_public.style_user_9 foreign key (user_user_uid) references public.user (user_uid);
-create index ix_public.style_user_9 on public.style (user_user_uid);
+alter table public.colorbar add constraint fk_colorbar_user_1 foreign key (user_user_uid) references public.user (user_uid);
+create index ix_colorbar_user_1 on public.colorbar (user_user_uid);
+alter table public.dataset add constraint fk_dataset_user_2 foreign key (user_user_uid) references public.user (user_uid);
+create index ix_dataset_user_2 on public.dataset (user_user_uid);
+alter table public.font add constraint fk_font_user_3 foreign key (user_user_uid) references public.user (user_uid);
+create index ix_font_user_3 on public.font (user_user_uid);
+alter table public.icon add constraint fk_icon_user_4 foreign key (user_user_uid) references public.user (user_uid);
+create index ix_icon_user_4 on public.icon (user_user_uid);
+alter table public.map add constraint fk_map_style_5 foreign key (style_style_uid) references public.style (style_uid);
+create index ix_map_style_5 on public.map (style_style_uid);
+alter table public.map add constraint fk_map_colorbar_6 foreign key (colorbar_color_bar_uid) references public.colorbar (color_bar_uid);
+create index ix_map_colorbar_6 on public.map (colorbar_color_bar_uid);
+alter table public.map add constraint fk_map_dataset_7 foreign key (dataset_dataset_uid) references public.dataset (dataset_uid);
+create index ix_map_dataset_7 on public.map (dataset_dataset_uid);
+alter table public.map add constraint fk_map_user_8 foreign key (user_user_uid) references public.user (user_uid);
+create index ix_map_user_8 on public.map (user_user_uid);
+alter table public.style add constraint fk_style_user_9 foreign key (user_user_uid) references public.user (user_uid);
+create index ix_style_user_9 on public.style (user_user_uid);
 
 
 
