@@ -3,14 +3,12 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.map")
 public class Map extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
@@ -38,7 +36,7 @@ public class Map extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
-	private User user;
+	private Account account;
 
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -85,6 +83,14 @@ public class Map extends Model{
 
 	public void setDataset(Dataset dataset) {
 		this.dataset = dataset;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	// -----------------------------------------------------------------------------------------------//

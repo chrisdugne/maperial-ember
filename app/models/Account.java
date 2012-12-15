@@ -5,21 +5,19 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.user")
-public class User extends Model { 
+public class Account extends Model { 
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String userUID;
+	private String accountUID;
 	
 	@Expose
 	private String email;
@@ -55,16 +53,16 @@ public class User extends Model {
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	
-	public static Model.Finder<String, User> find = new Finder<String, User>(String.class, User.class);
+	public static Model.Finder<String, Account> find = new Finder<String, Account>(String.class, Account.class);
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getUserUID() {
-		return userUID;
+	public String getAccountUID() {
+		return accountUID;
 	}
 
-	public void setUserUID(String userUID) {
-		this.userUID = userUID;
+	public void setAccountUID(String accountUID) {
+		this.accountUID = accountUID;
 	}
 
 	public String getEmail() {

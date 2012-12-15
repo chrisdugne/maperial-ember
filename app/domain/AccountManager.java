@@ -1,7 +1,7 @@
 package domain;
 
 import models.Dataset;
-import models.User;
+import models.Account;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -11,47 +11,47 @@ import utils.Utils;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 
-public class UserManager {
+public class AccountManager {
 
 	//------------------------------------------------------------------------------------//
 	// Google users
 	
-	public static User getGoogleUser(JsonNode userJson)
+	public static Account getAccount(JsonNode userJson)
 	{
 		String email = userJson.get("email").asText();
-		ExpressionList<User> users = User.find.where().ilike("email", email);
+		ExpressionList<Account> accounts = Account.find.where().ilike("email", email);
 		
-		if(users.findRowCount() == 1)
-			return users.findUnique();
+		if(accounts.findRowCount() == 1)
+			return accounts.findUnique();
 		else 
-			return createNewUserFromGoogle(userJson);
+			return createNewAccountFromGoogle(userJson);
 		
 	}
 
 	@Transactional
-	private static User createNewUserFromGoogle(JsonNode userJson) 
+	private static Account createNewAccountFromGoogle(JsonNode userJson) 
 	{
 		String email = userJson.get("email").asText();
 		String name = userJson.get("name").asText();
 		
-		User user = new User();
-		user.setEmail(email);
-		user.setName(name);
-		user.setUserUID(Utils.generateUID());
+		Account account = new Account();
+		account.setEmail(email);
+		account.setName(name);
+		account.setAccountUID(Utils.generateUID());
 	
-	    Ebean.save(user);  
+	    Ebean.save(account);  
 		
-		return user;
+		return account;
 	}
 
 	//------------------------------------------------------------------------------------//
 
 	@Transactional
-	public static void addDataset(String userUID, Dataset dataset) 
+	public static void addDataset(String accountUID, Dataset dataset) 
 	{
-		User user = User.find.where().ilike("userUID", userUID).findUnique();
+		Account account = Account.find.where().ilike("accountUID", accountUID).findUnique();
 
-		dataset.setUser(user);
+		dataset.setAccount(account);
 
 		Ebean.save(dataset);  
 	}

@@ -1,6 +1,6 @@
 package controllers;
 
-import models.User;
+import models.Account;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -9,22 +9,22 @@ import play.mvc.Result;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import domain.UserManager;
+import domain.AccountManager;
 
 
-public class UserService extends Application 
+public class AccountService extends Application 
 {
 	// ---------------------------------------------//
 
-	public static Result getGoogleUser()
+	public static Result getAccount()
 	{
 		JsonNode params = request().body().asJson();
-		JsonNode userJson = params.get("user");
+		JsonNode accountJson = params.get("account");
 		
-		User user = UserManager.getGoogleUser(userJson);
+		Account account = AccountManager.getAccount(accountJson);
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
-		return ok(gson.toJson(user));
+		return ok(gson.toJson(account));
 	}
 
 	// ---------------------------------------------//
