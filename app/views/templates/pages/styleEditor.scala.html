@@ -11,7 +11,7 @@
 			
 		<div class="row">
 			<div class="span3 offset1">
-				You have crafted {{styles.length}} styles.
+				You have crafted {{user.styles.length}} styles.
 			</div>
 	
 			<div class="span3 offset8">
@@ -24,7 +24,7 @@
 		<div class="span12 offset2">
 		    <table role="presentation" class="table table-striped">
 	        	<tbody class="files">
-		    		{{#each style in styles}}
+		    		{{#each style in user.styles}}
 					    <tr class="template-download">
 					        <td class="name"><p class="longfilename">{{style.name}}</p></td>
 					        {{#if style.isPublic}}
