@@ -4,18 +4,20 @@
 
 	var FontsEditorController = Ember.ObjectController.extend({});
 
+	//------------------------------------------------//
+
+	FontsEditorController.renderUI = function()
+	{
+
+	}
+
+	FontsEditorController.cleanUI = function()
+	{
+		
+	}
+
+	//------------------------------------------------//
+	
 	app.FontsEditorController = FontsEditorController;
 
 })( window.Webapp );
-
-//--------------------------------------------------------------------------//
-
-function renderFontsEditorUI()
-{
-	
-}
-
-function cleanFontsEditorUI()
-{
-	
-}

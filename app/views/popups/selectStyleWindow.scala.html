@@ -1,4 +1,16 @@
 
 <div style="display: none;" id="selectStyleWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="selectStyleWindowLabel" aria-hidden="true">
-	
+	<div class="span12 offset2">
+	    <table role="presentation" class="table table-striped">
+        	<tbody class="files">
+        		{{#with window.Webapp.publicData}}
+	    		{{#each style in styles}}
+				    <tr class="template-download">
+				        <td class="name"><p class="filename">{{style.name}}</p></td>
+				    </tr>
+			    {{/each}}
+			    {{/with}}
+		    </tbody>
+        </table>
+	</div>
 </div>

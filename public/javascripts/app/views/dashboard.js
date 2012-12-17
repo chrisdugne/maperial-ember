@@ -4,10 +4,10 @@
 	var DashboardView = Ember.View.extend({
 		templateName: 'dashboard',
 		didInsertElement: function(){
-			renderDashboardUI();
+			app.DashboardController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanDashboardUI();
+			app.DashboardController.cleanUI();
 		}
 	});
 	

@@ -4,10 +4,10 @@
 	var FontsEditorView = Ember.View.extend({
 		templateName: 'fontsEditor',
 		didInsertElement: function(){
-			renderFontsEditorUI();
+			app.FontsEditorController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanFontsEditorUI();
+			app.FontsEditorController.cleanUI();
 		}
 	});
 	

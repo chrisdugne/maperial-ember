@@ -6,12 +6,12 @@
 
 	//------------------------------------------------//
 
-	HomeController.renderHomeUI = function()
+	HomeController.renderUI = function()
 	{
 
 	}
 
-	HomeController.cleanHomeUI = function()
+	HomeController.cleanUI = function()
 	{
 		
 	}

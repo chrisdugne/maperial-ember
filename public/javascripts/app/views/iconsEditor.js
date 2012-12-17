@@ -4,10 +4,10 @@
 	var IconsEditorView = Ember.View.extend({
 		templateName: 'iconsEditor',
 		didInsertElement: function(){
-			renderIconsEditorUI();
+			app.IconsEditorController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanIconsEditorUI();
+			app.IconsEditorController.cleanUI();
 		}
 	});
 	

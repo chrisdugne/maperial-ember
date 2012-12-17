@@ -31,6 +31,7 @@
 				connectOutlets: function(router){
 					openView(router, "dashboard", window.Webapp.user);
 				},
+				// pages
 				newMap: Ember.Route.transitionTo('mapCreation'),
 				newStyle: Ember.Route.transitionTo('styleEditor'),
 				newColorbar: Ember.Route.transitionTo('colorbarEditor'),
@@ -69,7 +70,8 @@
 				route: '/styleEditor',
 				connectOutlets: function(router){
 					openView(router, "styleEditor", window.Webapp.user);
-				}
+				},
+				openStyleSelectionWindow: function(){app.StyleEditorController.openStyleSelectionWindow()}
 			}),
 			
 			//-------------------//
@@ -93,7 +95,8 @@
 				deleteDataset: function(router, event){
 					var dataset = event.context;
 					DatasetManager.deleteDataset(dataset);
-				}
+				},
+				openUploadWindow: function(){app.DatasetEditorController.openUploadWindow()}
 				
 			}),
 			

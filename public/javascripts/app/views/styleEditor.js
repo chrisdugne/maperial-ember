@@ -4,10 +4,10 @@
 	var StyleEditorView = Ember.View.extend({
 		templateName: 'styleEditor',
 		didInsertElement: function(){
-			renderStyleEditorUI();
+			app.StyleEditorController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanStyleEditorUI();
+			app.StyleEditorController.cleanUI();
 		}
 	});
 	

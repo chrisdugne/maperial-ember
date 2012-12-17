@@ -4,10 +4,10 @@
 	var HomeView = Ember.View.extend({
 		templateName: 'home',
 		didInsertElement: function(){
-			app.HomeController.renderHomeUI();
+			app.HomeController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.HomeController.cleanHomeUI();
+			app.HomeController.cleanUI();
 		}
 	});
 	

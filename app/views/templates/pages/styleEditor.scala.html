@@ -1,4 +1,6 @@
 
+@import views.html.popups.selectStyleWindow;
+
 <div class="container-fluid">
 
   <div class="marketing">
@@ -13,7 +15,7 @@
 			</div>
 	
 			<div class="span3 offset8">
-				<div id="createNewStyleButton" class="btn-large btn-primary">Create a new style</div>
+				<div id="createNewStyleButton" {{action openStyleSelectionWindow}} class="btn-large btn-primary">Create a new style</div>
 			</div>
 		</div>
 
@@ -44,4 +46,4 @@
 	</div>
 </div>
 
-
+@selectStyleWindow()
