@@ -138,7 +138,7 @@ public class Account extends Model {
 	}
 
 	// -----------------------------------------------------------------------------------------------//
-	
+
 	private static final long serialVersionUID = -8425213041824976820L;
 	
 }

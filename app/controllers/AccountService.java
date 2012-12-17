@@ -22,6 +22,8 @@ public class AccountService extends Application
 		JsonNode userJson = params.get("user");
 		
 		Account account = AccountManager.getAccount(userJson);
+		AccountManager.fetchPublicData(account);
+		
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
 		return ok(gson.toJson(account));

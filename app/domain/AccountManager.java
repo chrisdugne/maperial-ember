@@ -1,10 +1,18 @@
 package domain;
 
+import java.util.List;
+import java.util.Set;
+
+import models.Colorbar;
 import models.Dataset;
 import models.Account;
+import models.Font;
+import models.Icon;
+import models.Style;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.Logger;
 import play.db.ebean.Transactional;
 import utils.Utils;
 
@@ -64,6 +72,27 @@ public class AccountManager {
 		Dataset dataset = Dataset.find.where().ilike("uid", datasetUID).findUnique();
 
 		Ebean.delete(dataset);
+	}
+
+	//------------------------------------------------------------------------------------//
+
+	@Transactional
+	public static void fetchPublicData(Account account) 
+	{
+		Logger.debug("fetchPublicData");
+		List<Style> styles = Style.find.where("isPublic = true").findList();
+		Logger.debug("styles ok");
+		Logger.debug(styles.size() + "" );
+		account.getStyles().addAll(styles);
+
+		List<Colorbar> colorbars = Colorbar.find.where("isPublic = true").findList();
+		account.getColorbars().addAll(colorbars);
+		
+		List<Font> fonts = Font.find.where("isPublic = true").findList();
+		account.getFonts().addAll(fonts);
+		
+		List<Icon> icons = Icon.find.where("isPublic = true").findList();
+		account.getIcons().addAll(icons);
 	}
 	
 	//------------------------------------------------------------------------------------//
