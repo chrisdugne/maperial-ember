@@ -19,7 +19,7 @@ UserManager.getAccount = function()
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	p("user data : " + data);
+	    	console.log("user data : " + data);
 	    	var account = $.parseJSON(data);
 	    	
 	    	window.Webapp.user.set("uid", account.uid);

@@ -12,7 +12,7 @@
 
 function renderTryscreenUI()
 {
-	getScripts(["http://map.x-ray.fr/js/gl-matrix-min.js",
+	ScriptLoader.getScripts(["http://map.x-ray.fr/js/gl-matrix-min.js",
                "http://map.x-ray.fr/js/gl-tools.js",
                "http://map.x-ray.fr/js/coordinate-system.js",
                "http://map.x-ray.fr/js/jquery.mousewheel.min.js",
