@@ -22,15 +22,15 @@ public class DatasetService extends Application
 		//----------//
 
 		JsonNode params = request().body().asJson();
-		JsonNode accountJson = params.get("account");
+		JsonNode userJson = params.get("user");
 		JsonNode datasetJson = params.get("dataset");
 		
 		//----------//
 		
 		Dataset dataset = new Dataset();
 
-		String accountUID = accountJson.get("accountUID").asText();
-		String datasetUID = datasetJson.get("datasetUID").asText();
+		String accountUID = userJson.get("uid").asText();
+		String datasetUID = datasetJson.get("uid").asText();
 		String datasetName = datasetJson.get("name").asText();
 		Long datasetSize = datasetJson.get("size").asLong();
 		
@@ -62,7 +62,7 @@ public class DatasetService extends Application
 		
 		//----------//
 
-		String datasetUID = datasetJson.get("datasetUID").asText();
+		String datasetUID = datasetJson.get("uid").asText();
 		
 		//----------//
 		

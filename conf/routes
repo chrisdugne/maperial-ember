@@ -16,7 +16,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 #---------------------------------------------------------------------------
 #   UserService 
 
-POST /getGoogleUser					controllers.AccountService.getAccount()
+POST /getAccount					controllers.AccountService.getAccount()
 
 #---------------------------------------------------------------------------
 #   DatasetService 

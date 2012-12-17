@@ -19,9 +19,9 @@ public class AccountService extends Application
 	public static Result getAccount()
 	{
 		JsonNode params = request().body().asJson();
-		JsonNode accountJson = params.get("account");
+		JsonNode userJson = params.get("user");
 		
-		Account account = AccountManager.getAccount(accountJson);
+		Account account = AccountManager.getAccount(userJson);
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
 		return ok(gson.toJson(account));

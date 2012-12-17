@@ -49,7 +49,7 @@ public class AccountManager {
 	@Transactional
 	public static void addDataset(String accountUID, Dataset dataset) 
 	{
-		Account account = Account.find.where().ilike("accountUID", accountUID).findUnique();
+		Account account = Account.find.where().ilike("uid", accountUID).findUnique();
 
 		dataset.setAccount(account);
 
@@ -61,7 +61,7 @@ public class AccountManager {
 	@Transactional
 	public static void removeDataset(String datasetUID) 
 	{
-		Dataset dataset = Dataset.find.where().ilike("datasetUID", datasetUID).findUnique();
+		Dataset dataset = Dataset.find.where().ilike("uid", datasetUID).findUnique();
 
 		Ebean.delete(dataset);
 	}

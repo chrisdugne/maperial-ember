@@ -8,7 +8,16 @@
 .filename {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	width: 287px;
+	width: 232px;
+	font-size: 15px;
+	color: #333;
+	white-space: nowrap;
+}
+
+.longfilename {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 411px;
 	font-size: 15px;
 	color: #333;
 	white-space: nowrap;

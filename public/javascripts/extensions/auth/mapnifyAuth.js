@@ -31,7 +31,10 @@ MapnifyAuth.authorize = function()
 
 MapnifyAuth.dummyAuthDev = function()
 {
+	window.Webapp.user.set("name", "Bob Le Bobby");
 	window.Webapp.user.set("email", "dummy@mapnify.fr");
 	window.Webapp.user.set("loggedIn", true);
+	
+	UserManager.getAccount();
 }
 
