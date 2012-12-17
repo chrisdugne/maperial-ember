@@ -5,6 +5,27 @@
 this.UserManager = {};
 
 // -------------------------------------------//
+// init getPublicData
+
+$.ajax({  
+	type: "POST",  
+	url: "/getPublicData",
+	dataType: "text",
+	success: function (data, textStatus, jqXHR)
+	{
+		console.log("public data : " + data);
+		var publicData = $.parseJSON(data);
+
+		window.Webapp.publicData.set("maps", publicData.maps);
+		window.Webapp.publicData.set("styles", publicData.styles);
+		window.Webapp.publicData.set("datasets", publicData.datasets);
+		window.Webapp.publicData.set("colorbars", publicData.colorbars);
+		window.Webapp.publicData.set("fonts", publicData.fonts);
+		window.Webapp.publicData.set("icons", publicData.icons);
+	}
+});
+
+// -------------------------------------------//
 
 UserManager.getAccount = function()
 {

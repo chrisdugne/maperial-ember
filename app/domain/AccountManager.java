@@ -77,22 +77,19 @@ public class AccountManager {
 	//------------------------------------------------------------------------------------//
 
 	@Transactional
-	public static void fetchPublicData(Account account) 
+	public static void getPublicData(Account publicDataContainer) 
 	{
-		Logger.debug("fetchPublicData");
 		List<Style> styles = Style.find.where("isPublic = true").findList();
-		Logger.debug("styles ok");
-		Logger.debug(styles.size() + "" );
-		account.getStyles().addAll(styles);
+		publicDataContainer.setStyles(styles);
 
 		List<Colorbar> colorbars = Colorbar.find.where("isPublic = true").findList();
-		account.getColorbars().addAll(colorbars);
+		publicDataContainer.setColorbars(colorbars);
 		
 		List<Font> fonts = Font.find.where("isPublic = true").findList();
-		account.getFonts().addAll(fonts);
+		publicDataContainer.setFonts(fonts);
 		
 		List<Icon> icons = Icon.find.where("isPublic = true").findList();
-		account.getIcons().addAll(icons);
+		publicDataContainer.setIcons(icons);
 	}
 	
 	//------------------------------------------------------------------------------------//

@@ -16,6 +16,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 #---------------------------------------------------------------------------
 #   UserService 
 
+POST /getPublicData					controllers.AccountService.getPublicData()
 POST /getAccount					controllers.AccountService.getAccount()
 
 #---------------------------------------------------------------------------

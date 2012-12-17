@@ -22,11 +22,22 @@ public class AccountService extends Application
 		JsonNode userJson = params.get("user");
 		
 		Account account = AccountManager.getAccount(userJson);
-		AccountManager.fetchPublicData(account);
 		
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		
 		return ok(gson.toJson(account));
+	}
+
+	// ---------------------------------------------//
+	
+	public static Result getPublicData()
+	{
+		Account publicDataContainer = new Account();
+		AccountManager.getPublicData(publicDataContainer);
+		
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		
+		return ok(gson.toJson(publicDataContainer));
 	}
 
 	// ---------------------------------------------//

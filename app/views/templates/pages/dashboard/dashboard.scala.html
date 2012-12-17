@@ -1,5 +1,6 @@
 @import views.html.templates.components.databox;
 @import views.html.templates.pages.dashboard.datasets;
+@import views.html.templates.pages.dashboard.styles;
 
 <div class="container-fluid">
 
@@ -24,7 +25,7 @@
 		
 		<div class="row-fluid">
 			@databox("Your maps", "newMap"){ }
-			@databox("Your styles", "newStyle"){  }
+			@databox("Your styles", "newStyle"){ @styles() }
 		</div>
 		
 		<div class="row-fluid">
