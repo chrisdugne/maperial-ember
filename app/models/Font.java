@@ -15,7 +15,7 @@ public class Font extends Model{
 
 	@Id
 	@Expose
-	private String fontUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -35,12 +35,12 @@ public class Font extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getFontUID() {
-		return fontUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setFontUID(String fontUID) {
-		this.fontUID = fontUID;
+	public void setUid(String fontUID) {
+		this.uid = fontUID;
 	}
 	
 	public String getName() {

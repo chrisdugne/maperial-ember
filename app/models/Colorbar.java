@@ -9,13 +9,13 @@ import play.db.ebean.Model;
 import com.google.gson.annotations.Expose;
 
 @Entity
-public class ColorBar extends Model{
+public class Colorbar extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String colorBarUID;
+	private String uid;
 
 	@Expose
 	private String name;
@@ -31,16 +31,16 @@ public class ColorBar extends Model{
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	
-	public static Model.Finder<String, ColorBar> find = new Finder<String, ColorBar>(String.class, ColorBar.class);
+	public static Model.Finder<String, Colorbar> find = new Finder<String, Colorbar>(String.class, Colorbar.class);
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getColorBarUID() {
-		return colorBarUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setColorBarUID(String colorBarUID) {
-		this.colorBarUID = colorBarUID;
+	public void setUid(String colorBarUID) {
+		this.uid = colorBarUID;
 	}
 
 	public String getName() {

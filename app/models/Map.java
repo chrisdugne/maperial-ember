@@ -15,7 +15,7 @@ public class Map extends Model{
 
 	@Expose
 	@Id
-	private String mapUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -27,7 +27,7 @@ public class Map extends Model{
 
 	@Expose
 	@ManyToOne
-	private ColorBar colorbar;
+	private Colorbar colorbar;
 
 	@Expose
 	@ManyToOne
@@ -45,12 +45,12 @@ public class Map extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getMapUID() {
-		return mapUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setMapUID(String mapUID) {
-		this.mapUID = mapUID;
+	public void setUid(String mapUID) {
+		this.uid = mapUID;
 	}
 	
 	public String getName() {
@@ -69,11 +69,11 @@ public class Map extends Model{
 		this.style = style;
 	}
 
-	public ColorBar getColorbar() {
+	public Colorbar getColorbar() {
 		return colorbar;
 	}
 
-	public void setColorbar(ColorBar colorbar) {
+	public void setColorbar(Colorbar colorbar) {
 		this.colorbar = colorbar;
 	}
 

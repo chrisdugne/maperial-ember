@@ -15,7 +15,7 @@ public class Style extends Model{
 
 	@Id
 	@Expose
-	private String styleUID;
+	private String uid;
 
 	@Expose
 	private String name;
@@ -35,12 +35,12 @@ public class Style extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getStyleUID() {
-		return styleUID;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setStyleUID(String styleUID) {
-		this.styleUID = styleUID;
+	public void setUid(String styleUID) {
+		this.uid = styleUID;
 	}
 	
 	public String getName() {

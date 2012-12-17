@@ -34,7 +34,7 @@ public class DatasetService extends Application
 		String datasetName = datasetJson.get("name").asText();
 		Long datasetSize = datasetJson.get("size").asLong();
 		
-		dataset.setDatasetUID(datasetUID);
+		dataset.setUid(datasetUID);
 		dataset.setName(datasetName);
 		dataset.setSize(datasetSize);
 		dataset.setUploadTime(new Date().getTime());

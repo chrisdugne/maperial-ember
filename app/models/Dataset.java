@@ -15,7 +15,7 @@ public class Dataset extends Model{
 
 	@Id
 	@Expose
-	private String datasetUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -38,12 +38,12 @@ public class Dataset extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getDatasetUID() {
-		return datasetUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setDatasetUID(String datasetUID) {
-		this.datasetUID = datasetUID;
+	public void setUid(String datasetUID) {
+		this.uid = datasetUID;
 	}
 	
 	public String getName() {

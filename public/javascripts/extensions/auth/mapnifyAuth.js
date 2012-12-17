@@ -27,3 +27,11 @@ MapnifyAuth.authorize = function()
 	$("#mapnifyAuthFrame").attr('src', authorizeURL);
 }
 
+// -------------------------------------------//
+
+MapnifyAuth.dummyAuthDev = function()
+{
+	window.Webapp.user.set("email", "dummy@mapnify.fr");
+	window.Webapp.user.set("loggedIn", true);
+}
+

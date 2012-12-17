@@ -17,7 +17,7 @@ public class Account extends Model {
 
 	@Id
 	@Expose
-	private String accountUID;
+	private String uid;
 	
 	@Expose
 	private String email;
@@ -40,7 +40,7 @@ public class Account extends Model {
 	
 	@OneToMany
 	@Expose
-	private List<ColorBar> colorbars;
+	private List<Colorbar> colorbars;
 	
 	@OneToMany
 	@Expose
@@ -57,12 +57,12 @@ public class Account extends Model {
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getAccountUID() {
-		return accountUID;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setAccountUID(String accountUID) {
-		this.accountUID = accountUID;
+	public void setUid(String accountUID) {
+		this.uid = accountUID;
 	}
 
 	public String getEmail() {
@@ -113,11 +113,11 @@ public class Account extends Model {
 		this.datasets = datasets;
 	}
 
-	public List<ColorBar> getColorbars() {
+	public List<Colorbar> getColorbars() {
 		return colorbars;
 	}
 
-	public void setColorbars(List<ColorBar> colorbars) {
+	public void setColorbars(List<Colorbar> colorbars) {
 		this.colorbars = colorbars;
 	}
 

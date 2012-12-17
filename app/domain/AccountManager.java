@@ -37,7 +37,7 @@ public class AccountManager {
 		Account account = new Account();
 		account.setEmail(email);
 		account.setName(name);
-		account.setAccountUID(Utils.generateUID());
+		account.setUid(Utils.generateUID());
 	
 	    Ebean.save(account);  
 		

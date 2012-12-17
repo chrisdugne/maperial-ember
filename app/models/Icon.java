@@ -15,7 +15,7 @@ public class Icon extends Model{
 
 	@Id
 	@Expose
-	private String iconUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -35,12 +35,12 @@ public class Icon extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getIconUID() {
-		return iconUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setIconUID(String iconUID) {
-		this.iconUID = iconUID;
+	public void setUid(String iconUID) {
+		this.uid = iconUID;
 	}
 	
 	public String getName() {
