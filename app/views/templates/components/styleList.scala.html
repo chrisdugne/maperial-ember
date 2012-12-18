@@ -35,6 +35,9 @@
 				{{#each style in styles}}
 				  <tr class="template-download">
 				      <td class="name"><p class="filename">{{style.name}}</p></td>
+				      {{#with style}}
+				      <td>{{thumb uid}}</td>
+				      {{/with}}
 				  </tr>
 				{{/each}}
 			</tbody>

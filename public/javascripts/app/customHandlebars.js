@@ -29,3 +29,11 @@ Ember.Handlebars.registerHelper('isCurrentView',
 			return options.fn(this);
 	}
 );
+
+Ember.Handlebars.registerHelper('thumb', 
+	function(property, options) 
+	{
+		var styleUID = Ember.Handlebars.get(this, property, options);
+		return new Handlebars.SafeString("<img src=\""+Utils.thumbURL(styleUID)+"\"></img>");
+	}
+);

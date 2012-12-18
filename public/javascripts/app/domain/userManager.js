@@ -22,6 +22,8 @@ $.ajax({
 		window.Webapp.publicData.set("colorbars", publicData.colorbars);
 		window.Webapp.publicData.set("fonts", publicData.fonts);
 		window.Webapp.publicData.set("icons", publicData.icons);
+		
+		Utils.thumbURL(window.Webapp.publicData.styles[0].uid);
 	}
 });
 

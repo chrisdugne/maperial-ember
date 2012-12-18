@@ -112,3 +112,18 @@ Utils.generateGuid = function()
 }
 
 //----------------------------------------------------------------------------------------//
+
+Utils.thumbURL = function(styleUID) 
+{
+	var end = styleUID.substring(styleUID.length-4);
+	var folders = end.split("");
+	
+	var url = Globals.mapServer + "/thumbs";
+	folders.forEach(function(folder) {
+		url += "/" + folder;
+	});
+	
+	return url + "/" + styleUID + ".png";
+}
+
+//----------------------------------------------------------------------------------------//
