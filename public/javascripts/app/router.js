@@ -78,6 +78,7 @@
 		        	connectOutlets: function(router) {
 		        		var context = new Object();
 		        		context.styles = window.Webapp.user.styles;
+		    			context["currentView"] = "myStyles";
 		        		router.get('styleEditorController').connectOutlet("myStyles", context);
 		        	}
 		        }),
@@ -86,12 +87,15 @@
 	        		connectOutlets: function(router) {
 	        			var context = new Object();
 	        			context.styles = window.Webapp.publicData.styles;
+	        			context["currentView"] = "publicStyles";
 	        			router.get('styleEditorController').connectOutlet("publicStyles", context);
 	        		}
 		        }),
-				openStyleSelectionWindow: function(){app.StyleEditorController.openStyleSelectionWindow()},
-				showMyStyles: Ember.Route.transitionTo('styleEditor.myStyles.index'),
-				showPublicStyles: Ember.Route.transitionTo('styleEditor.publicStyles.index')
+		        showMyStyles: function(router){
+		        	app.StyleEditorController.openStyleSelectionWindow();
+		        	router.transitionTo('styleEditor.myStyles');
+		        },
+		        showPublicStyles: Ember.Route.transitionTo('styleEditor.publicStyles')
 			}),
 			
 			//-------------------//
@@ -190,6 +194,7 @@
 				context["publicData"] = window.Webapp.publicData;	
 			}
 
+			context["currentView"] = view;
 			router.get('applicationController').connectOutlet(view, context);
 		}
 	}

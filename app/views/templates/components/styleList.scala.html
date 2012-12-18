@@ -1,4 +1,16 @@
-List
+
+	
+	Plop
+{{#isCurrentView myStyles}}
+	My styles
+	<div class="btn-large btn-primary" {{action showPublicStyles}}>Show public styles</div>
+{{/isCurrentView}}
+
+{{#isCurrentView publicStyles}}
+	Public styles
+	<div class="btn-large btn-primary" {{action showMyStyles}}>Show my styles</div>
+{{/isCurrentView}}
+
 <table role="presentation" class="table table-striped">
   	<tbody class="files">
 		{{#each style in styles}}
