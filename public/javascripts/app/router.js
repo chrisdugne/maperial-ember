@@ -70,10 +70,28 @@
 			
 			styleEditor: Ember.Route.extend({
 				route: '/styleEditor',
-				connectOutlets: function(router){
+	            connectOutlets: function(router) {
 					Router.openView(router, "styleEditor");
-				},
-				openStyleSelectionWindow: function(){app.StyleEditorController.openStyleSelectionWindow()}
+	            },
+		        myStyles: Ember.Route.extend({
+		        	route: '/myStyles',
+		        	connectOutlets: function(router) {
+		        		var context = new Object();
+		        		context.styles = window.Webapp.user.styles;
+		        		router.get('styleEditorController').connectOutlet("myStyles", context);
+		        	}
+		        }),
+		        publicStyles: Ember.Route.extend({
+		        	route: '/publicStyles',
+	        		connectOutlets: function(router) {
+	        			var context = new Object();
+	        			context.styles = window.Webapp.publicData.styles;
+	        			router.get('styleEditorController').connectOutlet("publicStyles", context);
+	        		}
+		        }),
+				openStyleSelectionWindow: function(){app.StyleEditorController.openStyleSelectionWindow()},
+				showMyStyles: Ember.Route.transitionTo('styleEditor.myStyles.index'),
+				showPublicStyles: Ember.Route.transitionTo('styleEditor.publicStyles.index')
 			}),
 			
 			//-------------------//
@@ -175,7 +193,7 @@
 			router.get('applicationController').connectOutlet(view, context);
 		}
 	}
-
+	
 	//-----------------------------------------------------------------------------------------//
 		
 	app.Router = Router;
