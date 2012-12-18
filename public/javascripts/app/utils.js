@@ -112,10 +112,3 @@ Utils.generateGuid = function()
 }
 
 //----------------------------------------------------------------------------------------//
-
-// raccourci de console.log pour fast debug 
-// = pas dans Utils
-function p(message) 
-{
-	console.log(message);
-}

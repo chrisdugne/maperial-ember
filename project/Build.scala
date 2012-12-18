@@ -22,8 +22,8 @@ object ApplicationBuild extends Build {
 
     val main = play.Project(appName, appVersion, appDependencies).settings(
       lessEntryPoints <<= baseDirectory(customLessEntryPoints),
+//      lessEntryPoints := Nil,
       resolvers += "Maven repository" at "http://mvnrepository.com/"
     )
 
- 
 }

@@ -5,32 +5,53 @@
 this.UserManager = {};
 
 // -------------------------------------------//
+// init getPublicData
 
-UserManager.getGoogleUser = function()
+$.ajax({  
+	type: "POST",  
+	url: "/getPublicData",
+	dataType: "text",
+	success: function (data, textStatus, jqXHR)
+	{
+		console.log("public data : " + data);
+		var publicData = $.parseJSON(data);
+
+		window.Webapp.publicData.set("maps", publicData.maps);
+		window.Webapp.publicData.set("styles", publicData.styles);
+		window.Webapp.publicData.set("datasets", publicData.datasets);
+		window.Webapp.publicData.set("colorbars", publicData.colorbars);
+		window.Webapp.publicData.set("fonts", publicData.fonts);
+		window.Webapp.publicData.set("icons", publicData.icons);
+	}
+});
+
+// -------------------------------------------//
+
+UserManager.getAccount = function()
 {
 	var params = new Object();
 	params["user"] = window.Webapp.user;
 	
 	$.ajax({  
 	    type: "POST",  
-	    url: "/getGoogleUser",
+	    url: "/getAccount",
 	    data: JSON.stringify(params),  
 	    contentType: "application/json; charset=utf-8",
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	p("user data : " + data);
-	    	var user = $.parseJSON(data);
+	    	console.log("user data : " + data);
+	    	var account = $.parseJSON(data);
 	    	
-	    	window.Webapp.user.userUID = user.userUID;
-	    	window.Webapp.user.email = user.email;
-	    	window.Webapp.user.name = user.name;
-	    	window.Webapp.user.maps = user.maps;
-	    	window.Webapp.user.styles = user.styles;
-	    	window.Webapp.user.datasets = user.datasets;
-	    	window.Webapp.user.colorbars = user.colorbars;
-	    	window.Webapp.user.fonts = user.fonts;
-	    	window.Webapp.user.icons = user.icons;
+	    	window.Webapp.user.set("uid", account.uid);
+	    	window.Webapp.user.set("email", account.email);
+	    	window.Webapp.user.set("name", account.name);
+	    	window.Webapp.user.set("maps", account.maps);
+	    	window.Webapp.user.set("styles", account.styles);
+	    	window.Webapp.user.set("datasets", account.datasets);
+	    	window.Webapp.user.set("colorbars", account.colorbars);
+	    	window.Webapp.user.set("fonts", account.fonts);
+	    	window.Webapp.user.set("icons", account.icons);
 		}
 	});
 }

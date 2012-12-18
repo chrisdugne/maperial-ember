@@ -4,19 +4,20 @@
 
 	var ColorbarEditorController = Ember.ObjectController.extend({});
 
+	//------------------------------------------------//
+
+	ColorbarEditorController.renderUI = function()
+	{
+
+	}
+
+	ColorbarEditorController.cleanUI = function()
+	{
+		
+	}
+
+	//------------------------------------------------//
+	
 	app.ColorbarEditorController = ColorbarEditorController;
 
 })( window.Webapp );
-
-
-//--------------------------------------------------------------------------//
-
-function renderColorbarEditorUI()
-{
-	
-}
-
-function cleanColorbarEditorUI()
-{
-	
-}

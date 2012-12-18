@@ -4,10 +4,10 @@
 	var Test2View = Ember.View.extend({
 		templateName: 'test2',
 		didInsertElement: function(){
-			renderTest2UI();
+			app.Test2Controller.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanTest2UI();
+			app.Test2Controller.cleanUI();
 		}
 	});
 	

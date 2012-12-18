@@ -3,21 +3,19 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.map")
 public class Map extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Expose
 	@Id
-	private String mapUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -29,7 +27,7 @@ public class Map extends Model{
 
 	@Expose
 	@ManyToOne
-	private ColorBar colorbar;
+	private Colorbar colorbar;
 
 	@Expose
 	@ManyToOne
@@ -38,7 +36,7 @@ public class Map extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
-	private User user;
+	private Account account;
 
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -47,12 +45,12 @@ public class Map extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getMapUID() {
-		return mapUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setMapUID(String mapUID) {
-		this.mapUID = mapUID;
+	public void setUid(String mapUID) {
+		this.uid = mapUID;
 	}
 	
 	public String getName() {
@@ -71,11 +69,11 @@ public class Map extends Model{
 		this.style = style;
 	}
 
-	public ColorBar getColorbar() {
+	public Colorbar getColorbar() {
 		return colorbar;
 	}
 
-	public void setColorbar(ColorBar colorbar) {
+	public void setColorbar(Colorbar colorbar) {
 		this.colorbar = colorbar;
 	}
 
@@ -85,6 +83,14 @@ public class Map extends Model{
 
 	public void setDataset(Dataset dataset) {
 		this.dataset = dataset;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	// -----------------------------------------------------------------------------------------------//

@@ -8,12 +8,12 @@
 	</div>
 </div>
 
-{{#if loggedIn}}
+{{#if user.loggedIn}}
 	<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
-	<div id="userDisplay" class="googleUser">{{email}}</div>
+	<div id="userDisplay" class="googleUser">{{user.email}}</div>
 {{else}}
 	<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary headerButton">Try</div>
-	<div id="signinButton" class="btn-large btn-primary">Sign in</div>
+	<div id="signinButton" {{action openLoginWindow}} class="btn-large btn-primary">Sign in</div>
 {{/if}}
 
 

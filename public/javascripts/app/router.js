@@ -5,21 +5,24 @@
 		enableLogging: true,
 		root: Ember.Route.extend({
 			
-			//-------------------//
+			//-------------------------------------------------------//
 			// Common actions to all views
 			
 			openHome: Ember.Route.transitionTo('home'),
 			openDashboard: Ember.Route.transitionTo('dashboard'),
 			
+			//-------------------------------------------------------//
+			// Routes used when calling Ember.Route.transitionTo
 			//-------------------//
 			// Home
 			
 			home: Ember.Route.extend({
 				route: '/',
 				connectOutlets: function(router){
-					router.get('applicationController').connectOutlet('home', window.Webapp.user);
+					Router.openView(router, "home");
 				},
-				openTryscreen: Ember.Route.transitionTo('tryscreen')
+				openTryscreen: Ember.Route.transitionTo('tryscreen'),
+				openLoginWindow: function(){app.HomeController.openLoginWindow()}
 			}),
 			
 			//-------------------//
@@ -28,8 +31,9 @@
 			dashboard: Ember.Route.extend({
 				route: '/dashboard',
 				connectOutlets: function(router){
-					openView(router, "dashboard", window.Webapp.user);
+					Router.openView(router, "dashboard");
 				},
+				// pages
 				newMap: Ember.Route.transitionTo('mapCreation'),
 				newStyle: Ember.Route.transitionTo('styleEditor'),
 				newColorbar: Ember.Route.transitionTo('colorbarEditor'),
@@ -46,8 +50,9 @@
 			tryscreen: Ember.Route.extend({
 				route: '/tryscreen',
 				connectOutlets: function(router){
-					openView(router, "tryscreen", window.Webapp.user);
-				} 
+					Router.openView(router, "tryscreen", window.Webapp.user);
+				},
+				openLoginWindow: function(){app.HomeController.openLoginWindow()}
 			}),
 			
 			//-------------------//
@@ -56,7 +61,7 @@
 			mapCreation: Ember.Route.extend({
 				route: '/mapCreation',
 				connectOutlets: function(router){
-					openView(router, "mapCreation", window.Webapp.user);
+					Router.openView(router, "mapCreation");
 				}
 			}),
 			
@@ -66,8 +71,9 @@
 			styleEditor: Ember.Route.extend({
 				route: '/styleEditor',
 				connectOutlets: function(router){
-					openView(router, "styleEditor", window.Webapp.user);
-				}
+					Router.openView(router, "styleEditor");
+				},
+				openStyleSelectionWindow: function(){app.StyleEditorController.openStyleSelectionWindow()}
 			}),
 			
 			//-------------------//
@@ -76,7 +82,7 @@
 			colorbarEditor: Ember.Route.extend({
 				route: '/colorbarEditor',
 				connectOutlets: function(router){
-					openView(router, "colorbarEditor", window.Webapp.user);
+					Router.openView(router, "colorbarEditor");
 				}
 			}),
 			
@@ -86,12 +92,13 @@
 			datasetEditor: Ember.Route.extend({
 				route: '/datasetEditor',
 				connectOutlets: function(router){
-					openView(router, "datasetEditor", window.Webapp.user);
+					Router.openView(router, "datasetEditor", window.Webapp.user);
 				},
 				deleteDataset: function(router, event){
 					var dataset = event.context;
 					DatasetManager.deleteDataset(dataset);
-				}
+				},
+				openUploadWindow: function(){app.DatasetEditorController.openUploadWindow()}
 				
 			}),
 			
@@ -101,7 +108,7 @@
 			fontsEditor: Ember.Route.extend({
 				route: '/fontsEditor',
 				connectOutlets: function(router){
-					openView(router, "fontsEditor", window.Webapp.user);
+					Router.openView(router, "fontsEditor");
 				}
 			}),
 			
@@ -111,7 +118,7 @@
 			iconsEditor: Ember.Route.extend({
 				route: '/iconsEditor',
 				connectOutlets: function(router){
-					openView(router, "iconsEditor", window.Webapp.user);
+					Router.openView(router, "iconsEditor");
 				}
 			}),
 
@@ -124,7 +131,7 @@
 			test1: Ember.Route.extend({
 				route: '/test1',
 				connectOutlets: function(router){
-					openView(router, "test1", window.Webapp.user);
+					Router.openView(router, "test1", window.Webapp.user);
 				}
 			}),
 			
@@ -134,20 +141,45 @@
 			test2: Ember.Route.extend({
 				route: '/test2',
 				connectOutlets: function(router){
-					openView(router, "test2", window.Webapp.user);
+					Router.openView(router, "test2");
 				}
-			})
+			}),
+			
 		})
 	})
 	
+	//-----------------------------------------------------------------------------------------//
+	
+	/*
+	 * the main purpose of Router.openView is to check if user.isLoggedIn
+	 * the second purpose is to create a full context, when no specific context is required
+	 */
+	Router.openView = function (router, view, context)
+	{
+		if(view != "home" && view != "tryscreen" && !window.Webapp.user.loggedIn)
+		{
+			console.log("Not connected ! Redirected to the home page");
+			router.transitionTo('home');
+		}
+		else{
+			if(context == undefined)
+			{
+				// either we need a specific context = not undefined
+				// or we need everything = what happens below 
+				// or we need nothing = not matter if something is in the context
+				context = new Object();
+				context["user"] = window.Webapp.user;
+				context["publicData"] = window.Webapp.publicData;	
+			}
+
+			router.get('applicationController').connectOutlet(view, context);
+		}
+	}
+
+	//-----------------------------------------------------------------------------------------//
+		
 	app.Router = Router;
+
+	//-----------------------------------------------------------------------------------------//
+	
 })( window.Webapp );
-
-
-function openView(router, view, context)
-{
-	if(view != "tryscreen" && !window.Webapp.user.loggedIn)
-		router.transitionTo("home");
-	else
-		router.get('applicationController').connectOutlet(view, context);
-}

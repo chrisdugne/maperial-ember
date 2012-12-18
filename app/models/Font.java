@@ -3,21 +3,19 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.font")
 public class Font extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String fontUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -28,7 +26,7 @@ public class Font extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
-	private User user;
+	private Account account; 
 	
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -37,12 +35,12 @@ public class Font extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getFontUID() {
-		return fontUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setFontUID(String fontUID) {
-		this.fontUID = fontUID;
+	public void setUid(String fontUID) {
+		this.uid = fontUID;
 	}
 	
 	public String getName() {
@@ -59,6 +57,14 @@ public class Font extends Model{
 
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	// -----------------------------------------------------------------------------------------------//

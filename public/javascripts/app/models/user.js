@@ -2,15 +2,15 @@
 	'use strict';
 
 	var User = Ember.Object.extend({
-		userUID: "",
+		uid: "",
 		email: "",
 		name: "",
-		maps: [],
-		styles: [],
+		maps: Ember.Array,
+		styles: Ember.Array,
 		datasets: Ember.Array,
-		colorbars: [],
-		fonts: [],
-		icons: [],
+		colorbars: Ember.Array,
+		fonts: Ember.Array,
+		icons: Ember.Array,
 		loggedIn: false
 	});
 	

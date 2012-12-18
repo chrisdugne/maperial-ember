@@ -6,10 +6,10 @@
 	var TryscreenView = Ember.View.extend({
 		templateName: 'tryscreen',
 		didInsertElement: function(){
-			renderTryscreenUI();
+			app.TryscreenController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanTryscreenUI();
+			app.TryscreenController.cleanUI();
 		}
 	});
 	

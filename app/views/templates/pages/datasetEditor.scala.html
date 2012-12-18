@@ -10,11 +10,11 @@
 		
 		<div class="row">
 			<div class="span3 offset1">
-				You have uploaded {{datasets.length}} datasets.
+				You have uploaded {{user.datasets.length}} datasets.
 			</div>
 	
 			<div class="span3 offset8">
-				<div id="uploadDatasetButton" class="btn-large btn-primary">Upload datasets</div>
+				<div id="uploadDatasetButton" {{action openUploadWindow}} class="btn-large btn-primary">Upload datasets</div>
 			</div>
 		</div>
 
@@ -23,9 +23,9 @@
 		<div class="span12 offset2">
 		    <table role="presentation" class="table table-striped">
 	        	<tbody class="files">
-		    		{{#each dataset in datasets}}
+		    		{{#each dataset in user.datasets}}
 					    <tr class="template-download">
-					        <td class="name"><p class="filename">{{dataset.name}}</p></td>
+					        <td class="name"><p class="longfilename">{{dataset.name}}</p></td>
 						    {{#with dataset}}
 					        <td class="size"><span>{{fileSize size}}</span></td>
 					        <td><span>{{formatDate uploadTime}}</span></td>

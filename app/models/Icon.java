@@ -3,21 +3,19 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.icon")
 public class Icon extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String iconUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -28,7 +26,7 @@ public class Icon extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
-	private User user;
+	private Account account;
 	
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -37,12 +35,12 @@ public class Icon extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getIconUID() {
-		return iconUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setIconUID(String iconUID) {
-		this.iconUID = iconUID;
+	public void setUid(String iconUID) {
+		this.uid = iconUID;
 	}
 	
 	public String getName() {
@@ -59,6 +57,14 @@ public class Icon extends Model{
 
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	// -----------------------------------------------------------------------------------------------//

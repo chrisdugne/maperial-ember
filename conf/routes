@@ -16,10 +16,16 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 #---------------------------------------------------------------------------
 #   UserService 
 
-POST /getGoogleUser				controllers.UserService.getGoogleUser()
+POST /getPublicData					controllers.AccountService.getPublicData()
+POST /getAccount					controllers.AccountService.getAccount()
 
 #---------------------------------------------------------------------------
 #   DatasetService 
 
 POST /addDataset					controllers.DatasetService.addDataset()
 POST /removeDataset					controllers.DatasetService.removeDataset()
+
+#---------------------------------------------------------------------------
+#   MapnifyAuth
+ 
+GET  /mapnifyCode					authentication.MapnifyOAuth2.receivedCode()

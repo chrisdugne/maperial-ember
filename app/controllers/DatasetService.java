@@ -11,7 +11,7 @@ import play.mvc.Result;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import domain.UserManager;
+import domain.AccountManager;
 
 public class DatasetService extends Application 
 {
@@ -29,19 +29,19 @@ public class DatasetService extends Application
 		
 		Dataset dataset = new Dataset();
 
-		String userUID = userJson.get("userUID").asText();
-		String datasetUID = datasetJson.get("datasetUID").asText();
+		String accountUID = userJson.get("uid").asText();
+		String datasetUID = datasetJson.get("uid").asText();
 		String datasetName = datasetJson.get("name").asText();
 		Long datasetSize = datasetJson.get("size").asLong();
 		
-		dataset.setDatasetUID(datasetUID);
+		dataset.setUid(datasetUID);
 		dataset.setName(datasetName);
 		dataset.setSize(datasetSize);
 		dataset.setUploadTime(new Date().getTime());
 
 		//----------//
 
-		UserManager.addDataset(userUID, dataset);
+		AccountManager.addDataset(accountUID, dataset);
 		
 		//----------//
 		
@@ -62,11 +62,11 @@ public class DatasetService extends Application
 		
 		//----------//
 
-		String datasetUID = datasetJson.get("datasetUID").asText();
+		String datasetUID = datasetJson.get("uid").asText();
 		
 		//----------//
 		
-		UserManager.removeDataset(datasetUID);
+		AccountManager.removeDataset(datasetUID);
 		
 		//----------//
 		

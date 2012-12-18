@@ -3,21 +3,19 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.colorbar")
-public class ColorBar extends Model{
+public class Colorbar extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String colorBarUID;
+	private String uid;
 
 	@Expose
 	private String name;
@@ -28,21 +26,21 @@ public class ColorBar extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
-	private User user;
+	private Account account;
 	
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	
-	public static Model.Finder<String, ColorBar> find = new Finder<String, ColorBar>(String.class, ColorBar.class);
+	public static Model.Finder<String, Colorbar> find = new Finder<String, Colorbar>(String.class, Colorbar.class);
 
 	// -----------------------------------------------------------------------------------------------//
 
-	public String getColorBarUID() {
-		return colorBarUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setColorBarUID(String colorBarUID) {
-		this.colorBarUID = colorBarUID;
+	public void setUid(String colorBarUID) {
+		this.uid = colorBarUID;
 	}
 
 	public String getName() {
@@ -59,6 +57,14 @@ public class ColorBar extends Model{
 
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	// -----------------------------------------------------------------------------------------------//

@@ -4,10 +4,10 @@
 	var DatasetEditorView = Ember.View.extend({
 		templateName: 'datasetEditor',
 		didInsertElement: function(){
-			renderDatasetUI();
+			app.DatasetEditorController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanDatasetUI();
+			app.DatasetEditorController.cleanUI();
 		}
 	});
 	

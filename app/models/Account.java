@@ -5,21 +5,19 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.user")
-public class User extends Model { 
+public class Account extends Model { 
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String userUID;
+	private String uid;
 	
 	@Expose
 	private String email;
@@ -42,7 +40,7 @@ public class User extends Model {
 	
 	@OneToMany
 	@Expose
-	private List<ColorBar> colorbars;
+	private List<Colorbar> colorbars;
 	
 	@OneToMany
 	@Expose
@@ -55,16 +53,16 @@ public class User extends Model {
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
 	
-	public static Model.Finder<String, User> find = new Finder<String, User>(String.class, User.class);
+	public static Model.Finder<String, Account> find = new Finder<String, Account>(String.class, Account.class);
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getUserUID() {
-		return userUID;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setUserUID(String userUID) {
-		this.userUID = userUID;
+	public void setUid(String accountUID) {
+		this.uid = accountUID;
 	}
 
 	public String getEmail() {
@@ -115,11 +113,11 @@ public class User extends Model {
 		this.datasets = datasets;
 	}
 
-	public List<ColorBar> getColorbars() {
+	public List<Colorbar> getColorbars() {
 		return colorbars;
 	}
 
-	public void setColorbars(List<ColorBar> colorbars) {
+	public void setColorbars(List<Colorbar> colorbars) {
 		this.colorbars = colorbars;
 	}
 
@@ -140,7 +138,7 @@ public class User extends Model {
 	}
 
 	// -----------------------------------------------------------------------------------------------//
-	
+
 	private static final long serialVersionUID = -8425213041824976820L;
 	
 }

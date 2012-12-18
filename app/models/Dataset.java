@@ -3,21 +3,19 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.google.gson.annotations.Expose;
 
 import play.db.ebean.Model;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
-@Table(name="public.dataset")
 public class Dataset extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 
 	@Id
 	@Expose
-	private String datasetUID;
+	private String uid;
 	
 	@Expose
 	private String name;
@@ -31,7 +29,7 @@ public class Dataset extends Model{
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
-	private User user;
+	private Account account;
 	
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -40,12 +38,12 @@ public class Dataset extends Model{
 
 	// -----------------------------------------------------------------------------------------------//
 	
-	public String getDatasetUID() {
-		return datasetUID;
+	public String getUid() {
+		return uid;
 	}
 	
-	public void setDatasetUID(String datasetUID) {
-		this.datasetUID = datasetUID;
+	public void setUid(String datasetUID) {
+		this.uid = datasetUID;
 	}
 	
 	public String getName() {
@@ -64,12 +62,12 @@ public class Dataset extends Model{
 		this.uploadTime = uploadTime;
 	}
 	
-	public User getUser() {
-		return user;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	public Long getSize() {

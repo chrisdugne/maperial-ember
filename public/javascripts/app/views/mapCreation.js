@@ -4,10 +4,10 @@
 	var MapCreationView = Ember.View.extend({
 		templateName: 'mapCreation',
 		didInsertElement: function(){
-			renderMapCreationUI();
+			app.MapCreationController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanMapCreationUI();
+			app.MapCreationController.cleanUI();
 		}
 	});
 	
