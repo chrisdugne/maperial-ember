@@ -76,26 +76,20 @@
 		        myStyles: Ember.Route.extend({
 		        	route: '/myStyles',
 		        	connectOutlets: function(router) {
-		        		var context = new Object();
-		        		context.styles = window.Webapp.user.styles;
-		    			context["currentView"] = "myStyles";
-		        		router.get('styleEditorController').connectOutlet("myStyles", context);
+		        		Router.openComponent(router, "styleEditorController", "myStyles", "styles", window.Webapp.user.styles);
 		        	}
 		        }),
 		        publicStyles: Ember.Route.extend({
 		        	route: '/publicStyles',
 	        		connectOutlets: function(router) {
-	        			var context = new Object();
-	        			context.styles = window.Webapp.publicData.styles;
-	        			context["currentView"] = "publicStyles";
-	        			router.get('styleEditorController').connectOutlet("publicStyles", context);
+	        			Router.openComponent(router, "styleEditorController", "publicStyles", "styles", window.Webapp.publicData.styles);
 	        		}
 		        }),
-		        showMyStyles: function(router){
+		        showPublicStyles: function(router){
 		        	app.StyleEditorController.openStyleSelectionWindow();
-		        	router.transitionTo('styleEditor.myStyles');
+		        	router.transitionTo('styleEditor.publicStyles');
 		        },
-		        showPublicStyles: Ember.Route.transitionTo('styleEditor.publicStyles')
+		        showMyStyles: Ember.Route.transitionTo('styleEditor.myStyles')
 			}),
 			
 			//-------------------//
@@ -172,7 +166,7 @@
 	
 	//-----------------------------------------------------------------------------------------//
 	
-	/*
+	/**
 	 * the main purpose of Router.openView is to check if user.isLoggedIn
 	 * the second purpose is to create a full context, when no specific context is required
 	 */
@@ -198,7 +192,20 @@
 			router.get('applicationController').connectOutlet(view, context);
 		}
 	}
-	
+
+	//-----------------------------------------------------------------------------------------//
+
+	/**
+	 * Load a component with a specific context
+	 */
+	Router.openComponent = function (router, controller, subView, contextProperty, data)
+	{
+		var context = new Object();
+		context[contextProperty] = data;
+		context["currentView"] = subView;
+		router.get(controller).connectOutlet(subView, context);
+	}
+
 	//-----------------------------------------------------------------------------------------//
 		
 	app.Router = Router;
