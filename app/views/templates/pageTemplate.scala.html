@@ -1,11 +1,12 @@
-@(templateName:String)(content:Html)
+@(templateName:String, commonHeaderButtons:Boolean = true)(content:Html)
 
 @import views.html.templates.header;
 
 <!-- ------------------------------------------------------------------- -->
 
 <script type="text/x-handlebars" data-template-name="@templateName">
-	@header()
+	@header(commonHeaderButtons)
+
 	@content
 </script>
 

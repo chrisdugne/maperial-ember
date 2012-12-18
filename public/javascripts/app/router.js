@@ -50,7 +50,7 @@
 			tryscreen: Ember.Route.extend({
 				route: '/tryscreen',
 				connectOutlets: function(router){
-					Router.openView(router, "tryscreen", window.Webapp.user);
+					Router.openView(router, "tryscreen");
 				},
 				openLoginWindow: function(){app.HomeController.openLoginWindow()}
 			}),
@@ -92,7 +92,7 @@
 			datasetEditor: Ember.Route.extend({
 				route: '/datasetEditor',
 				connectOutlets: function(router){
-					Router.openView(router, "datasetEditor", window.Webapp.user);
+					Router.openView(router, "datasetEditor");
 				},
 				deleteDataset: function(router, event){
 					var dataset = event.context;
@@ -131,7 +131,7 @@
 			test1: Ember.Route.extend({
 				route: '/test1',
 				connectOutlets: function(router){
-					Router.openView(router, "test1", window.Webapp.user);
+					Router.openView(router, "test1");
 				}
 			}),
 			
