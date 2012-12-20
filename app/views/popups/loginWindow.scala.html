@@ -13,17 +13,10 @@
 	<div id="lightbox-content" style="max-height: 553px;">
 		<div class="lightbox-content-block">
 		
-			<a id="lb-mapnify-login" class="btn share-btn third-party google last" onclick="$(this).hide();MapnifyAuth.authorize()">
+			<a id="lb-mapnify-login" class="btn share-btn third-party google last" data-dismiss="modal" onclick="MapnifyAuth.authorize()">
 				<i class="icon icon-star-white-active"></i>
 				<span class="text">Mapnify</span>
 			</a>
-
-			<a id="lb-mapnify-login" class="btn share-btn third-party mapnify last" data-dismiss="modal" onclick="MapnifyAuth.dummyAuthDev()">
-				<i class="icon icon-star-white-active"></i>
-				<span class="text">Shortcut</span>
-			</a>
-
-			<iframe id="mapnifyAuthFrame" class="hide"/>
 
 	    </div>
     </div>

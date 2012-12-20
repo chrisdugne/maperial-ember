@@ -9,18 +9,14 @@
         <div class="span3">
 			{{#isCurrentView myStyles}}
 				<h1>My styles</h1>
-			{{/isCurrentView}}
-			
-			{{#isCurrentView publicStyles}}
+			{{else}}			
 				<h1>Public styles</h1>
 			{{/isCurrentView}}
            </div>
         <div class="span2 offset1">
 			{{#isCurrentView myStyles}}
 				<div class="btn-small btn-primary" {{action showPublicStyles}}>Show public styles</div>
-			{{/isCurrentView}}
-			
-			{{#isCurrentView publicStyles}}
+			{{else}}			
 				<div class="btn-small btn-primary" {{action showMyStyles}}>Show my styles</div>
 			{{/isCurrentView}}
            </div>
@@ -55,14 +51,12 @@
 	</div>
 	
     <hr class="soften">
-    
-	<div class="span3 offset2 btn-large btn-primary">Continue with this preset</div>
-	<br/>
+
+	<div class="row">
+		<div class="span2 offset2">{{thumb controllerData.selectedStyle}}</div>
+	    {{buttonContinueWithStyle controllerData.selectedStyle}}
+	</div>    
 	
-    <div class="span2 name"><p class="filename">username : 	{{user.name}}</p></div>
-	<div class="span2 offset2">{{controllerData.selectedStyle}}</div>
-	
-	<div class="span2 offset2">{{thumb controllerData.selectedStyle}}</div>
 </div>
 	
 	

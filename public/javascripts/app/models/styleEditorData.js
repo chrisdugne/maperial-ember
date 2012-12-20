@@ -2,7 +2,7 @@
 	'use strict';
 
 	var StyleEditorData = Ember.Object.extend({
-		selectedStyle: "" // styleUID
+		selectedStyle: null // styleUID
 	});
 	
 	app.styleEditorData = StyleEditorData.create();

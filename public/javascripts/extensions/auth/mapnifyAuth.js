@@ -6,25 +6,26 @@ this.MapnifyAuth = {};
 
 // -------------------------------------------//
 
-// Logging in through the init process (onload = GoogleAuthOnload)
-// <script src="https://apis.google.com/js/client.js?onload=GoogleAuthOnload"></script>
-//GoogleAuthOnload = function(app) 
-//{
-//	gapi.client.setApiKey(Globals.apiKey);
-//	window.setTimeout(GoogleAuth.checkGoogleAuth,1);
-//}
-
-// -------------------------------------------//
-
 MapnifyAuth.authorize = function() 
 {
-	var authorizeURL = "http://map.x-ray.fr:8010/oauth2/authorize"
-		+ "?redirect_uri=" + Globals.APP_URL + "/mapnifyCode"
-		+ "&client_id=93efb0403eb7080ad68b7b1b8aab90"
-		+ "&response_type=code";
+	var authorizeURL = "http://map.x-ray.fr:8082/user/auth"
+		+ "?redirect=" + Globals.APP_URL + "/mapnifyAuthToken";
 
-	$("#mapnifyAuthFrame").show(200);
-	$("#mapnifyAuthFrame").attr('src', authorizeURL);
+	Utils.popup(authorizeURL, 'signin', 400, 150);
+}
+
+MapnifyAuth.badtoken = function () 
+{
+	console.log("badtoken !!!");
+}
+
+MapnifyAuth.tokenGranted = function (email) 
+{
+	//window.Webapp.user.set("name", "Bob Le Bobby");
+	window.Webapp.user.set("email", email);
+	window.Webapp.user.set("loggedIn", true);
+	
+	UserManager.getAccount();
 }
 
 // -------------------------------------------//

@@ -27,11 +27,13 @@ Ember.Handlebars.registerHelper('isCurrentView',
 	
 		if(view == currentView)
 			return options.fn(this);
+		else
+			return options.inverse(this);
 	}
 );
-
+		
 //---------------------------------------------------------------------------------------//
-
+		
 Ember.Handlebars.registerBoundHelper('thumb', 
 	function(styleUID, options) 
 	{

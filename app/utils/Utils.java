@@ -5,7 +5,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 public class Utils {
