@@ -76,13 +76,17 @@
 		        myStyles: Ember.Route.extend({
 		        	route: '/myStyles',
 		        	connectOutlets: function(router) {
-		        		Router.openComponent(router, "styleEditorController", "myStyles", "styles", window.Webapp.user.styles);
+	        			var customParams = [];
+	        			customParams["styles"] = window.Webapp.user.styles;
+		        		Router.openComponent(router, customParams);
 		        	}
 		        }),
 		        publicStyles: Ember.Route.extend({
 		        	route: '/publicStyles',
 	        		connectOutlets: function(router) {
-	        			Router.openComponent(router, "styleEditorController", "publicStyles", "styles", window.Webapp.publicData.styles);
+	        			var customParams = [];
+	        			customParams["styles"] = window.Webapp.publicData.styles;
+		        		Router.openComponent(router, customParams);
 	        		}
 		        }),
 		        showPublicStyles: function(router){
@@ -185,10 +189,15 @@
 				// or we need nothing = not matter if something is in the context
 				context = new Object();
 				context["user"] = window.Webapp.user;
-				context["publicData"] = window.Webapp.publicData;	
+				context["publicData"] = window.Webapp.publicData;
 			}
 
+			// binding controller's data
+			context[view+"Data"] = window.Webapp[view+"Data"];	
+			
+			// storing currentView
 			context["currentView"] = view;
+
 			router.get('applicationController').connectOutlet(view, context);
 		}
 	}
@@ -196,16 +205,53 @@
 	//-----------------------------------------------------------------------------------------//
 
 	/**
-	 * Load a component with a specific context
+	 * Load a component with the parentController as context
+	 * Append the customParams in the context
 	 */
-	Router.openComponent = function (router, controller, subView, contextProperty, data)
+	Router.openComponent = function (router, customParams)
 	{
+		var view = router.currentState.name;
+		var controller = Router.getMainController(router);
+		
+		// Router initializing
+		if(controller == null)
+			return;
+		
 		var context = new Object();
-		context[contextProperty] = data;
-		context["currentView"] = subView;
-		router.get(controller).connectOutlet(subView, context);
+		context["controllerData"] = window.Webapp[controller + "Data"];
+		context["currentView"] = view;
+		
+		for(var property in customParams) {
+			if (customParams.hasOwnProperty(property)) {
+				context[property] = customParams[property];
+			}
+		}
+		
+		router.get(controller+"Controller").connectOutlet(view, context);
 	}
 
+	//-----------------------------------------------------------------------------------------//
+
+	/**
+	 * Retrieve to top controller's name (the currentPage, just under 'root')
+	 * with this controllerName :
+	 * 	- we can reach the model "controllerNameData" to push in the context
+	 * 	- we can reach the actual Ember.Controller "controllerNameController" to connect the outlet
+	 */
+	Router.getMainController = function (router)
+	{
+		// Ember.Router initialisation calls Router.openComponent : nothing to do here
+		if(router.currentState.parentState.name == "root")
+			return null;
+		
+		var parentState = router.currentState.parentState;
+		
+		while(parentState.parentState.name != "root")
+			parentState = parentState.parentState;
+		
+		return parentState.name;
+	}
+			
 	//-----------------------------------------------------------------------------------------//
 		
 	app.Router = Router;
