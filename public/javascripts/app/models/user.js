@@ -5,12 +5,12 @@
 		uid: "",
 		email: "",
 		name: "",
-		maps: Ember.Array,
-		styles: Ember.Array,
-		datasets: Ember.Array,
-		colorbars: Ember.Array,
-		fonts: Ember.Array,
-		icons: Ember.Array,
+		maps: Ember.A([]),
+		styles: Ember.A([]),
+		datasets: Ember.A([]),
+		colorbars: Ember.A([]),
+		fonts: Ember.A([]),
+		icons: Ember.A([]),
 		loggedIn: false
 	});
 	

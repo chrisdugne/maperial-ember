@@ -50,7 +50,7 @@
 			tryscreen: Ember.Route.extend({
 				route: '/tryscreen',
 				connectOutlets: function(router){
-					Router.openView(router, "tryscreen", window.Webapp.user);
+					Router.openView(router, "tryscreen");
 				},
 				openLoginWindow: function(){app.HomeController.openLoginWindow()}
 			}),
@@ -70,10 +70,26 @@
 			
 			styleEditor: Ember.Route.extend({
 				route: '/styleEditor',
-				connectOutlets: function(router){
+	            connectOutlets: function(router) {
 					Router.openView(router, "styleEditor");
-				},
-				openStyleSelectionWindow: function(){app.StyleEditorController.openStyleSelectionWindow()}
+	            },
+		        myStyles: Ember.Route.extend({
+		        	route: '/myStyles',
+		        	connectOutlets: function(router) {
+		        		Router.openComponent(router, "styleEditorController", "myStyles", "styles", window.Webapp.user.styles);
+		        	}
+		        }),
+		        publicStyles: Ember.Route.extend({
+		        	route: '/publicStyles',
+	        		connectOutlets: function(router) {
+	        			Router.openComponent(router, "styleEditorController", "publicStyles", "styles", window.Webapp.publicData.styles);
+	        		}
+		        }),
+		        showPublicStyles: function(router){
+		        	app.StyleEditorController.openStyleSelectionWindow();
+		        	router.transitionTo('styleEditor.publicStyles');
+		        },
+		        showMyStyles: Ember.Route.transitionTo('styleEditor.myStyles')
 			}),
 			
 			//-------------------//
@@ -92,7 +108,7 @@
 			datasetEditor: Ember.Route.extend({
 				route: '/datasetEditor',
 				connectOutlets: function(router){
-					Router.openView(router, "datasetEditor", window.Webapp.user);
+					Router.openView(router, "datasetEditor");
 				},
 				deleteDataset: function(router, event){
 					var dataset = event.context;
@@ -131,7 +147,7 @@
 			test1: Ember.Route.extend({
 				route: '/test1',
 				connectOutlets: function(router){
-					Router.openView(router, "test1", window.Webapp.user);
+					Router.openView(router, "test1");
 				}
 			}),
 			
@@ -150,7 +166,7 @@
 	
 	//-----------------------------------------------------------------------------------------//
 	
-	/*
+	/**
 	 * the main purpose of Router.openView is to check if user.isLoggedIn
 	 * the second purpose is to create a full context, when no specific context is required
 	 */
@@ -172,8 +188,22 @@
 				context["publicData"] = window.Webapp.publicData;	
 			}
 
+			context["currentView"] = view;
 			router.get('applicationController').connectOutlet(view, context);
 		}
+	}
+
+	//-----------------------------------------------------------------------------------------//
+
+	/**
+	 * Load a component with a specific context
+	 */
+	Router.openComponent = function (router, controller, subView, contextProperty, data)
+	{
+		var context = new Object();
+		context[contextProperty] = data;
+		context["currentView"] = subView;
+		router.get(controller).connectOutlet(subView, context);
 	}
 
 	//-----------------------------------------------------------------------------------------//
