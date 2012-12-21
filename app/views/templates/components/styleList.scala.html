@@ -6,6 +6,9 @@
     
     <br/>
     <div class="row">
+    
+	<br/>
+	
         <div class="span3">
 			{{#isCurrentView myStyles}}
 				<h1>My styles</h1>
@@ -39,11 +42,10 @@
 	</div>
 	
     <hr class="soften">
-
 	
     {{isset controllerData.selectedStyle
       yes='<div class="span2">
-      			<img src="{Utils.thumbURL(data)}"></img>
+      			<img src="{Utils.thumbURL(context.controllerData.selectedStyle)}"></img>
 				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark">
 					<i class="icon icon-ex-white-outline"></i>
 				</a>

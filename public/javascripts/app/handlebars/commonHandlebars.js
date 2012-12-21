@@ -56,7 +56,7 @@ Ember.Handlebars.registerBoundHelper('thumb',
 /**
  * Display a specific html template whether the data is set or not 
  * This helper can evaluate Javascript functions. Use {function(params)}.
- * If the param is container.data, use {function(data)}
+ * To use the context params, do not forget to add 'context.' in front of your params.
  * 
  * 
  * Examples : 
@@ -65,19 +65,20 @@ Ember.Handlebars.registerBoundHelper('thumb',
       no='<div>Null</div>'}}
 
     {{isset controller.style
-      yes='<div><img src="{Utils.thumbURL(data)}"></img></div>'
+      yes='<div><img src="{Utils.thumbURL(context.controller.style)}"></img></div>'
       no='<div>select the sytle !</div>'}}
  */
 Ember.Handlebars.registerBoundHelper('isset', 
 	function(data, options) 
 	{
-		var source;
-		
-		if(data != undefined && data != null){
-			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, data));
+    	var currentContext = (options.contexts && options.contexts[0]) || this;
+    	var context = currentContext[Ember.META_KEY].values.content;
+
+    	if(data != undefined && data != null){
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
 		}
 		else{
-			return new Handlebars.SafeString(Utils.toHtml(options.hash.no, data));
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
 		}
 	}
 );

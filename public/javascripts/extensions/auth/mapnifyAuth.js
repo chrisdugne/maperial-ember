@@ -30,7 +30,7 @@ MapnifyAuth.tokenGranted = function (email)
 
 // -------------------------------------------//
 
-MapnifyAuth.dummyAuthDev = function()
+MapnifyAuth.dummy = function()
 {
 	window.Webapp.user.set("name", "Bob Le Bobby");
 	window.Webapp.user.set("email", "dummy@mapnify.fr");

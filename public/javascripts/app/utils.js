@@ -126,7 +126,7 @@ Utils.popup = function(url, title, width, height)
  * custom mustache evaluation : )
  * data is used for the functions-in-cutomMustache parameters 
  */
-Utils.toHtml = function(template, data)
+Utils.toHtml = function(template, context)
 {
 	while(template.indexOf("{") != -1)
 	{
