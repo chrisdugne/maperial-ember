@@ -1,5 +1,8 @@
 //---------------------------------------------------------------------------------------//
 
+/**
+ * transform 40303 ==> 40.30 KB
+ */
 Ember.Handlebars.registerBoundHelper('fileSize', 
 	function(size, options) {
 		return Utils.formatFileSize(size);
@@ -8,6 +11,9 @@ Ember.Handlebars.registerBoundHelper('fileSize',
 
 //---------------------------------------------------------------------------------------//
 
+/**
+ * transform 1356095267229 ==> 21/12/2012
+ */
 Ember.Handlebars.registerBoundHelper('formatDate', 
 	function(uploadTime, options) {
 		return Utils.formatDate(uploadTime);
@@ -15,14 +21,15 @@ Ember.Handlebars.registerBoundHelper('formatDate',
 );
 
 //---------------------------------------------------------------------------------------//
-/*
- * this = context
- * Route.openView puts the current view in "context.currentView"
- * 
+
+/**
+ * Display a specific html template whether the currentView is the wanted one or not
  */
 Ember.Handlebars.registerHelper('isCurrentView', 
 	function(view, options) 
 	{
+		// 'this' is the context
+		// Route.openView puts the current view in "context.currentView")
 		var currentView = Ember.Handlebars.get(this, "currentView", options);
 	
 		if(view == currentView)
@@ -33,7 +40,10 @@ Ember.Handlebars.registerHelper('isCurrentView',
 );
 		
 //---------------------------------------------------------------------------------------//
-		
+
+/**
+ * Display a style thumb from its styleUID 
+ */ 
 Ember.Handlebars.registerBoundHelper('thumb', 
 	function(styleUID, options) 
 	{
@@ -44,7 +54,38 @@ Ember.Handlebars.registerBoundHelper('thumb',
 //---------------------------------------------------------------------------------------//
 
 /**
- * Define a dynamic onclick methode : )
+ * Display a specific html template whether the data is set or not 
+ * This helper can evaluate Javascript functions. Use {function(params)}.
+ * If the param is container.data, use {function(data)}
+ * 
+ * 
+ * Examples : 
+    {{isset container.data
+      yes='<div>OK</div>'
+      no='<div>Null</div>'}}
+
+    {{isset controller.style
+      yes='<div><img src="{Utils.thumbURL(data)}"></img></div>'
+      no='<div>select the sytle !</div>'}}
+ */
+Ember.Handlebars.registerBoundHelper('isset', 
+	function(data, options) 
+	{
+		var source;
+		
+		if(data != undefined && data != null){
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, data));
+		}
+		else{
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.no, data));
+		}
+	}
+);
+
+//---------------------------------------------------------------------------------------//
+
+/**
+ * Define a dynamic onclick method : )
  * for now just 1 parameter.
  */
 Ember.Handlebars.registerHelper('click', 

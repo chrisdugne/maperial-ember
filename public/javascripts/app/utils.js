@@ -122,6 +122,27 @@ Utils.popup = function(url, title, width, height)
 
 //----------------------------------------------------------------------------------------//
 
+/**
+ * custom mustache evaluation : )
+ * data is used for the functions-in-cutomMustache parameters 
+ */
+Utils.toHtml = function(template, data)
+{
+	while(template.indexOf("{") != -1)
+	{
+		var customMustache = template.substring(template.indexOf("{"), template.indexOf("}")+1);
+		var call = customMustache.substring(1, customMustache.indexOf("("));
+		var callparams = customMustache.substring(customMustache.indexOf("(")+1, customMustache.indexOf(")"));
+		
+		var html = eval(customMustache);
+		template = template.replace(customMustache, html);
+	}
+	
+	return template;
+}
+
+//----------------------------------------------------------------------------------------//
+
 Utils.thumbURL = function(styleUID) 
 {
 	if(styleUID == undefined || styleUID == null)

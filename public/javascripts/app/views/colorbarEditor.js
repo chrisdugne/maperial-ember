@@ -4,10 +4,10 @@
 	var ColorbarEditorView = Ember.View.extend({
 		templateName: 'colorbarEditor',
 		didInsertElement: function(){
-			renderColorbarEditorUI();
+			app.ColorbarEditorController.renderUI();
 		},
 		willDestroyElement: function(){
-			cleanColorbarEditorUI();
+			app.ColorbarEditorController.cleanUI();
 		}
 	});
 	

@@ -1,6 +1,26 @@
+/*-------------------------*/
 
 .styleList {
 	overflow: auto;
 	height: 200px;
 }
 
+/*-------------------------*/
+
+.selectable{
+	margin-top: 5px;
+}
+
+.selectable:hover {
+   outline: 3px solid
+}
+
+/*-------------------------*/
+
+#cancelSelection {
+
+}
+
+#continueButton {
+	margin-top: 60px;
+}

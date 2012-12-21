@@ -32,19 +32,7 @@
 			{{#with style}}
 			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
 			    <div class="span2 name"><p class="filename">{{name}}</p></div>
-			   	<div class="span2 offset2">{{thumb uid}}</div>
-			</div>
-			{{/with}}
-			{{#with style}}
-			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
-			    <div class="span2 name"><p class="filename">{{name}}</p></div>
-			   	<div class="span2 offset2">{{thumb uid}}</div>
-			</div>
-			{{/with}}
-			{{#with style}}
-			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
-			    <div class="span2 name"><p class="filename">{{name}}</p></div>
-			   	<div class="span2 offset2">{{thumb uid}}</div>
+			   	<a class="selectable span2 offset2">{{thumb uid}}</a>
 			</div>
 			{{/with}}
 		{{/each}}
@@ -52,10 +40,17 @@
 	
     <hr class="soften">
 
-	<div class="row">
-		<div class="span2 offset2">{{thumb controllerData.selectedStyle}}</div>
-	    {{buttonContinueWithStyle controllerData.selectedStyle}}
-	</div>    
+	
+    {{isset controllerData.selectedStyle
+      yes='<div class="span2">
+      			<img src="{Utils.thumbURL(data)}"></img>
+				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark">
+					<i class="icon icon-ex-white-outline"></i>
+				</a>
+      	   </div>
+      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary">Continue with this preset</div>'
+      no='<h4 class="offset2">(Select a style to start with)</h4>'}}
+	<br/>
 	
 </div>
 	
