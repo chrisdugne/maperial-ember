@@ -318,7 +318,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
     var tmp = ''                                                                          +
         '<div class="cb_colorpickerWrap">'                                                + 
         '  <div class="cb_pikerLegend">'                                                  +
-        '      Change last added / selected color :'                                      +
+        '      Change last color :'                                                       +
         '  </div>'                                                                        +
         '  <div class="cb_colorpicker" id="cb_colorpicker_' + globalUID + '">'            +
         '  </div>'                                                                        +

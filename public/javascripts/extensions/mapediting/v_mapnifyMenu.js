@@ -1,5 +1,4 @@
 
-
 // -------------------------------------------//
 //	 	MapnifyMenu
 // -------------------------------------------//
@@ -30,6 +29,9 @@ MapnifyMenu.mapping = null; // link id (in style) with a "real" name & filter
 // current zooms
 MapnifyMenu.activZooms = Array();
 
+// parent map
+MapnifyMenu.refMap = null;
+
 //////////////////////////////////////////////////////////////
 // set param = value for layer uid at zoom
 ///@todo check that zoom issue min/max can overlap ??? 
@@ -53,7 +55,7 @@ function SetParam(uid,zoom,param,value){
                 }
                 console.log(" not found , adding!" , uid , zoom , param);
                 MapnifyMenu.__style[uid]["s"][rule]["s"][d][param] = value;
-               return true;
+                return true;
              }
         }
    }
@@ -62,6 +64,7 @@ function SetParam(uid,zoom,param,value){
 }
 */
 
+/*
 MapnifyMenu.SetParamId = function(uid,ruid,param,value){
    if ( MapnifyMenu.__style[uid] == undefined ){
       console.log( uid + " not in style");
@@ -85,16 +88,17 @@ MapnifyMenu.SetParamId = function(uid,ruid,param,value){
    //console.log(" not found !" , uid , ruid , param);
    return false;
 }
+*/
 
 MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
    if ( MapnifyMenu.__style[uid] == undefined ){
       console.log( uid + " not in style");
-      return;
+      return false;
    }
    
    var def = null;
    var stop = false;
-   //get the good def..
+   //first we get the good def..
    for(var rule in MapnifyMenu.__style[uid]["s"]){
       var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
       //var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
@@ -113,21 +117,29 @@ MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
    
    if ( def == null ){
       console.log("def not found for " + ruid , uid);
-      return;
+      return false;
    }
    
-   console.log(activZooms);
+   //console.log(MapnifyMenu.activZooms);
    
    for(var rule in MapnifyMenu.__style[uid]["s"]){
       var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
       //var zmax = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
-      if ( $.inArray(zmin, MapnifyMenu.activZooms) > -1 ){ 
-         console.log("changing for z " + zmin);
-         MapnifyMenu.__style[uid]["s"][rule]["s"][def][param] = value;
+      if ( $.inArray(zmin, MapnifyMenu.activZooms) > -1 ){
+         if ( Object.size(MapnifyMenu.__style[uid]["s"][rule]["s"][def]) >= 3 ){
+            for( var p in MapnifyMenu.__style[uid]["s"][rule]["s"][def] ){ // params
+               if ( p == param ){
+                  MapnifyMenu.__style[uid]["s"][rule]["s"][def][p] = value
+                  console.log("changing for z " + zmin);
+               }
+            }
+            //console.log(" not found , adding!" , uid , ruid , param);
+            //MapnifyMenu.__style[uid]["s"][rule]["s"][def][param] = value;
+         }
       }
    }
    //console.log(" not found !" , uid , ruid , param);
-   return false;
+   return true;
 }
 
 //////////////////////////////////////////////////////////////
@@ -138,7 +150,7 @@ MapnifyMenu.SetParamIdZ = function(uid,ruid,param,value,zooms){
 function MapnifyMenu.GetParam(uid,zoom,param){
   if ( MapnifyMenu.__style[uid] == undefined ){
       console.log(uid + " not in style");
-      return;
+      return undefined;
    }
    for(var rule in MapnifyMenu.__style[uid]["s"]){
         var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
@@ -161,7 +173,7 @@ function MapnifyMenu.GetParam(uid,zoom,param){
 MapnifyMenu.GetParamId = function(uid,ruid,param){
   if ( MapnifyMenu.__style[uid] == undefined ){
       console.log(uid + " not in style");
-      return;
+      return undefined;
    }
    for(var rule in MapnifyMenu.__style[uid]["s"]){
       for( var d in MapnifyMenu.__style[uid]["s"][rule]["s"]){ //def
@@ -171,6 +183,9 @@ MapnifyMenu.GetParamId = function(uid,ruid,param){
                    return MapnifyMenu.__style[uid]["s"][rule]["s"][d][p];
                }
             }
+            //console.log(" not found , adding!" , uid , ruid , param);
+            //MapnifyMenu.__style[uid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
+            //return MapnifyMenu.__style[uid]["s"][rule]["s"][d][param]; 
          }
       }
    }
@@ -178,13 +193,39 @@ MapnifyMenu.GetParamId = function(uid,ruid,param){
    return undefined;
 }
 
+MapnifyMenu.GetZoomSpectra = function(uid,symbId){
+  var zmin = undefined;
+  var zmax = undefined;
+  if ( MapnifyMenu.__style[uid] == undefined ){
+      console.log(uid + " not in style");
+      return {"zmin":zmin,"zmax":zmax};
+   }
+
+   for(var rule in MapnifyMenu.__style[uid]["s"]){
+      if ( Object.size(MapnifyMenu.__style[uid]["s"][rule]["s"][symbId]) >= 3 ){
+         var zminR = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+         var zmaxR = MapnifyMenu.__style[uid]["s"][rule]["zmax"];
+         if ( zmin === undefined)
+              zmin = zminR;
+         if ( zmax === undefined)
+              zmax = zmaxR;
+         zmin = Math.min(zmin, zminR);
+         zmax = Math.max(zmax, zmaxR);
+      } 
+   }
+   return {"zmin":zmin,"zmax":zmax};
+
+}
+
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 // the menu class ...  
-MapnifyMenu.init = function(container,isMovable){
+MapnifyMenu.init = function(container,isMovable,maps){
 
   var mapnifyParentEl = container;
+
+  MapnifyMenu.refMap = maps;
 
   //////////////////////////////////////////////////////////////
   // the main function
@@ -271,15 +312,25 @@ MapnifyMenu.init = function(container,isMovable){
      for ( var z = 1 ; z < 19 ; ++z){
         if ( $("#zcheck" + z).is(":checked") ){
            //console.log(z + "is checked");
-           MapnifyMenu.activZooms.push(z);     
+           MapnifyMenu.activZooms.push(z);    
+           $(".symbz"+z).show(); 
         }
         else{
+           $(".symbz"+z).hide();
            //nothing !
         }     
      } 
   }
-    
+
   function __InsertZoomEdition(_mainDiv){
+
+    $('<h2> Zoom In / Out the map </h2>').appendTo(_mainDiv);
+    $('<button onclick="MapnifyMenu.refMap.ZoomOut()" class="zbutton" id="zbuttonminus" > - </button>').appendTo(_mainDiv);
+    $('<button onclick="MapnifyMenu.refMap.ZoomIn()"  class="zbutton" id="zbuttonplus"  > + </button>').appendTo(_mainDiv);
+
+    $("#zbuttonminus").button();
+    $("#zbuttonplus").button();
+
     var tmpcb = '';
     for ( var z = 1 ; z < 19 ; ++z){
         tmpcb += '  <input type="checkbox" class="checkboxz" id="zcheck' + z + '"/><label for="zcheck' + z + '">Z' + z + '</label>';
@@ -289,22 +340,13 @@ MapnifyMenu.init = function(container,isMovable){
     }    
  
     
-    $('<h2> Edit some zoom</h2><div id="zoom_selector">' +  tmpcb + '</div><br/>' ).appendTo(_mainDiv);
-    $('<h2> Edit a range of zoom</h2><div id="sliderrangez"></div><br/>').appendTo(_mainDiv);
+    $('<h2> Edit some zoom</h2><div id="zoom_selector">' +  tmpcb + '</div>' ).appendTo(_mainDiv);
+    $('<h2> Edit a zoom range</h2><div id="sliderrangez"></div><br/>').appendTo(_mainDiv);
   
     $( "#zoom_selector" ).buttonset();
 
     for ( var z = 1 ; z < 19 ; ++z){
         $("#zcheck"+z).change(function(){
-	     /*
-             for ( var k = 1 ; k < 19 ; ++k){             
-                if ( k != z ){
-                   $("#zcheck"+k).uncheck();
-                   $("#zcheck"+k ).button("refresh");
-                }               
-             } 
-             */
-             //alert("clicked");
              UpdateActivZoom();
              //__InsertAccordion(_mainDiv);
         });
@@ -316,6 +358,22 @@ MapnifyMenu.init = function(container,isMovable){
             max: 18,
             values: [ 10, 15 ],
             change: function( event, ui ) {
+               var minV = ui.values[0];
+               var maxV = ui.values[1];
+               //console.log(minV,maxV);
+               for(var z = 1 ; z < 19 ; ++z){
+                  if ( z >= minV && z <= maxV){
+                     $("#zcheck" + z ).check();
+                  }
+                  else{
+                     $("#zcheck" + z ).uncheck();
+                  }
+                  $("#zcheck" + z ).button("refresh");
+               }
+               UpdateActivZoom();
+               //__InsertAccordion(_mainDiv);
+            },
+            slide: function( event, ui ) {
                var minV = ui.values[0];
                var maxV = ui.values[1];
                //console.log(minV,maxV);
@@ -442,6 +500,14 @@ MapnifyMenu.init = function(container,isMovable){
     $( "#spinner_"+_paramName+"_"+_ruleId ).spinner("value" , _paramValue);  
   }
 
+  Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+  };
+
   function __InsertAccordion(mainDiv){
 
     $("#mapnifyaccordion").remove();
@@ -483,7 +549,7 @@ MapnifyMenu.init = function(container,isMovable){
            $("#check_" + uid).attr('checked', MapnifyMenu.__style[uid]["visible"]);
            $("<li>" + "Place : " + MapnifyMenu.__style[uid]["layer"] + "</li>").appendTo(ul);
    
-           $("<strong>Rules :</strong>").appendTo(divIn);
+           $("<p><strong>Rules :</strong></p>").appendTo(divIn);
   
            /*
            var innerAcc = $("<div class=\"mapnifyaccordion\" id=\"mapnifyaccordion_"+uid + "\">");
@@ -522,16 +588,43 @@ MapnifyMenu.init = function(container,isMovable){
               */
               
               for ( var def in MapnifyMenu.__style[uid]["s"][rule]["s"] ){       // a rule (in the sens of zoom can have multiple def in the sens of symbolizer ...)
-                 $("<strong>" + MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"] + "</strong>").appendTo(divIn/*In*/);
-                 var ulul = $("<ul></ul>");
-                 ulul.appendTo(divIn/*In*/);
-
+                 
+                 //console.log("nb param : " + Object.size(MapnifyMenu.__style[uid]["s"][rule]["s"][def]) ); 
+                 while ( Object.size(MapnifyMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
+                      //console.log("rule : " + rule);
+                      rule = (rule + 1) % Object.size(MapnifyMenu.__style[uid]["s"]);
+                 }
+ 
                  var ruleId = MapnifyMenu.__style[uid]["s"][rule]["s"][def]["id"];//generateGuid();    
-                        
+                 
+                 var zSpec = MapnifyMenu.GetZoomSpectra(uid,def);
+                 
+                 var symbdivStr = '<div class="';
+                 for(var zc = zSpec.zmin ; zc <= zSpec.zmax ; zc++ ){
+                    symbdivStr += ' symbz'+zc;
+                 }
+                 symbdivStr += '"></div>';
+
+                 var symbDiv = $(symbdivStr);
+                 symbDiv.appendTo(divIn/*In*/);
+ 
+                 if ( zSpec.zmin != zSpec.zmax){
+                     $("<strong>" + MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"] + " (Zooms " + zSpec.zmin + " to " + zSpec.zmax + ")</strong>").appendTo(symbDiv);
+                 }
+                 else{
+                     $("<strong>" + MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"] + " (Zoom " + zSpec.zmin  + ")</strong>").appendTo(symbDiv);
+                 }
+                 var ulul = $("<ul></ul>");
+                 ulul.appendTo(symbDiv);
+              
                  for( var p in Symbolizer.params[MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"]] ){  // this is read from a list of known params. 
                  
                     var paramName = Symbolizer.getParamName(MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"],p);
                     var paramValue = MapnifyMenu.GetParamId(uid,ruleId,paramName);
+
+                    if ( paramValue === undefined ){
+                        continue;
+                    }
                     //console.log( paramName + " : " + paramValue ) ;
                      
                     if ( paramName == "width" ){  
@@ -553,11 +646,14 @@ MapnifyMenu.init = function(container,isMovable){
       } // end uid loop
     } // end group loop
 
-    $( ".mapnifyaccordion" ).accordion({
+    UpdateActivZoom();
+
+    $( ".mapnifyaccordion" )
+    .accordion({
         heightStyle: "content",
         collapsible: true,
         active: false
-    });
+    })
 
     mapnifyParentEl.css('display','block');   //show me !
     // tune the menu div 
