@@ -24,6 +24,14 @@
 	}
 
 	//------------------------------------------------//
+	
+	StyleEditorController.selectStyle = function(styleUID) 
+	{
+		console.log(styleUID);
+		window.Webapp.styleEditorData.set("selectedStyle", styleUID);
+	}
+
+	//------------------------------------------------//
 
 	app.StyleEditorController = StyleEditorController;
 

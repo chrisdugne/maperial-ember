@@ -1,18 +1,16 @@
 package domain;
 
 import java.util.List;
-import java.util.Set;
 
+import models.Account;
 import models.Colorbar;
 import models.Dataset;
-import models.Account;
 import models.Font;
 import models.Icon;
 import models.Style;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.Logger;
 import play.db.ebean.Transactional;
 import utils.Utils;
 
@@ -32,11 +30,28 @@ public class AccountManager {
 		if(accounts.findRowCount() == 1)
 			return accounts.findUnique();
 		else 
-			return createNewAccountFromGoogle(userJson);
+			return createNewAccount(userJson);
 		
 	}
 
 	@Transactional
+	private static Account createNewAccount(JsonNode userJson) 
+	{
+		String email = userJson.get("email").asText();
+		
+		Account account = new Account();
+		account.setEmail(email);
+		account.setUid(Utils.generateUID());
+	
+	    Ebean.save(account);  
+		
+		return account;
+	}
+
+	//------------------------------------------------------------------------------------//
+	
+	@Transactional
+	@Deprecated
 	private static Account createNewAccountFromGoogle(JsonNode userJson) 
 	{
 		String email = userJson.get("email").asText();
@@ -46,12 +61,12 @@ public class AccountManager {
 		account.setEmail(email);
 		account.setName(name);
 		account.setUid(Utils.generateUID());
-	
-	    Ebean.save(account);  
+		
+		Ebean.save(account);  
 		
 		return account;
 	}
-
+	
 	//------------------------------------------------------------------------------------//
 
 	@Transactional

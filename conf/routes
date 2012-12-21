@@ -28,4 +28,4 @@ POST /removeDataset					controllers.DatasetService.removeDataset()
 #---------------------------------------------------------------------------
 #   MapnifyAuth
  
-GET  /mapnifyCode					authentication.MapnifyOAuth2.receivedCode()
+GET  /mapnifyAuthToken				authentication.MapnifyOpenId.receivedToken()

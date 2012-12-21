@@ -2,46 +2,61 @@
 	
 <div class="span7">
     	
-    	<!--  -------------       Header      ---------------- -->
-	    <br/>
-	    <div class="row">
-	        <div class="span3">
-				{{#isCurrentView myStyles}}
-					<h1>My styles</h1>
-				{{/isCurrentView}}
-				
-				{{#isCurrentView publicStyles}}
-					<h1>Public styles</h1>
-				{{/isCurrentView}}
-            </div>
-	        <div class="span2 offset1">
-				{{#isCurrentView myStyles}}
-					<div class="btn-small btn-primary" {{action showPublicStyles}}>Show public styles</div>
-				{{/isCurrentView}}
-				
-				{{#isCurrentView publicStyles}}
-					<div class="btn-small btn-primary" {{action showMyStyles}}>Show my styles</div>
-				{{/isCurrentView}}
-            </div>
-	    </div>
-		<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
-			<i class="icon icon-ex-white-outline"></i>
-		</a>
-  
-    	<!--  -------------       Content      ---------------- -->
-    	
-		<table role="presentation" class="table table-striped">
-		  	<tbody class="files">
-				{{#each style in styles}}
-				  <tr class="template-download">
-				      <td class="name"><p class="filename">{{style.name}}</p></td>
-				      {{#with style}}
-				      <td>{{thumb uid}}</td>
-				      {{/with}}
-				  </tr>
-				{{/each}}
-			</tbody>
-		</table>
+   	<!--  -------------       Header      ---------------- -->
+    
+    <br/>
+    <div class="row">
+        <div class="span3">
+			{{#isCurrentView myStyles}}
+				<h1>My styles</h1>
+			{{else}}			
+				<h1>Public styles</h1>
+			{{/isCurrentView}}
+           </div>
+        <div class="span2 offset1">
+			{{#isCurrentView myStyles}}
+				<div class="btn-small btn-primary" {{action showPublicStyles}}>Show public styles</div>
+			{{else}}			
+				<div class="btn-small btn-primary" {{action showMyStyles}}>Show my styles</div>
+			{{/isCurrentView}}
+           </div>
+    </div>
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
+		<i class="icon icon-ex-white-outline"></i>
+	</a>
+ 
+   	<!--  -------------       Content      ---------------- -->
+   	
+   	<div class=styleList>
+		{{#each style in styles}}
+			{{#with style}}
+			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
+			    <div class="span2 name"><p class="filename">{{name}}</p></div>
+			   	<div class="span2 offset2">{{thumb uid}}</div>
+			</div>
+			{{/with}}
+			{{#with style}}
+			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
+			    <div class="span2 name"><p class="filename">{{name}}</p></div>
+			   	<div class="span2 offset2">{{thumb uid}}</div>
+			</div>
+			{{/with}}
+			{{#with style}}
+			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
+			    <div class="span2 name"><p class="filename">{{name}}</p></div>
+			   	<div class="span2 offset2">{{thumb uid}}</div>
+			</div>
+			{{/with}}
+		{{/each}}
+	</div>
+	
+    <hr class="soften">
+
+	<div class="row">
+		<div class="span2 offset2">{{thumb controllerData.selectedStyle}}</div>
+	    {{buttonContinueWithStyle controllerData.selectedStyle}}
+	</div>    
+	
 </div>
 	
 	

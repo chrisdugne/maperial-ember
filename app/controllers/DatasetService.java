@@ -7,10 +7,6 @@ import models.Dataset;
 import org.codehaus.jackson.JsonNode;
 
 import play.mvc.Result;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import domain.AccountManager;
 
 public class DatasetService extends Application 
@@ -45,7 +41,6 @@ public class DatasetService extends Application
 		
 		//----------//
 		
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		return ok(gson.toJson(dataset));
 	}
 
