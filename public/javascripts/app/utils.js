@@ -131,8 +131,6 @@ Utils.toHtml = function(template, context)
 	while(template.indexOf("{") != -1)
 	{
 		var customMustache = template.substring(template.indexOf("{"), template.indexOf("}")+1);
-		var call = customMustache.substring(1, customMustache.indexOf("("));
-		var callparams = customMustache.substring(customMustache.indexOf("(")+1, customMustache.indexOf(")"));
 		
 		var html = eval(customMustache);
 		template = template.replace(customMustache, html);

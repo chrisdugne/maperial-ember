@@ -35,11 +35,11 @@
 				},
 				// pages
 				newMap: Ember.Route.transitionTo('mapCreation'),
-				newStyle: Ember.Route.transitionTo('styleEditor'),
-				newColorbar: Ember.Route.transitionTo('colorbarEditor'),
-				newDataset: Ember.Route.transitionTo('datasetEditor'),
-				manageIcons: Ember.Route.transitionTo('iconsEditor'),
-				manageFonts: Ember.Route.transitionTo('fontsEditor'),
+				styles: Ember.Route.transitionTo('styles'),
+				colorbars: Ember.Route.transitionTo('colorbars'),
+				datasets: Ember.Route.transitionTo('datasets'),
+				icons: Ember.Route.transitionTo('icons'),
+				fonts: Ember.Route.transitionTo('fonts'),
 				openTest1: Ember.Route.transitionTo('test1'),
 				openTest2: Ember.Route.transitionTo('test2')
 			}),
@@ -66,12 +66,12 @@
 			}),
 			
 			//-------------------//
-			// Style Editor
+			// Styles
 			
-			styleEditor: Ember.Route.extend({
-				route: '/styleEditor',
+			styles: Ember.Route.extend({
+				route: '/styles',
 	            connectOutlets: function(router) {
-					Router.openView(router, "styleEditor");
+					Router.openView(router, "styles");
 	            },
 		        myStyles: Ember.Route.extend({
 		        	route: '/myStyles',
@@ -90,55 +90,63 @@
 	        		}
 		        }),
 		        showPublicStyles: function(router){
-		        	app.StyleEditorController.openStyleSelectionWindow();
-		        	router.transitionTo('styleEditor.publicStyles');
+		        	app.StylesController.openStyleSelectionWindow();
+		        	router.transitionTo('styles.publicStyles');
 		        },
-		        showMyStyles: Ember.Route.transitionTo('styleEditor.myStyles')
+		        showMyStyles: Ember.Route.transitionTo('styles.myStyles')
 			}),
+
 			
-			//-------------------//
-			// Colorbar Editor
-			
-			colorbarEditor: Ember.Route.extend({
-				route: '/colorbarEditor',
-				connectOutlets: function(router){
-					Router.openView(router, "colorbarEditor");
+			styleEditor: Ember.Route.extend({
+				route: '/styleEditor',
+				connectOutlets: function(router) {
+					Router.openView(router, "styleEditor");
 				}
 			}),
 			
 			//-------------------//
-			// Dataset Editor
+			// Colorbar
 			
-			datasetEditor: Ember.Route.extend({
-				route: '/datasetEditor',
+			colorbars: Ember.Route.extend({
+				route: '/colorbars',
 				connectOutlets: function(router){
-					Router.openView(router, "datasetEditor");
+					Router.openView(router, "colorbars");
+				}
+			}),
+			
+			//-------------------//
+			// Dataset
+			
+			datasets: Ember.Route.extend({
+				route: '/datasets',
+				connectOutlets: function(router){
+					Router.openView(router, "datasets");
 				},
 				deleteDataset: function(router, event){
 					var dataset = event.context;
 					DatasetManager.deleteDataset(dataset);
 				},
-				openUploadWindow: function(){app.DatasetEditorController.openUploadWindow()}
+				openUploadWindow: function(){app.DatasetsController.openUploadWindow()}
 				
 			}),
 			
 			//-------------------//
-			// Fonts Editor
+			// Fonts
 			
-			fontsEditor: Ember.Route.extend({
-				route: '/fontsEditor',
+			fonts: Ember.Route.extend({
+				route: '/fonts',
 				connectOutlets: function(router){
-					Router.openView(router, "fontsEditor");
+					Router.openView(router, "fonts");
 				}
 			}),
 			
 			//-------------------//
-			// Icons Editor
+			// Icons
 			
-			iconsEditor: Ember.Route.extend({
-				route: '/iconsEditor',
+			icons: Ember.Route.extend({
+				route: '/icons',
 				connectOutlets: function(router){
-					Router.openView(router, "iconsEditor");
+					Router.openView(router, "icons");
 				}
 			}),
 

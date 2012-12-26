@@ -31,7 +31,7 @@ DatasetManager.deleteDataset = function(dataset)
 {
 	$.ajax({  
 	    type: "DELETE",  
-	    url: Globals.mapServer + "/dataset?key=" + dataset.datasetUID,
+	    url: Globals.mapServer + "/api/dataset?key=" + dataset.datasetUID,
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{

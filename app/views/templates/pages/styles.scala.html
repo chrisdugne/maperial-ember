@@ -1,0 +1,49 @@
+
+@import views.html.popups.selectStyleWindow;
+
+<div class="container-fluid">
+
+  <div class="marketing">
+		<h1>Styles</h1>
+   		<p class="marketing-byline">style</p>
+		<hr class="soften">
+		
+			
+		<div class="row">
+			<div class="span3 offset1">
+				You have crafted {{user.styles.length}} styles.
+			</div>
+	
+			<div class="span3 offset8">
+				<div id="createNewStyleButton" {{action showPublicStyles}} class="btn-large btn-primary">Create a new style</div>
+			</div>
+		</div>
+
+		<br/>
+		<br/>
+		<div class="span12 offset2">
+		    <table role="presentation" class="table table-striped">
+	        	<tbody class="files">
+		    		{{#each style in user.styles}}
+					    <tr class="template-download">
+					        <td class="name"><p class="longfilename">{{style.name}}</p></td>
+					        {{#if style.isPublic}}
+					        {{else}}
+					        <td colspan="2"></td>
+					        <td>
+					            <button {{action deleteDataset dataset}} class="btn-small btn-danger">
+					                <i class="icon-trash icon-white"></i>
+					            </button>
+					        </td>
+					        {{/if}}
+					    </tr>
+				    {{/each}}
+			    </tbody>
+	        </table>
+		</div>
+		
+		
+	</div>
+</div>
+
+@selectStyleWindow()

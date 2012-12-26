@@ -18,7 +18,13 @@
 /*-------------------------*/
 
 #cancelSelection {
+	margin-top: -152px;
+	margin-left: 126px;
+}
 
+#selectedStyleThumb {
+	z-index: -1;
+	position: relative;
 }
 
 #continueButton {

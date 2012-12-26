@@ -18,17 +18,9 @@
 
 	//------------------------------------------------//
 
-	StyleEditorController.openStyleSelectionWindow = function() 
+	StyleEditorController.save = function() 
 	{
-		$('#selectStyleWindow').modal();
-	}
-
-	//------------------------------------------------//
-	
-	StyleEditorController.selectStyle = function(styleUID) 
-	{
-		console.log(styleUID);
-		window.Webapp.styleEditorData.set("selectedStyle", styleUID);
+		
 	}
 
 	//------------------------------------------------//

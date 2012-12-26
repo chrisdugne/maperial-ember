@@ -33,7 +33,7 @@
    	<div class=styleList>
 		{{#each style in styles}}
 			{{#with style}}
-			<div {{click "StyleEditorController.selectStyle(uid)"}} class="row">
+			<div {{click "StylesController.selectStyle(uid)"}} class="row">
 			    <div class="span2 name"><p class="filename">{{name}}</p></div>
 			   	<a class="selectable span2 offset2">{{thumb uid}}</a>
 			</div>
@@ -43,15 +43,18 @@
 	
     <hr class="soften">
 	
+    <div class="row">
     {{isset controllerData.selectedStyle
       yes='<div class="span2">
-      			<img src="{Utils.thumbURL(context.controllerData.selectedStyle)}"></img>
-				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark">
+      			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.controllerData.selectedStyle)}"></img>
+				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="window.Webapp.StylesController.cancelSelectedStyle()">
 					<i class="icon icon-ex-white-outline"></i>
 				</a>
       	   </div>
-      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary">Continue with this preset</div>'
+      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="window.Webapp.StylesController.continueStyleEdition()">Continue with this preset</div>'
       no='<h4 class="offset2">(Select a style to start with)</h4>'}}
+	</div>
+
 	<br/>
 	
 </div>

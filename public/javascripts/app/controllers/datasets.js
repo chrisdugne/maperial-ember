@@ -2,11 +2,11 @@
 (function( app ) {
 	'use strict';
 
-	var DatasetEditorController = Ember.ObjectController.extend({});
+	var DatasetsController = Ember.ObjectController.extend({});
 
 	//--------------------------------------------------------------------------//
 		
-	DatasetEditorController.renderUI = function()
+	DatasetsController.renderUI = function()
 	{
 		ScriptLoader.getScripts([
 	           //-- extension.upload
@@ -25,20 +25,20 @@
 		);
 	}
 
-	DatasetEditorController.cleanUI = function()
+	DatasetsController.cleanUI = function()
 	{
 		
 	}
 
 	//--------------------------------------------------------------------------//
 
-	DatasetEditorController.openUploadWindow = function() 
+	DatasetsController.openUploadWindow = function() 
 	{
 		$('#uploadDatasetsWindow').modal();
 	}
 
 	//--------------------------------------------------------------------------//
 	
-	app.DatasetEditorController = DatasetEditorController;
+	app.DatasetsController = DatasetsController;
 
 })( window.Webapp );
