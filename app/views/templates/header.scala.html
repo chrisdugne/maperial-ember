@@ -1,4 +1,4 @@
-@(commonHeaderButtons:Boolean)
+@(defaultHeader:Boolean)
 
 <div id="header">
 	<div {{action openHome}} class="span1 pointerCursor">
@@ -9,7 +9,7 @@
 	</div>
 </div>
 
-@if(commonHeaderButtons){
+@if(defaultHeader){
 	{{#if user.loggedIn}}
 		<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
 		<div id="userDisplay" class="googleUser">{{user.email}}</div>
