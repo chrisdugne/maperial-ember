@@ -90,6 +90,7 @@
 	        		}
 		        }),
 		        showPublicStyles: function(router){
+		        	window.Webapp.StylesController.cancelSelectedStyle();
 		        	app.StylesController.openStyleSelectionWindow();
 		        	router.transitionTo('styles.publicStyles');
 		        },

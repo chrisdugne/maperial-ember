@@ -88,6 +88,28 @@ public class AccountManager {
 
 		Ebean.delete(dataset);
 	}
+	
+	//------------------------------------------------------------------------------------//
+	
+	@Transactional
+	public static void addStyle(String accountUID, Style style) 
+	{
+		Account account = Account.find.where().ilike("uid", accountUID).findUnique();
+		
+		style.setAccount(account);
+		
+		Ebean.save(style);  
+	}
+	
+	//------------------------------------------------------------------------------------//
+	
+	@Transactional
+	public static void removeStyle(String styleUID) 
+	{
+		Style style = Style.find.where().ilike("uid", styleUID).findUnique();
+		
+		Ebean.delete(style);
+	}
 
 	//------------------------------------------------------------------------------------//
 

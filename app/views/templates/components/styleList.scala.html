@@ -33,10 +33,10 @@
    	<div class=styleList>
 		{{#each style in styles}}
 			{{#with style}}
-			<div {{click "StylesController.selectStyle(uid)"}} class="row">
-			    <div class="span2 name"><p class="filename">{{name}}</p></div>
-			   	<a class="selectable span2 offset2">{{thumb uid}}</a>
-			</div>
+				<div {{click 'StylesController.selectStyle(this)'}} class="row">
+				    <div class="span2 name"><p class="filename">{{name}}</p></div>
+				   	<a class="selectable span2 offset2">{{thumb uid}}</a>
+				</div>
 			{{/with}}
 		{{/each}}
 	</div>
@@ -46,7 +46,7 @@
     <div class="row">
     {{isset controllerData.selectedStyle
       yes='<div class="span2">
-      			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.controllerData.selectedStyle)}"></img>
+      			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.controllerData.selectedStyle.uid)}"></img>
 				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="window.Webapp.StylesController.cancelSelectedStyle()">
 					<i class="icon icon-ex-white-outline"></i>
 				</a>

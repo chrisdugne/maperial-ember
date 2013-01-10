@@ -44,6 +44,15 @@ Utils.htmlDecode = function(value){
 
 /*
  */
+Utils.replaceAll = function(chain, value, replacement)
+{
+	return chain.replace(new RegExp(value, 'g'), replacement);
+}
+
+//----------------------------------------------------------------------------------------//
+	
+/*
+ */
 Utils.rgb2hex = function(rgb)
 {
 	rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
@@ -124,7 +133,9 @@ Utils.popup = function(url, title, width, height)
 
 /**
  * custom mustache evaluation : )
- * data is used for the functions-in-cutomMustache parameters 
+ * data is used for the functions-in-customMustache parameters 
+ * 
+ * http://map.x-ray.fr/wiki/display/IDEES/Custom+Mustaches
  */
 Utils.toHtml = function(template, context)
 {
@@ -137,6 +148,13 @@ Utils.toHtml = function(template, context)
 	}
 	
 	return template;
+}
+
+//----------------------------------------------------------------------------------------//
+
+Utils.isObject = function(stuff) 
+{
+	return Object.prototype.toString.call( stuff ) === '[object Object]' ;
 }
 
 //----------------------------------------------------------------------------------------//

@@ -5,6 +5,7 @@
 		uid: "",
 		email: "",
 		name: "",
+		mapnifyToken: "",
 		maps: Ember.A([]),
 		styles: Ember.A([]),
 		datasets: Ember.A([]),

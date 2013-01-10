@@ -18,11 +18,14 @@
 		                         "http://map.x-ray.fr/js/maps.js"],
                  function()
                  {
+					app.stylesData.selectedStyle.name = "CopyOf" + app.stylesData.selectedStyle.name;
+					$("#styleNameInput").val(app.stylesData.selectedStyle.name);
+					
 					StyleEditorController.renderStyle();
-					StyleEditorController.renderOptions();
-      				
 					StyleEditorController.renderMap();
       				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+      				
+      				StyleManager.getStyle(app.stylesData.selectedStyle.uid);
                  }
       	);
 	}
@@ -30,7 +33,6 @@
 	StyleEditorController.cleanUI = function()
 	{
 		StyleEditorController.cleanStyle();
-		StyleEditorController.cleanOptions();
 		StyleEditorController.cleanMap();
 	}
 
@@ -55,7 +57,10 @@
 	StyleEditorController.renderStyle = function()
 	{
 		$("#style").dialogr({
-			position : [80,410],
+			width:290,
+			minWidth:290,
+			height:550,
+			position : [15,170],
 			closeOnEscape: false,
 			dialogClass: 'no-close'
 		});
@@ -65,24 +70,17 @@
 	{
 		$("#style").remove();
 	}
-	//------------------------------------------------//
-	
-	StyleEditorController.renderOptions = function()
-	{
-		$("#options").dialogr({
-			position : [80,110],
-			closeOnEscape: false,
-			dialogClass: 'no-close'
-		});
-	}
-	
-	StyleEditorController.cleanOptions = function()
-	{
-		$("#options").remove();
-	}
 	
 	//------------------------------------------------//
+	
+	StyleEditorController.saveStyle = function()
+	{
+		app.stylesData.selectedStyle.name = $("#styleNameInput").val();
+		StyleManager.uploadNewStyle(app.stylesData.selectedStyle);
+	}
 
+	//------------------------------------------------//
+	
 	app.StyleEditorController = StyleEditorController;
 
 })( window.Webapp );

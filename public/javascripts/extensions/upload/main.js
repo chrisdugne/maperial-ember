@@ -35,22 +35,10 @@ extensionUpload.init = function ()
         url: Globals.mapServer + '/api/dataset'
     });
 
-    // Enable iframe cross-domain access via redirect option:
-//    $('#fileupload').fileupload(
-//        'option',
-//        'redirect',
-//        window.location.href.replace(
-//            /\/[^\/]*$/,
-//            '/cors/result.html?%s'
-//        )
-//    );
-
-//    dataType:"jsonp",
-//    contentType:"application/x-javascript",
     $('#fileupload').fileupload('option', {
         url: Globals.mapServer + '/api/dataset',
-        maxFileSize: 5000000,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 15000000,
+        acceptFileTypes: /(\.|\/)(pst|gif|jpe?g|png)$/i,
         process: [
             {
                 action: 'load',

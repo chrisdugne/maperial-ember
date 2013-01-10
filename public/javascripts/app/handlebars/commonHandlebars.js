@@ -67,6 +67,8 @@ Ember.Handlebars.registerBoundHelper('thumb',
     {{isset controller.style
       yes='<div><img src="{Utils.thumbURL(context.controller.style)}"></img></div>'
       no='<div>select the sytle !</div>'}}
+      
+      http://map.x-ray.fr/wiki/display/IDEES/Custom+Handlebars?focusedCommentId=1736712#comment-1736712
  */
 Ember.Handlebars.registerBoundHelper('isset', 
 	function(data, options) 
@@ -88,15 +90,49 @@ Ember.Handlebars.registerBoundHelper('isset',
 /**
  * Define a dynamic onclick method : )
  * for now just 1 parameter.
+ * http://map.x-ray.fr/wiki/display/IDEES/Custom+Handlebars?focusedCommentId=1736711#comment-1736711
  */
 Ember.Handlebars.registerHelper('click', 
 	function(chain, options) 
 	{
+		//---------------------------------//
+		// parsing method + params
+	
 		var paramProperty = chain.substring(chain.indexOf("(") + 1, chain.indexOf(")"));
 		var method = chain.substring(0, chain.indexOf("("));
 		
-		param = Ember.Handlebars.get(this, paramProperty, options);
+		//---------------------------------//
+		// fecthing params
+
+		if(paramProperty == "")
+		{
+			param = "";
+		}
+		else if(paramProperty == "this")
+		{
+			param = this;
+		}
+		else
+		{
+			param = Ember.Handlebars.get(this, paramProperty, options);
+		}
 		
-		return new Handlebars.SafeString("onclick=\"window.Webapp."+method+"('"+param+"')\" ");
+		//---------------------------------//
+		// formatting params
+		
+		if(Utils.isObject(param))
+		{
+			param = JSON.stringify(param);
+			param = Utils.replaceAll(param, "\"", "'");	
+		}
+		else
+		{
+			param = "'" + param + "'";
+		}
+
+		//--------------------------------------------//
+		// here you go with the dynamic onclick
+		
+		return new Handlebars.SafeString("onclick=\"window.Webapp."+method+"("+param+")\" ");
 	}
 );

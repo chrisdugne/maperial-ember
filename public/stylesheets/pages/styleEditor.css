@@ -30,3 +30,14 @@
 #continueButton {
 	margin-top: 60px;
 }
+
+/*-------------------------*/
+
+#styleNameInput {
+	width: 143px;
+	margin-top: -2px;
+}
+
+#saveStyleButton {
+	margin-left: 8px;
+}

@@ -25,9 +25,9 @@
 
 	//------------------------------------------------//
 	
-	StylesController.selectStyle = function(styleUID) 
+	StylesController.selectStyle = function(style) 
 	{
-		window.Webapp.stylesData.set("selectedStyle", styleUID);
+		window.Webapp.stylesData.set("selectedStyle", style);
 	}
 
 	//------------------------------------------------//
@@ -36,6 +36,14 @@
 	{
 		window.Webapp.stylesData.set("selectedStyle", undefined);
 	}
+	
+	//------------------------------------------------//
+	
+	StylesController.deleteStyle = function(style) 
+	{
+		StyleManager.deleteStyle(style);
+	}
+	
 	//------------------------------------------------//
 	
 	StylesController.continueStyleEdition = function() 

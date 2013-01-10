@@ -26,12 +26,13 @@
 	        	<tbody class="files">
 		    		{{#each style in user.styles}}
 					    <tr class="template-download">
+					    	{{thumb style.uid}}
 					        <td class="name"><p class="longfilename">{{style.name}}</p></td>
 					        {{#if style.isPublic}}
 					        {{else}}
 					        <td colspan="2"></td>
 					        <td>
-					            <button {{action deleteDataset dataset}} class="btn-small btn-danger">
+					            <button {{click 'StylesController.deleteStyle(style)'}} class="btn-small btn-danger">
 					                <i class="icon-trash icon-white"></i>
 					            </button>
 					        </td>

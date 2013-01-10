@@ -33,7 +33,7 @@ public class MapnifyOpenId extends Application {
 
 		//--------------------------------------------------------------------------------//
 		
-		String url = "http://map.x-ray.fr:8082/user/validate";
+		String url = "http://map.x-ray.fr/user/validate";
 		Map<String, String> parameters = new HashMap<String, String>(); 
 		parameters.put("token", token);
 		parameters.put("clientid", CLIENT_ID);
@@ -61,7 +61,7 @@ public class MapnifyOpenId extends Application {
 		else
 		{
 			Logger.debug("validation.result : " + validation.result);
-			return ok(goodtoken.render(validation.email));
+			return ok(goodtoken.render(token, validation.email));
 		}
 
 		//--------------------------------------------------------------------------------//

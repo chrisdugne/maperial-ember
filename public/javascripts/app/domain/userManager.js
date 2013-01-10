@@ -13,7 +13,7 @@ $.ajax({
 	dataType: "text",
 	success: function (data, textStatus, jqXHR)
 	{
-		console.log("public data : " + data);
+		console.log("UserManager.getPublicData | data : " + data);
 		var publicData = $.parseJSON(data);
 
 		window.Webapp.publicData.set("maps", publicData.maps);
@@ -23,7 +23,7 @@ $.ajax({
 		window.Webapp.publicData.set("fonts", publicData.fonts);
 		window.Webapp.publicData.set("icons", publicData.icons);
 		
-		Utils.thumbURL(window.Webapp.publicData.styles[0].uid);
+		//Utils.thumbURL(window.Webapp.publicData.styles[0].uid);
 	}
 });
 
