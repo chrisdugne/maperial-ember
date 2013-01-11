@@ -1,6 +1,6 @@
 (function( app ) {
 	'use strict';
-
+	
 	var Router = Ember.Router.extend({
 		enableLogging: true,
 		root: Ember.Route.extend({
@@ -14,165 +14,26 @@
 			//-------------------------------------------------------//
 			// Routes used when calling Ember.Route.transitionTo
 			//-------------------//
-			// Home
 			
-			home: Ember.Route.extend({
-				route: '/',
-				connectOutlets: function(router){
-					Router.openView(router, "home");
-				},
-				openTryscreen: Ember.Route.transitionTo('tryscreen'),
-				openLoginWindow: function(){app.HomeController.openLoginWindow()}
-			}),
+			home: app.HomeRouting,
+			tryscreen: app.TryscreenRouting,
+			dashboard: app.DashboardRouting,
 			
-			//-------------------//
-			// Dashboard
+			styles: app.StylesRouting,
+			styleEditor: app.StyleEditorRouting,
 			
-			dashboard: Ember.Route.extend({
-				route: '/dashboard',
-				connectOutlets: function(router){
-					Router.openView(router, "dashboard");
-				},
-				// pages
-				newMap: Ember.Route.transitionTo('mapCreation'),
-				styles: Ember.Route.transitionTo('styles'),
-				colorbars: Ember.Route.transitionTo('colorbars'),
-				datasets: Ember.Route.transitionTo('datasets'),
-				icons: Ember.Route.transitionTo('icons'),
-				fonts: Ember.Route.transitionTo('fonts'),
-				openTest1: Ember.Route.transitionTo('test1'),
-				openTest2: Ember.Route.transitionTo('test2')
-			}),
-			
-			//-------------------//
-			// Try Screen
-			
-			tryscreen: Ember.Route.extend({
-				route: '/tryscreen',
-				connectOutlets: function(router){
-					Router.openView(router, "tryscreen");
-				},
-				openLoginWindow: function(){app.HomeController.openLoginWindow()}
-			}),
-			
-			//-------------------//
-			// Map Creation
-			
-			mapCreation: Ember.Route.extend({
-				route: '/mapCreation',
-				connectOutlets: function(router){
-					Router.openView(router, "mapCreation");
-				}
-			}),
-			
-			//-------------------//
-			// Styles
-			
-			styles: Ember.Route.extend({
-				route: '/styles',
-	            connectOutlets: function(router) {
-					Router.openView(router, "styles");
-	            },
-		        myStyles: Ember.Route.extend({
-		        	route: '/myStyles',
-		        	connectOutlets: function(router) {
-	        			var customParams = [];
-	        			customParams["styles"] = window.Webapp.user.styles;
-		        		Router.openComponent(router, customParams);
-		        	}
-		        }),
-		        publicStyles: Ember.Route.extend({
-		        	route: '/publicStyles',
-	        		connectOutlets: function(router) {
-	        			var customParams = [];
-	        			customParams["styles"] = window.Webapp.publicData.styles;
-		        		Router.openComponent(router, customParams);
-	        		}
-		        }),
-		        showPublicStyles: function(router){
-		        	window.Webapp.StylesController.cancelSelectedStyle();
-		        	app.StylesController.openStyleSelectionWindow();
-		        	router.transitionTo('styles.publicStyles');
-		        },
-		        showMyStyles: Ember.Route.transitionTo('styles.myStyles')
-			}),
+			colorbars: app.ColorbarsRouting,
+			datasets: app.DatasetsRouting,
+			fonts: app.FontsRouting,
+			icons: app.IconsRouting,
 
-			
-			styleEditor: Ember.Route.extend({
-				route: '/styleEditor',
-				connectOutlets: function(router) {
-					Router.openView(router, "styleEditor");
-				}
-			}),
-			
-			//-------------------//
-			// Colorbar
-			
-			colorbars: Ember.Route.extend({
-				route: '/colorbars',
-				connectOutlets: function(router){
-					Router.openView(router, "colorbars");
-				}
-			}),
-			
-			//-------------------//
-			// Dataset
-			
-			datasets: Ember.Route.extend({
-				route: '/datasets',
-				connectOutlets: function(router){
-					Router.openView(router, "datasets");
-				},
-				deleteDataset: function(router, event){
-					var dataset = event.context;
-					DatasetManager.deleteDataset(dataset);
-				},
-				openUploadWindow: function(){app.DatasetsController.openUploadWindow()}
-				
-			}),
-			
-			//-------------------//
-			// Fonts
-			
-			fonts: Ember.Route.extend({
-				route: '/fonts',
-				connectOutlets: function(router){
-					Router.openView(router, "fonts");
-				}
-			}),
-			
-			//-------------------//
-			// Icons
-			
-			icons: Ember.Route.extend({
-				route: '/icons',
-				connectOutlets: function(router){
-					Router.openView(router, "icons");
-				}
-			}),
+			mapCreation: app.MapCreationRouting,
 
 			//----------------------------------------------------------------------------//
 			// tests - à virer
 
-			//-------------------//
-			// Test 1
-			
-			test1: Ember.Route.extend({
-				route: '/test1',
-				connectOutlets: function(router){
-					Router.openView(router, "test1");
-				}
-			}),
-			
-			//-------------------//
-			// Test 2
-			
-			test2: Ember.Route.extend({
-				route: '/test2',
-				connectOutlets: function(router){
-					Router.openView(router, "test2");
-				}
-			}),
+			test1: app.Test1Routing,
+			test2: app.Test2Routing
 			
 		})
 	})

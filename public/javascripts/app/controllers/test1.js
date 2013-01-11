@@ -59,4 +59,15 @@
 	
 	app.Test1Controller = Test1Controller;
 
+	//------------------------------------------------//
+	
+	app.Test1Routing = Ember.Route.extend({
+		route: '/test1',
+		connectOutlets: function(router){
+			app.Router.openView(router, "test1");
+		}
+	});
+
+	//------------------------------------------------//
+
 })( window.Webapp );

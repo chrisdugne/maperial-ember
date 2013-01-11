@@ -41,4 +41,21 @@
 	
 	app.DatasetsController = DatasetsController;
 
+	//--------------------------------------------------------------------------//
+
+	app.DatasetsRouting = Ember.Route.extend({
+		route: '/datasets',
+		connectOutlets: function(router){
+			app.Router.openView(router, "datasets");
+		},
+		deleteDataset: function(router, event){
+			var dataset = event.context;
+			DatasetManager.deleteDataset(dataset);
+		},
+		openUploadWindow: function(){DatasetsController.openUploadWindow()}
+	});
+
+	//--------------------------------------------------------------------------//
+	
 })( window.Webapp );
+

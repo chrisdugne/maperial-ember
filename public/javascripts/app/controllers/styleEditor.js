@@ -82,6 +82,17 @@
 	//------------------------------------------------//
 	
 	app.StyleEditorController = StyleEditorController;
+	
+	//------------------------------------------------//
 
+	app.StyleEditorRouting = Ember.Route.extend({
+		route: '/styleEditor',
+		connectOutlets: function(router) {
+			app.Router.openView(router, "styleEditor");
+		}
+	});
+
+	//------------------------------------------------//
+	
 })( window.Webapp );
 

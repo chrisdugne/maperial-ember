@@ -129,7 +129,18 @@
 	
 	//------------------------------------------------//
 	
-	
 	app.TryscreenController = TryscreenController;
+
+	//------------------------------------------------//
+	
+	app.TryscreenRouting = Ember.Route.extend({
+		route: '/tryscreen',
+		connectOutlets: function(router){
+			app.Router.openView(router, "tryscreen");
+		},
+		openLoginWindow: function(){app.HomeController.openLoginWindow()}
+	});
+
+	//------------------------------------------------//
 
 })( window.Webapp );

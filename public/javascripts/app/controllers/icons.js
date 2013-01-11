@@ -19,5 +19,16 @@
 	//------------------------------------------------//
 	
 	app.IconsController = IconsController;
+	
+	//------------------------------------------------//
+
+	app.IconsRouting = Ember.Route.extend({
+		route: '/icons',
+		connectOutlets: function(router){
+			app.Router.openView(router, "icons");
+		}
+	});
+
+	//------------------------------------------------//
 
 })( window.Webapp );

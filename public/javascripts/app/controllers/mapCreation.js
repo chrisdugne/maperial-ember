@@ -20,4 +20,15 @@
 	
 	app.MapCreationController = MapCreationController;
 
+	//------------------------------------------------//
+
+	app.MapCreationRouting = Ember.Route.extend({
+		route: '/mapCreation',
+		connectOutlets: function(router){
+			app.Router.openView(router, "mapCreation");
+		}
+	});
+
+	//------------------------------------------------//
+	
 })( window.Webapp );

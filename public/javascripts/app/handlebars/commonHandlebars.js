@@ -99,7 +99,7 @@ Ember.Handlebars.registerHelper('click',
 		// parsing method + params
 	
 		var paramProperty = chain.substring(chain.indexOf("(") + 1, chain.indexOf(")"));
-		var method = chain.substring(0, chain.indexOf("("));
+		var method = "window.Webapp." + chain.substring(0, chain.indexOf("("));
 		
 		//---------------------------------//
 		// fecthing params
@@ -117,6 +117,10 @@ Ember.Handlebars.registerHelper('click',
 			param = Ember.Handlebars.get(this, paramProperty, options);
 		}
 		
+		var toApply = function(){
+			eval(method+"("+param+")");
+		};
+		
 		//---------------------------------//
 		// formatting params
 		
@@ -133,6 +137,6 @@ Ember.Handlebars.registerHelper('click',
 		//--------------------------------------------//
 		// here you go with the dynamic onclick
 		
-		return new Handlebars.SafeString("onclick=\"window.Webapp."+method+"("+param+")\" ");
+		return new Handlebars.SafeString("onclick=\"" + toApply +"()\" ");
 	}
 );
