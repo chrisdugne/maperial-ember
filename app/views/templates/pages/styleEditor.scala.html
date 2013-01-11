@@ -2,17 +2,11 @@
 <canvas id="map" style="border: none;"></canvas>
 
 <div id="style" title="Style" class="popup hide">
-	<div class="row">
+	<div id="styleEditorActions" class="row hide">
 		<div class="span2"><input id="styleNameInput" type="text"/></div>
-		<div class="span1">
-	    	<form id="styleupload" action="//map.x-ray.fr/server//" method="POST" enctype="multipart/form-data">
-				<div {{action saveStyle}} id="saveStyleButton" class="btn-small btn-primary">Save</div>
-			</form>
-		</div>
+		<div {{action saveStyleee}} class="span1 btn-small btn-primary" id="saveStyleButton">Save</div>
 	</div>
 	<div class="row">
 		<div class="span2"><p>Ici StyleEditor de Vivien</p></div>
 	</div>
 </div>
-
-

@@ -101,7 +101,11 @@
 
         selectStyle : function(router, event){
 			StylesController.selectStyle(event.context);
-		}
+		},
+
+		deleteStyle : function(router, event){
+			StylesController.deleteStyle(event.context);
+        }
 	});
 
 	//==================================================================//

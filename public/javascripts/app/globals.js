@@ -27,7 +27,7 @@ Globals.initWindowSize = function()
 Globals.resizeWindow = function()
 {
 	$(document).ready(function() {
-		  var webAppHeight = $(window).height() - $("#header").height() - $("#footer").height() - 100;
+		  var webAppHeight = $(window).height() - $("#header").height() - $("#footer").height() - 120;
 		  $("#webappDiv").css("min-height", webAppHeight );
 		});	
 }

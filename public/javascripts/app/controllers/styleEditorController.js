@@ -65,6 +65,8 @@
 			closeOnEscape: false,
 			dialogClass: 'no-close'
 		});
+		
+		$("#style").append($("#styleEditorActions"));
 	}
 
 	StyleEditorController.cleanStyle = function()
@@ -89,6 +91,7 @@
 
 	app.StyleEditorRouting = Ember.Route.extend({
 		route: '/styleEditor',
+		
 		connectOutlets: function(router) {
 			app.Router.openView(router, "styleEditor");
 		},
@@ -96,7 +99,8 @@
         //--------------------------------------//
         // actions
 		
-		saveStyle: function(router, event){
+		saveStyle: function(){
+			console.log("routing savestyle");
 			StyleEditorController.saveStyle();
 		}
 	
