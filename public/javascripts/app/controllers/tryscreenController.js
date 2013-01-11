@@ -4,7 +4,7 @@
 
 	var TryscreenController = Ember.ObjectController.extend({});
 
-	//------------------------------------------------//
+	//==================================================================//
 
 	TryscreenController.renderUI = function()
 	{
@@ -36,8 +36,8 @@
 		TryscreenController.cleanMap();
 	}
 
-	//------------------------------------------------//
-
+	//==================================================================//
+	// Controls
 
 	TryscreenController.renderColorBar = function()
 	{
@@ -131,8 +131,9 @@
 	
 	app.TryscreenController = TryscreenController;
 
-	//------------------------------------------------//
-	
+	//==================================================================//
+	// Routing
+
 	app.TryscreenRouting = Ember.Route.extend({
 		route: '/tryscreen',
 		connectOutlets: function(router){
@@ -141,6 +142,6 @@
 		openLoginWindow: function(){app.HomeController.openLoginWindow()}
 	});
 
-	//------------------------------------------------//
+	//==================================================================//
 
 })( window.Webapp );

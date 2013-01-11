@@ -4,7 +4,7 @@
 
 	var StyleEditorController = Ember.ObjectController.extend({});
 
-	//------------------------------------------------//
+	//==================================================================//
 
 	StyleEditorController.renderUI = function()
 	{
@@ -36,7 +36,8 @@
 		StyleEditorController.cleanMap();
 	}
 
-	//------------------------------------------------//
+	//==================================================================//
+	// Controls
 
 	StyleEditorController.renderMap = function()
 	{
@@ -83,16 +84,25 @@
 	
 	app.StyleEditorController = StyleEditorController;
 	
-	//------------------------------------------------//
+	//==================================================================//
+	// Routing
 
 	app.StyleEditorRouting = Ember.Route.extend({
 		route: '/styleEditor',
 		connectOutlets: function(router) {
 			app.Router.openView(router, "styleEditor");
+		},
+
+        //--------------------------------------//
+        // actions
+		
+		saveStyle: function(router, event){
+			StyleEditorController.saveStyle();
 		}
+	
 	});
 
-	//------------------------------------------------//
+	//==================================================================//
 	
 })( window.Webapp );
 

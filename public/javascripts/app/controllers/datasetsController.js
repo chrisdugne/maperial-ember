@@ -4,7 +4,7 @@
 
 	var DatasetsController = Ember.ObjectController.extend({});
 
-	//--------------------------------------------------------------------------//
+	//==================================================================//
 		
 	DatasetsController.renderUI = function()
 	{
@@ -30,28 +30,36 @@
 		
 	}
 
-	//--------------------------------------------------------------------------//
+	//==================================================================//
+	// Controls
 
 	DatasetsController.openUploadWindow = function() 
 	{
 		$('#uploadDatasetsWindow').modal();
 	}
 
-	//--------------------------------------------------------------------------//
+	//----------------------------------------------------//
 	
 	app.DatasetsController = DatasetsController;
 
-	//--------------------------------------------------------------------------//
+	//==================================================================//
+	// Routing
 
 	app.DatasetsRouting = Ember.Route.extend({
 		route: '/datasets',
+		
 		connectOutlets: function(router){
 			app.Router.openView(router, "datasets");
 		},
+		
+		//-----------------------------------------------//
+		// actions
+		
 		deleteDataset: function(router, event){
 			var dataset = event.context;
 			DatasetManager.deleteDataset(dataset);
 		},
+		
 		openUploadWindow: function(){DatasetsController.openUploadWindow()}
 	});
 

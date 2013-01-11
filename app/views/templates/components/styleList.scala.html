@@ -33,7 +33,7 @@
    	<div class=styleList>
 		{{#each style in styles}}
 			{{#with style}}
-				<div {{click 'StylesController.selectStyle(this)'}} class="row">
+				<div {{action selectStyle this}} class="row">
 				    <div class="span2 name"><p class="filename">{{name}}</p></div>
 				   	<a class="selectable span2 offset2">{{thumb uid}}</a>
 				</div>

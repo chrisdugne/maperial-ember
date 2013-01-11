@@ -6,7 +6,7 @@
 		<div class="span2"><input id="styleNameInput" type="text"/></div>
 		<div class="span1">
 	    	<form id="styleupload" action="//map.x-ray.fr/server//" method="POST" enctype="multipart/form-data">
-				<div {{click 'StyleEditorController.saveStyle()'}} id="saveStyleButton" class="btn-small btn-primary">Save</div>
+				<div {{action saveStyle}} id="saveStyleButton" class="btn-small btn-primary">Save</div>
 			</form>
 		</div>
 	</div>

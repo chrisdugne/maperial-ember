@@ -4,8 +4,8 @@
 
 	var DashboardController = Ember.ObjectController.extend({});
 
-	//------------------------------------------------//
-
+	//==================================================================//
+	
 	DashboardController.renderUI = function()
 	{
 
@@ -16,18 +16,24 @@
 		
 	}
 
-	//------------------------------------------------//
+	//==================================================================//
+	// Controls
 
 	app.DashboardController = DashboardController;
 
-	//------------------------------------------------//
-	
+	//==================================================================//
+	// Routing
+
 	app.DashboardRouting = Ember.Route.extend({
 		route: '/dashboard',
+		
 		connectOutlets: function(router){
 			app.Router.openView(router, "dashboard");
 		},
-		// pages
+		
+		//------------------------------------------//
+		// actions
+		
 		newMap: Ember.Route.transitionTo('mapCreation'),
 		styles: Ember.Route.transitionTo('styles'),
 		colorbars: Ember.Route.transitionTo('colorbars'),
@@ -38,6 +44,6 @@
 		openTest2: Ember.Route.transitionTo('test2')
 	});
 
-	//------------------------------------------------//
+	//==================================================================//
 
 })( window.Webapp );

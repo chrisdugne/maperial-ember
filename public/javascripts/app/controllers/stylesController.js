@@ -4,7 +4,7 @@
 
 	var StylesController = Ember.ObjectController.extend({});
 
-	//------------------------------------------------//
+	//==================================================================//
 
 	StylesController.renderUI = function()
 	{
@@ -16,7 +16,8 @@
 		
 	}
 
-	//------------------------------------------------//
+	//==================================================================//
+	// Controls
 
 	StylesController.openStyleSelectionWindow = function() 
 	{
@@ -27,21 +28,20 @@
 	
 	StylesController.selectStyle = function(style) 
 	{
-		window.Webapp.stylesData.set("selectedStyle", style);
+		app.stylesData.set("selectedStyle", style);
 	}
 
 	//------------------------------------------------//
 	
 	StylesController.cancelSelectedStyle = function() 
 	{
-		window.Webapp.stylesData.set("selectedStyle", undefined);
+		app.stylesData.set("selectedStyle", undefined);
 	}
 	
 	//------------------------------------------------//
 	
 	StylesController.deleteStyle = function(style) 
 	{
-		console.log(style);
 		StyleManager.deleteStyle(style);
 	}
 	
@@ -50,21 +50,26 @@
 	StylesController.continueStyleEdition = function() 
 	{
 		$("#selectStyleWindow").modal("hide");
-		window.Webapp.get('router').transitionTo('styleEditor');
+		app.get('router').transitionTo('styleEditor');
 	}
 
 	//------------------------------------------------//
-
+	
 	app.StylesController = StylesController;
 
-
-	//------------------------------------------------//
+	//==================================================================//
+	// Routing
 
 	app.StylesRouting = Ember.Route.extend({
 		route: '/styles',
-        connectOutlets: function(router) {
+        
+		connectOutlets: function(router) {
 			app.Router.openView(router, "styles");
         },
+
+        //--------------------------------------//
+        // states
+        
         myStyles: Ember.Route.extend({
         	route: '/myStyles',
         	connectOutlets: function(router) {
@@ -73,6 +78,7 @@
         		app.Router.openComponent(router, customParams);
         	}
         }),
+        
         publicStyles: Ember.Route.extend({
         	route: '/publicStyles',
     		connectOutlets: function(router) {
@@ -81,15 +87,24 @@
         		app.Router.openComponent(router, customParams);
     		}
         }),
+
+        //--------------------------------------//
+        // actions
+        
         showPublicStyles: function(router){
-        	app.StylesController.cancelSelectedStyle();
-        	app.StylesController.openStyleSelectionWindow();
+        	StylesController.cancelSelectedStyle();
+        	StylesController.openStyleSelectionWindow();
         	router.transitionTo('styles.publicStyles');
         },
-        showMyStyles: Ember.Route.transitionTo('styles.myStyles')
+        
+        showMyStyles: Ember.Route.transitionTo('styles.myStyles'),
+
+        selectStyle : function(router, event){
+			StylesController.selectStyle(event.context);
+		}
 	});
 
-	//------------------------------------------------//
+	//==================================================================//
 	
 })( window.Webapp );
 
