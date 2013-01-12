@@ -25,6 +25,7 @@
 					StyleEditorController.renderMap();
       				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
       				
+      				// retrieve the content from the tileServer
       				StyleManager.getStyle(App.stylesData.selectedStyle.uid);
                  }
       	);
@@ -65,8 +66,6 @@
 			closeOnEscape: false,
 			dialogClass: 'no-close'
 		});
-		
-		$("#style").append($("#styleEditorActions"));
 	}
 
 	StyleEditorController.cleanStyle = function()
