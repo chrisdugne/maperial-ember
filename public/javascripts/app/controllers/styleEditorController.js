@@ -98,11 +98,6 @@
 
         //--------------------------------------//
         // actions
-		
-		saveStyle: function(){
-			console.log("routing savestyle");
-			StyleEditorController.saveStyle();
-		}
 	
 	});
 
