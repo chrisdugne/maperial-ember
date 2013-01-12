@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var StylesController = Ember.ObjectController.extend({});
@@ -28,14 +28,14 @@
 	
 	StylesController.selectStyle = function(style) 
 	{
-		app.stylesData.set("selectedStyle", style);
+		App.stylesData.set("selectedStyle", style);
 	}
 
 	//------------------------------------------------//
 	
 	StylesController.cancelSelectedStyle = function() 
 	{
-		app.stylesData.set("selectedStyle", undefined);
+		App.stylesData.set("selectedStyle", undefined);
 	}
 	
 	//------------------------------------------------//
@@ -50,21 +50,21 @@
 	StylesController.continueStyleEdition = function() 
 	{
 		$("#selectStyleWindow").modal("hide");
-		app.get('router').transitionTo('styleEditor');
+		App.get('router').transitionTo('styleEditor');
 	}
 
 	//------------------------------------------------//
 	
-	app.StylesController = StylesController;
+	App.StylesController = StylesController;
 
 	//==================================================================//
 	// Routing
 
-	app.StylesRouting = Ember.Route.extend({
+	App.StylesRouting = Ember.Route.extend({
 		route: '/styles',
         
 		connectOutlets: function(router) {
-			app.Router.openView(router, "styles");
+			App.Router.openView(router, "styles");
         },
 
         //--------------------------------------//
@@ -74,8 +74,8 @@
         	route: '/myStyles',
         	connectOutlets: function(router) {
     			var customParams = [];
-    			customParams["styles"] = app.user.styles;
-        		app.Router.openComponent(router, customParams);
+    			customParams["styles"] = App.user.styles;
+        		App.Router.openComponent(router, customParams);
         	}
         }),
         
@@ -83,8 +83,8 @@
         	route: '/publicStyles',
     		connectOutlets: function(router) {
     			var customParams = [];
-    			customParams["styles"] = app.publicData.styles;
-        		app.Router.openComponent(router, customParams);
+    			customParams["styles"] = App.publicData.styles;
+        		App.Router.openComponent(router, customParams);
     		}
         }),
 
@@ -110,5 +110,5 @@
 
 	//==================================================================//
 	
-})( window.Webapp );
+})();
 

@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var DatasetsController = Ember.ObjectController.extend({});
@@ -40,16 +40,16 @@
 
 	//----------------------------------------------------//
 	
-	app.DatasetsController = DatasetsController;
+	App.DatasetsController = DatasetsController;
 
 	//==================================================================//
 	// Routing
 
-	app.DatasetsRouting = Ember.Route.extend({
+	App.DatasetsRouting = Ember.Route.extend({
 		route: '/datasets',
 		
 		connectOutlets: function(router){
-			app.Router.openView(router, "datasets");
+			App.Router.openView(router, "datasets");
 		},
 		
 		//-----------------------------------------------//
@@ -65,5 +65,5 @@
 
 	//--------------------------------------------------------------------------//
 	
-})( window.Webapp );
+})();
 

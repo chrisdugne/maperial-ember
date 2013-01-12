@@ -1,10 +1,10 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var StylesData = Ember.Object.extend({
 		selectedStyle: null // styleUID
 	});
 	
-	app.stylesData = StylesData.create();
+	App.stylesData = StylesData.create();
 	
-})( window.Webapp);
+})( App);

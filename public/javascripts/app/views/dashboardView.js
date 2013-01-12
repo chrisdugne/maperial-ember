@@ -1,16 +1,16 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var DashboardView = Ember.View.extend({
 		templateName: 'dashboard',
 		didInsertElement: function(){
-			app.DashboardController.renderUI();
+			App.DashboardController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.DashboardController.cleanUI();
+			App.DashboardController.cleanUI();
 		}
 	});
 	
-	app.DashboardView = DashboardView;
+	App.DashboardView = DashboardView;
 
-})( window.Webapp);
+})( App);

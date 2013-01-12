@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var FontsController = Ember.ObjectController.extend({});
@@ -19,19 +19,19 @@
 	//==================================================================//
 	// Controls
 
-	app.FontsController = FontsController;
+	App.FontsController = FontsController;
 
 	//==================================================================//
 	// Routing
 
-	app.FontsRouting = Ember.Route.extend({
+	App.FontsRouting = Ember.Route.extend({
 		route: '/fonts',
 	
 		connectOutlets: function(router){
-			app.Router.openView(router, "fonts");
+			App.Router.openView(router, "fonts");
 		}
 	});
 
 	//==================================================================//
 
-})( window.Webapp );
+})();

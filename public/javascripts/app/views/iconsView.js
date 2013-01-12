@@ -1,16 +1,16 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var IconsView = Ember.View.extend({
 		templateName: 'icons',
 		didInsertElement: function(){
-			app.IconsController.renderUI();
+			App.IconsController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.IconsController.cleanUI();
+			App.IconsController.cleanUI();
 		}
 	});
 	
-	app.IconsView = IconsView;
+	App.IconsView = IconsView;
 
-})( window.Webapp);
+})( App);

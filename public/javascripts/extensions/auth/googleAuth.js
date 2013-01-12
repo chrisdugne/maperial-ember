@@ -36,7 +36,7 @@ GoogleAuth.googleAuthResult = function(authResult)
 {
 	if (authResult && !authResult.error) 
 	{
-		window.Webapp.user.set("loggedIn", true);
+		App.user.set("loggedIn", true);
 		$("#signinButton").fadeOut(1350);
 		GoogleAuth.getUser();
 	}
@@ -67,8 +67,8 @@ GoogleAuth.getUser = function()
 //			if(response.picture)
 //				image.src = response.picture;
 			 
-			window.Webapp.user.set("name", response.name);
-			window.Webapp.user.set("email", response.email);
+			App.user.set("name", response.name);
+			App.user.set("email", response.email);
 			
 			UserManager.getGoogleUser();
 		});

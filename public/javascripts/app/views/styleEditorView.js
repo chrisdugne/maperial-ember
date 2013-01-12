@@ -1,17 +1,17 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var StyleEditorView = Ember.View.extend({
 		templateName: 'styleEditor',
 		didInsertElement: function(){
-			app.StyleEditorController.renderUI();
+			App.StyleEditorController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.StyleEditorController.cleanUI();
+			App.StyleEditorController.cleanUI();
 		}
 	});
 	
-	app.StyleEditorView = StyleEditorView;
+	App.StyleEditorView = StyleEditorView;
 
-})( window.Webapp);
+})( App);
 

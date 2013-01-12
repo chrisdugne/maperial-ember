@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var StyleEditorController = Ember.ObjectController.extend({});
@@ -18,14 +18,14 @@
 		                         "http://map.x-ray.fr/js/maps.js"],
                  function()
                  {
-					app.stylesData.selectedStyle.name = "CopyOf" + app.stylesData.selectedStyle.name;
-					$("#styleNameInput").val(app.stylesData.selectedStyle.name);
+					App.stylesData.selectedStyle.name = "CopyOf" + App.stylesData.selectedStyle.name;
+					$("#styleNameInput").val(App.stylesData.selectedStyle.name);
 					
 					StyleEditorController.renderStyle();
 					StyleEditorController.renderMap();
       				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
       				
-      				StyleManager.getStyle(app.stylesData.selectedStyle.uid);
+      				StyleManager.getStyle(App.stylesData.selectedStyle.uid);
                  }
       	);
 	}
@@ -78,22 +78,22 @@
 	
 	StyleEditorController.saveStyle = function()
 	{
-		app.stylesData.selectedStyle.name = $("#styleNameInput").val();
-		StyleManager.uploadNewStyle(app.stylesData.selectedStyle);
+		App.stylesData.selectedStyle.name = $("#styleNameInput").val();
+		StyleManager.uploadNewStyle(App.stylesData.selectedStyle);
 	}
 
 	//------------------------------------------------//
 	
-	app.StyleEditorController = StyleEditorController;
+	App.StyleEditorController = StyleEditorController;
 	
 	//==================================================================//
 	// Routing
 
-	app.StyleEditorRouting = Ember.Route.extend({
+	App.StyleEditorRouting = Ember.Route.extend({
 		route: '/styleEditor',
 		
 		connectOutlets: function(router) {
-			app.Router.openView(router, "styleEditor");
+			App.Router.openView(router, "styleEditor");
 		},
 
         //--------------------------------------//
@@ -103,5 +103,5 @@
 
 	//==================================================================//
 	
-})( window.Webapp );
+})();
 

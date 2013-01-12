@@ -1,16 +1,16 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var DatasetsView = Ember.View.extend({
 		templateName: 'datasets',
 		didInsertElement: function(){
-			app.DatasetsController.renderUI();
+			App.DatasetsController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.DatasetsController.cleanUI();
+			App.DatasetsController.cleanUI();
 		}
 	});
 	
-	app.DatasetsView = DatasetsView;
+	App.DatasetsView = DatasetsView;
 
-})( window.Webapp);
+})( App);

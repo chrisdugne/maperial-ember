@@ -1,18 +1,18 @@
 //--------------------------------------------------------------------------//
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var TryscreenView = Ember.View.extend({
 		templateName: 'tryscreen',
 		didInsertElement: function(){
-			app.TryscreenController.renderUI();
+			App.TryscreenController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.TryscreenController.cleanUI();
+			App.TryscreenController.cleanUI();
 		}
 	});
 	
-	app.TryscreenView = TryscreenView;
+	App.TryscreenView = TryscreenView;
 
-})( window.Webapp);
+})( App);

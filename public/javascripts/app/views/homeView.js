@@ -1,16 +1,16 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var HomeView = Ember.View.extend({
 		templateName: 'home',
 		didInsertElement: function(){
-			app.HomeController.renderUI();
+			App.HomeController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.HomeController.cleanUI();
+			App.HomeController.cleanUI();
 		}
 	});
 	
-	app.HomeView = HomeView;
+	App.HomeView = HomeView;
 
-})( window.Webapp);
+})( App);

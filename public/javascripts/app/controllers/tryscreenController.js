@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var TryscreenController = Ember.ObjectController.extend({});
@@ -129,19 +129,19 @@
 	
 	//------------------------------------------------//
 	
-	app.TryscreenController = TryscreenController;
+	App.TryscreenController = TryscreenController;
 
 	//==================================================================//
 	// Routing
 
-	app.TryscreenRouting = Ember.Route.extend({
+	App.TryscreenRouting = Ember.Route.extend({
 		route: '/tryscreen',
 		connectOutlets: function(router){
-			app.Router.openView(router, "tryscreen");
+			App.Router.openView(router, "tryscreen");
 		},
-		openLoginWindow: function(){app.HomeController.openLoginWindow()}
+		openLoginWindow: function(){App.HomeController.openLoginWindow()}
 	});
 
 	//==================================================================//
 
-})( window.Webapp );
+})();

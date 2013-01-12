@@ -77,7 +77,7 @@ extensionUpload.init = function ()
     		// data.files[0] = file envoyé
     		// data.result.files[0] = file retour upload
 			
-    		window.Webapp.user.datasets.pushObject(data.result.files[0]);
+    		App.user.datasets.pushObject(data.result.files[0]);
 
     		var dataset = {
 				name : data.result.files[0].name,

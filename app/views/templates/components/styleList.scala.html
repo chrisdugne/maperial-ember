@@ -47,11 +47,11 @@
     {{isset controllerData.selectedStyle
       yes='<div class="span2">
       			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.controllerData.selectedStyle.uid)}"></img>
-				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="window.Webapp.StylesController.cancelSelectedStyle()">
+				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
 					<i class="icon icon-ex-white-outline"></i>
 				</a>
       	   </div>
-      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="window.Webapp.StylesController.continueStyleEdition()">Continue with this preset</div>'
+      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="App.StylesController.continueStyleEdition()">Continue with this preset</div>'
       no='<h4 class="offset2">(Select a style to start with)</h4>'}}
 	</div>
 

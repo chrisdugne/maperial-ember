@@ -1,16 +1,16 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var FontsView = Ember.View.extend({
 		templateName: 'fonts',
 		didInsertElement: function(){
-			app.FontsController.renderUI();
+			App.FontsController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.FontsController.cleanUI();
+			App.FontsController.cleanUI();
 		}
 	});
 	
-	app.FontsView = FontsView;
+	App.FontsView = FontsView;
 
-})( window.Webapp);
+})( App);

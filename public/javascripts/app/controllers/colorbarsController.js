@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var ColorbarsController = Ember.ObjectController.extend({});
@@ -19,18 +19,18 @@
 	//==================================================================//
 	// Controls
 
-	app.ColorbarsController = ColorbarsController;
+	App.ColorbarsController = ColorbarsController;
 
 	//==================================================================//
 	// Routing
 
-	app.ColorbarsRouting = Ember.Route.extend({
+	App.ColorbarsRouting = Ember.Route.extend({
 		route: '/colorbars',
 		connectOutlets: function(router){
-			app.Router.openView(router, "colorbars");
+			App.Router.openView(router, "colorbars");
 		}
 	});
 
 	//==================================================================//
 	
-})( window.Webapp );
+})();

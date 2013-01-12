@@ -9,7 +9,7 @@ this.DatasetManager = {};
 DatasetManager.addDataset = function(dataset)
 {
 	var params = new Object();
-	params["user"] = window.Webapp.user;
+	params["user"] = App.user;
 	params["dataset"] = dataset;
 	
 	$.ajax({  
@@ -36,7 +36,7 @@ DatasetManager.deleteDataset = function(dataset)
 	    success: function (data, textStatus, jqXHR)
 		{
 	    	// remove from the user list
-    		window.Webapp.user.datasets.removeObject(dataset);
+    		App.user.datasets.removeObject(dataset);
     		
     		// remove from the db
     		var params = new Object();

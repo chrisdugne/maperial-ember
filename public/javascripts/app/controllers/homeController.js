@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var HomeController = Ember.ObjectController.extend({});
@@ -26,26 +26,26 @@
 
 	//----------------------------------------------------//
 
-	app.HomeController = HomeController;
+	App.HomeController = HomeController;
 
 	//==================================================================//
 	// Routing
 
-	app.HomeRouting = Ember.Route.extend({
+	App.HomeRouting = Ember.Route.extend({
 		route: '/',
 		
 		connectOutlets: function(router){
-			app.Router.openView(router, "home");
+			App.Router.openView(router, "home");
 		},
 		
 		//-----------------------------------//
 		// actions
 		
 		openTryscreen: Ember.Route.transitionTo('tryscreen'),
-		openLoginWindow: function(){app.HomeController.openLoginWindow()}
+		openLoginWindow: function(){App.HomeController.openLoginWindow()}
 	});
 
 	//==================================================================//
 
-})( window.Webapp );
+})();
 

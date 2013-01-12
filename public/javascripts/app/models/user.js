@@ -1,4 +1,4 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var User = Ember.Object.extend({
@@ -15,6 +15,6 @@
 		loggedIn: false
 	});
 	
-	app.user = User.create();
+	App.user = User.create();
 	
-})( window.Webapp);
+})( App);

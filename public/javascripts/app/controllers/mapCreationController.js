@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var MapCreationController = Ember.ObjectController.extend({});
@@ -19,19 +19,19 @@
 	//==================================================================//
 	// Controls
 
-	app.MapCreationController = MapCreationController;
+	App.MapCreationController = MapCreationController;
 
 	//==================================================================//
 	// Routing
 
-	app.MapCreationRouting = Ember.Route.extend({
+	App.MapCreationRouting = Ember.Route.extend({
 		route: '/mapCreation',
 		
 		connectOutlets: function(router){
-			app.Router.openView(router, "mapCreation");
+			App.Router.openView(router, "mapCreation");
 		}
 	});
 
 	//==================================================================//
 	
-})( window.Webapp );
+})();

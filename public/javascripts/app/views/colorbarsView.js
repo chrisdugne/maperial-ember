@@ -1,16 +1,16 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var ColorbarsView = Ember.View.extend({
 		templateName: 'colorbars',
 		didInsertElement: function(){
-			app.ColorbarsController.renderUI();
+			App.ColorbarsController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.ColorbarsController.cleanUI();
+			App.ColorbarsController.cleanUI();
 		}
 	});
 	
-	app.ColorbarsView = ColorbarsView;
+	App.ColorbarsView = ColorbarsView;
 
-})( window.Webapp);
+})( App);

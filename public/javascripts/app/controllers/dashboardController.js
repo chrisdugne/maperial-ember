@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var DashboardController = Ember.ObjectController.extend({});
@@ -19,16 +19,16 @@
 	//==================================================================//
 	// Controls
 
-	app.DashboardController = DashboardController;
+	App.DashboardController = DashboardController;
 
 	//==================================================================//
 	// Routing
 
-	app.DashboardRouting = Ember.Route.extend({
+	App.DashboardRouting = Ember.Route.extend({
 		route: '/dashboard',
 		
 		connectOutlets: function(router){
-			app.Router.openView(router, "dashboard");
+			App.Router.openView(router, "dashboard");
 		},
 		
 		//------------------------------------------//
@@ -46,4 +46,4 @@
 
 	//==================================================================//
 
-})( window.Webapp );
+})();

@@ -24,8 +24,8 @@ StyleManager.uploadNewStyle = function(style)
 				uid  : styleUID
     		};
 	    	
-			window.Webapp.user.styles.pushObject(newStyle);
-			window.Webapp.get('router').transitionTo('styles');
+			App.user.styles.pushObject(newStyle);
+			App.get('router').transitionTo('styles');
 			
 			StyleManager.addStyleInDB(newStyle);
 		}
@@ -52,7 +52,7 @@ StyleManager.editStyle = function(style)
 StyleManager.addStyleInDB = function(style)
 {
 	var params = new Object();
-	params["user"] = window.Webapp.user;
+	params["user"] = App.user;
 	params["style"] = style;
 	
 	$.ajax({  
@@ -81,7 +81,7 @@ StyleManager.getStyle = function(styleUID)
 	    success: function (data, textStatus, jqXHR)
 		{
 	    	console.log("style received : " + data);
-    		window.Webapp.stylesData.selectedStyle.content = data;
+    		App.stylesData.selectedStyle.content = data;
 		}
 	});
 }
@@ -97,7 +97,7 @@ StyleManager.deleteStyle = function(style)
 	    success: function (data, textStatus, jqXHR)
 		{
 	    	// remove from the user list
-    		window.Webapp.user.styles.removeObject(style);
+    		App.user.styles.removeObject(style);
     		
     		// remove from the db
     		var params = new Object();

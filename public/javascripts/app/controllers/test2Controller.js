@@ -1,5 +1,5 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var Test2Controller = Ember.ObjectController.extend({});
@@ -19,19 +19,19 @@
 	//==================================================================//
 	// Controls
 
-	app.Test2Controller = Test2Controller;
+	App.Test2Controller = Test2Controller;
 
 	//==================================================================//
 	// Routing
 
-	app.Test2Routing = Ember.Route.extend({
+	App.Test2Routing = Ember.Route.extend({
 		route: '/test2',
 	
 		connectOutlets: function(router){
-			app.Router.openView(router, "test2");
+			App.Router.openView(router, "test2");
 		}
 	});
 
 	//==================================================================//
 
-})( window.Webapp );
+})();

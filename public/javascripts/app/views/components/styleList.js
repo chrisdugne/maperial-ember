@@ -1,14 +1,14 @@
-(function( app ) {
+(function() {
 	'use strict';
 
-	app.MyStylesController = Ember.ObjectController.extend({});
-	app.MyStylesView = Ember.View.extend({
+	App.MyStylesController = Ember.ObjectController.extend({});
+	App.MyStylesView = Ember.View.extend({
 		templateName: 'styleList'
 	});
 	
-	app.PublicStylesController = Ember.ObjectController.extend({});
-	app.PublicStylesView = Ember.View.extend({
+	App.PublicStylesController = Ember.ObjectController.extend({});
+	App.PublicStylesView = Ember.View.extend({
 		templateName: 'styleList'
 	});
 
-})( window.Webapp);
+})( App);

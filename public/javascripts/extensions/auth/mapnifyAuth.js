@@ -21,9 +21,9 @@ MapnifyAuth.badtoken = function ()
 
 MapnifyAuth.tokenGranted = function (token, email) 
 {
-	window.Webapp.user.set("email", email);
-	window.Webapp.user.set("mapnifyToken", token);
-	window.Webapp.user.set("loggedIn", true);
+	App.user.set("email", email);
+	App.user.set("mapnifyToken", token);
+	App.user.set("loggedIn", true);
 	
 	UserManager.getAccount();
 	
@@ -38,7 +38,7 @@ MapnifyAuth.checkIfIsLoggedIn = function()
 		$.ajax({
 			type: "POST",  
 			url: "http://map.x-ray.fr/user/islogin",
-			data: {token : window.Webapp.user.mapnifyToken},
+			data: {token : App.user.mapnifyToken},
 			success: function (data, textStatus, jqXHR)
 			{
 				if(data.login)
@@ -47,7 +47,7 @@ MapnifyAuth.checkIfIsLoggedIn = function()
 				}
 				else{
 					alert("logged out !");
-					window.Webapp.user.set("loggedIn", false);
+					App.user.set("loggedIn", false);
 				}
 			}
 		});
@@ -59,9 +59,9 @@ MapnifyAuth.checkIfIsLoggedIn = function()
 
 MapnifyAuth.dummy = function()
 {
-	window.Webapp.user.set("name", "Bob Le Bobby");
-	window.Webapp.user.set("email", "dummy@mapnify.fr");
-	window.Webapp.user.set("loggedIn", true);
+	App.user.set("name", "Bob Le Bobby");
+	App.user.set("email", "dummy@mapnify.fr");
+	App.user.set("loggedIn", true);
 	
 	UserManager.getAccount();
 }

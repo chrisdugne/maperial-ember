@@ -1,17 +1,17 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var MapCreationView = Ember.View.extend({
 		templateName: 'mapCreation',
 		didInsertElement: function(){
-			app.MapCreationController.renderUI();
+			App.MapCreationController.renderUI();
 		},
 		willDestroyElement: function(){
-			app.MapCreationController.cleanUI();
+			App.MapCreationController.cleanUI();
 		}
 	});
 	
-	app.MapCreationView = MapCreationView;
+	App.MapCreationView = MapCreationView;
 
-})( window.Webapp);
+})( App);
 

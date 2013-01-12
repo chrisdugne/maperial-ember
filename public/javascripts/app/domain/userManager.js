@@ -16,14 +16,14 @@ $.ajax({
 		console.log("UserManager.getPublicData | data : " + data);
 		var publicData = $.parseJSON(data);
 
-		window.Webapp.publicData.set("maps", publicData.maps);
-		window.Webapp.publicData.set("styles", publicData.styles);
-		window.Webapp.publicData.set("datasets", publicData.datasets);
-		window.Webapp.publicData.set("colorbars", publicData.colorbars);
-		window.Webapp.publicData.set("fonts", publicData.fonts);
-		window.Webapp.publicData.set("icons", publicData.icons);
+		App.publicData.set("maps", publicData.maps);
+		App.publicData.set("styles", publicData.styles);
+		App.publicData.set("datasets", publicData.datasets);
+		App.publicData.set("colorbars", publicData.colorbars);
+		App.publicData.set("fonts", publicData.fonts);
+		App.publicData.set("icons", publicData.icons);
 		
-		//Utils.thumbURL(window.Webapp.publicData.styles[0].uid);
+		//Utils.thumbURL(App.publicData.styles[0].uid);
 	}
 });
 
@@ -32,7 +32,7 @@ $.ajax({
 UserManager.getAccount = function()
 {
 	var params = new Object();
-	params["user"] = window.Webapp.user;
+	params["user"] = App.user;
 	
 	$.ajax({  
 	    type: "POST",  
@@ -45,15 +45,15 @@ UserManager.getAccount = function()
 	    	console.log("user data : " + data);
 	    	var account = $.parseJSON(data);
 	    	
-	    	window.Webapp.user.set("uid", account.uid);
-	    	window.Webapp.user.set("email", account.email);
-	    	window.Webapp.user.set("name", account.name);
-	    	window.Webapp.user.set("maps", account.maps);
-	    	window.Webapp.user.set("styles", account.styles);
-	    	window.Webapp.user.set("datasets", account.datasets);
-	    	window.Webapp.user.set("colorbars", account.colorbars);
-	    	window.Webapp.user.set("fonts", account.fonts);
-	    	window.Webapp.user.set("icons", account.icons);
+	    	App.user.set("uid", account.uid);
+	    	App.user.set("email", account.email);
+	    	App.user.set("name", account.name);
+	    	App.user.set("maps", account.maps);
+	    	App.user.set("styles", account.styles);
+	    	App.user.set("datasets", account.datasets);
+	    	App.user.set("colorbars", account.colorbars);
+	    	App.user.set("fonts", account.fonts);
+	    	App.user.set("icons", account.icons);
 		}
 	});
 }

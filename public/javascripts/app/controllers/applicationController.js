@@ -1,9 +1,9 @@
 
-(function( app ) {
+(function() {
 	'use strict';
 
 	var ApplicationController = Ember.ObjectController.extend({});
 
-	app.ApplicationController = ApplicationController;
+	App.ApplicationController = ApplicationController;
 
-})( window.Webapp );
+})();

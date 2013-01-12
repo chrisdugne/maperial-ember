@@ -1,4 +1,4 @@
-(function( app ) {
+(function() {
 	'use strict';
 
 	var PublicData = Ember.Object.extend({
@@ -10,6 +10,6 @@
 		icons: Ember.A([])
 	});
 	
-	app.publicData = PublicData.create();
+	App.publicData = PublicData.create();
 	
-})( window.Webapp);
+})( App);

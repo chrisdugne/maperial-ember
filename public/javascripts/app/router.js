@@ -1,4 +1,4 @@
-(function( app ) {
+(function() {
 	'use strict';
 	
 	var Router = Ember.Router.extend({
@@ -15,25 +15,25 @@
 			// Routes used when calling Ember.Route.transitionTo
 			//-------------------//
 			
-			home: app.HomeRouting,
-			tryscreen: app.TryscreenRouting,
-			dashboard: app.DashboardRouting,
+			home: App.HomeRouting,
+			tryscreen: App.TryscreenRouting,
+			dashboard: App.DashboardRouting,
 			
-			styles: app.StylesRouting,
-			styleEditor: app.StyleEditorRouting,
+			styles: App.StylesRouting,
+			styleEditor: App.StyleEditorRouting,
 			
-			colorbars: app.ColorbarsRouting,
-			datasets: app.DatasetsRouting,
-			fonts: app.FontsRouting,
-			icons: app.IconsRouting,
+			colorbars: App.ColorbarsRouting,
+			datasets: App.DatasetsRouting,
+			fonts: App.FontsRouting,
+			icons: App.IconsRouting,
 
-			mapCreation: app.MapCreationRouting,
+			mapCreation: App.MapCreationRouting,
 
 			//----------------------------------------------------------------------------//
 			// tests - à virer
 
-			test1: app.Test1Routing,
-			test2: app.Test2Routing
+			test1: App.Test1Routing,
+			test2: App.Test2Routing
 			
 		})
 	})
@@ -46,7 +46,7 @@
 	 */
 	Router.openView = function (router, view, context)
 	{
-		if(view != "home" && view != "tryscreen" && !window.Webapp.user.loggedIn)
+		if(view != "home" && view != "tryscreen" && !App.user.loggedIn)
 		{
 			console.log("Not connected ! Redirected to the home page");
 			router.transitionTo('home');
@@ -58,12 +58,12 @@
 				// or we need everything = what happens below 
 				// or we need nothing = not matter if something is in the context
 				context = new Object();
-				context["user"] = window.Webapp.user;
-				context["publicData"] = window.Webapp.publicData;
+				context["user"] = App.user;
+				context["publicData"] = App.publicData;
 			}
 
 			// binding controller's data
-			context[view+"Data"] = window.Webapp[view+"Data"];	
+			context[view+"Data"] = App[view+"Data"];	
 			
 			// storing currentView
 			context["currentView"] = view;
@@ -88,7 +88,7 @@
 			return;
 		
 		var context = new Object();
-		context["controllerData"] = window.Webapp[controller + "Data"];
+		context["controllerData"] = App[controller + "Data"];
 		context["currentView"] = view;
 		
 		for(var property in customParams) {
@@ -124,8 +124,8 @@
 			
 	//-----------------------------------------------------------------------------------------//
 		
-	app.Router = Router;
+	App.Router = Router;
 
 	//-----------------------------------------------------------------------------------------//
 	
-})( window.Webapp );
+})();
