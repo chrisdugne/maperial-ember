@@ -17,12 +17,9 @@ StyleManager.uploadNewStyle = function(style)
 		{
 	    	var result = $.parseJSON(data).files[0];
 	    	var styleUID = result.styleUID;
-			
-	    	var newStyle = {
-				name : style.name,
-				content : style.content,
-				uid  : styleUID
-    		};
+	    	
+	    	var newStyle = App.stylesData.selectedStyle;
+	    	newStyle.uid = styleUID;
 	    	
 			App.user.styles.pushObject(newStyle);
 			App.get('router').transitionTo('styles');

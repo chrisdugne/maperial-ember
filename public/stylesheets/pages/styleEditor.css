@@ -2,7 +2,7 @@
 
 .styleList {
 	overflow: auto;
-	height: 200px;
+	height: 290px;
 }
 
 /*-------------------------*/
@@ -20,6 +20,10 @@
 #cancelSelection {
 	margin-top: -152px;
 	margin-left: 126px;
+}
+
+#selectedStyleArea {
+	margin-top: 16px;
 }
 
 #selectedStyleThumb {

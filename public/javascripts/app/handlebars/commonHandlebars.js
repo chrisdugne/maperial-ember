@@ -51,6 +51,16 @@ Ember.Handlebars.registerBoundHelper('thumb',
 	}
 );
 
+/**
+ * Display a style thumb from its styleUID 
+ */ 
+Ember.Handlebars.registerBoundHelper('minithumb', 
+	function(styleUID, options) 
+	{
+		return new Handlebars.SafeString("<img src=\""+Utils.thumbURL(styleUID)+"\" width=\"60\"></img>");
+	}
+);
+
 //---------------------------------------------------------------------------------------//
 
 /**

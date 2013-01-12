@@ -41,9 +41,7 @@
 		{{/each}}
 	</div>
 	
-    <hr class="soften">
-	
-    <div class="row">
+    <div id="selectedStyleArea" class="row">
     {{isset controllerData.selectedStyle
       yes='<div class="span2">
       			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.controllerData.selectedStyle.uid)}"></img>

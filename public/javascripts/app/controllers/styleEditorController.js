@@ -18,15 +18,27 @@
 		                         "http://map.x-ray.fr/js/maps.js"],
                  function()
                  {
-					App.stylesData.selectedStyle.name = "CopyOf" + App.stylesData.selectedStyle.name;
-					$("#styleNameInput").val(App.stylesData.selectedStyle.name);
+					//-----------------------------
+					// copy the selected style as a new style
+				
+			    	var newStyle = {
+						name : "CopyOf" + App.stylesData.selectedStyle.name,
+						content : App.stylesData.selectedStyle.content,
+						uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
+		    		};
+			    	
+					App.stylesData.selectedStyle = newStyle;
+					$("#styleNameInput").val(newStyle.name);
+
+					// retrieve the content from the tileServer
+					StyleManager.getStyle(App.stylesData.selectedStyle.uid);
+
+					//-----------------------------
+					// rendering
 					
 					StyleEditorController.renderStyle();
-					StyleEditorController.renderMap();
+					//StyleEditorController.renderMap();
       				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-      				
-      				// retrieve the content from the tileServer
-      				StyleManager.getStyle(App.stylesData.selectedStyle.uid);
                  }
       	);
 	}
@@ -37,8 +49,7 @@
 		StyleEditorController.cleanMap();
 	}
 
-	//==================================================================//
-	// Controls
+	//------------------------------------------------//
 
 	StyleEditorController.renderMap = function()
 	{
@@ -73,6 +84,8 @@
 		$("#style").remove();
 	}
 	
+	//==================================================================//
+	// Controls
 	//------------------------------------------------//
 	
 	StyleEditorController.saveStyle = function()
