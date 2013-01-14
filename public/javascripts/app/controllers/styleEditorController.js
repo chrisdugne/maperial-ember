@@ -42,9 +42,10 @@
 					
 					StyleEditorController.renderStyle();
 					StyleEditorController.renderMap();
-      				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+					extensionMapEditing.init($("#mapEditorTree"),$("#mapEditorWidget"),App.stylesData.map);
+      		$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
                  }
-          extensionMapEditing.init($("#mapEditorTree"),$("#mapEditorWidget"),App.stylesData.map);
+          
       	);
 	}
 
