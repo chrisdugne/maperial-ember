@@ -15,7 +15,11 @@
 		                         "http://map.x-ray.fr/js/render-line.js",
 		                         "http://map.x-ray.fr/js/render-text.js",
 		                         "http://map.x-ray.fr/js/tileRenderer.js",
-		                         "http://map.x-ray.fr/js/maps.js"],
+		                         "http://map.x-ray.fr/js/maps.js",
+                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js"),
+                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js"),
+                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/colorpicker.js"),
+                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js")],
                  function()
                  {
 					//-----------------------------
@@ -37,9 +41,10 @@
 					// rendering
 					
 					StyleEditorController.renderStyle();
-					//StyleEditorController.renderMap();
+					StyleEditorController.renderMap();
       				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
                  }
+          extensionMapEditing.init($("#mapEditorTree"),$("#mapEditorWidget"),App.stylesData.map);
       	);
 	}
 
