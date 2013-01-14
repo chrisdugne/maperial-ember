@@ -9,49 +9,56 @@
 	StyleEditorController.renderUI = function()
 	{
 		ScriptLoader.getScripts([
-		                         // map rendering
-		                         "http://map.x-ray.fr/js/gl-matrix-min.js",
-		                         "http://map.x-ray.fr/js/gl-tools.js",
-		                         "http://map.x-ray.fr/js/coordinate-system.js",
-		                         "http://map.x-ray.fr/js/jquery.mousewheel.min.js",
-		                         "http://map.x-ray.fr/js/render-line.js",
-		                         "http://map.x-ray.fr/js/render-text.js",
-		                         "http://map.x-ray.fr/js/tileRenderer.js",
-		                         "http://map.x-ray.fr/js/maps.js",
-	                             
-		                         // map editing
-		                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
-	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
-	                             "assets/javascripts/extensions/mapediting/colorpicker.js",
-	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
-	                             "assets/javascripts/extensions/mapediting/main.js"],
-                 function()
-                 {
+	                         // map rendering
+	                         "http://map.x-ray.fr/js/gl-matrix-min.js",
+	                         "http://map.x-ray.fr/js/gl-tools.js",
+	                         "http://map.x-ray.fr/js/coordinate-system.js",
+	                         "http://map.x-ray.fr/js/jquery.mousewheel.min.js",
+	                         "http://map.x-ray.fr/js/render-line.js",
+	                         "http://map.x-ray.fr/js/render-text.js",
+	                         "http://map.x-ray.fr/js/tileRenderer.js",
+	                         "http://map.x-ray.fr/js/maps.js",
+	                         
+	                         // map editing
+	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
+	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
+	                         "assets/javascripts/extensions/mapediting/colorpicker.js",
+	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
+	                         "assets/javascripts/extensions/mapediting/main.js"],
+	         function()
+	         {
+				//-----------------------------
+				// copy the selected style as a new style
+			
+		    	var newStyle = {
+					name : "CopyOf" + App.stylesData.selectedStyle.name,
+					content : App.stylesData.selectedStyle.content,
+					uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
+	    		};
+		    	
+				App.stylesData.selectedStyle = newStyle;
+				$("#styleNameInput").val(newStyle.name);
+	
+				// retrieve the content from the tileServer
+				StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
 					//-----------------------------
-					// copy the selected style as a new style
-				
-			    	var newStyle = {
-						name : "CopyOf" + App.stylesData.selectedStyle.name,
-						content : App.stylesData.selectedStyle.content,
-						uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
-		    		};
-			    	
-					App.stylesData.selectedStyle = newStyle;
-					$("#styleNameInput").val(newStyle.name);
-
-					// retrieve the content from the tileServer
-					StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
-						//-----------------------------
-						// rendering after reception
-						
-						StyleEditorController.renderStyle();
-						StyleEditorController.renderMap();
-						$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-						
-						ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
-					});
-
-                 }
+					// rendering after reception
+					
+					StyleEditorController.renderStyle();
+					StyleEditorController.renderMap();
+					$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+					
+					ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
+					
+					//------------------------------
+					// refresh loop 
+					
+					window.setInterval(function(){
+						tileRenderer.SetStyle(App.stylesData.selectedStyle.content);
+						maps.DrawScene(false,true);
+					}, 4000);
+				});
+	         }
       	);
 	}
 
@@ -81,16 +88,14 @@
 
 	StyleEditorController.renderStyle = function()
 	{
-//		$("#style").dialogr({
-//			width:290,
-//			minWidth:290,
-//			height:550,
-//			position : [15,170],
-//			closeOnEscape: false,
-//			dialogClass: 'no-close'
-//		});
-		
-		$("#style").draggable();
+		$("#style").dialogr({
+			width:440,
+			minWidth:440,
+			height:590,
+			position : [15,170],
+			closeOnEscape: false,
+			dialogClass: 'no-close'
+		});
 	}
 
 	StyleEditorController.cleanStyle = function()
