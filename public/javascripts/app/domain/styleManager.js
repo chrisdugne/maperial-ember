@@ -77,8 +77,10 @@ StyleManager.getStyle = function(styleUID, next)
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	console.log("style received : " + data);
     		App.stylesData.selectedStyle.content = data;
+    		
+    		// TO REMOVE : SHOULD PASS App.stylesData.selectedStyle.content as a parameter
+    		MapnifyMenu.__style = data;
     		
     		next();
 		}

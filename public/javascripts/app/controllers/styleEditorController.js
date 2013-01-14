@@ -55,7 +55,8 @@
 					
 					window.setInterval(function(){
 						tileRenderer.SetStyle(App.stylesData.selectedStyle.content);
-						maps.DrawScene(false,true);
+//						tileRenderer.SetStyle(MapnifyMenu.__style);
+						App.stylesData.map.DrawScene(false,true);
 					}, 4000);
 				});
 	         }
@@ -89,8 +90,8 @@
 	StyleEditorController.renderStyle = function()
 	{
 		$("#style").dialogr({
-			width:440,
-			minWidth:440,
+			width:460,
+			minWidth:460,
 			height:590,
 			position : [15,170],
 			closeOnEscape: false,
