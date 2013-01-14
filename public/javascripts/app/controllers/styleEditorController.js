@@ -24,7 +24,7 @@
 	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
 	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/colorpicker.js",
 	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
-	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/main.js"],
+	                             "assets/javascripts/extensions/mapediting/main.js"],
                  function()
                  {
 					//-----------------------------
