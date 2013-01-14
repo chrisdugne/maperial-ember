@@ -1,7 +1,11 @@
 
 <canvas id="map" style="border: none;"></canvas>
 
-<div id="style" title="Style" class="popup hide">
+<div id="style" title="Style">
+	<div class="row">
+		<div class="span2"><input id="styleNameInput" type="text"/></div>
+		<div onclick="App.StyleEditorController.saveStyle()" class="span1 btn-small btn-primary" id="saveStyleButton">Save</div>
+	</div>
 	<div id="mapEditorTree">
 	</div>
 	<div id="mapEditorWidget">

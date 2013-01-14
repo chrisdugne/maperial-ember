@@ -1,10 +1,7 @@
 
 this.ExtensionMapEditing = {};
-ExtensionMapEditing.init = function (menuDiv,widgetDiv,map) 
+ExtensionMapEditing.init = function (menuDiv, widgetDiv, map, styleJson) 
 {
-	console.log("init extensionMapEditing");
-	$(function(){
     // ok that's all we have to do to set up menu :-) 
     MapnifyMenu.init(menuDiv,widgetDiv,false,map);
-	}); 
 }

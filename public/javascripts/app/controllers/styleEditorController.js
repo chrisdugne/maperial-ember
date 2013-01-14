@@ -22,7 +22,7 @@
 		                         // map editing
 		                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
 	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
-	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/colorpicker.js",
+	                             "assets/javascripts/extensions/mapediting/colorpicker.js",
 	                             "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
 	                             "assets/javascripts/extensions/mapediting/main.js"],
                  function()
@@ -40,16 +40,17 @@
 					$("#styleNameInput").val(newStyle.name);
 
 					// retrieve the content from the tileServer
-					StyleManager.getStyle(App.stylesData.selectedStyle.uid);
+					StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
+						//-----------------------------
+						// rendering after reception
+						
+						StyleEditorController.renderStyle();
+						StyleEditorController.renderMap();
+						$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+						
+						ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
+					});
 
-					//-----------------------------
-					// rendering
-					
-					StyleEditorController.renderStyle();
-					StyleEditorController.renderMap();
-      				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-      				
-      				ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map);
                  }
       	);
 	}
@@ -80,14 +81,16 @@
 
 	StyleEditorController.renderStyle = function()
 	{
-		$("#style").dialogr({
-			width:290,
-			minWidth:290,
-			height:550,
-			position : [15,170],
-			closeOnEscape: false,
-			dialogClass: 'no-close'
-		});
+//		$("#style").dialogr({
+//			width:290,
+//			minWidth:290,
+//			height:550,
+//			position : [15,170],
+//			closeOnEscape: false,
+//			dialogClass: 'no-close'
+//		});
+		
+		$("#style").draggable();
 	}
 
 	StyleEditorController.cleanStyle = function()

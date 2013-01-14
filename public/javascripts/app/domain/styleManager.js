@@ -67,7 +67,7 @@ StyleManager.addStyleInDB = function(style)
 
 // -------------------------------------------//
 
-StyleManager.getStyle = function(styleUID)
+StyleManager.getStyle = function(styleUID, next)
 {
 	console.log("getStyle : " + styleUID);
 
@@ -79,6 +79,8 @@ StyleManager.getStyle = function(styleUID)
 		{
 	    	console.log("style received : " + data);
     		App.stylesData.selectedStyle.content = data;
+    		
+    		next();
 		}
 	});
 }

@@ -2,7 +2,7 @@
 	'use strict';
 
 	var StylesData = Ember.Object.extend({
-		selectedStyle: null, // styleUID
+		selectedStyle: null, // style.uid, style.name, style.content
 		map: null // GLMap			
 	});
 	

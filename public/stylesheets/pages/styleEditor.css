@@ -42,6 +42,10 @@
 	margin-top: -2px;
 }
 
+#style {
+	z-index: 3 !important;
+}
+
 #saveStyleButton {
 	margin-left: 24px;
 	width: 29px;

@@ -202,6 +202,7 @@
 				cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el);
 			},
 			show = function (ev) {
+				console.log("show");
 				var cal = $('#' + $(this).data('colorpickerId'));
 				cal.data('colorpicker').onBeforeShow.apply(this, [cal.get(0)]);
 				var pos = $(this).offset();
@@ -214,10 +215,11 @@
 				if (left + 356 > viewPort.l + viewPort.w) {
 					left -= 356;
 				}
-				cal.css({left: left + 'px', top: top + 'px'});
+				cal.css({left: left + 'px', top: top + 'px', 'z-index': '8000 !important'});
 				if (cal.data('colorpicker').onShow.apply(this, [cal.get(0)]) != false) {
 					cal.show();
 				}
+				console.log(cal.css);
 				$(document).bind('mousedown', {cal: cal}, hide);
 				return false;
 			},
