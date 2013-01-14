@@ -1,6 +1,6 @@
 
-this.extensionMapEditing = {};
-extensionMapEditing.init = function (menuDiv,widgetDiv,map) 
+this.ExtensionMapEditing = {};
+ExtensionMapEditing.init = function (menuDiv,widgetDiv,map) 
 {
 	console.log("init extensionMapEditing");
 	$(function(){

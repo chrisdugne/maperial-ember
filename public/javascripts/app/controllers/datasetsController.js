@@ -20,7 +20,7 @@
 	           "assets/javascripts/extensions/upload/main.js"
 	           ],
 	       function(){
-				extensionUpload.init();
+				ExtensionUpload.init();
 			}
 		);
 	}

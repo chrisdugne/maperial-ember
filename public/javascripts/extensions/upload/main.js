@@ -16,8 +16,8 @@
  * 
  */
 
-this.extensionUpload = {};
-extensionUpload.init = function () 
+this.ExtensionUpload = {};
+ExtensionUpload.init = function () 
 {
 	//-----------------------------------//
 
