@@ -37,8 +37,10 @@
 					// rendering
 					
 					StyleEditorController.renderStyle();
-					//StyleEditorController.renderMap();
+					StyleEditorController.renderMap();
       				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+      				
+      				
                  }
       	);
 	}
@@ -53,8 +55,8 @@
 
 	StyleEditorController.renderMap = function()
 	{
-		var maps = new GLMap ( "map" );
-		maps.Start();
+		App.stylesData.map = new GLMap ( "map" );
+		App.stylesData.map.Start();
 
 		$("#map").css("height", $("#webappDiv").height() );
 		$("#map").css("width", $("#webappDiv").width() );
