@@ -1,36 +1,3 @@
-/*
-function require(script) {
-    $.ajax({
-        url: script,
-        dataType: "script",
-        async: false,           // <-- this is the key
-        success: function () {
-            // all good...
-        },
-        error: function () {
-            throw new Error("Could not load script " + script);
-        }
-    });
-}
-
-function getScript(src) {
-   //$('head').append('<' + 'script src="' + src + '"' + ' type="text/javascript"><' + '/script>');
-   require(src);
-}
-
-function getCss(src) {
-   $('head').append(' <link rel="stylesheet" type="text/css" href="' + src + '" />');
-}
-
-getScript("js/canvasutilities.js");
-getScript("js/map.js");
-getScript("js/RGBColor.js");
-getScript("js/colorpicker.js");
-
-getCss("css/colorpicker.css");
-getCss("css/v_mapnifyColorBar.css");
-*/
-
 // this is pretty much just a map with some color related functions
 // this map cannot be empty. It is initialized/cleared with at least two values (0 and 255).
 // First (0) and Last (255) index cannot be modified using Add() / Remove() but only SetFirst() and SetLast() 
@@ -51,6 +18,12 @@ ColorBar.Rainbow = function(){
   this.Colors = function(){  // getter
       return colors;
   } 
+
+  this.ClearAll = function(){ 
+      colors.clear();
+      this.SetFirst(new RGBColor("blue"));
+      this.SetLast(new RGBColor("red"));
+  }
 
   this.Clear = function(){
       colors.clear();
@@ -394,6 +367,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   this.ReInit = function(in_width,in_height,in_mainDiv,in_offsetX,in_offsetY,in_doInterpo,in_minVal,in_maxVal){
      Init(in_width,in_height,in_mainDiv,in_offsetX,in_offsetY,in_doInterpo,in_minVal,in_maxVal);
      InitView();
+     this.AutoAdd();
      this.Render();
   }
 
@@ -558,7 +532,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   }     
   
   this.GetIndex = function(value){
-    return 0. + (255. - 0.)/(maxVal-minVal)*(value-minVal);
+    return Math.round(0. + (255. - 0.)/(maxVal-minVal)*(value-minVal));
   }
 
   this.GetColor = function(index){
@@ -568,6 +542,33 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   this.Clear = function(){
     rainbow.Clear();
     this.Render();
+  }
+
+  ///@todo be able to get color from some predefined colormap
+  // and not this static HSV example
+  this.AutoAdd = function(nstep,mini,maxi){
+     rainbow.ClearAll();     
+
+     if ( mini === undefined )
+        mini = minVal;     
+     if ( maxi === undefined )
+        maxi = maxVal;
+     if ( nstep === undefined )
+        nstep = 10;
+
+     var step = (maxi-mini)/(nstep-1);
+     console.log("step is " + step);
+     for(var k = 0 ; k < nstep ; k++ ){
+        var color = new RGBColor("white");
+        var index = this.GetIndex(mini + k * step);
+        console.log(1. + 3./(nstep-1)*(nstep-k-1));
+        var hsv = { H:1.+3./(nstep-1)*(nstep-k-1),S:1,V:1};
+        color.fromHsv(hsv);      
+        //var color = this.GetColor(index);
+        console.log("adding tick at " + (mini + k * step) + " " + index + " " + color);
+        rainbow.Add(color,index);
+     }
+     this.Render();
   }
 
   /////////////////////////
