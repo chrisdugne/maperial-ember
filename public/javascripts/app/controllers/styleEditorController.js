@@ -24,6 +24,7 @@
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
 	                         "assets/javascripts/extensions/mapediting/colorpicker.js",
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
+//	                         "assets/javascripts/extensions/mapediting/v_mapnifyMenu3.js",
 	                         "assets/javascripts/extensions/mapediting/main.js"],
 	         function()
 	         {
@@ -49,15 +50,6 @@
 					$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
 					
 					ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
-					
-					//------------------------------
-					// refresh loop 
-					
-					window.setInterval(function(){
-						tileRenderer.SetStyle(App.stylesData.selectedStyle.content);
-//						tileRenderer.SetStyle(MapnifyMenu.__style);
-						App.stylesData.map.DrawScene(false,true);
-					}, 4000);
 				});
 	         }
       	);

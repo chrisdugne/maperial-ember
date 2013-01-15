@@ -10,11 +10,10 @@ this.UserManager = {};
 $.ajax({  
 	type: "POST",  
 	url: "/getPublicData",
-	dataType: "text",
-	success: function (data, textStatus, jqXHR)
+	dataType: "json",
+	success: function (publicData, textStatus, jqXHR)
 	{
-		console.log("UserManager.getPublicData | data : " + data);
-		var publicData = $.parseJSON(data);
+		console.log(publicData);
 
 		App.publicData.set("maps", publicData.maps);
 		App.publicData.set("styles", publicData.styles);
@@ -22,8 +21,6 @@ $.ajax({
 		App.publicData.set("colorbars", publicData.colorbars);
 		App.publicData.set("fonts", publicData.fonts);
 		App.publicData.set("icons", publicData.icons);
-		
-		//Utils.thumbURL(App.publicData.styles[0].uid);
 	}
 });
 

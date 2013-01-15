@@ -12,10 +12,10 @@ StyleManager.uploadNewStyle = function(style)
 	    type: "POST",
 	    url: Globals.mapServer + "/api/style?_method=DATA",
 	    data: style.content,  
-	    dataType: "text",
+	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	var result = $.parseJSON(data).files[0];
+	    	var result = data.files[0];
 	    	var styleUID = result.styleUID;
 	    	
 	    	var newStyle = App.stylesData.selectedStyle;
@@ -74,14 +74,10 @@ StyleManager.getStyle = function(styleUID, next)
 	$.ajax({  
 	    type: "GET",  
 	    url: Globals.mapServer + "/api/style/" + styleUID,
-	    dataType: "text",
+	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
 		{
     		App.stylesData.selectedStyle.content = data;
-    		
-    		// TO REMOVE : SHOULD PASS App.stylesData.selectedStyle.content as a parameter
-    		MapnifyMenu.__style = data;
-    		
     		next();
 		}
 	});
