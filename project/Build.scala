@@ -9,8 +9,8 @@ object ApplicationBuild extends Build {
 
 	// Only compile the bootstrap bootstrap.less file and any other *.less file in the stylesheets directory
   	def customLessEntryPoints(base: File): PathFinder = (
-       (base / "app" / "assets" / "stylesheets" / "bootstrap" * "bootstrap.less") +++
-       (base / "app" / "assets" / "stylesheets" / "bootstrap" * "responsive.less") 
+       (base / "server" / "assets" / "stylesheets" / "bootstrap" * "bootstrap.less") +++
+       (base / "server" / "assets" / "stylesheets" / "bootstrap" * "responsive.less") 
   	)
 
     val appDependencies = Seq(

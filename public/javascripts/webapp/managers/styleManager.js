@@ -11,7 +11,7 @@ StyleManager.uploadNewStyle = function(style)
 	$.ajax({
 	    type: "POST",
 	    url: Globals.mapServer + "/api/style?_method=DATA",
-	    data: style.content,  
+	    data: JSON.stringify(style.content),  
 	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
 		{
@@ -20,6 +20,7 @@ StyleManager.uploadNewStyle = function(style)
 	    	
 	    	var newStyle = App.stylesData.selectedStyle;
 	    	newStyle.uid = styleUID;
+	    	newStyle.content = null; // useless to move user.style[i].content (full style.json) all around (+ doesnt work with a huge json..?)
 	    	
 			App.user.styles.pushObject(newStyle);
 			App.get('router').transitionTo('styles');
