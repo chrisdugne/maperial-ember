@@ -12,7 +12,8 @@
 		colorbars: Ember.A([]),
 		fonts: Ember.A([]),
 		icons: Ember.A([]),
-		loggedIn: false
+		loggedIn: false,
+		isWaiting: false,
 	});
 	
 	App.user = User.create();

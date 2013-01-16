@@ -40,6 +40,15 @@
 	
 	//------------------------------------------------//
 	
+	StylesController.editStyle = function(style) 
+	{
+		App.stylesData.set("selectedStyle", style);
+		App.stylesData.set("editingStyle", true);
+		App.get('router').transitionTo('styleEditor');
+	}
+	
+	//------------------------------------------------//
+	
 	StylesController.deleteStyle = function(style) 
 	{
 		StyleManager.deleteStyle(style);
@@ -50,6 +59,7 @@
 	StylesController.continueStyleEdition = function() 
 	{
 		$("#selectStyleWindow").modal("hide");
+		App.stylesData.set("editingStyle", true);
 		App.get('router').transitionTo('styleEditor');
 	}
 
@@ -101,6 +111,10 @@
 
         selectStyle : function(router, event){
 			StylesController.selectStyle(event.context);
+		},
+
+		editStyle : function(router, event){
+			StylesController.editStyle(event.context);
 		},
 
 		deleteStyle : function(router, event){

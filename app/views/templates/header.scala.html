@@ -11,8 +11,12 @@
 
 @if(defaultHeader){
 	{{#if user.loggedIn}}
-		<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
-		<div id="userDisplay" class="googleUser">{{user.email}}</div>
+		{{#if user.waiting}}
+			<div id="waitingDiv">WAITING</div>
+		{{else}}
+			<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
+			<div id="userDisplay" class="googleUser">{{user.email}}</div>
+		{{/if}}
 	{{else}}
 		<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary headerButton">Try</div>
 		<div id="signinButton" {{action openLoginWindow}} class="btn-large btn-primary">Sign in</div>

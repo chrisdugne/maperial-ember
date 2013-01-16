@@ -31,16 +31,19 @@ StyleManager.uploadNewStyle = function(style)
 }
 
 
-StyleManager.editStyle = function(style)
+StyleManager.saveStyle = function(style)
 {
+	App.user.set("waiting", true);
+	
 	$.ajax({
 		type: "POST",
-		url: Globals.mapServer + "/api/style?_method=DATA?uid=" + style.uid,
-		data: style.content,  
+		url: Globals.mapServer + "/api/style?_method=DATA&uid=" + style.uid,
+		data: JSON.stringify(style.content), 
 		dataType: "text",
 		success: function (data, textStatus, jqXHR)
 		{
 			console.log("StyleManager.editStyle : saved");
+			App.user.set("waiting", false);
 		}
 	});
 }

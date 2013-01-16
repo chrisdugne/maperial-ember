@@ -32,7 +32,7 @@
 				// copy the selected style as a new style
 			
 		    	var newStyle = {
-					name : "CopyOf" + App.stylesData.selectedStyle.name,
+					name : (App.stylesData.editingStyle ? "" : "CopyOf") + App.stylesData.selectedStyle.name,
 					content : App.stylesData.selectedStyle.content,
 					uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
 	    		};
@@ -103,7 +103,11 @@
 	StyleEditorController.saveStyle = function()
 	{
 		App.stylesData.selectedStyle.name = $("#styleNameInput").val();
-		StyleManager.uploadNewStyle(App.stylesData.selectedStyle);
+		
+		if(App.stylesData.editingStyle)
+			StyleManager.saveStyle(App.stylesData.selectedStyle);
+		else
+			StyleManager.uploadNewStyle(App.stylesData.selectedStyle);
 	}
 
 	//------------------------------------------------//
