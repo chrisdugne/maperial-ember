@@ -88,7 +88,7 @@
 			return;
 		
 		var context = new Object();
-		context["controllerData"] = App[controller + "Data"];
+		context[controller + "Data"] = App[controller + "Data"];
 		context["currentView"] = view;
 		
 		for(var property in customParams) {

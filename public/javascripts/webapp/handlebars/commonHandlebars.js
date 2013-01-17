@@ -38,7 +38,19 @@ Ember.Handlebars.registerHelper('isCurrentView',
 			return options.inverse(this);
 	}
 );
-		
+
+//---------------------------------------------------------------------------------------//
+
+Ember.Handlebars.registerBoundHelper('textInput', 
+	function(defaultValue, options) 
+	{
+		console.log("textInput");
+		console.log("options.hash.id : " + options.hash.id);
+		console.log("defaultValue : " + defaultValue);
+		return new Handlebars.SafeString("<input id=\""+options.hash.id+"\" type=\"text\" value=\""+defaultValue+"\"/>");
+	}
+);
+
 //---------------------------------------------------------------------------------------//
 
 /**
@@ -95,4 +107,22 @@ Ember.Handlebars.registerBoundHelper('isset',
 	}
 );
 
+//---------------------------------------------------------------------------------------//
+
+Ember.Handlebars.registerBoundHelper('is', 
+	function(condition, options) 
+	{
+		var currentContext = (options.contexts && options.contexts[0]) || this;
+		var context = currentContext[Ember.META_KEY].values.content;
+		
+		if(condition){
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
+		}
+		else{
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
+		}
+	}
+);
+
+//---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//

@@ -100,6 +100,18 @@ public class AccountManager {
 		
 		Ebean.save(style);  
 	}
+
+	//------------------------------------------------------------------------------------//
+
+	@Transactional
+	public static void editStyle(Style style) 
+	{
+		Style styleInDb = Style.find.where().ilike("uid", style.getUid()).findUnique();
+		
+		styleInDb.setName(style.getName());
+		
+		Ebean.save(styleInDb); 
+	}
 	
 	//------------------------------------------------------------------------------------//
 	
@@ -128,6 +140,7 @@ public class AccountManager {
 		List<Icon> icons = Icon.find.where("isPublic = true").findList();
 		publicDataContainer.setIcons(icons);
 	}
+
 	
 	//------------------------------------------------------------------------------------//
 }

@@ -13,7 +13,7 @@
 		fonts: Ember.A([]),
 		icons: Ember.A([]),
 		loggedIn: false,
-		isWaiting: false,
+		waiting: false,
 	});
 	
 	App.user = User.create();

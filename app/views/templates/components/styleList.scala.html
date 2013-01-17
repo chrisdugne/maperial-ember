@@ -42,9 +42,9 @@
 	</div>
 	
     <div id="selectedStyleArea" class="row">
-    {{isset controllerData.selectedStyle
+    {{isset stylesData.selectedStyle
       yes='<div class="span2">
-      			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.controllerData.selectedStyle.uid)}"></img>
+      			<img id="selectedStyleThumb" src="{Utils.thumbURL(context.stylesData.selectedStyle.uid)}"></img>
 				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
 					<i class="icon icon-ex-white-outline"></i>
 				</a>

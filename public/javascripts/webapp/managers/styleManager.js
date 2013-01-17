@@ -20,7 +20,7 @@ StyleManager.uploadNewStyle = function(style)
 	    	
 	    	var newStyle = App.stylesData.selectedStyle;
 	    	newStyle.uid = styleUID;
-	    	newStyle.content = null; // useless to move user.style[i].content (full style.json) all around (+ doesnt work with a huge json..?)
+	    	newStyle.content = null; // useless to keep user.style[i].content (full style.json) all around (+ doesnt work with a huge json..?)
 	    	
 			App.user.styles.pushObject(newStyle);
 			App.get('router').transitionTo('styles');
@@ -34,7 +34,7 @@ StyleManager.uploadNewStyle = function(style)
 StyleManager.saveStyle = function(style)
 {
 	App.user.set("waiting", true);
-	
+
 	$.ajax({
 		type: "POST",
 		url: Globals.mapServer + "/api/style?_method=DATA&uid=" + style.uid,
@@ -42,8 +42,8 @@ StyleManager.saveStyle = function(style)
 		dataType: "text",
 		success: function (data, textStatus, jqXHR)
 		{
-			console.log("StyleManager.editStyle : saved");
-			App.user.set("waiting", false);
+			style.content = null; // useless to keep user.style.content (full style.json) all around (+ doesnt work with a huge json..?)
+			StyleManager.editStyleInDB(style);
 		}
 	});
 }
@@ -65,6 +65,26 @@ StyleManager.addStyleInDB = function(style)
 	    success: function (data, textStatus, jqXHR)
 		{
 	    	
+		}
+	});
+}
+
+// -------------------------------------------//
+
+StyleManager.editStyleInDB = function(style)
+{
+	var params = new Object();
+	params["style"] = style;
+	
+	$.ajax({  
+		type: "POST",  
+		url: "/editStyle",
+		data: JSON.stringify(params),  
+		contentType: "application/json; charset=utf-8",
+		dataType: "text",
+		success: function (data, textStatus, jqXHR)
+		{
+			App.user.set("waiting", false);
 		}
 	});
 }

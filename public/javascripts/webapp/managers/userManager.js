@@ -36,11 +36,10 @@ UserManager.getAccount = function()
 	    url: "/getAccount",
 	    data: JSON.stringify(params),  
 	    contentType: "application/json; charset=utf-8",
-	    dataType: "text",
-	    success: function (data, textStatus, jqXHR)
+	    dataType: "json",
+	    success: function (account, textStatus, jqXHR)
 		{
-	    	console.log("user data : " + data);
-	    	var account = $.parseJSON(data);
+	    	console.log(account);
 	    	
 	    	App.user.set("uid", account.uid);
 	    	App.user.set("email", account.email);

@@ -9,7 +9,7 @@
 		</div>
 	{{else}}
 		<div class="row">
-			<div class="span2"><input id="styleNameInput" type="text"/></div>
+			<div class="span2">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
 			<div onclick="App.StyleEditorController.saveStyle()" class="span1 btn-small btn-primary" id="saveStyleButton">Save</div>
 		</div>
 	{{/if}}

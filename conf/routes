@@ -28,6 +28,7 @@ POST /removeDataset					controllers.DatasetService.removeDataset()
 #   StyleService 
 
 POST /addStyle						controllers.StyleService.addStyle()
+POST /editStyle						controllers.StyleService.editStyle()
 POST /removeStyle					controllers.StyleService.removeStyle()
 
 #---------------------------------------------------------------------------

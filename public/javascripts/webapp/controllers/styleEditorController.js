@@ -23,23 +23,26 @@
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
 	                         "assets/javascripts/extensions/mapediting/colorpicker.js",
-	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
-//	                         "assets/javascripts/extensions/mapediting/v_mapnifyMenu3.js",
+//	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
+	                         "assets/javascripts/extensions/mapediting/v_mapnifyMenu3.js",
 	                         "assets/javascripts/extensions/mapediting/main.js"],
 	         function()
 	         {
 				//-----------------------------
-				// copy the selected style as a new style
 			
-		    	var newStyle = {
-					name : (App.stylesData.editingStyle ? "" : "CopyOf") + App.stylesData.selectedStyle.name,
-					content : App.stylesData.selectedStyle.content,
-					uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
-	    		};
-		    	
-				App.stylesData.selectedStyle = newStyle;
-				$("#styleNameInput").val(newStyle.name);
+				// if creating a new style : copy the selected style as a new style
+				if(!App.stylesData.editingStyle)
+				{
+					var newStyle = {
+							name : "CopyOf" + App.stylesData.selectedStyle.name,
+							content : App.stylesData.selectedStyle.content,
+							uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
+					};
+					
+					App.stylesData.set("selectedStyle", newStyle);
+				}
 	
+				//-----------------------------
 				// retrieve the content from the tileServer
 				StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
 					//-----------------------------
@@ -102,7 +105,7 @@
 	
 	StyleEditorController.saveStyle = function()
 	{
-		App.stylesData.selectedStyle.name = $("#styleNameInput").val();
+		App.stylesData.set('selectedStyle.name', $("#styleNameInput").val());
 		
 		if(App.stylesData.editingStyle)
 			StyleManager.saveStyle(App.stylesData.selectedStyle);

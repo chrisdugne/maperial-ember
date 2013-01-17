@@ -40,6 +40,34 @@ public class StyleService extends Application
 		return ok(gson.toJson(style));
 	}
 
+	// ---------------------------------------------//
+	
+	public static Result editStyle()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode styleJson = params.get("style");
+		
+		//----------//
+		
+		Style style = new Style();
+		
+		String styleUID = styleJson.get("uid").asText();
+		String styleName = styleJson.get("name").asText();
+		
+		style.setUid(styleUID);
+		style.setName(styleName);
+		
+		//----------//
+		
+		AccountManager.editStyle(style);
+		
+		//----------//
+		
+		return ok(gson.toJson(style));
+	}
+
 
 	// ---------------------------------------------//
 	

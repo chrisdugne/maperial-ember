@@ -2,8 +2,12 @@
 	'use strict';
 
 	var StylesData = Ember.Object.extend({
-		selectedStyle: null, // style.uid, style.name, style.content
-		editingStyle: null, // styleEditor | editingStyle = true : edition | editingStyle = false : newStyle 
+		selectedStyle: {
+			uid:null,
+			name:null,
+			content:null
+		},
+		editingStyle: false, // styleEditor | editingStyle = true : edition | editingStyle = false : newStyle 
 		map: null // GLMap			
 	});
 	
