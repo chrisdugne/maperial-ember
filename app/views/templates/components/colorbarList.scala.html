@@ -1,0 +1,61 @@
+
+	
+<div class="span7">
+    	
+   	<!--  -------------       Header      ---------------- -->
+    
+    <br/>
+    <div class="row">
+    
+	<br/>
+	
+        <div class="span3">
+			{{#isCurrentView myColorbars}}
+				<h1>My colorbars</h1>
+			{{else}}			
+				<h1>Public colorbars</h1>
+			{{/isCurrentView}}
+           </div>
+        <div class="span2 offset1">
+			{{#isCurrentView myColorbars}}
+				<div class="btn-small btn-primary" {{action showPublicColorbars}}>Show public colorbars</div>
+			{{else}}			
+				<div class="btn-small btn-primary" {{action showMyColorbars}}>Show my colorbars</div>
+			{{/isCurrentView}}
+           </div>
+    </div>
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
+		<i class="icon icon-ex-white-outline"></i>
+	</a>
+ 
+   	<!--  -------------       Content      ---------------- -->
+   	
+   	<div class=colorbarList>
+		{{#each colorbar in colorbars}}
+			{{#with colorbar}}
+				<div {{action selectColorbar this}} class="row">
+				    <div class="span2 name"><p class="filename">{{name}}</p></div>
+				   	<a class="selectable span2 offset2">{{thumb uid}}</a>
+				</div>
+			{{/with}}
+		{{/each}}
+	</div>
+	
+    <div id="selectedColorbarArea" class="row">
+    {{isset colorbarsData.selectedColorbar
+      yes='<div class="span2">
+      			<img id="selectedColorbarThumb" src="{Utils.thumbURL(context.colorbarsData.selectedColorbar.uid)}"></img>
+				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.ColorbarsController.cancelSelectedColorbar()">
+					<i class="icon icon-ex-white-outline"></i>
+				</a>
+      	   </div>
+      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="App.ColorbarsController.continueColorbarEdition()">Continue with this preset</div>'
+      no='<h4 class="offset2">(Select a colorbar to start with)</h4>'}}
+	</div>
+
+	<br/>
+	
+</div>
+	
+	
+

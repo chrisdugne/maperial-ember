@@ -23,18 +23,13 @@
 			styleEditor: App.StyleEditorRouting,
 			
 			colorbars: App.ColorbarsRouting,
+			colorbarEditor: App.ColorbarEditorRouting,
+
 			datasets: App.DatasetsRouting,
 			fonts: App.FontsRouting,
 			icons: App.IconsRouting,
 
-			mapCreation: App.MapCreationRouting,
-
-			//----------------------------------------------------------------------------//
-			// tests - à virer
-
-			test1: App.Test1Routing,
-			test2: App.Test2Routing
-			
+			mapCreation: App.MapCreationRouting
 		})
 	})
 	

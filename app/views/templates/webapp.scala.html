@@ -18,13 +18,12 @@
 @import views.html.templates.pages.icons;
 
 @import views.html.templates.pages.styleEditor;
-
-@import views.html.templates.pages.test1;
-@import views.html.templates.pages.test2;
+@import views.html.templates.pages.colorbarEditor;
 
 <!-- Components -->
 
 @import views.html.templates.components.styleList;
+@import views.html.templates.components.colorbarList;
 
 <!-- ------------------------------------------------------------------- -->
 
@@ -46,12 +45,11 @@
 @pageTemplate("icons"){@icons()}
 
 @pageTemplate("styleEditor"){@styleEditor()}
-
-@pageTemplate("test1"){@test1()}
-@pageTemplate("test2"){@test2()}
+@pageTemplate("styleEditor"){@colorbarEditor()}
 
 <!-- Components -->
 
 @componentTemplate("styleList"){@styleList()}
+@componentTemplate("colorbarList"){@colorbarList()}
 
 <!-- ------------------------------------------------------------------- -->

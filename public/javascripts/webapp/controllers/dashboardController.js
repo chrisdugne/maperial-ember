@@ -39,9 +39,7 @@
 		colorbars: Ember.Route.transitionTo('colorbars'),
 		datasets: Ember.Route.transitionTo('datasets'),
 		icons: Ember.Route.transitionTo('icons'),
-		fonts: Ember.Route.transitionTo('fonts'),
-		openTest1: Ember.Route.transitionTo('test1'),
-		openTest2: Ember.Route.transitionTo('test2')
+		fonts: Ember.Route.transitionTo('fonts')
 	});
 
 	//==================================================================//

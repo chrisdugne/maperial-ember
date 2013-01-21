@@ -1,0 +1,13 @@
+
+<div class="span12">
+    <table role="presentation" class="table table-striped">
+       	<tbody class="files">
+    		{{#each colorbar in user.colorbars}}
+			    <tr class="template-download">
+			        <td colspan="1">{{colorbar.uid}}</td>
+			        <td class="name"><p class="filename">{{colorbar.name}}</p></td>
+			    </tr>
+		    {{/each}}
+	    </tbody>
+       </table>
+</div>

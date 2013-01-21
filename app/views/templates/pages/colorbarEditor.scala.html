@@ -1,0 +1,24 @@
+
+<canvas id="map" style="border: none;"></canvas>
+
+<div id="style" title="Style" class="hide">
+
+	{{#if user.waiting}}
+		<div class="row">
+			<div id="waitingDiv">WAITING</div>
+		</div>
+	{{else}}
+		<div class="row">
+			<div class="span2">{{textInput App.colorbarsData.selectedColorbar.name id='colorbarNameInput'}}</div>
+			<div onclick="App.ColorbarEditorController.saveColorbar()" class="span1 btn-small btn-primary" id="saveColorbarButton">Save</div>
+		</div>
+	{{/if}}
+	
+	
+	<!-- DIVs pour Vivien
+	<div id="mapEditorTree">
+	</div>
+	<div id="mapEditorWidget">
+	</div>
+	 -->
+</div>

@@ -1,12 +1,57 @@
 
+@import views.html.popups.selectColorbarWindow;
+
 <div class="container-fluid">
 
   <div class="marketing">
+  
 		<h1>Your Colorbars</h1>
    		<p class="marketing-byline">color bars</p>
 		<hr class="soften">
+			
+		<div class="row">
+			<div class="span3 offset1">
+				You have crafted {{user.colorbars.length}} colorbars.
+			</div>
+	
+			<div class="span3 offset8">
+				<div id="createNewColorbarButton" {{action showPublicColorbars}} class="btn-large btn-primary">Create a new colorbar</div>
+			</div>
+		</div>
+
+		<br/>
+		<br/>
+		<div class="span12 offset2">
+		    <table role="presentation" class="table table-striped">
+	        	<tbody class="files">
+		    		{{#each colorbar in user.colorbars}}
+					    <tr class="template-download">
+					        <td>{{colorbar.uid}}</td>
+					        <td class="name"><p class="longfilename">{{colorbar.name}}</p></td>
+					        {{#if colorbar.isPublic}}
+					        {{else}}
+					        <td colspan="2"></td>
+					        <td>
+					            <button {{action editColorbar colorbar}} class="btn-small btn-success">
+					                <i class="icon-edit icon-white"></i>
+					            </button>
+					        </td>
+					        <td>
+					            <button {{action deleteColorbar colorbar}} class="btn-small btn-danger">
+					                <i class="icon-trash icon-white"></i>
+					            </button>
+					        </td>
+					        {{/if}}
+					    </tr>
+				    {{/each}}
+			    </tbody>
+	        </table>
+		</div>
+		
+		
 		
 	</div>
 </div>
 
+@selectColorbarWindow()
 

@@ -1,0 +1,52 @@
+/*-------------------------*/
+
+.styleList {
+	overflow: auto;
+	height: 290px;
+}
+
+/*-------------------------*/
+
+.selectable{
+	margin-top: 5px;
+}
+
+.selectable:hover {
+   outline: 3px solid
+}
+
+/*-------------------------*/
+
+#cancelSelection {
+	margin-top: -152px;
+	margin-left: 126px;
+}
+
+#selectedStyleArea {
+	margin-top: 16px;
+}
+
+#selectedStyleThumb {
+	z-index: -1;
+	position: relative;
+}
+
+#continueButton {
+	margin-top: 60px;
+}
+
+/*-------------------------*/
+
+#styleNameInput {
+	width: 143px;
+	margin-top: -2px;
+}
+
+#style {
+	z-index: 3 !important;
+}
+
+#saveStyleButton {
+	margin-left: 24px;
+	width: 29px;
+}
