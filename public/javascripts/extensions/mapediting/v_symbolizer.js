@@ -13,6 +13,7 @@ Symbolizer.params = {
     LineSymbolizer : [ "width", "stroke", "dasharray", "alpha" , "linejoin" , "linecap" ],
 };
 
+/*
 Symbolizer.params2 = {
     "poly" : [ "fill", "alpha" ,
                "border_width", "border_stroke", "border_dasharray", "border_alpha" , "border_linejoin" , "border_linecap"
@@ -22,6 +23,7 @@ Symbolizer.params2 = {
                "center_width", "center_stroke", "center_dasharray", "center_alpha" , "center_linejoin" , "center_linecap"
     ]
 };
+*/
 
 Symbolizer.combos = {
     "linejoin" : [ "miter" , "round" , "bevel" ],
@@ -36,6 +38,7 @@ Symbolizer.default = {
    dasharray : "",
    linejoin : "round",
    linecap : "round",
+   /*
    casing_stroke : "rgba(0,0,0,0)",
    casing_width : "0",
    casing_alpha : "1.0",
@@ -53,7 +56,8 @@ Symbolizer.default = {
    border_alpha : "1.0",
    border_dasharray : "",
    border_linejoin : "round",
-   border_linecap : "round"   
+   border_linecap : "round" 
+   */  
 };
 
 // -------------------------------------------//

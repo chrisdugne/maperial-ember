@@ -589,7 +589,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
     rainbow.Add(color,newIndex);
     
     //update colorpicker current value !
-    console.log(color.toHex().replace("#",""));
+    //console.log(color.toHex().replace("#",""));
     colorPicker.ColorPickerSetColor(color.toHex().replace("#","")); // jquery version
     $("#" + colorPickerId + " div").css('backgroundColor', color.toHex());   // update picker view
         
