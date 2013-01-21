@@ -1,4 +1,5 @@
-#mapnify_menu_div{
+/* main menu div*/
+#mapnify_menu_maindiv{
   float : left;
   font-size : 60%;
   width : 350px;
@@ -9,7 +10,8 @@
   background-color : #ddd;
 }
 
-.widgetDiv{
+/* main widget div*/
+.mapnify_menu_widgetDiv{
   float : left;
   font-size : 70%;
   width : 250px;
@@ -19,3 +21,19 @@
   border-color : #777; 
   background-color : #ddd;
 }
+
+/* header of main section */
+.mapnify_menu_par_title{
+  color : #00f;
+}
+
+/* zoom + / - button */
+.mapnify_menu_zbutton{
+  width : 60px;
+}
+
+/* zoom buttons */
+.mapnify_menu_checkboxz{
+  width : 60px;
+}
+

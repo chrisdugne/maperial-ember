@@ -112,7 +112,8 @@ window.setInterval(
     MapnifyMenu.EventProxy.refreshRate);
 
 //////////////////////////////////////////////////////////////
-MapnifyMenu.RuleFromDef = function(uid,def){
+MapnifyMenu.RuleIdFromDef = function(uid,def){
+	// CARE DEPRECATED this one is now FALSE !!! DO NOT USE unless you are very sure of what you are trying to do !!!
 	if ( MapnifyMenu.__style[uid] == undefined ){
 		//console.log( uid + " not in style");
 		return null;
@@ -137,6 +138,8 @@ MapnifyMenu.RuleFromDef = function(uid,def){
 
 //////////////////////////////////////////////////////////////
 MapnifyMenu.DefFromRule = function(uid,rule){
+	// CARE DEPRECATED this one is not usefull anymore and will/should return 0
+
 	if ( MapnifyMenu.__style[uid] == undefined ){
 		//console.log( uid + " not in style");
 		return -1;
@@ -154,7 +157,36 @@ MapnifyMenu.DefFromRule = function(uid,rule){
 }
 
 //////////////////////////////////////////////////////////////
+MapnifyMenu.DefRuleIdFromZoom = function(uid,zoom){
+	// CARE DEPRECATED this one will return the good ruleId and will/should return def 0
+
+	if ( MapnifyMenu.__style[uid] == undefined ){
+		//console.log( uid + " not in style");
+		return {"def" : -1, "ruleId" : -1, "rule" : -1};
+	}
+
+	for(var rule = 0 ; rule < Object.size(MapnifyMenu.__style[uid]["s"]) ; rule++){ // rule
+		var zmin = MapnifyMenu.__style[uid]["s"][rule]["zmin"];
+		if ( zmin == zoom ){
+			var def = 0;
+			while ( Object.size(MapnifyMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
+				def = def + 1;
+				if ( def >= Object.size(MapnifyMenu.__style[uid]["s"][rule]["s"]) ){
+					console.log("cannot find def ...", uid, rule);
+					def = -1;
+					return {"def" : -1, "ruleId" : -1, "rule" : -1};
+				}
+			}
+			return {"def" : def, "ruleId" : MapnifyMenu.__style[uid]["s"][rule]["s"][def]["id"], "rule" : rule};
+		}
+	}
+	return {"def" : -1, "ruleId" : -1, "rule" : -1};
+}
+
+//////////////////////////////////////////////////////////////
 MapnifyMenu.DefRuleFromZoom = function(uid,zoom){
+	// CARE DEPRECATED this one will return the good rule and will/should return def 0
+
 	if ( MapnifyMenu.__style[uid] == undefined ){
 		//console.log( uid + " not in style");
 		return {"def" : -1, "rule" : -1};
@@ -179,7 +211,9 @@ MapnifyMenu.DefRuleFromZoom = function(uid,zoom){
 }
 
 //////////////////////////////////////////////////////////////
+/*
 MapnifyMenu.DefFromRuleId = function(uid,ruleId){
+	// CARE DEPRECATED this one will/should return 0
 	if ( MapnifyMenu.__style[uid] == undefined ){
 		//console.log( uid + " not in style");
 		return -1;
@@ -202,7 +236,7 @@ MapnifyMenu.DefFromRuleId = function(uid,ruleId){
 	}
 	return -1;
 }
-
+*/
 //////////////////////////////////////////////////////////////
 MapnifyMenu.SetParam = function(uid,rule,def,param,value){
 	if ( MapnifyMenu.__style[uid] == undefined ){
@@ -413,6 +447,9 @@ MapnifyMenu.LoadMapping = function(){
      success: function (data) {
         MapnifyMenu.mapping = data;
         MapnifyMenu.__LoadMapping();
+     },
+     error: function (){
+        console.log("Loading mapping failed");
      }
   });
 }
@@ -427,11 +464,11 @@ MapnifyMenu.__LoadStyle = function(){
   MapnifyMenu.mapnifyParentEl.hide(); // hide me during loading
   MapnifyMenu.mapnifyParentEl.css('width','400px'); // force width (avoid scrollbar issue)
 
-  MapnifyMenu.mainDiv = $("<div id=\"mapnify_menu_div\"</div>");
+  MapnifyMenu.mainDiv = $("<div id=\"mapnify_menu_maindiv\"></div>");
   MapnifyMenu.mainDiv.appendTo(MapnifyMenu.mapnifyParentEl);
 
     
-  MapnifyMenu.widgetDiv = $('<div class="widgetDiv" id="widgetDiv"></div>');
+  MapnifyMenu.widgetDiv = $('<div class="mapnify_menu_widgetDiv" id="mapnify_menu_widgetDiv"></div>');
   MapnifyMenu.widgetDiv.appendTo(MapnifyMenu.mapnifyParentEl2);
 
   //MapnifyMenu.__FillZoomDef();
@@ -445,17 +482,17 @@ MapnifyMenu.UpdateActivZoom = function(){
 	for ( var z = 1 ; z < 19 ; ++z){
 		if ( z == MapnifyMenu.refMap.GetZoom() ){
 			console.log("map zoom is " + z);
-			$("#zcheck"+z).button( "option", "label", "Z" + z + "*");
+			$("#mapnify_menu_zcheck"+z).button( "option", "label", "Z" + z + "*");
 		}
 		else{
-			$("#zcheck"+z).button( "option", "label", "Z" + z );
+			$("#mapnify_menu_zcheck"+z).button( "option", "label", "Z" + z );
 		}
-		if ( $("#zcheck" + z).is(":checked") ){
+		if ( $("#mapnify_menu_zcheck" + z).is(":checked") ){
 			MapnifyMenu.activZooms.push(z);    
-			//$(".symbz"+z).show(); 
+			//$(".mapnify_menu_symbz"+z).show(); 
 		}
 		else{
-			//$(".symbz"+z).hide();
+			//$(".mapnify_menu_symbz"+z).hide();
 			//nothing !
 		} 
 	} 
@@ -477,14 +514,14 @@ MapnifyMenu.ZoomIn = function(){
 //////////////////////////////////////////////////////////////
 MapnifyMenu.__InsertZoomEdition = function(){
 
-  $('<button onclick="MapnifyMenu.ReLoad()"  class="rlbutton" id="rlbutton"  > Reload </button>').appendTo(MapnifyMenu.mainDiv);
+  $('<button onclick="MapnifyMenu.ReLoad()"  class="mapnify_menu_rlbutton" id="mapnify_menu_rlbutton"  > Reload </button>').appendTo(MapnifyMenu.mainDiv).hide();
 
-  $('<button onclick="MapnifyMenu.ZoomOut()" class="zbutton" id="zbuttonminus" > - </button>').appendTo(MapnifyMenu.mainDiv);
-  $('<button onclick="MapnifyMenu.ZoomIn()"  class="zbutton" id="zbuttonplus"  > + </button>').appendTo(MapnifyMenu.mainDiv);
+  $('<button onclick="MapnifyMenu.ZoomOut()" class="mapnify_menu_zbutton" id="mapnify_menu_zbuttonminus" > - </button>').appendTo(MapnifyMenu.mainDiv);
+  $('<button onclick="MapnifyMenu.ZoomIn()"  class="mapnify_menu_zbutton" id="mapnify_menu_zbuttonplus"  > + </button>').appendTo(MapnifyMenu.mainDiv);
   
-  $("#rlbutton").button();
-  $("#zbuttonminus").button();
-  $("#zbuttonplus").button();
+  $("#mapnify_menu_rlbutton").button();
+  $("#mapnify_menu_zbuttonminus").button();
+  $("#mapnify_menu_zbuttonplus").button();
 
 }
 
@@ -493,24 +530,21 @@ MapnifyMenu.__InsertZoomEdition2 = function(){
 
   var tmpcb = '';
   for ( var z = 1 ; z < 19 ; ++z){
-      tmpcb += '  <input type="checkbox" class="checkboxz" id="zcheck' + z + '"/><label for="zcheck' + z + '">Z' + z + '</label>';
-      //if ( z % 6 == 0){
-      //   tmpcb += '<br>';
-      //}
+      tmpcb += '  <input type="checkbox" class="mapnify_menu_checkboxz" id="mapnify_menu_zcheck' + z + '"/><label for="mapnify_menu_zcheck' + z + '">Z' + z + '</label>';
   }    
   
-  $('<h2> Edit some zoom</h2><div id="zoom_selector">' +  tmpcb + '</div>' ).appendTo(MapnifyMenu.widgetDiv);//.hide();
-  $('<h2> Edit a zoom range</h2><div id="sliderrangez"></div><br/>').appendTo(MapnifyMenu.widgetDiv);
+  $('<h2 class="mapnify_menu_par_title"> Edit some zoom</h2><div id="mapnify_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(MapnifyMenu.widgetDiv);//.hide();
+  $('<h2 class="mapnify_menu_par_title"> Edit a zoom range</h2><div id="mapnify_menu_sliderrangez"></div><br/>').appendTo(MapnifyMenu.widgetDiv);
 
-  $( "#zoom_selector" ).buttonset();
+  $( "#mapnify_menu_zoom_selector" ).buttonset();
 
   for ( var z = 1 ; z < 19 ; ++z){
-      $("#zcheck"+z).change(function(){
+      $("#mapnify_menu_zcheck"+z).change(function(){
            MapnifyMenu.UpdateActivZoom();
       });
   }
   
-  $( "#sliderrangez" ).slider({
+  $( "#mapnify_menu_sliderrangez" ).slider({
           range: true,
           min: 0,
           max: 18,
@@ -522,12 +556,12 @@ MapnifyMenu.__InsertZoomEdition2 = function(){
              MapnifyMenu.currentZmax = maxV;
              for(var z = 1 ; z < 19 ; ++z){
                 if ( z >= minV && z <= maxV){
-                   $("#zcheck" + z ).check();
+                   $("#mapnify_menu_zcheck" + z ).check();
                 }
                 else{
-                   $("#zcheck" + z ).uncheck();
+                   $("#mapnify_menu_zcheck" + z ).uncheck();
                 }
-                $("#zcheck" + z ).button("refresh");
+                $("#mapnify_menu_zcheck" + z ).button("refresh");
              }
              MapnifyMenu.UpdateActivZoom();
           },
@@ -538,18 +572,18 @@ MapnifyMenu.__InsertZoomEdition2 = function(){
              MapnifyMenu.currentZmax = maxV;
              for(var z = 1 ; z < 19 ; ++z){
                 if ( z >= minV && z <= maxV){
-                   $("#zcheck" + z ).check();
+                   $("#mapnify_menu_zcheck" + z ).check();
                 }
                 else{
-                   $("#zcheck" + z ).uncheck();
+                   $("#mapnify_menu_zcheck" + z ).uncheck();
                 }
-                $("#zcheck" + z ).button("refresh");
+                $("#mapnify_menu_zcheck" + z ).button("refresh");
              }
              MapnifyMenu.UpdateActivZoom();
           }
   });
 
-  $( "#sliderrangez" ).slider( "values",  [MapnifyMenu.currentZmin, MapnifyMenu.currentZmax] );  
+  $( "#mapnify_menu_sliderrangez" ).slider( "values",  [MapnifyMenu.currentZmin, MapnifyMenu.currentZmax] );  
 
 }
 
@@ -562,7 +596,7 @@ MapnifyMenu.__InsertZoomEdition2 = function(){
 // Closure for colorpicker callback
 MapnifyMenu.GetColorPickerCallBack = function(_uid,_ruleId,pName){
    return function (hsb, hex, rgb) {
-      $("#colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
+      $("#mapnify_menu_colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
       MapnifyMenu.SetParamIdZNew(_uid,pName,ColorTools.HexToRGBA(hex));
    }
 }
@@ -580,7 +614,7 @@ MapnifyMenu.GetSpinnerCallBack = function(_uid,_ruleId,pName){
 // Closure for select callback
 MapnifyMenu.GetSelectCallBack = function(_uid,_ruleId,_pName){
   return function (){
-      var newV = $("#select_" + _pName + "_" + _ruleId + " option:selected").text();
+      var newV = $("#mapnify_menu_select_" + _pName + "_" + _ruleId + " option:selected").text();
       MapnifyMenu.SetParamIdZNew(_uid,_pName,newV);
       ///@todo bug ... seems to work only once ...
   }
@@ -590,7 +624,7 @@ MapnifyMenu.GetSelectCallBack = function(_uid,_ruleId,_pName){
 // Closure for checkbox callback
 MapnifyMenu.GetCheckBoxCallBack = function(_uid){
     return function() {
-       var vis = $("#check_" + _uid + ":checked").val()?true:false;
+       var vis = $("#mapnify_menu_check_" + _uid + ":checked").val()?true:false;
        MapnifyMenu.__style[_uid]["visible"] = vis; 
        MapnifyMenu.EventProxy.NewEvent();     ///@todo this is not in a "set" function ... I don't like that !!!
        //console.log( _uid, "visible",  vis );
@@ -600,10 +634,10 @@ MapnifyMenu.GetCheckBoxCallBack = function(_uid){
 //////////////////////////////////////////////////////////////
 MapnifyMenu.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleId,_container){
    // add to view
-   $("<li>" + _paramName + " : " + "<div class=\"colorSelector \" id=\"colorpicker_" + _ruleId + "\"><div style=\"background-color:" + ColorTools.RGBAToHex(_paramValue) + "\"></div></div> </li>").appendTo(_container);
+   $("<li>" + _paramName + " : " + "<div class=\"colorSelector \" id=\"mapnify_menu_colorpicker_" + _ruleId + "\"><div style=\"background-color:" + ColorTools.RGBAToHex(_paramValue) + "\"></div></div> </li>").appendTo(_container);
    
    // plug callback
-   $("#colorpicker_"+_ruleId).ColorPicker({
+   $("#mapnify_menu_colorpicker_"+_ruleId).ColorPicker({
       	color: ColorTools.RGBAToHex(_paramValue),   // set initial value
        	onShow: function (colpkr) {
             $(colpkr).fadeIn(500);
@@ -620,10 +654,10 @@ MapnifyMenu.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleId,_conta
 //////////////////////////////////////////////////////////////
 MapnifyMenu.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_container,_step,_min,_max){
   // add to view
-  $( "<li>" + _paramName + " : " +"<input id=\"spinner_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
+  $( "<li>" + _paramName + " : " +"<input id=\"mapnify_menu_spinner_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
   
   // set callback
-  $( "#spinner_"+_paramName+"_"+_ruleId ).spinner({
+  $( "#mapnify_menu_spinner_"+_paramName+"_"+_ruleId ).spinner({
        //change: GetSpinnerCallBack(uid,ruleId,_paramName),
        spin: MapnifyMenu.GetSpinnerCallBack(_uid,_ruleId,_paramName),
        step: _step,
@@ -632,21 +666,21 @@ MapnifyMenu.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_container
   });
 
   // set initial value    
-  $( "#spinner_"+_paramName+"_"+_ruleId ).spinner("value" , _paramValue);  
+  $( "#mapnify_menu_spinner_"+_paramName+"_"+_ruleId ).spinner("value" , _paramValue);  
 }
 
 //////////////////////////////////////////////////////////////
 MapnifyMenu.AddCombo = function(_paramName,_paramValue,_uid,_ruleId,_container,_values){
   // add to view
-  $( "<li>" + _paramName + " : " +"<select id=\"select_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
+  $( "<li>" + _paramName + " : " +"<select id=\"mapnify_menu_select_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
   // add options
   for( var v = 0 ; v < Object.size(_values) ; v++){
-    $("#select_" + _paramName + "_" + _ruleId).append("<option value=\"" + _values[v] + "\"> " + _values[v] + "</option>");
+    $("#mapnify_menu_select_" + _paramName + "_" + _ruleId).append("<option value=\"" + _values[v] + "\"> " + _values[v] + "</option>");
   }
   // set value
-  $("#select_" + _paramName + "_" + _ruleId).val(_paramValue);
+  $("#mapnify_menu_select_" + _paramName + "_" + _ruleId).val(_paramValue);
   // set callback
-  $("#select_" + _paramName + "_" + _ruleId).change(MapnifyMenu.GetSelectCallBack(_uid,_ruleId,_paramName));
+  $("#mapnify_menu_select_" + _paramName + "_" + _ruleId).change(MapnifyMenu.GetSelectCallBack(_uid,_ruleId,_paramName));
 }
 
 //////////////////////////////////////////////////////////////
@@ -656,21 +690,31 @@ MapnifyMenu.FillWidget = function(uid){
 		return;
 	}
 
-	//var def = 0; // first def is always the good one :-)
-	//var rule = 0; // first rule is always the good one :-)
-	var rd = MapnifyMenu.DefRuleFromZoom(uid,MapnifyMenu.refMap.GetZoom());
-	var def = rd.def;
-	var rule = rd.rule;
-
 	console.log("Current zoom is " , MapnifyMenu.refMap.GetZoom() , uid, def , rule); 
+
+	//var def = 0; // first def is always the good one :-)
+	var rd = MapnifyMenu.DefRuleIdFromZoom(uid,MapnifyMenu.refMap.GetZoom());
+	var def = rd.def;
+	var ruleId = rd.ruleId;
+	var rule = rd.rule;
 	
-	var ruleId = MapnifyMenu.RuleFromDef(uid,def); 
+	console.log(def,ruleId,rule);
+	
+	if ( ruleId < 0 ){
+     console.log("Cannot find ruleId for zoom " + MapnifyMenu.refMap.GetZoom());
+     return;
+    }
 
-	if ( ruleId == null ){
-		console.log("Cannot find not empty ruleId for " + uid + " ( " + def + ")" );
-		return;
-	}
-
+	if ( rule < 0 ){
+     console.log("Cannot find rule for zoom " + MapnifyMenu.refMap.GetZoom());
+     return;
+    }
+	
+	if ( def < 0 ){
+     console.log("Cannot find def for zoom " + MapnifyMenu.refMap.GetZoom());
+     return;
+    }
+	
 	var symbDiv = $('<div></div>');
 	symbDiv.appendTo(MapnifyMenu.widgetDiv);
 	
@@ -680,7 +724,7 @@ MapnifyMenu.FillWidget = function(uid){
 	for( var p = 0 ; p < Object.size(Symbolizer.params[MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"]] ) ; p++){  // this is read from a list of known params. 
 
 		var paramName = Symbolizer.getParamName(MapnifyMenu.__style[uid]["s"][rule]["s"][def]["rt"],p);
-		var paramValue = MapnifyMenu.GetParamId(uid,ruleId,paramName);
+		var paramValue = MapnifyMenu.GetParamId(uid,ruleId,paramName);   
 
 		if ( paramValue === undefined ){
 			paramValue = Symbolizer.default[paramName];
@@ -726,12 +770,12 @@ MapnifyMenu.__BuildWidget = function(group,name,uid){
 
    MapnifyMenu.__InsertZoomEdition2();
 
-   $("<h2><strong>" + MapnifyMenu.mappingArray[uid].name + "</strong></h2>").appendTo(MapnifyMenu.widgetDiv);
+   $("<h2 class=\"mapnify_menu_par_title\">" + MapnifyMenu.mappingArray[uid].name + "</h2>").appendTo(MapnifyMenu.widgetDiv);
 
    if( MapnifyMenu.groups[group][MapnifyMenu.mappingArray[uid].name].type == "line" ){
       //console.log("I'm a line !");
       
-      MapnifyMenu.FillWidget(uid,MapnifyMenu.widgetDiv);
+      MapnifyMenu.FillWidget(uid);
       
       var casing = MapnifyMenu.groups[group][MapnifyMenu.mappingArray[uid].name].casing;
       var center = MapnifyMenu.groups[group][MapnifyMenu.mappingArray[uid].name].center;
@@ -743,7 +787,7 @@ MapnifyMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //console.log("casing found : " + casing);
-          $('<h2><strong> Casing </h2></strong>').appendTo(MapnifyMenu.widgetDiv);
+          $('<h2 class="mapnify_menu_par_title">Casing </h2>').appendTo(MapnifyMenu.widgetDiv);
           MapnifyMenu.FillWidget(casing_uid);
       }
 
@@ -752,7 +796,7 @@ MapnifyMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //console.log("center found : " + center);
-          $('<h2><strong> Center line </h2></strong>').appendTo(MapnifyMenu.widgetDiv);
+          $('<h2 class="mapnify_menu_par_title"> Center line </h2>').appendTo(MapnifyMenu.widgetDiv);
           MapnifyMenu.FillWidget(center_uid);
       }                      
    }
@@ -783,22 +827,21 @@ MapnifyMenu.GetWidgetCallBack = function(group,name,uid){
 //////////////////////////////////////////////////////////////
 MapnifyMenu.__InsertAccordion = function(){
 
-  $("#mapnifyaccordion").remove();
+  $("#mapnify_menu_accordion").remove();
 
-  var outterAcc = $("<div class=\"mapnifyaccordion\" id=\"mapnifyaccordion\"></div>");
+  var outterAcc = $("<div class=\"mapnify_menu_accordion\" id=\"mapnify_menu_accordion\"></div>");
   outterAcc.appendTo(MapnifyMenu.mainDiv);
 
   var groupNum = 0;
 
   for ( var group in MapnifyMenu.groups ){ // for all groups of element
-    
-	if (!MapnifyMenu.groups.hasOwnProperty(group)) {
+    if (!MapnifyMenu.groups.hasOwnProperty(group)) {
      continue;
     }
-    console.log("group : " +  group);
+    console.log(group);
 
-    $("<h1 id=\"mapnifygroupaccordion_head_group_" + groupNum + "\"> Group : " + group + "</h1>").appendTo(outterAcc);
-    var groupAcc = $("<div class=\"mapnifyaccordion\" id=\"mapnifygroupaccordion_div_group_" + groupNum +  "\"></div>");
+    $("<h1 id=\"mapnify_menu_groupaccordion_head_group_" + groupNum + "\"> Group : " + group + "</h1>").appendTo(outterAcc);
+    var groupAcc = $("<div class=\"mapnify_menu_accordion\" id=\"mapnify_menu_groupaccordion_div_group_" + groupNum +  "\"></div>");
     groupAcc.appendTo(outterAcc);
 
     groupNum++;
@@ -807,17 +850,24 @@ MapnifyMenu.__InsertAccordion = function(){
          if (!MapnifyMenu.groups[group].hasOwnProperty(name)) {
             continue;
          }
-         console.log("found : " + name );
+         console.log("found ! : " + name );
          
          var uids = MapnifyMenu.GetUids(name);
+         
+         if ( uids.length == 0 ){
+             console.log("Warning : no uid found for " + name, group);
+             continue;
+         }
+         
+         console.log("Found " + uids.length + " ids for " + name, group);
          
          for (var i = 0 ; i < uids.length ; i++){        // for uids of type "element" (different filters ... see landmark for exemple)
            var uid = uids[i];
            //console.log(uid);
            // make header
-           $('<h2 id="headeraccordion_' + uid + '">' + MapnifyMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+           $('<h2 id="mapnify_menu_headeraccordion_' + uid + '">' + MapnifyMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
            // bind onclick header event!
-           $("#headeraccordion_"+uid).bind('click',MapnifyMenu.GetWidgetCallBack(group,name,uid));
+           $("#mapnify_menu_headeraccordion_"+uid).bind('click',MapnifyMenu.GetWidgetCallBack(group,name,uid));
            // fill inner div with some info
            var divIn = $("<div class=\"inner\" id=\"divinner_" + groupNum + "_" + uid + "\"></div>");
            divIn.appendTo(groupAcc);
@@ -827,13 +877,11 @@ MapnifyMenu.__InsertAccordion = function(){
            ul.appendTo(divIn);
                     
            $("<li>" + "Filter : " + MapnifyMenu.mappingArray[uid].filter + "</li>").appendTo(ul);
-           $("<li>" + "Visible  : " + "<input type=\"checkbox\" id=\"check_" + uid + "\" />" + "</li>").appendTo(ul);
-           $("#check_" + uid).click( MapnifyMenu.GetCheckBoxCallBack(uid) );
-           
-           $("#check_" + uid).attr('checked', MapnifyMenu.__style[uid]["visible"]);
+           $("<li>" + "Visible  : " + "<input type=\"checkbox\" id=\"mapnify_menu_check_" + uid + "\" />" + "</li>").appendTo(ul);
+           $("#mapnify_menu_check_" + uid).click( MapnifyMenu.GetCheckBoxCallBack(uid) );
+           $("#mapnify_menu_check_" + uid).attr('checked', MapnifyMenu.__style[uid]["visible"]);
            $("<li>" + "Place : " + MapnifyMenu.__style[uid]["layer"] + "</li>").appendTo(ul);
 
-           console.log("ploc");
          } // end uid loop
     } // end name loop
   } // end group loop
@@ -845,7 +893,7 @@ MapnifyMenu.__InsertAccordion = function(){
   MapnifyMenu.UpdateActivZoom();
 
   // configure accordion(s)
-  $( ".mapnifyaccordion" )
+  $( ".mapnify_menu_accordion" )
   .accordion({
       heightStyle: "content",
       collapsible: true,
@@ -870,7 +918,10 @@ MapnifyMenu.LoadStyle = function(){
       success: function (data) {
           MapnifyMenu.__style = data;
           MapnifyMenu.__LoadStyle();
-       }  
+      },
+      error: function (){
+        console.log("Loading style failed");
+      }  
     });
    }
    else{
