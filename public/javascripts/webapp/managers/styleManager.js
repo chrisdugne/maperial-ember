@@ -8,6 +8,8 @@ this.StyleManager = {};
 
 StyleManager.uploadNewStyle = function(style)
 {
+	App.user.set("waiting", true);
+
 	$.ajax({
 	    type: "POST",
 	    url: Globals.mapServer + "/api/style?_method=DATA",
@@ -64,7 +66,7 @@ StyleManager.addStyleInDB = function(style)
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{
-	    	
+			App.user.set("waiting", false);
 		}
 	});
 }

@@ -67,7 +67,10 @@ public class AccountManager {
 		return account;
 	}
 	
-	//------------------------------------------------------------------------------------//
+	//======================================================================================//
+	//
+	// - Datasets
+	//
 
 	@Transactional
 	public static void addDataset(String accountUID, Dataset dataset) 
@@ -88,8 +91,11 @@ public class AccountManager {
 
 		Ebean.delete(dataset);
 	}
-	
-	//------------------------------------------------------------------------------------//
+
+	//======================================================================================//
+	//
+	// - Styles
+	//
 	
 	@Transactional
 	public static void addStyle(String accountUID, Style style) 
@@ -123,8 +129,48 @@ public class AccountManager {
 		Ebean.delete(style);
 	}
 
-	//------------------------------------------------------------------------------------//
+	//======================================================================================//
+	//
+	// - Colorbars
+	//
+	
+	@Transactional
+	public static void addColorbar(String accountUID, Colorbar colorbar) 
+	{
+		Account account = Account.find.where().ilike("uid", accountUID).findUnique();
+		
+		colorbar.setAccount(account);
+		
+		Ebean.save(colorbar);  
+	}
 
+	//------------------------------------------------------------------------------------//
+	
+	@Transactional
+	public static void editColorbar(Colorbar colorbar) 
+	{
+		Colorbar colorbarInDb = Colorbar.find.where().ilike("uid", colorbar.getUid()).findUnique();
+		
+		colorbarInDb.setName(colorbar.getName());
+		
+		Ebean.save(colorbarInDb); 
+	}
+	
+	//------------------------------------------------------------------------------------//
+	
+	@Transactional
+	public static void removeColorbar(String colorbarUID) 
+	{
+		Colorbar colorbar = Colorbar.find.where().ilike("uid", colorbarUID).findUnique();
+		
+		Ebean.delete(colorbar);
+	}
+
+	//======================================================================================//
+	//
+	// - Public
+	//
+	
 	@Transactional
 	public static void getPublicData(Account publicDataContainer) 
 	{

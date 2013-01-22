@@ -159,20 +159,32 @@ Utils.isObject = function(stuff)
 
 //----------------------------------------------------------------------------------------//
 
-Utils.thumbURL = function(styleUID) 
+Utils.styleThumbURL = function(styleUID) 
 {
-	if(styleUID == undefined || styleUID == null)
+	return Utils.thumbURL(styleUID, "style")
+}
+
+Utils.colorbarThumbURL = function(colorbarUID) 
+{
+	return Utils.thumbURL(colorbarUID, "colorbar")
+}
+
+//----------------------------------------------------------------------------------------//
+
+Utils.thumbURL = function(uid, type) 
+{
+	if(uid == undefined || uid == null)
 		return "";
-		
-	var end = styleUID.substring(styleUID.length-4);
+	
+	var end = uid.substring(uid.length-4);
 	var folders = end.split("");
 	
-	var url = Globals.mapServer + "/thumbs";
+	var url = Globals.mapServer + "/thumbs" + type;
 	folders.forEach(function(folder) {
 		url += "/" + folder;
 	});
 	
-	return url + "/" + styleUID + ".png";
+	return url + "/" + uid + ".png";
 }
 
 //----------------------------------------------------------------------------------------//

@@ -8,6 +8,8 @@
 
 	ColorbarEditorController.renderUI = function()
 	{
+		App.user.set("waiting", true);
+
 		ScriptLoader.getScripts([
 	                         // map rendering
 	                         "http://map.x-ray.fr/js/gl-matrix-min.js",
@@ -23,9 +25,13 @@
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
 	                         "assets/javascripts/extensions/mapediting/colorpicker.js",
-//	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
-	                         "assets/javascripts/extensions/mapediting/v_mapnifyMenu3.js",
-	                         "assets/javascripts/extensions/mapediting/main.js"],
+	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/RGBColor.js",
+
+	                         // colorbar
+	                         "assets/javascripts/extensions/colorbar/map.js",
+	                         "assets/javascripts/extensions/colorbar/canvasutilities.js",
+	                         "assets/javascripts/extensions/colorbar/colorBar.js",
+	                         "assets/javascripts/extensions/colorbar/main.js"],
 	         function()
 	         {
 				//-----------------------------
@@ -42,17 +48,27 @@
 					App.colorbarsData.set("selectedColorbar", newColorbar);
 				}
 	
+				App.stylesData.set("selectedStyle", App.publicData.styles[0]);
+				console.log("defaultStyle : " + App.stylesData.selectedStyle.name);
+				
 				//-----------------------------
-				// retrieve the content from the tileServer
+				// retrieve the colorbar content from the tileServer
 				ColorbarManager.getColorbar(App.colorbarsData.selectedColorbar.uid, function(){
+
 					//-----------------------------
-					// rendering after reception
-					
-					ColorbarEditorController.renderColorbar();
-					ColorbarEditorController.renderMap();
-					$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-					
-					ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.colorbarsData.map, App.colorbarsData.selectedColorbar.content);
+					// retrieve the style content from the tileServer
+					StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
+						//-----------------------------
+						// rendering after reception
+						
+						ColorbarEditorController.renderColorbar();
+						ColorbarEditorController.renderMap();
+						$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+						
+						ExtensionColorbar.init($("#mapnifyColorBar"), App.colorbarsData.selectedColorbar.content, App.stylesData.selectedStyle.content);
+	
+						App.user.set("waiting", false);
+					});
 				});
 	         }
       	);
@@ -105,8 +121,12 @@
 	
 	ColorbarEditorController.saveColorbar = function()
 	{
-		App.colorbarsData.set('selectedColorbar.name', $("#colorbarNameInput").val());
+		var colorbarContent = {};
+		ExtensionColorbar.fillContent(colorbarContent);
 		
+		App.colorbarsData.set('selectedColorbar.name', $("#colorbarNameInput").val());
+		App.colorbarsData.set('selectedColorbar.content', colorbarContent);
+
 		if(App.colorbarsData.editingColorbar)
 			ColorbarManager.saveColorbar(App.colorbarsData.selectedColorbar);
 		else

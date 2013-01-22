@@ -56,20 +56,41 @@ Ember.Handlebars.registerBoundHelper('textInput',
 /**
  * Display a style thumb from its styleUID 
  */ 
-Ember.Handlebars.registerBoundHelper('thumb', 
+Ember.Handlebars.registerBoundHelper('stylethumb', 
 	function(styleUID, options) 
 	{
-		return new Handlebars.SafeString("<img src=\""+Utils.thumbURL(styleUID)+"\"></img>");
+		return new Handlebars.SafeString("<img src=\""+Utils.styleThumbURL(styleUID)+"\"></img>");
 	}
 );
 
 /**
  * Display a style thumb from its styleUID 
  */ 
-Ember.Handlebars.registerBoundHelper('minithumb', 
+Ember.Handlebars.registerBoundHelper('ministylethumb', 
 	function(styleUID, options) 
 	{
-		return new Handlebars.SafeString("<img src=\""+Utils.thumbURL(styleUID)+"\" width=\"60\"></img>");
+		return new Handlebars.SafeString("<img src=\""+Utils.styleThumbURL(styleUID)+"\" width=\"60\"></img>");
+	}
+);
+
+
+/**
+ * Display a colorbar thumb from its colorbarUID 
+ */ 
+Ember.Handlebars.registerBoundHelper('colorbarthumb', 
+	function(colorbarUID, options) 
+	{
+		return new Handlebars.SafeString("<img src=\""+Utils.colorbarThumbURL(colorbarUID)+"\"></img>");
+	}
+);
+
+/**
+ * Display a colorbar thumb from its colorbarUID 
+ */ 
+Ember.Handlebars.registerBoundHelper('minicolorbarthumb', 
+	function(colorbarUID, options) 
+	{
+		return new Handlebars.SafeString("<img src=\""+Utils.colorbarThumbURL(colorbarUID)+"\" width=\"60\"></img>");
 	}
 );
 

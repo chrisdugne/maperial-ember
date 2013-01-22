@@ -8,6 +8,8 @@
 
 	StyleEditorController.renderUI = function()
 	{
+		App.user.set("waiting", true);
+
 		ScriptLoader.getScripts([
 	                         // map rendering
 	                         "http://map.x-ray.fr/js/gl-matrix-min.js",
@@ -23,21 +25,25 @@
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
 	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
 	                         "assets/javascripts/extensions/mapediting/colorpicker.js",
-//	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_mapnifyMenu3.js",
-	                         "assets/javascripts/extensions/mapediting/v_mapnifyMenu3.js",
-	                         "assets/javascripts/extensions/mapediting/main.js"],
+	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/RGBColor.js",
+
+	                         // style
+	                         "assets/javascripts/extensions/style/v_mapnifyMenu3.js",
+	                         "assets/javascripts/extensions/style/main.js"],
 	         function()
 	         {
 				//-----------------------------
-			
+				
 				// if creating a new style : copy the selected style as a new style
 				if(!App.stylesData.editingStyle)
 				{
+					console.log("Creating a new style");
 					var newStyle = {
 							name : "CopyOf" + App.stylesData.selectedStyle.name,
 							content : App.stylesData.selectedStyle.content,
 							uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
 					};
+					console.log(newStyle.name);
 					
 					App.stylesData.set("selectedStyle", newStyle);
 				}
@@ -52,7 +58,9 @@
 					StyleEditorController.renderMap();
 					$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
 					
-					ExtensionMapEditing.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
+					ExtensionStyle.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
+
+					App.user.set("waiting", false);
 				});
 	         }
       	);

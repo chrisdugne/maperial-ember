@@ -35,7 +35,7 @@
 			{{#with colorbar}}
 				<div {{action selectColorbar this}} class="row">
 				    <div class="span2 name"><p class="filename">{{name}}</p></div>
-				   	<a class="selectable span2 offset2">{{thumb uid}}</a>
+				   	<a class="selectable span2 offset2">{{colorbarthumb uid}}</a>
 				</div>
 			{{/with}}
 		{{/each}}
@@ -44,12 +44,12 @@
     <div id="selectedColorbarArea" class="row">
     {{isset colorbarsData.selectedColorbar
       yes='<div class="span2">
-      			<img id="selectedColorbarThumb" src="{Utils.thumbURL(context.colorbarsData.selectedColorbar.uid)}"></img>
+      			<img id="selectedColorbarThumb" src="{Utils.colorbarThumbURL(context.colorbarsData.selectedColorbar.uid)}"></img>
 				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.ColorbarsController.cancelSelectedColorbar()">
 					<i class="icon icon-ex-white-outline"></i>
 				</a>
       	   </div>
-      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="App.ColorbarsController.continueColorbarEdition()">Continue with this preset</div>'
+      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="App.ColorbarsController.continueColorbarCreation()">Continue with this preset</div>'
       no='<h4 class="offset2">(Select a colorbar to start with)</h4>'}}
 	</div>
 

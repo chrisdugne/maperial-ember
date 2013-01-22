@@ -32,6 +32,13 @@ POST /editStyle						controllers.StyleService.editStyle()
 POST /removeStyle					controllers.StyleService.removeStyle()
 
 #---------------------------------------------------------------------------
+#   ColorbarService 
+
+POST /addColorbar					controllers.ColorbarService.addColorbar()
+POST /editColorbar					controllers.ColorbarService.editColorbar()
+POST /removeColorbar				controllers.ColorbarService.removeColorbar()
+
+#---------------------------------------------------------------------------
 #   MapnifyAuth
  
 GET  /mapnifyAuthToken				authentication.MapnifyOpenId.receivedToken()

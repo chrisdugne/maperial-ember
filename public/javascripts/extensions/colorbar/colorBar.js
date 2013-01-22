@@ -1,3 +1,12 @@
+//upgrade Object prototype
+Object.size = function(obj) {
+  var size = 0, key;
+  for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+  }
+  return size;
+};
+
 // this is pretty much just a map with some color related functions
 // this map cannot be empty. It is initialized/cleared with at least two values (0 and 255).
 // First (0) and Last (255) index cannot be modified using Add() / Remove() but only SetFirst() and SetLast() 
@@ -15,14 +24,16 @@ this.ColorBar = {};
 ColorBar.Rainbow = function(){ 
   var colors = null; // private !!!
                 
+  this.DataSize = 256;
+
   this.Colors = function(){  // getter
       return colors;
   } 
 
   this.ClearAll = function(){ 
       colors.clear();
-      this.SetFirst(new RGBColor("blue"));
-      this.SetLast(new RGBColor("red"));
+      //this.SetFirst(new RGBColor("blue"));
+      //this.SetLast(new RGBColor("red"));
   }
 
   this.Clear = function(){
@@ -33,17 +44,23 @@ ColorBar.Rainbow = function(){
       this.Add(new RGBColor("green"),128);
       this.SetLast(new RGBColor("red"));
   }
-  
+ 
+  this.GetKeys = function(){
+    var keys = colors.getAllKeys();
+    keys.sort(function(a,b){return a - b});
+    return keys;
+  }
+ 
   this.Add = function(color,index){  //RGBColor
     if(typeof color === 'undefined'){return;}
     if(typeof index === 'undefined'){return;}
     
     if ( ! color.ok ){return;}
          
-    if ( index < 0 || index > 255)
+    if ( index < 0 || index >= this.DataSize)
       return;
     
-    if ( (index != 0) && (index != 255)){  // cannot change 0 and 255 this way ! use setFirst/Last instead
+    if ( (index != 0) && (index != this.DataSize-1)){  // cannot change 0 and 255 this way ! use setFirst/Last instead
       colors.put(index,color);
     }
   }
@@ -59,16 +76,16 @@ ColorBar.Rainbow = function(){
     if(typeof color === 'undefined'){return;}
     
     if ( ! color.ok ){return;}  
-    colors.put(255,color);
+    colors.put(this.DataSize-1,color);
   }    
 
   this.Remove = function(index){
     if(typeof index === 'undefined'){return;}
     
-    if ( index < 0 || index > 255 || (! colors.containsKey(index)))
+    if ( index < 0 || index >= this.DataSize || (! colors.containsKey(index)))
       return;
  
-    if ( index != 0 && index != 255){  // cannot remove 0 and 255 at all
+    if ( index != 0 && index != this.DataSize-1){  // cannot remove 0 and 255 at all
       colors.removeByKey(index);
     }
   }
@@ -112,7 +129,7 @@ ColorBar.Rainbow = function(){
       var isHsl = true;
 
     
-    if ( index < 0 || index > 255 ){
+    if ( index < 0 || index >= this.DataSize ){
       var tmp =  new RGBColor("black");
       tmp.setAlpha(0.0);
       return tmp;
@@ -367,7 +384,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   this.ReInit = function(in_width,in_height,in_mainDiv,in_offsetX,in_offsetY,in_doInterpo,in_minVal,in_maxVal){
      Init(in_width,in_height,in_mainDiv,in_offsetX,in_offsetY,in_doInterpo,in_minVal,in_maxVal);
      InitView();
-     this.AutoAdd();
+//     this.AutoAdd();
      this.Render();
   }
 
@@ -461,7 +478,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
       context.roundedRect  (width+offsetX+8*fontsize/2, j-fontsize/1.5+offsetY, fontsize*6.5, fontsize*1.5, fontsize*0.5/*,false,true*/);
       //Label
       context.font         = fontsize + 'px sans-serif';
-      var curVal           = minVal + (maxVal - minVal)/255.*curIndex;
+      var curVal           = minVal + (maxVal - minVal)/(rainbow.DataSize-1)*curIndex;
       context.fillText     (curIndex + ' (' + Math.round(curVal*100)/100 + ')',width+offsetX+9*fontsize/2,j+offsetY+fontsize/2.5);
       context.stroke       ();
   }
@@ -479,7 +496,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
     var tickMark = new Map();
     
     for(var j = 0 ; j < height ; ++j){
-        var curIndex = Math.round((height-1-j)*255/(height-1));
+        var curIndex = Math.round((height-1-j)*(rainbow.DataSize-1)/(height-1));
         var color = rainbow.Get(curIndex,doInterpo,true,isHsl);
         var realColor = rainbow.Get(curIndex,doInterpo,false,isHsl);
         
@@ -515,6 +532,9 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   /////////////////////////
   this.Add = function(color,index){
     rainbow.Add(color,index);
+    if ( onUpdateCallback ) {
+      onUpdateCallback (this);
+    }
   }
   
   this.AddFirst = function(color){
@@ -532,7 +552,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   }     
   
   this.GetIndex = function(value){
-    return Math.round(0. + (255. - 0.)/(maxVal-minVal)*(value-minVal));
+    return Math.round(0. + (rainbow.DataSize - 1 - 0.)/(maxVal-minVal)*(value-minVal));
   }
 
   this.GetColor = function(index){
@@ -566,7 +586,18 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
         color.fromHsv(hsv);      
         //var color = this.GetColor(index);
         console.log("adding tick at " + (mini + k * step) + " " + index + " " + color);
-        rainbow.Add(color,index);
+        if ( index == 0 ){
+           rainbow.SetFirst(color);
+        }
+        else if ( index == rainbow.DataSize -1 ){
+           rainbow.SetLast(color);
+        }
+        else{
+           rainbow.Add(color,index);
+        }
+     }
+     if ( onUpdateCallback ) {
+       onUpdateCallback (this);
      }
      this.Render();
   }
@@ -607,7 +638,7 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   this.ColorCallBack = function(color){     // note that "color" here must be a string understandable by RGBColor !!!
     if ( lastAdded == 0)
       self.AddFirst(new RGBColor(color));
-    else if (lastAdded == 255 )
+    else if (lastAdded == rainbow.DataSize -1 )
       self.AddLast(new RGBColor(color));
     else
       self.Change(lastAdded,lastAdded,new RGBColor(color));
@@ -640,13 +671,15 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
     var curX = getCursorX(document.getElementById(canvasId),evt);
     var curY = getCursorY(document.getElementById(canvasId),evt);
     
-    var curPos = Math.round((height-1-curY+offsetY)*255.0/(height-1));   ///@todo check offset
+    var curPos = Math.round((height-1-curY+offsetY)*(rainbow.DataSize-1)/(height-1));   ///@todo check offset
     var curPos2 = curPos;
   
     var id = rainbow.GetNextAndPreviousIndex(curPos);
     var nearestLowerIndex = id.previous;
     var nearestUpperIndex = id.next;
-    
+   
+    console.log(curPos,nearestLowerIndex,nearestUpperIndex);
+ 
     if ( ! clicked ){
       if ( Math.abs(nearestLowerIndex-curPos) < height/40 ){
            curPos2 = nearestLowerIndex;
@@ -700,7 +733,58 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
      if ( clicked )
         onMouseDown(evt);
   }        
-                   
+
+  this.ExportDataSize = 256; // SHOULD **NOT** BE > rainbow.DataSize !!!!!
+
+  this.Export = function(jsonData){
+     /*
+     for( var k = 0 ; k < this.ExportDataSize ; k++){
+        var color =  this.GetColor(k*(rainbow.DataSize-1)/(this.ExportDataSize-1));
+        jsonData[k] = {"r" : color.r , "g" : color.g , "b" : color.b , "a" : color.a};
+        console.log(k,jsonData[k]);
+     }
+     */
+     var keys = rainbow.GetKeys();
+
+     for( var i = 0 ; i < keys.length ; ++i){
+        var color = this.GetColor(keys[i]);
+        jsonData[keys[i]] = {"r" : color.r , "g" : color.g , "b" : color.b , "a" : color.a};
+     }
+     console.log(jsonData);
+  }
+ 
+  this.Import = function(jsonData){
+     rainbow.ClearAll();
+     var n = Object.size(jsonData);
+     if ( n > rainbow.DataSize ){
+        console.log("Too much data to import"); 
+        return;
+     }
+     if ( n < 2 ){
+        rainbow.Clear();
+     }
+     for(var key in jsonData){
+        jsonData.hasOwnProperty(key);
+        var color = new RGBColor("black");
+        color.r = jsonData[key].r;
+        color.g = jsonData[key].g;
+        color.b = jsonData[key].b;  
+        console.log(jsonData[key]);
+        if ( key == 0 ){
+            this.AddFirst(color);
+        }
+        else if ( key == rainbow.DataSize-1 ){
+            this.AddLast(color);
+        }
+        else{
+            this.Add(color,key);
+        } 
+     }
+     if ( onUpdateCallback ) {
+       onUpdateCallback (this);
+     }
+     self.Render();
+  }                   
   
   /////////////////////////
   // Instantiation and callback setup
@@ -709,6 +793,13 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
   rainbow = new ColorBar.Rainbow();
 
   this.ReInit(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_minVal,_maxVal);
+
+  ///test
+  this.AutoAdd(6);
+  var jsonExportTest = {};
+  this.Export(jsonExportTest);
+  this.Import(jsonExportTest);
+  ////
   
   return this;
 }
@@ -717,4 +808,3 @@ ColorBar.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInterpo,_mi
 
 
            
-

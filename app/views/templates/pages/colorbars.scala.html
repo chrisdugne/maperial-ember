@@ -26,7 +26,7 @@
 	        	<tbody class="files">
 		    		{{#each colorbar in user.colorbars}}
 					    <tr class="template-download">
-					        <td>{{colorbar.uid}}</td>
+					        <td>{{colorbarthumb colorbar.uid}}</td>
 					        <td class="name"><p class="longfilename">{{colorbar.name}}</p></td>
 					        {{#if colorbar.isPublic}}
 					        {{else}}

@@ -56,10 +56,13 @@
 	
 	//------------------------------------------------//
 	
-	StylesController.continueStyleEdition = function() 
+	/**
+	 * Reach from selectStyleWindow = new style being created
+	 */
+	StylesController.continueStyleCreation = function() 
 	{
 		$("#selectStyleWindow").modal("hide");
-		App.stylesData.set("editingStyle", true);
+		App.stylesData.set("editingStyle", false);
 		App.get('router').transitionTo('styleEditor');
 	}
 

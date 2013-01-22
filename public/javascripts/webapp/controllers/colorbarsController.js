@@ -56,10 +56,10 @@
 	
 	//------------------------------------------------//
 	
-	ColorbarsController.continueColorbarEdition = function() 
+	ColorbarsController.continueColorbarCreation = function() 
 	{
 		$("#selectColorbarWindow").modal("hide");
-		App.colorbarsData.set("editingColorbar", true);
+		App.colorbarsData.set("editingColorbar", false);
 		App.get('router').transitionTo('colorbarEditor');
 	}
 

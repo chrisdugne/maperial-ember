@@ -1,6 +1,6 @@
 /*-------------------------*/
 
-.styleList {
+.colorbarList {
 	overflow: auto;
 	height: 290px;
 }
@@ -22,11 +22,11 @@
 	margin-left: 126px;
 }
 
-#selectedStyleArea {
+#selectedColorbarArea {
 	margin-top: 16px;
 }
 
-#selectedStyleThumb {
+#selectedColorbarThumb {
 	z-index: -1;
 	position: relative;
 }
@@ -37,16 +37,16 @@
 
 /*-------------------------*/
 
-#styleNameInput {
+#colorbarNameInput {
 	width: 143px;
 	margin-top: -2px;
 }
 
-#style {
+#colorbar {
 	z-index: 3 !important;
 }
 
-#saveStyleButton {
+#saveColorbarButton {
 	margin-left: 24px;
 	width: 29px;
 }

@@ -101,7 +101,8 @@ ColorbarManager.getColorbar = function(colorbarUID, next)
 	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
 		{
-    		App.colorbarsData.selectedColorbar.content = data;
+	    	console.log("data : " + data);
+    		App.colorbarsData.set("selectedColorbar.content", data);
     		next();
 		}
 	});
