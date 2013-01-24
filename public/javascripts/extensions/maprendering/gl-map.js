@@ -1,22 +1,29 @@
 //=====================================================================================//
-// a mettre dans webapp/globals.js
+//uniquement cote wwwClient
+
+if(typeof(Globals)==='undefined' || Globals == null) Globals={}
+if(typeof(Utils)==='undefined' || Utils == null) Utils={}
+
+//=====================================================================================//
+//a mettre dans webapp/globals.js
+
 
 Globals.refreshRate   = 30; // ms
 Globals.tileDLTimeOut = 60000 ; //ms
 
 //=====================================================================================//
-// a mettre dans webapp/utils.js
+//a mettre dans webapp/utils.js
 
 Utils.bindObjFunc = function (toObject, methodName){
-    return function(){toObject[methodName]()}
+   return function(){toObject[methodName]()}
 }
 
 Utils.bindObjFuncEvent = function (toObject, methodName){
-    return function(mEvent){toObject[methodName](mEvent)}
+   return function(mEvent){toObject[methodName](mEvent)}
 }
 
 Utils.bindObjFuncEvent2 = function (toObject, methodName){
-    return function(mEvent,mDelta){toObject[methodName](mEvent,mDelta)}
+   return function(mEvent,mDelta){toObject[methodName](mEvent,mDelta)}
 }
 
 Utils.GetURL = function (tx,ty,z) {
@@ -31,7 +38,7 @@ Utils.GetURL = function (tx,ty,z) {
    var rd  = Math.floor( (Math.random()*4) );
    var url = "/"+Utils.altURL[rd]+"/";
    return url
-   */
+    */
 }
 
 
@@ -39,8 +46,8 @@ Utils.GetURL = function (tx,ty,z) {
 
 function GLMap(elementName, tilesize) {
 
-	//----------------------------------------------------------------------//
-	
+   //----------------------------------------------------------------------//
+
    this.tileSize      = typeof tilesize !== 'undefined' ? tilesize : 256;
    this.canvasName    = elementName;
    this.mouseDown     = false;
@@ -63,7 +70,7 @@ function GLMap(elementName, tilesize) {
       tile.z      = z;
       tile.data   = null;
       tile.cnv    = null;
-      
+
       tile.req    = $.ajax({
          type     : "GET",
          url      : inUrl,
@@ -75,7 +82,7 @@ function GLMap(elementName, tilesize) {
                tile.error  = true;
                return
             }
-            
+
             tile.data      = data;
             tile.cnv       = document.createElement("canvas");
             tile.cnv.height= data["h"];
@@ -99,7 +106,32 @@ function GLMap(elementName, tilesize) {
    }
 
    //----------------------------------------------------------------------//
-   
+
+   //
+   GLMap.prototype.EditStyle = function (xM, yM) 
+   {
+      var tileCoord = this.coordS.MetersToTile ( xM, yM , this.zoom );
+      var key = tileCoord.x + "," + tileCoord.y + "," + this.zoom;
+      
+      var tile = this.tileCache[key];
+
+      var clickP = this.coordS.MetersToPixels ( xM, yM, this.zoom );
+      var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*this.tileSize), Math.floor ( (tileCoord.y+1) * this.tileSize - clickP.y  ) );
+
+      var canvas = document.getElementById("demoDummyCanvas");
+      var ctx = canvas.getContext("2d");
+      ExtendCanvasContext ( ctx );
+      canvas.height = tile.data["h"];
+      canvas.width = tile.data["w"];
+      ctx.globalCompositeOperation="source-over";
+      ctx.beginPath();
+      ctx.closePath();
+
+      TileRenderer.RenderLayers ( true, ctx , tile.data , this.zoom ) ;
+   }
+
+   //----------------------------------------------------------------------//
+
    GLMap.prototype.OnMouseDown = function (event) {
       this.mouseDown = true;
       this.lastMouseX = event.clientX;
@@ -107,7 +139,27 @@ function GLMap(elementName, tilesize) {
    }
 
    GLMap.prototype.OnMouseUp = function (event) {
-      this.mouseDown = false;    
+      this.mouseDown = false; 
+
+      var isEditingStyle = true;
+      if(isEditingStyle)
+      {
+         var w = $("#"+this.canvasName).width ();
+         var h = $("#"+this.canvasName).height();
+         var r = this.coordS.Resolution ( this.zoom );
+         var x = event.clientX - $(event.target).offset().left;
+         var y = event.clientY - $(event.target).offset().top;
+
+         // distance en pixels par rapport au centre
+         var deltaX = x - w/2;
+         var deltaY = y - h/2;
+
+         // rajout de la distance par rapport au centre, en metres = coord du point clique en metres
+         var xM = this.centerM.x + deltaX * r;
+         var yM = this.centerM.y - deltaY * r;
+
+         this.EditStyle(xM, yM);
+      }
    }
 
    GLMap.prototype.OnMouseMove = function (event) {
@@ -120,7 +172,7 @@ function GLMap(elementName, tilesize) {
       var deltaY = newY - this.lastMouseY;         
       this.lastMouseX = newX
       this.lastMouseY = newY;
-      
+
       var r            = this.coordS.Resolution ( this.zoom );
       this.centerM.x   = this.centerM.x - deltaX * r;
       this.centerM.y   = this.centerM.y + deltaY * r;         
@@ -166,8 +218,8 @@ function GLMap(elementName, tilesize) {
 
    GLMap.prototype.SetZoom = function(z){
       if ( z > -1 && z < 19 ){
-          this.zoom = z;
-          this.DrawScene ( true );
+         this.zoom = z;
+         this.DrawScene ( true );
       }
    }
 
@@ -188,52 +240,52 @@ function GLMap(elementName, tilesize) {
    }
 
    //----------------------------------------------------------------------//
-   
+
    GLMap.prototype.OnResize = function (event) {
-      this.w  = $("#"+this.canvasName).width ();
-      this.h  = $("#"+this.canvasName).height();
-      this.ctx.canvas.width  = this.w;
+      this.w = $("#"+this.canvasName).width ();
+      this.h = $("#"+this.canvasName).height();
+      this.ctx.canvas.width = this.w;
       this.ctx.canvas.height = this.h;
       this.DrawScene ( true );
    }
 
    //----------------------------------------------------------------------//
-   
+
    GLMap.prototype.Start = function () {
       try {
          var canvas = document.getElementById(this.canvasName);
          this.ctx=canvas.getContext("2d");
       } catch (e) {
       }
-      
+
       if (!this.ctx) {
          alert("Could not initialise Canvas 2D");
          return ;
       }
-      
+
       $(window).resize(Utils.bindObjFuncEvent ( this , "OnResize" ) );
 
       $("#"+this.canvasName).resize( 
-		  Utils.bindObjFuncEvent ( this , "OnResize" ) 
+            Utils.bindObjFuncEvent ( this , "OnResize" ) 
       ).mousedown( 
-		  Utils.bindObjFuncEvent ( this , "OnMouseDown" ) 
+            Utils.bindObjFuncEvent ( this , "OnMouseDown" ) 
       ).mouseup (
-		  Utils.bindObjFuncEvent ( this , "OnMouseUp" ) 
+            Utils.bindObjFuncEvent ( this , "OnMouseUp" ) 
       ).mousemove (
-		  Utils.bindObjFuncEvent ( this , "OnMouseMove" )
+            Utils.bindObjFuncEvent ( this , "OnMouseMove" )
       ).mouseleave (
-		  Utils.bindObjFuncEvent ( this , "OnMouseUp" ) 
+            Utils.bindObjFuncEvent ( this , "OnMouseUp" ) 
       ).bind('mousewheel', Utils.bindObjFuncEvent2 ( this , "OnMouseWheel") );
-      
+
       this.DrawScene();
-      
+
       setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , Globals.refreshRate );
    } 
 
-   
+
    //----------------------------------------------------------------------//
 
-   
+
    GLMap.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, forceTileRedraw) {
       var keyList = [];
       for ( tx = txB ; tx <= txE ; tx = tx + 1) {
@@ -265,7 +317,7 @@ function GLMap(elementName, tilesize) {
             }
          }
       }
-      
+
       // unload unnecessary loaded tile
       for (var key in this.tileCache) {
          var isInKeyList = false
@@ -283,7 +335,7 @@ function GLMap(elementName, tilesize) {
             }
          }
       }
-      
+
       /*
        * 
        * tile.lcnt pour savoir ou on en est lors du rendu : offset
@@ -291,36 +343,36 @@ function GLMap(elementName, tilesize) {
        * 
        * isLoad : isLoaded
        * 
-       * renderLayer pour les tiles charg�s
+       * renderLayer pour les tiles chargÔøΩs
        * 
        * accDt accumulationDeltatime
        */
       var hasSomeChange = false;
       var time = 0;
-      
+
       for (var ki = 0 ; ki < keyList.length ; ki++) 
       {
          var tile = this.tileCache[keyList[ki]];
-      
+
          if ( tile && tile.isLoad && (!tile.error) && tile.lcnt != null ) 
          {
-            var rendererStatus  = TileRenderer.RenderLayers ( tile.ctx , tile.data , tile.z , tile.lcnt) ;
+            var rendererStatus  = TileRenderer.RenderLayers ( false, tile.ctx , tile.data , tile.z , tile.lcnt) ;
             hasSomeChange = true
             tile.lcnt = rendererStatus[0]
             time += rendererStatus[1];
-         
+
             if ( time > ( Globals.refreshRate - 5 ) )
                break;
          }
       }
-      
+
       return hasSomeChange
    }
 
-   
+
    //----------------------------------------------------------------------//
 
-   
+
    GLMap.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
       if(typeof(forceGlobalRedraw)==='undefined' ) {
          forceGlobalRedraw = false
@@ -343,14 +395,14 @@ function GLMap(elementName, tilesize) {
 
       var r       = this.coordS.Resolution ( this.zoom );
       var originM = new Point( this.centerM.x - w2 * r , this.centerM.y + h2 * r );
-      var originP = this.coordS.MetersToPixels ( originM.x, originM.y, this.zoom );
       var tileC   = this.coordS.MetersToTile ( originM.x, originM.y , this.zoom );
 
-      var shift   = new Point ( Math.floor ( tileC.x * 256 - originP.x ) , Math.floor ( - ( (tileC.y+1) * 256 - originP.y ) ) );
+      var originP = this.coordS.MetersToPixels ( originM.x, originM.y, this.zoom );
+      var shift   = new Point ( Math.floor ( tileC.x * this.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * this.tileSize - originP.y ) ) );
 
       var nbTileX = Math.floor ( w  / this.tileSize +1 );
       var nbTileY = Math.floor ( h / this.tileSize  +1 ) ; 
-      
+
       if ( this.UpdateTileCache ( this.zoom , tileC.x , tileC.x + nbTileX , tileC.y - nbTileY , tileC.y , forceTileRedraw ) || forceGlobalRedraw) {
          this.ctx.scale(1,1);
          // wx/wy (pixels) in canvas mark ( coord ) !!
@@ -360,7 +412,7 @@ function GLMap(elementName, tilesize) {
                var tile = this.tileCache[key] 
                if ( tile && tile.isLoad && !tile.error) {
                   this.ctx.beginPath();
-                  this.ctx.rect(wx, wy , 256, 256);
+                  this.ctx.rect(wx, wy , this.tileSize, this.tileSize);
                   this.ctx.closePath();
                   this.ctx.fillStyle = '#FFFFFF';
                   this.ctx.fill();
@@ -370,7 +422,7 @@ function GLMap(elementName, tilesize) {
                }
                else {
                   this.ctx.beginPath();
-                  this.ctx.rect(wx, wy , 256, 256);
+                  this.ctx.rect(wx, wy , this.tileSize, this.tileSize);
                   this.ctx.closePath();
                   this.ctx.fillStyle = '#EEEEEE';
                   this.ctx.fill();
@@ -381,4 +433,6 @@ function GLMap(elementName, tilesize) {
          }    
       }
    }
+
+   //----------------------------------------------------------------------//
 }
