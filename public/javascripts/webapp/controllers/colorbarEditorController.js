@@ -12,24 +12,24 @@
 
 		ScriptLoader.getScripts([
 	                         // map rendering
-	                         "http://map.x-ray.fr/js/gl-matrix-min.js",
-	                         "http://map.x-ray.fr/js/gl-tools.js",
-	                         "http://map.x-ray.fr/js/coordinate-system.js",
-	                         "http://map.x-ray.fr/js/jquery.mousewheel.min.js",
-	                         "http://map.x-ray.fr/js/render-line.js",
-	                         "http://map.x-ray.fr/js/render-text.js",
-	                         "http://map.x-ray.fr/js/tileRenderer.js",
-	                         "http://map.x-ray.fr/js/maps.js",
+	                         "assets/javascripts/libs/gl-matrix-min.js",
+	                         "assets/javascripts/libs/jquery.mousewheel.min.js",
+	                         "assets/javascripts/extensions/maprendering/gl-tools.js",
+	                         "assets/javascripts/extensions/maprendering/coordinate-system.js",
+	                         "assets/javascripts/extensions/maprendering/render-line.js",
+	                         "assets/javascripts/extensions/maprendering/render-text.js",
+	                         "assets/javascripts/extensions/maprendering/tileRenderer.js",
+	                         "assets/javascripts/extensions/maprendering/gl-map.js",
 	                         
 	                         // map editing
-	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_colortool.js",
-	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/v_symbolizer.js",
-	                         "assets/javascripts/extensions/mapediting/colorpicker.js",
-	                         "http://serv.x-ray.fr/project/mycarto/wwwClient/js/RGBColor.js",
+	                         "assets/javascripts/extensions/mapeditortools/v_colortool.js",
+	                         "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
+	                         "assets/javascripts/extensions/mapeditortools/colorpicker.js",
+	                         "assets/javascripts/extensions/mapeditortools/RGBColor.js",
+	                         "assets/javascripts/extensions/mapeditortools/map.js",
+	                         "assets/javascripts/extensions/mapeditortools/canvasutilities.js",
 
 	                         // colorbar
-	                         "assets/javascripts/extensions/colorbar/map.js",
-	                         "assets/javascripts/extensions/colorbar/canvasutilities.js",
 	                         "assets/javascripts/extensions/colorbar/colorBar.js",
 	                         "assets/javascripts/extensions/colorbar/main.js"],
 	         function()

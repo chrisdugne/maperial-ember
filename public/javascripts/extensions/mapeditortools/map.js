@@ -1,4 +1,4 @@
-
+// TODO renommer MapTools ?
 this.Map = function() {
     this.array = [];
 }

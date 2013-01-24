@@ -83,13 +83,13 @@ MapnifyMenu.EventProxy.NewEvent = function(){
     var curTime = new Date().getTime(); // ms
     if ( MapnifyMenu.EventProxy.lastEvt == null){
        MapnifyMenu.EventProxy.lastEvt = curTime;
-       tileRenderer.SetStyle(MapnifyMenu.__style); // tileRenderer.js MUST BE LOADED
+       TileRenderer.SetStyle(MapnifyMenu.__style); // TileRenderer.js MUST BE LOADED
        MapnifyMenu.refMap.DrawScene(false,true);
        return;
     }
     if ( curTime - MapnifyMenu.EventProxy.lastEvt > MapnifyMenu.EventProxy.eventRate){
        MapnifyMenu.EventProxy.lastEvt = curTime;
-       tileRenderer.SetStyle(MapnifyMenu.__style); // tileRenderer.js MUST BE LOADED
+       TileRenderer.SetStyle(MapnifyMenu.__style); // TileRenderer.js MUST BE LOADED
        MapnifyMenu.refMap.DrawScene(false,true);
        return;
     }
@@ -104,7 +104,7 @@ window.setInterval(
         return;
       }
       if ( curTime - MapnifyMenu.EventProxy.queuedEvt > MapnifyMenu.EventProxy.eventRate){ // if last event is "old"
-        tileRenderer.SetStyle(MapnifyMenu.__style); // tileRenderer.js MUST BE LOADED
+        TileRenderer.SetStyle(MapnifyMenu.__style); // TileRenderer.js MUST BE LOADED
         MapnifyMenu.refMap.DrawScene(false,true);
         MapnifyMenu.EventProxy.queuedEvt = null;
       }
@@ -927,7 +927,7 @@ MapnifyMenu.LoadStyle = function(){
    else{
       MapnifyMenu.__LoadStyle();
    }
-   tileRenderer.SetStyle(MapnifyMenu.__style); // tileRenderer.js MUST BE LOADED
+   TileRenderer.SetStyle(MapnifyMenu.__style); // TileRenderer.js MUST BE LOADED
    MapnifyMenu.refMap.DrawScene(false,true);
 }
   
