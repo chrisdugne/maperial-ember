@@ -25,6 +25,7 @@ TileRenderer.GetStyle = function(){
  * layerId + zoom = ruleId = unique
  */
 
+TileRenderer.layerDummyColors = [];
 TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level ) {
 
    try {
@@ -43,10 +44,25 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level )
                if ( TileRenderer[params.rt] ) 
                { 
                   if(level == DUMMY_LEVEL){
+
+                     if(TileRenderer.layerDummyColors[layerId] == undefined)
+                     {
+                        var rd1 =  (Math.floor (Math.random()*16)).toString(16);
+                        var rd2 =  (Math.floor (Math.random()*16)).toString(16);
+                        var rd3 =  (Math.floor (Math.random()*16)).toString(16);
+                        var color = "#" + rd1 + layerId[0] + rd2 + layerId[1] + layerId[2] + rd3;
+
+                        console.log("layerId hidden : " + layerId);
+                        console.log("colorRandomized : " + color);
+                        TileRenderer.layerDummyColors[layerId] = color;
+                     }
+                     else
+                        var color = TileRenderer.layerDummyColors[layerId];
+
                      var params = jQuery.extend(true, {}, params);
                      params["alpha"] = "1";
-                     params["fill"] = "#000"+layerId;
-                     params["stroke"] = "#000"+layerId;
+                     params["fill"] = color;
+                     params["stroke"] = color;
                   }
 
                   TileRenderer[ params.rt ] ( ctx , line, attr, params )

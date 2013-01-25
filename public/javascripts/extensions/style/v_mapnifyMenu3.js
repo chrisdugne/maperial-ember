@@ -411,6 +411,9 @@ MapnifyMenu.__LoadMapping = function(){
 //////////////////////////////////////////////////////////////
 MapnifyMenu.GetUids = function(name){
 	var ids = Array();
+        if ( name == "none" ){
+           return ids;
+        }
 	for(var entrie = 0 ; entrie < Object.size(MapnifyMenu.mapping) ; entrie++){
 		if ( MapnifyMenu.mapping[entrie]["name"] == name){
 			for( var layer = 0 ; layer < Object.size(MapnifyMenu.mapping[entrie]["layers"]) ; layer++){
@@ -755,7 +758,9 @@ MapnifyMenu.FillWidget = function(uid){
 
 //////////////////////////////////////////////////////////////
 MapnifyMenu.__BuildWidget = function(group,name,uid){
-   
+  
+   console.log("building widget ",group,name,uid);
+ 
    //clear parent div
    MapnifyMenu.widgetDiv.empty();
 
@@ -822,6 +827,59 @@ MapnifyMenu.GetWidgetCallBack = function(group,name,uid){
       //console.log(uid + " clicked");
       MapnifyMenu.__BuildWidget(group,name,uid);
     } 
+}
+
+//////////////////////////////////////////////////////////////
+MapnifyMenu.GetGroupNameFilterFromLayerId = function(uid){
+ for ( var group in MapnifyMenu.groups ){ // for all groups of element
+    if (!MapnifyMenu.groups.hasOwnProperty(group)) {
+     continue;
+    }
+    for ( var name in MapnifyMenu.groups[group] ){    // for elements in group
+         if (!MapnifyMenu.groups[group].hasOwnProperty(name)) {
+            continue;
+         }
+         var uids = MapnifyMenu.GetUids(name);
+         var childs = Array();
+         if ( MapnifyMenu.groups[group][name].type == "line" ){
+            var casing = MapnifyMenu.groups[group][name].casing;
+            var center = MapnifyMenu.groups[group][name].center;
+            console.log(casing,center);
+            childs = childs.concat( MapnifyMenu.GetUids(casing) );
+            childs = childs.concat( MapnifyMenu.GetUids(center) );
+         }
+         else if (MapnifyMenu.groups[group][name].type == "poly"){
+            childs = childs.concat( MapnifyMenu.GetUids(MapnifyMenu.groups[group][name].line) );
+         } 
+         else{
+            ///@todo
+         }
+         console.log(group,name,uids);
+         if ( uids.length == 0 ){
+             continue;
+         }
+         // primary object case
+         for (var i = 0 ; i < uids.length ; i++){        // for uids of type "element" (different filters ... see landmark for exemple)
+           var _uid = uids[i];
+           if ( uid == _uid ){
+              return {"group": group,"name": name, "filter": MapnifyMenu.mappingArray[uid].filter, "uid": uid};
+           }  
+         }
+         // child case
+         for (var i = 0 ; i < childs.length ; i++){        // for uids of type "element" (different filters ... see landmark for exemple)
+           var _uid = childs[i];
+           if ( uid == _uid ){
+              // lets find parent id
+              for(var k = 0 ; k < uids.length ; ++k){
+                 if ( MapnifyMenu.mappingArray[uids[k]].filter == MapnifyMenu.mappingArray[_uid].filter ){
+                    return {"group": group,"name": name, "filter": MapnifyMenu.mappingArray[uid].filter, "uid": uids[k]};
+                 }
+              }
+           }  
+         }
+    }
+ }
+ return {"group": null, "name": null, "filter": null, "uid": null};
 }
 
 //////////////////////////////////////////////////////////////

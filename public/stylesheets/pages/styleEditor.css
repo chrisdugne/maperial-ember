@@ -1,22 +1,19 @@
 /*-------------------------*/
-
 .styleList {
 	overflow: auto;
 	height: 290px;
 }
 
 /*-------------------------*/
-
-.selectable{
+.selectable {
 	margin-top: 5px;
 }
 
 .selectable:hover {
-   outline: 3px solid
+	outline: 3px solid
 }
 
 /*-------------------------*/
-
 #cancelSelection {
 	margin-top: -152px;
 	margin-left: 126px;
@@ -36,7 +33,6 @@
 }
 
 /*-------------------------*/
-
 #styleNameInput {
 	width: 143px;
 	margin-top: -2px;

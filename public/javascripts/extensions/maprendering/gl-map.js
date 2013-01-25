@@ -107,8 +107,20 @@ function GLMap(elementName, tilesize) {
 
    //----------------------------------------------------------------------//
 
-   GLMap.prototype.EditStyle = function (xM, yM) 
-   {
+   GLMap.prototype.EditStyle = function (event) {
+      var clickP = this.getClick(event);
+
+      // distance en pixels par rapport au centre
+      var w = $("#"+this.canvasName).width ();
+      var h = $("#"+this.canvasName).height();
+      var deltaX = clickP.x - w/2;
+      var deltaY = clickP.y - h/2;
+
+      // rajout de la distance par rapport au centre, en metres = coord du point clique en metres
+      var r = this.coordS.Resolution ( this.zoom );
+      var xM = this.centerM.x + deltaX * r;
+      var yM = this.centerM.y - deltaY * r;
+      
       // retrieve the tile clicked
       var tileCoord = this.coordS.MetersToTile ( xM, yM , this.zoom );
       var key = tileCoord.x + "," + tileCoord.y + "," + this.zoom;
@@ -124,6 +136,9 @@ function GLMap(elementName, tilesize) {
       canvas.height = tile.data["h"];
       canvas.width = tile.data["w"];
       ctx.globalCompositeOperation="source-over";
+      ctx.imageSmoothingEnabled = false;
+      ctx.webkitImageSmoothingEnabled = false;
+      ctx.mozImageSmoothingEnabled = false;
       ctx.beginPath();
       ctx.closePath();
 
@@ -131,63 +146,114 @@ function GLMap(elementName, tilesize) {
       TileRenderer.RenderLayers ( true, ctx , tile.data , this.zoom ) ;
 
       // find the click coordinates inside invisibleCanvas
+      // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
       var clickP = this.coordS.MetersToPixels ( xM, yM, this.zoom );
       var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*this.tileSize), Math.floor ( (tileCoord.y+1) * this.tileSize - clickP.y  ) );
       
       // get the corresponding pixel in the invisibleCanvas
       var pixel = ctx.getImageData(tileClickCoord.x, tileClickCoord.y, 1, 1).data;
       
-      // split the pixel colors
-      var part1 = pixel[1].toString(16);
-      var part2 = pixel[2].toString(16);
-      if(part2.length == 1)
-         part2 = "0" + part2;
-
-         
+      // retrieve the color
+      var color = ("000000" + Utils.rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
+      console.log("colorClicked : " + color);
+      
       // here is the layerId clicked
-      var layerId = part1 + part2;
-      
+      var layerId = color[1] + color[3] + color[4];
       console.log("layerId : " + layerId);
-      
-      MapnifyMenu.FillWidget(layerId)
+    
+      var gn = MapnifyMenu.GetGroupNameFromLayerId(layerId);
+      if ( gn.group != null && gn.name != null ){
+         MapnifyMenu.__BuildWidget(gn.group,gn.name,layerId);
+      }
    }
 
+   //----------------------------------------------------------------------//
+
+   GLMap.prototype.getClick = function (event) {
+      var x = event.clientX - $(event.target).offset().left;
+      var y = event.clientY - $(event.target).offset().top;
+      
+      return new Point(x,y);
+   }
+   
+   //----------------------------------------------------------------------//
+
+   GLMap.prototype.Magnify = function (event) {
+      var clickP = this.getClick(event);
+
+      // get the corresponding pixel in the invisibleCanvas
+      var zoomCanvas = $("#mouseZoomCanvas")[0];
+      var ctxMap = $("#"+this.canvasName)[0].getContext("2d");
+      var area = ctxMap.getImageData(clickP.x - 33, clickP.y - 33, 67, 67);
+
+      // copy imageData + zoom
+      var ctxZoom = zoomCanvas.getContext("2d");
+      ctxZoom.putImageData(area, 0, 0);
+      ctxZoom.drawImage( zoomCanvas, 0, 0, 3*zoomCanvas.width, 3*zoomCanvas.height )
+      
+      //---------------------------------//
+      // viseur counterStrike yeah
+      
+      ctxZoom.beginPath();
+      ctxZoom.moveTo(zoomCanvas.width/2-20, zoomCanvas.height/2);
+      ctxZoom.lineTo(zoomCanvas.width/2-4, zoomCanvas.height/2);      
+      ctxZoom.closePath();
+      ctxZoom.stroke();      
+
+      ctxZoom.beginPath();
+      ctxZoom.moveTo(zoomCanvas.width/2+4, zoomCanvas.height/2);
+      ctxZoom.lineTo(zoomCanvas.width/2+20, zoomCanvas.height/2);      
+      ctxZoom.closePath();
+      ctxZoom.stroke();      
+
+      ctxZoom.beginPath();
+      ctxZoom.moveTo(zoomCanvas.width/2, zoomCanvas.height/2-20);
+      ctxZoom.lineTo(zoomCanvas.width/2, zoomCanvas.height/2-4);      
+      ctxZoom.closePath();
+      ctxZoom.stroke();      
+
+      ctxZoom.beginPath();
+      ctxZoom.moveTo(zoomCanvas.width/2, zoomCanvas.height/2+4);
+      ctxZoom.lineTo(zoomCanvas.width/2, zoomCanvas.height/2+20);      
+      ctxZoom.closePath();
+      ctxZoom.stroke();   
+   }
+   
    //----------------------------------------------------------------------//
 
    GLMap.prototype.OnMouseDown = function (event) {
       this.mouseDown = true;
       this.lastMouseX = event.clientX;
       this.lastMouseY = event.clientY;
+      
+      var isEditingStyle = true; // parametrage possible
+      if(isEditingStyle)
+      {
+         this.EditStyle(event);
+      }
    }
 
    GLMap.prototype.OnMouseUp = function (event) {
       this.mouseDown = false; 
-
-      var isEditingStyle = true;
-      if(isEditingStyle)
-      {
-         var w = $("#"+this.canvasName).width ();
-         var h = $("#"+this.canvasName).height();
-         var r = this.coordS.Resolution ( this.zoom );
-         var x = event.clientX - $(event.target).offset().left;
-         var y = event.clientY - $(event.target).offset().top;
-
-         // distance en pixels par rapport au centre
-         var deltaX = x - w/2;
-         var deltaY = y - h/2;
-
-         // rajout de la distance par rapport au centre, en metres = coord du point clique en metres
-         var xM = this.centerM.x + deltaX * r;
-         var yM = this.centerM.y - deltaY * r;
-
-         this.EditStyle(xM, yM);
-      }
    }
 
+   
    GLMap.prototype.OnMouseMove = function (event) {
+
+      //--------------------//
+
+      var isMagnifying = true; // parametrage possible
+      if(isMagnifying)
+      {
+         this.Magnify(event);
+      }
+      
+      //--------------------//
+      
       if (!this.mouseDown){
          return;
       }
+      
       var newX = event.clientX;
       var newY = event.clientY;
       var deltaX = newX - this.lastMouseX;
@@ -224,7 +290,7 @@ function GLMap(elementName, tilesize) {
       }
       else if (delta < 0) {
          if ( this.zoom > 0 ) {
-            this.zoom = this.zoom - 1 ;               
+            this.zoom = this.zoom - 1 ;            
          }
       }
       if (delta != 0) {
@@ -365,7 +431,7 @@ function GLMap(elementName, tilesize) {
        * 
        * isLoad : isLoaded
        * 
-       * renderLayer pour les tiles chargÔøΩs
+       * renderLayer pour les tiles charg√î√∏Œ©s
        * 
        * accDt accumulationDeltatime
        */
