@@ -45,8 +45,8 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level )
                   if(level == DUMMY_LEVEL){
                      var params = jQuery.extend(true, {}, params);
                      params["alpha"] = "1";
-                     params["fill"] = "#"+layerId;
-                     params["stroke"] = "#"+layerId;
+                     params["fill"] = "#000"+layerId;
+                     params["stroke"] = "#000"+layerId;
                   }
 
                   TileRenderer[ params.rt ] ( ctx , line, attr, params )

@@ -107,18 +107,18 @@ function GLMap(elementName, tilesize) {
 
    //----------------------------------------------------------------------//
 
-   //
    GLMap.prototype.EditStyle = function (xM, yM) 
    {
+      // retrieve the tile clicked
       var tileCoord = this.coordS.MetersToTile ( xM, yM , this.zoom );
       var key = tileCoord.x + "," + tileCoord.y + "," + this.zoom;
       
       var tile = this.tileCache[key];
+      if(!tile.data)
+         return;
 
-      var clickP = this.coordS.MetersToPixels ( xM, yM, this.zoom );
-      var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*this.tileSize), Math.floor ( (tileCoord.y+1) * this.tileSize - clickP.y  ) );
-
-      var canvas = document.getElementById("demoDummyCanvas");
+      // create an invisibleCanvas
+      var canvas = document.getElementById("dummyTilesCanvas");
       var ctx = canvas.getContext("2d");
       ExtendCanvasContext ( ctx );
       canvas.height = tile.data["h"];
@@ -127,7 +127,29 @@ function GLMap(elementName, tilesize) {
       ctx.beginPath();
       ctx.closePath();
 
+      // render the tile inside this invisibleCanvas with the layerId colors
       TileRenderer.RenderLayers ( true, ctx , tile.data , this.zoom ) ;
+
+      // find the click coordinates inside invisibleCanvas
+      var clickP = this.coordS.MetersToPixels ( xM, yM, this.zoom );
+      var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*this.tileSize), Math.floor ( (tileCoord.y+1) * this.tileSize - clickP.y  ) );
+      
+      // get the corresponding pixel in the invisibleCanvas
+      var pixel = ctx.getImageData(tileClickCoord.x, tileClickCoord.y, 1, 1).data;
+      
+      // split the pixel colors
+      var part1 = pixel[1].toString(16);
+      var part2 = pixel[2].toString(16);
+      if(part2.length == 1)
+         part2 = "0" + part2;
+
+         
+      // here is the layerId clicked
+      var layerId = part1 + part2;
+      
+      console.log("layerId : " + layerId);
+      
+      MapnifyMenu.FillWidget(layerId)
    }
 
    //----------------------------------------------------------------------//
