@@ -30,40 +30,39 @@
                                // style
                                "assets/javascripts/extensions/style/v_mapnifyMenu3.js",
                                "assets/javascripts/extensions/style/main.js"],
-                               function()
-                               {
-         //-----------------------------
-
-         // if creating a new style : copy the selected style as a new style
-         if(!App.stylesData.editingStyle)
-         {
-            console.log("Creating a new style");
-            var newStyle = {
-                  name : "CopyOf" + App.stylesData.selectedStyle.name,
-                  content : App.stylesData.selectedStyle.content,
-                  uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
-            };
-            console.log(newStyle.name);
-
-            App.stylesData.set("selectedStyle", newStyle);
-         }
-
-         //-----------------------------
-         // retrieve the content from the tileServer
-         StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
+          function()
+          {
             //-----------------------------
-            // rendering after reception
-
-            StyleEditorController.renderStyle();
-            StyleEditorController.renderMap();
-            StyleEditorController.renderMouseZoom();
-            $(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-
-            ExtensionStyle.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
-
-            App.user.set("waiting", false);
-         });
-                               }
+   
+            // if creating a new style : copy the selected style as a new style
+            if(!App.stylesData.editingStyle)
+            {
+               console.log("Creating a new style");
+               var newStyle = {
+                     name : "CopyOf" + App.stylesData.selectedStyle.name,
+                     content : App.stylesData.selectedStyle.content,
+                     uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
+               };
+               console.log(newStyle.name);
+   
+               App.stylesData.set("selectedStyle", newStyle);
+            }
+   
+            //-----------------------------
+            // retrieve the content from the tileServer
+            StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
+               //-----------------------------
+               // rendering after reception
+   
+               StyleEditorController.renderStyle();
+               StyleEditorController.renderMap();
+               $(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+   
+               ExtensionStyle.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
+   
+               App.user.set("waiting", false);
+            });
+          }
       );
    }
 
@@ -71,23 +70,33 @@
    {
       StyleEditorController.cleanStyle();
       StyleEditorController.cleanMap();
-      StyleEditorController.cleanMouseZoom();
    }
 
    //------------------------------------------------//
 
    StyleEditorController.renderMap = function()
    {
-      App.stylesData.map = new GLMap ( "map" );
+      App.stylesData.map = new GLMap ( "map", "magnifier" );
       App.stylesData.map.Start();
 
       $("#map").css("height", $("#webappDiv").height() );
       $("#map").css("width", $("#webappDiv").width() );
+
+      $("#magnifier").dialogr({
+         width:210,
+         minWidth:210,
+         height:210,
+         minHeight:210,
+         position : [$("#webappDiv").width() - 300, 160],
+         closeOnEscape: false,
+         dialogClass: 'no-close'
+      });
    }
 
    StyleEditorController.cleanMap = function()
    {
       $("#map").remove();
+      $("#magnifier").remove();
    }
 
    //------------------------------------------------//
@@ -98,7 +107,7 @@
          width:460,
          minWidth:460,
          height:590,
-         position : [15,170],
+         position : [15,160],
          closeOnEscape: false,
          dialogClass: 'no-close'
       });
@@ -109,17 +118,6 @@
       $("#style").remove();
    }
 
-   //------------------------------------------------//
-
-   StyleEditorController.renderMouseZoom = function()
-   {
-
-   }
-
-   StyleEditorController.cleanMouseZoom = function()
-   {
-      $("#mouseZoomCanvas").remove();
-   }
 
    //==================================================================//
    // Controls

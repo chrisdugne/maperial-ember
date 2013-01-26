@@ -91,6 +91,15 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level )
 TileRenderer.maxRenderTime = 0
 TileRenderer.RenderLayers = function ( dummyTile, ctx , data , zoom , begin ) {
 
+   //------//
+   
+   var level = BACKGROUND_LEVEL; 
+   
+   if(dummyTile)
+      level = DUMMY_LEVEL;
+
+   //------//
+
    var beginAt;
    var limitTime = false;
 
@@ -124,10 +133,6 @@ TileRenderer.RenderLayers = function ( dummyTile, ctx , data , zoom , begin ) {
             for ( var li = 0 ; li < lines.length ; ++li ) 
             {
                var line = lines[li]
-               var level = BACKGROUND_LEVEL; 
-
-               if(dummyTile)
-                  level = DUMMY_LEVEL;
 
                TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, level)
             }
@@ -147,10 +152,82 @@ TileRenderer.RenderLayers = function ( dummyTile, ctx , data , zoom , begin ) {
       return [ null , diffT ] ;
 }
 
+//------------------------------------------------------------------------------------------------//
+
+TileRenderer.LayerLookup = function ( point, ctx , data , zoom ) {
+   
+   ctx.scale(1,1);
+   var i;
+   for (i = data["l"].length - 1 ; i >= 0  ; i-- ) {
+      
+      // clear
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(point.x, point.y, 1, 1);
+
+      // render the symbolizers
+      var layer = data["l"][i]; // layerGroup
+      var layerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ? 
+      var ll = layer["g"]; // liste de listes de lignes
+      var al = null; // attributlist
+      if ("a" in layer) al = layer["a"]
+      if (ll == null) 
+         continue
+         
+      for ( var l = 0 ; l < ll.length ; ++l ) {
+         var lines = ll[l] // liste de lignes
+         var attr  = null // attribut
+         if (al) attr = al[l] // attributlist
+         for ( var li = 0 ; li < lines.length ; ++li ) 
+         {
+            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , layerId , zoom);
+         }
+      }
+
+      // now get the pixel and its color to know if this layer is under the click
+      // NOTE : getImageData : coord for the canvas, not the ctx => no translation
+      var pixel = ctx.getImageData(0, 0, 1, 1).data;
+      
+      // retrieve the color
+      var color = ("000000" + Utils.rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
+      
+      if(color != "ffffff")
+         return layerId;
+   }
+}
+
+TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, layerId , zoom  ) {
+   try {
+      var curLayer = TileRenderer.__style [ layerId ] // on a 1 seul symbolizer par layer
+
+      if ( !curLayer.visible ) return;
+
+      for (var _s = 0 ; _s < curLayer.s.length ; _s++ ) {
+         var curStyle = curLayer.s[_s];
+
+         if ( zoom >= curStyle.zmax && zoom <= curStyle.zmin ) {
+            for (var _ss = 0 ; _ss < curStyle.s.length ; _ss++){ 
+               var params = curStyle.s[_ss];
+
+               if ( TileRenderer[params.rt] ) 
+               { 
+                  var params = jQuery.extend(true, {}, params);
+                  params["alpha"] = "1";
+                  params["fill"] = "#000000";
+                  params["stroke"] = "#000000";
+
+                  TileRenderer[ params.rt ] ( ctx , line, attr, params )
+               }
+            }
+         }
+      }
+   }
+   catch (e) {
+//    console.log ( "ApplyStyle Failed : " + e );
+   }
+}
+
 //----------------------------------------------------------------------------------------------//
 //Symbolizer rendering
-
-
 
 TileRenderer.LineSymbolizer = function( ctx , line , attr , params ) {
    ctx.save()
