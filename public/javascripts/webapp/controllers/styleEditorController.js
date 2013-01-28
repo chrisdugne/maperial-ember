@@ -28,7 +28,7 @@
                                "assets/javascripts/extensions/mapeditortools/RGBColor.js",
 
                                // style
-                               "assets/javascripts/extensions/style/v_mapnifyMenu3.js",
+                               "assets/javascripts/extensions/style/styleMenu.js",
                                "assets/javascripts/extensions/style/main.js"],
           function()
           {

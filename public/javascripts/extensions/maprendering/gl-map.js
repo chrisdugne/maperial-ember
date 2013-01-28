@@ -465,9 +465,9 @@ function GLMap(map, magnifier, tilesize) {
 
       ctx.restore();
     
-      var gn = MapnifyMenu.GetGroupNameFromLayerId(layerId);
+      var gn = StyleMenu.GetGroupNameFilterFromLayerId(layerId);
       if ( gn.group != null && gn.name != null ){
-         MapnifyMenu.__BuildWidget(gn.group,gn.name,layerId);
+         StyleMenu.__BuildWidget(gn.group,gn.name,gn.uid);
       }
    }
    
