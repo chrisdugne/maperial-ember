@@ -778,13 +778,8 @@
 		  });
 	  },
 	  
-	  /* Adjuste the content inside the dialog on maximize/restore */
+	  /* Adjust the content inside the dialog on maximize/restore */
 	  adjustScrollContent : function() {
-	     
-	     console.log("**************************************");
-	     console.log("ajut");
-	     console.log("**************************************");
-	     
 //		  var heightDialog = (this.uiDialog.height() - 72) + 'px';
 //		  var widthDialog = (this.uiDialog.width() - 65) + 'px';
 //		  this.uiDialog.find('.ui-dialog-content').css( {
