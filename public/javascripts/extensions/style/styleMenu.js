@@ -59,8 +59,8 @@ StyleMenu.currentZmax = 15;
 StyleMenu.refMap = null;
 
 // parent div
-StyleMenu.mapnifyParentEl = null;
-StyleMenu.mapnifyParentEl2 = null;
+StyleMenu.styleMenuParentEl = null;
+StyleMenu.styleMenuParentEl2 = null;
 StyleMenu.mainDiv = null;
 StyleMenu.widgetDiv = null;
 
@@ -83,13 +83,13 @@ StyleMenu.EventProxy.NewEvent = function(){
     var curTime = new Date().getTime(); // ms
     if ( StyleMenu.EventProxy.lastEvt == null){
        StyleMenu.EventProxy.lastEvt = curTime;
-       TileRenderer.SetStyle(StyleMenu.__style); // TileRenderer.js MUST BE LOADED
+       StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
        StyleMenu.refMap.DrawScene(false,true);
        return;
     }
     if ( curTime - StyleMenu.EventProxy.lastEvt > StyleMenu.EventProxy.eventRate){
        StyleMenu.EventProxy.lastEvt = curTime;
-       TileRenderer.SetStyle(StyleMenu.__style); // TileRenderer.js MUST BE LOADED
+       StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
        StyleMenu.refMap.DrawScene(false,true);
        return;
     }
@@ -104,7 +104,7 @@ window.setInterval(
         return;
       }
       if ( curTime - StyleMenu.EventProxy.queuedEvt > StyleMenu.EventProxy.eventRate){ // if last event is "old"
-        TileRenderer.SetStyle(StyleMenu.__style); // TileRenderer.js MUST BE LOADED
+        StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
         StyleMenu.refMap.DrawScene(false,true);
         StyleMenu.EventProxy.queuedEvt = null;
       }
@@ -461,18 +461,18 @@ StyleMenu.LoadMapping = function(){
 // Dirty version ... draw view on the fly ...
 StyleMenu.__LoadStyle = function(){
 
-  StyleMenu.mapnifyParentEl.empty();   
-  StyleMenu.mapnifyParentEl2.empty();   
+  StyleMenu.styleMenuParentEl.empty();   
+  StyleMenu.styleMenuParentEl2.empty();   
 
-  StyleMenu.mapnifyParentEl.hide(); // hide me during loading
-  StyleMenu.mapnifyParentEl.css('width','400px'); // force width (avoid scrollbar issue)
+  StyleMenu.styleMenuParentEl.hide(); // hide me during loading
+  StyleMenu.styleMenuParentEl.css('width','400px'); // force width (avoid scrollbar issue)
 
-  StyleMenu.mainDiv = $("<div id=\"mapnify_menu_maindiv\"></div>");
-  StyleMenu.mainDiv.appendTo(StyleMenu.mapnifyParentEl);
+  StyleMenu.mainDiv = $("<div id=\"styleMenu_menu_maindiv\"></div>");
+  StyleMenu.mainDiv.appendTo(StyleMenu.styleMenuParentEl);
 
     
-  StyleMenu.widgetDiv = $('<div class="mapnify_menu_widgetDiv" id="mapnify_menu_widgetDiv"></div>');
-  StyleMenu.widgetDiv.appendTo(StyleMenu.mapnifyParentEl2);
+  StyleMenu.widgetDiv = $('<div class="styleMenu_menu_widgetDiv" id="styleMenu_menu_widgetDiv"></div>');
+  StyleMenu.widgetDiv.appendTo(StyleMenu.styleMenuParentEl2);
 
   //StyleMenu.__FillZoomDef();
   StyleMenu.__InsertZoomEdition();
@@ -485,17 +485,17 @@ StyleMenu.UpdateActivZoom = function(){
 	for ( var z = 1 ; z < 19 ; ++z){
 		if ( z == StyleMenu.refMap.GetZoom() ){
 			console.log("map zoom is " + z);
-			$("#mapnify_menu_zcheck"+z).button( "option", "label", "Z" + z + "*");
+			$("#styleMenu_menu_zcheck"+z).button( "option", "label", "Z" + z + "*");
 		}
 		else{
-			$("#mapnify_menu_zcheck"+z).button( "option", "label", "Z" + z );
+			$("#styleMenu_menu_zcheck"+z).button( "option", "label", "Z" + z );
 		}
-		if ( $("#mapnify_menu_zcheck" + z).is(":checked") ){
+		if ( $("#styleMenu_menu_zcheck" + z).is(":checked") ){
 			StyleMenu.activZooms.push(z);    
-			//$(".mapnify_menu_symbz"+z).show(); 
+			//$(".styleMenu_menu_symbz"+z).show(); 
 		}
 		else{
-			//$(".mapnify_menu_symbz"+z).hide();
+			//$(".styleMenu_menu_symbz"+z).hide();
 			//nothing !
 		} 
 	} 
@@ -517,14 +517,14 @@ StyleMenu.ZoomIn = function(){
 //////////////////////////////////////////////////////////////
 StyleMenu.__InsertZoomEdition = function(){
 
-  $('<button onclick="StyleMenu.ReLoad()"  class="mapnify_menu_rlbutton" id="mapnify_menu_rlbutton"  > Reload </button>').appendTo(StyleMenu.mainDiv).hide();
+  $('<button onclick="StyleMenu.ReLoad()"  class="styleMenu_menu_rlbutton" id="styleMenu_menu_rlbutton"  > Reload </button>').appendTo(StyleMenu.mainDiv).hide();
 
-  $('<button onclick="StyleMenu.ZoomOut()" class="mapnify_menu_zbutton" id="mapnify_menu_zbuttonminus" > - </button>').appendTo(StyleMenu.mainDiv);
-  $('<button onclick="StyleMenu.ZoomIn()"  class="mapnify_menu_zbutton" id="mapnify_menu_zbuttonplus"  > + </button>').appendTo(StyleMenu.mainDiv);
+  $('<button onclick="StyleMenu.ZoomOut()" class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonminus" > - </button>').appendTo(StyleMenu.mainDiv);
+  $('<button onclick="StyleMenu.ZoomIn()"  class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonplus"  > + </button>').appendTo(StyleMenu.mainDiv);
   
-  $("#mapnify_menu_rlbutton").button();
-  $("#mapnify_menu_zbuttonminus").button();
-  $("#mapnify_menu_zbuttonplus").button();
+  $("#styleMenu_menu_rlbutton").button();
+  $("#styleMenu_menu_zbuttonminus").button();
+  $("#styleMenu_menu_zbuttonplus").button();
 
 }
 
@@ -533,21 +533,21 @@ StyleMenu.__InsertZoomEdition2 = function(){
 
   var tmpcb = '';
   for ( var z = 1 ; z < 19 ; ++z){
-      tmpcb += '  <input type="checkbox" class="mapnify_menu_checkboxz" id="mapnify_menu_zcheck' + z + '"/><label for="mapnify_menu_zcheck' + z + '">Z' + z + '</label>';
+      tmpcb += '  <input type="checkbox" class="styleMenu_menu_checkboxz" id="styleMenu_menu_zcheck' + z + '"/><label for="styleMenu_menu_zcheck' + z + '">Z' + z + '</label>';
   }    
   
-  $('<h2 class="mapnify_menu_par_title"> Edit some zoom</h2><div id="mapnify_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(StyleMenu.widgetDiv);//.hide();
-  $('<h2 class="mapnify_menu_par_title"> Edit a zoom range</h2><div id="mapnify_menu_sliderrangez"></div><br/>').appendTo(StyleMenu.widgetDiv);
+  $('<h2 class="styleMenu_menu_par_title"> Edit some zoom</h2><div id="styleMenu_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(StyleMenu.widgetDiv);//.hide();
+  $('<h2 class="styleMenu_menu_par_title"> Edit a zoom range</h2><div id="styleMenu_menu_sliderrangez"></div><br/>').appendTo(StyleMenu.widgetDiv);
 
-  $( "#mapnify_menu_zoom_selector" ).buttonset();
+  $( "#styleMenu_menu_zoom_selector" ).buttonset();
 
   for ( var z = 1 ; z < 19 ; ++z){
-      $("#mapnify_menu_zcheck"+z).change(function(){
+      $("#styleMenu_menu_zcheck"+z).change(function(){
            StyleMenu.UpdateActivZoom();
       });
   }
   
-  $( "#mapnify_menu_sliderrangez" ).slider({
+  $( "#styleMenu_menu_sliderrangez" ).slider({
           range: true,
           min: 0,
           max: 18,
@@ -559,12 +559,12 @@ StyleMenu.__InsertZoomEdition2 = function(){
              StyleMenu.currentZmax = maxV;
              for(var z = 1 ; z < 19 ; ++z){
                 if ( z >= minV && z <= maxV){
-                   $("#mapnify_menu_zcheck" + z ).check();
+                   $("#styleMenu_menu_zcheck" + z ).check();
                 }
                 else{
-                   $("#mapnify_menu_zcheck" + z ).uncheck();
+                   $("#styleMenu_menu_zcheck" + z ).uncheck();
                 }
-                $("#mapnify_menu_zcheck" + z ).button("refresh");
+                $("#styleMenu_menu_zcheck" + z ).button("refresh");
              }
              StyleMenu.UpdateActivZoom();
           },
@@ -575,18 +575,18 @@ StyleMenu.__InsertZoomEdition2 = function(){
              StyleMenu.currentZmax = maxV;
              for(var z = 1 ; z < 19 ; ++z){
                 if ( z >= minV && z <= maxV){
-                   $("#mapnify_menu_zcheck" + z ).check();
+                   $("#styleMenu_menu_zcheck" + z ).check();
                 }
                 else{
-                   $("#mapnify_menu_zcheck" + z ).uncheck();
+                   $("#styleMenu_menu_zcheck" + z ).uncheck();
                 }
-                $("#mapnify_menu_zcheck" + z ).button("refresh");
+                $("#styleMenu_menu_zcheck" + z ).button("refresh");
              }
              StyleMenu.UpdateActivZoom();
           }
   });
 
-  $( "#mapnify_menu_sliderrangez" ).slider( "values",  [StyleMenu.currentZmin, StyleMenu.currentZmax] );  
+  $( "#styleMenu_menu_sliderrangez" ).slider( "values",  [StyleMenu.currentZmin, StyleMenu.currentZmax] );  
 
 }
 
@@ -599,7 +599,7 @@ StyleMenu.__InsertZoomEdition2 = function(){
 // Closure for colorpicker callback
 StyleMenu.GetColorPickerCallBack = function(_uid,_ruleId,pName){
    return function (hsb, hex, rgb) {
-      $("#mapnify_menu_colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
+      $("#styleMenu_menu_colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
       StyleMenu.SetParamIdZNew(_uid,pName,ColorTools.HexToRGBA(hex));
    }
 }
@@ -617,7 +617,7 @@ StyleMenu.GetSpinnerCallBack = function(_uid,_ruleId,pName){
 // Closure for select callback
 StyleMenu.GetSelectCallBack = function(_uid,_ruleId,_pName){
   return function (){
-      var newV = $("#mapnify_menu_select_" + _pName + "_" + _ruleId + " option:selected").text();
+      var newV = $("#styleMenu_menu_select_" + _pName + "_" + _ruleId + " option:selected").text();
       StyleMenu.SetParamIdZNew(_uid,_pName,newV);
       ///@todo bug ... seems to work only once ...
   }
@@ -627,7 +627,7 @@ StyleMenu.GetSelectCallBack = function(_uid,_ruleId,_pName){
 // Closure for checkbox callback
 StyleMenu.GetCheckBoxCallBack = function(_uid){
     return function() {
-       var vis = $("#mapnify_menu_check_" + _uid + ":checked").val()?true:false;
+       var vis = $("#styleMenu_menu_check_" + _uid + ":checked").val()?true:false;
        StyleMenu.__style[_uid]["visible"] = vis; 
        StyleMenu.EventProxy.NewEvent();     ///@todo this is not in a "set" function ... I don't like that !!!
        //console.log( _uid, "visible",  vis );
@@ -637,10 +637,10 @@ StyleMenu.GetCheckBoxCallBack = function(_uid){
 //////////////////////////////////////////////////////////////
 StyleMenu.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleId,_container){
    // add to view
-   $("<li>" + _paramName + " : " + "<div class=\"colorSelector \" id=\"mapnify_menu_colorpicker_" + _ruleId + "\"><div style=\"background-color:" + ColorTools.RGBAToHex(_paramValue) + "\"></div></div> </li>").appendTo(_container);
+   $("<li>" + _paramName + " : " + "<div class=\"colorSelector \" id=\"styleMenu_menu_colorpicker_" + _ruleId + "\"><div style=\"background-color:" + ColorTools.RGBAToHex(_paramValue) + "\"></div></div> </li>").appendTo(_container);
    
    // plug callback
-   $("#mapnify_menu_colorpicker_"+_ruleId).ColorPicker({
+   $("#styleMenu_menu_colorpicker_"+_ruleId).ColorPicker({
       	color: ColorTools.RGBAToHex(_paramValue),   // set initial value
        	onShow: function (colpkr) {
             $(colpkr).fadeIn(500);
@@ -657,10 +657,10 @@ StyleMenu.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleId,_contain
 //////////////////////////////////////////////////////////////
 StyleMenu.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_container,_step,_min,_max){
   // add to view
-  $( "<li>" + _paramName + " : " +"<input id=\"mapnify_menu_spinner_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
+  $( "<li>" + _paramName + " : " +"<input id=\"styleMenu_menu_spinner_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
   
   // set callback
-  $( "#mapnify_menu_spinner_"+_paramName+"_"+_ruleId ).spinner({
+  $( "#styleMenu_menu_spinner_"+_paramName+"_"+_ruleId ).spinner({
        //change: GetSpinnerCallBack(uid,ruleId,_paramName),
        spin: StyleMenu.GetSpinnerCallBack(_uid,_ruleId,_paramName),
        step: _step,
@@ -669,21 +669,21 @@ StyleMenu.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_container,_
   });
 
   // set initial value    
-  $( "#mapnify_menu_spinner_"+_paramName+"_"+_ruleId ).spinner("value" , _paramValue);  
+  $( "#styleMenu_menu_spinner_"+_paramName+"_"+_ruleId ).spinner("value" , _paramValue);  
 }
 
 //////////////////////////////////////////////////////////////
 StyleMenu.AddCombo = function(_paramName,_paramValue,_uid,_ruleId,_container,_values){
   // add to view
-  $( "<li>" + _paramName + " : " +"<select id=\"mapnify_menu_select_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
+  $( "<li>" + _paramName + " : " +"<select id=\"styleMenu_menu_select_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
   // add options
   for( var v = 0 ; v < Object.size(_values) ; v++){
-    $("#mapnify_menu_select_" + _paramName + "_" + _ruleId).append("<option value=\"" + _values[v] + "\"> " + _values[v] + "</option>");
+    $("#styleMenu_menu_select_" + _paramName + "_" + _ruleId).append("<option value=\"" + _values[v] + "\"> " + _values[v] + "</option>");
   }
   // set value
-  $("#mapnify_menu_select_" + _paramName + "_" + _ruleId).val(_paramValue);
+  $("#styleMenu_menu_select_" + _paramName + "_" + _ruleId).val(_paramValue);
   // set callback
-  $("#mapnify_menu_select_" + _paramName + "_" + _ruleId).change(StyleMenu.GetSelectCallBack(_uid,_ruleId,_paramName));
+  $("#styleMenu_menu_select_" + _paramName + "_" + _ruleId).change(StyleMenu.GetSelectCallBack(_uid,_ruleId,_paramName));
 }
 
 //////////////////////////////////////////////////////////////
@@ -775,7 +775,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
 
    StyleMenu.__InsertZoomEdition2();
 
-   $("<h2 class=\"mapnify_menu_par_title\">" + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(StyleMenu.widgetDiv);
+   $("<h2 class=\"styleMenu_menu_par_title\">" + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(StyleMenu.widgetDiv);
 
    if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "line" ){
       //console.log("I'm a line !");
@@ -792,7 +792,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //console.log("casing found : " + casing);
-          $('<h2 class="mapnify_menu_par_title">Casing </h2>').appendTo(StyleMenu.widgetDiv);
+          $('<h2 class="styleMenu_menu_par_title">Casing </h2>').appendTo(StyleMenu.widgetDiv);
           StyleMenu.FillWidget(casing_uid);
       }
 
@@ -801,7 +801,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //console.log("center found : " + center);
-          $('<h2 class="mapnify_menu_par_title"> Center line </h2>').appendTo(StyleMenu.widgetDiv);
+          $('<h2 class="styleMenu_menu_par_title"> Center line </h2>').appendTo(StyleMenu.widgetDiv);
           StyleMenu.FillWidget(center_uid);
       }                      
    }
@@ -885,9 +885,9 @@ StyleMenu.GetGroupNameFilterFromLayerId = function(uid){
 //////////////////////////////////////////////////////////////
 StyleMenu.__InsertAccordion = function(){
 
-  $("#mapnify_menu_accordion").remove();
+  $("#styleMenu_menu_accordion").remove();
 
-  var outterAcc = $("<div class=\"mapnify_menu_accordion\" id=\"mapnify_menu_accordion\"></div>");
+  var outterAcc = $("<div class=\"styleMenu_menu_accordion\" id=\"styleMenu_menu_accordion\"></div>");
   outterAcc.appendTo(StyleMenu.mainDiv);
 
   var groupNum = 0;
@@ -898,8 +898,8 @@ StyleMenu.__InsertAccordion = function(){
     }
     console.log(group);
 
-    $("<h1 id=\"mapnify_menu_groupaccordion_head_group_" + groupNum + "\"> Group : " + group + "</h1>").appendTo(outterAcc);
-    var groupAcc = $("<div class=\"mapnify_menu_accordion\" id=\"mapnify_menu_groupaccordion_div_group_" + groupNum +  "\"></div>");
+    $("<h1 id=\"styleMenu_menu_groupaccordion_head_group_" + groupNum + "\"> Group : " + group + "</h1>").appendTo(outterAcc);
+    var groupAcc = $("<div class=\"styleMenu_menu_accordion\" id=\"styleMenu_menu_groupaccordion_div_group_" + groupNum +  "\"></div>");
     groupAcc.appendTo(outterAcc);
 
     groupNum++;
@@ -923,9 +923,9 @@ StyleMenu.__InsertAccordion = function(){
            var uid = uids[i];
            //console.log(uid);
            // make header
-           $('<h2 id="mapnify_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+           $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
            // bind onclick header event!
-           $("#mapnify_menu_headeraccordion_"+uid).bind('click',StyleMenu.GetWidgetCallBack(group,name,uid));
+           $("#styleMenu_menu_headeraccordion_"+uid).bind('click',StyleMenu.GetWidgetCallBack(group,name,uid));
            // fill inner div with some info
            var divIn = $("<div class=\"inner\" id=\"divinner_" + groupNum + "_" + uid + "\"></div>");
            divIn.appendTo(groupAcc);
@@ -935,9 +935,9 @@ StyleMenu.__InsertAccordion = function(){
            ul.appendTo(divIn);
                     
            $("<li>" + "Filter : " + StyleMenu.mappingArray[uid].filter + "</li>").appendTo(ul);
-           $("<li>" + "Visible  : " + "<input type=\"checkbox\" id=\"mapnify_menu_check_" + uid + "\" />" + "</li>").appendTo(ul);
-           $("#mapnify_menu_check_" + uid).click( StyleMenu.GetCheckBoxCallBack(uid) );
-           $("#mapnify_menu_check_" + uid).attr('checked', StyleMenu.__style[uid]["visible"]);
+           $("<li>" + "Visible  : " + "<input type=\"checkbox\" id=\"styleMenu_menu_check_" + uid + "\" />" + "</li>").appendTo(ul);
+           $("#styleMenu_menu_check_" + uid).click( StyleMenu.GetCheckBoxCallBack(uid) );
+           $("#styleMenu_menu_check_" + uid).attr('checked', StyleMenu.__style[uid]["visible"]);
            $("<li>" + "Place : " + StyleMenu.__style[uid]["layer"] + "</li>").appendTo(ul);
 
          } // end uid loop
@@ -951,14 +951,14 @@ StyleMenu.__InsertAccordion = function(){
   StyleMenu.UpdateActivZoom();
 
   // configure accordion(s)
-  $( ".mapnify_menu_accordion" )
+  $( ".styleMenu_menu_accordion" )
   .accordion({
       heightStyle: "content",
       collapsible: true,
       active: false
   })
 
-  StyleMenu.mapnifyParentEl.show();   //show me !
+  StyleMenu.styleMenuParentEl.show();   //show me !
 }
 
 //////////////////////////////////////////////////////////////
@@ -985,7 +985,7 @@ StyleMenu.LoadStyle = function(){
    else{
       StyleMenu.__LoadStyle();
    }
-   TileRenderer.SetStyle(StyleMenu.__style); // TileRenderer.js MUST BE LOADED
+   StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
    StyleMenu.refMap.DrawScene(false,true);
 }
   
@@ -994,14 +994,14 @@ StyleMenu.LoadStyle = function(){
 //  init !
 //////////////////////////////////////////////////////////
 StyleMenu.init = function(container,container2,isMovable,maps,style){
-  StyleMenu.mapnifyParentEl = container;
-  StyleMenu.mapnifyParentEl2 = container2;
+  StyleMenu.styleMenuParentEl = container;
+  StyleMenu.styleMenuParentEl2 = container2;
   StyleMenu.__style = style;
   StyleMenu.refMap = maps;
   StyleMenu.Load(); // will call LoadMapping and then LoadStyle ...
   if ( isMovable){
-      StyleMenu.mapnifyParentEl.draggable();    
-      StyleMenu.mapnifyParentEl2.draggable();    
+      StyleMenu.styleMenuParentEl.draggable();    
+      StyleMenu.styleMenuParentEl2.draggable();    
   }
 }// end class StyleMenu.init
 

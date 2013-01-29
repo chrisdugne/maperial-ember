@@ -780,16 +780,21 @@
 	  
 	  /* Adjuste the content inside the dialog on maximize/restore */
 	  adjustScrollContent : function() {
-		  var heightDialog = (this.uiDialog.height() - 72) + 'px';
-		  var widthDialog = (this.uiDialog.width() - 65) + 'px';
-		  this.uiDialog.find('.ui-dialog-content').css( {
-		    width : widthDialog,
-		    height : heightDialog
-		  });
-		  this.uiDialog.find('#dialog').css( {
-		    width : widthDialog,
-		    height : heightDialog
-		  });
+	     
+	     console.log("**************************************");
+	     console.log("ajut");
+	     console.log("**************************************");
+	     
+//		  var heightDialog = (this.uiDialog.height() - 72) + 'px';
+//		  var widthDialog = (this.uiDialog.width() - 65) + 'px';
+//		  this.uiDialog.find('.ui-dialog-content').css( {
+//		    width : widthDialog,
+//		    height : heightDialog
+//		  });
+//		  this.uiDialog.find('#dialog').css( {
+//		    width : widthDialog,
+//		    height : heightDialog
+//		  });
 	  },
 	  
 	  dispatchThisEvent : function(elId) {

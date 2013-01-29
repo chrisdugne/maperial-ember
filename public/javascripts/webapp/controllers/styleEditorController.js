@@ -11,25 +11,25 @@
       App.user.set("waiting", true);
 
       ScriptLoader.getScripts([
-                               // map rendering
-                               "assets/javascripts/libs/gl-matrix-min.js",
-                               "assets/javascripts/libs/jquery.mousewheel.min.js",
-                               "assets/javascripts/extensions/maprendering/gl-tools.js",
-                               "assets/javascripts/extensions/maprendering/coordinate-system.js",
-                               "assets/javascripts/extensions/maprendering/render-line.js",
-                               "assets/javascripts/extensions/maprendering/render-text.js",
-                               "assets/javascripts/extensions/maprendering/tileRenderer.js",
-                               "assets/javascripts/extensions/maprendering/gl-map.js",
+                         // map rendering
+                         "assets/javascripts/libs/gl-matrix-min.js",
+                         "assets/javascripts/libs/jquery.mousewheel.min.js",
+                         "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
+                         "assets/javascripts/extensions/maprendering/gl-tools.js",
+                         "assets/javascripts/extensions/maprendering/coordinate-system.js",
+                         "assets/javascripts/extensions/maprendering/render-line.js",
+                         "assets/javascripts/extensions/maprendering/render-text.js",
+                         "assets/javascripts/extensions/maprendering/tileRenderer.js",
+                         "assets/javascripts/extensions/maprendering/gl-map.js",
 
-                               // map editing
-                               "assets/javascripts/extensions/mapeditortools/v_colortool.js",
-                               "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
-                               "assets/javascripts/extensions/mapeditortools/colorpicker.js",
-                               "assets/javascripts/extensions/mapeditortools/RGBColor.js",
+                         // map editing
+                         "assets/javascripts/extensions/mapeditortools/v_colortool.js",
+                         "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
+                         "assets/javascripts/extensions/mapeditortools/colorpicker.js",
+                         "assets/javascripts/extensions/mapeditortools/RGBColor.js",
 
-                               // style
-                               "assets/javascripts/extensions/style/styleMenu.js",
-                               "assets/javascripts/extensions/style/main.js"],
+                         // style
+                         "assets/javascripts/extensions/style/styleMenu.js"],
           function()
           {
             //-----------------------------
@@ -54,12 +54,11 @@
                //-----------------------------
                // rendering after reception
    
-               StyleEditorController.renderStyle();
                StyleEditorController.renderMap();
+               StyleEditorController.renderStyle();
                $(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-   
-               ExtensionStyle.init($("#mapEditorTree"), $("#mapEditorWidget"), App.stylesData.map, App.stylesData.selectedStyle.content);
-   
+
+               // screen is ready
                App.user.set("waiting", false);
             });
           }
@@ -83,14 +82,15 @@
       $("#map").css("width", $("#webappDiv").width() );
 
       $("#magnifier").dialogr({
-         width:210,
-         minWidth:210,
-         height:210,
-         minHeight:210,
+         width:220,
+         minWidth:220,
+         height:250,
+         minHeight:250,
          position : [$("#webappDiv").width() - 300, 160],
          closeOnEscape: false,
          dialogClass: 'no-close'
       });
+
    }
 
    StyleEditorController.cleanMap = function()
@@ -111,6 +111,9 @@
          closeOnEscape: false,
          dialogClass: 'no-close'
       });
+
+      // set the menu up
+      StyleMenu.init($("#mapEditorTree") , $("#mapEditorWidget") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
    }
 
    StyleEditorController.cleanStyle = function()

@@ -1,24 +1,5 @@
 
-//----------------------------------------------------------------------------------------------//
-
-var DUMMY_LEVEL = "dummyLevel";  // dummyTile pour recup le style sous le click
-var BACKGROUND_LEVEL = "back";
-
-//----------------------------------------------------------------------------------------------//
-
 var TileRenderer = {};
-
-//----------------------------------------------------------------------------------------------//
-
-TileRenderer.__style = null; 
-
-TileRenderer.SetStyle = function(style){
-   TileRenderer.__style = style;
-}
-
-TileRenderer.GetStyle = function(){
-   return TileRenderer.__style;
-}
 
 //----------------------------------------------------------------------------------------------//
 /*
@@ -26,13 +7,13 @@ TileRenderer.GetStyle = function(){
  */
 
 TileRenderer.layerDummyColors = [];
-TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level ) {
+TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level , style ) {
 
    try {
-      var curLayer = TileRenderer.__style [ layerId ] // on a 1 seul symbolizer par layer
+      var curLayer = style [ layerId ] // on a 1 seul symbolizer par layer
 
       if ( !curLayer.visible ) return;
-      if ( level != DUMMY_LEVEL && curLayer.layer != level) return;
+      if ( level != MapParameter.LayerSelect && curLayer.layer != level) return;
 
       for (var _s = 0 ; _s < curLayer.s.length ; _s++ ) {
          var curStyle = curLayer.s[_s];
@@ -43,7 +24,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level )
 
                if ( TileRenderer[params.rt] ) 
                { 
-                  if(level == DUMMY_LEVEL){
+                  if(level == MapParameter.LayerSelect){
 
                      if(TileRenderer.layerDummyColors[layerId] == undefined)
                      {
@@ -89,14 +70,14 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level )
  *  g group
  */
 TileRenderer.maxRenderTime = 0
-TileRenderer.RenderLayers = function ( dummyTile, ctx , data , zoom , begin ) {
+TileRenderer.RenderLayers = function ( dummyTile , ctx , data , zoom , style , begin  ) {
 
    //------//
    
-   var level = BACKGROUND_LEVEL; 
+   var level = MapParameter.LayerBack; 
    
    if(dummyTile)
-      level = DUMMY_LEVEL;
+      level = MapParameter.LayerSelect;
 
    //------//
 
@@ -134,7 +115,7 @@ TileRenderer.RenderLayers = function ( dummyTile, ctx , data , zoom , begin ) {
             {
                var line = lines[li]
 
-               TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, level)
+               TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, level, style )
             }
          }
       if (limitTime) {
