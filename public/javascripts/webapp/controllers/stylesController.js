@@ -77,52 +77,52 @@
 		route: '/styles',
         
 		connectOutlets: function(router) {
-			App.Router.openView(router, "styles");
-        },
+		   App.Router.openView(router, "styles");
+		},
 
-        //--------------------------------------//
-        // states
-        
-        myStyles: Ember.Route.extend({
-        	route: '/myStyles',
-        	connectOutlets: function(router) {
-    			var customParams = [];
-    			customParams["styles"] = App.user.styles;
-        		App.Router.openComponent(router, customParams);
-        	}
-        }),
-        
-        publicStyles: Ember.Route.extend({
-        	route: '/publicStyles',
-    		connectOutlets: function(router) {
-    			var customParams = [];
-    			customParams["styles"] = App.publicData.styles;
-        		App.Router.openComponent(router, customParams);
-    		}
-        }),
+		//--------------------------------------//
+		// states
 
-        //--------------------------------------//
-        // actions
-        
-        showPublicStyles: function(router){
-        	StylesController.cancelSelectedStyle();
-        	StylesController.openStyleSelectionWindow();
-        	router.transitionTo('styles.publicStyles');
-        },
-        
-        showMyStyles: Ember.Route.transitionTo('styles.myStyles'),
+		myStyles: Ember.Route.extend({
+		   route: '/myStyles',
+		   connectOutlets: function(router) {
+		      var customParams = [];
+		      customParams["styles"] = App.user.styles;
+		      App.Router.openComponent(router, customParams);
+		   }
+		}),
 
-        selectStyle : function(router, event){
-			StylesController.selectStyle(event.context);
+		publicStyles: Ember.Route.extend({
+		   route: '/publicStyles',
+		   connectOutlets: function(router) {
+		      var customParams = [];
+		      customParams["styles"] = App.publicData.styles;
+		      App.Router.openComponent(router, customParams);
+		   }
+		}),
+
+		//--------------------------------------//
+		// actions
+
+		showPublicStyles: function(router){
+		   StylesController.cancelSelectedStyle();
+		   StylesController.openStyleSelectionWindow();
+		   router.transitionTo('styles.publicStyles');
+		},
+
+		showMyStyles: Ember.Route.transitionTo('styles.myStyles'),
+
+		selectStyle : function(router, event){
+		   StylesController.selectStyle(event.context);
 		},
 
 		editStyle : function(router, event){
-			StylesController.editStyle(event.context);
+		   StylesController.editStyle(event.context);
 		},
 
 		deleteStyle : function(router, event){
-			StylesController.deleteStyle(event.context);
-        }
+		   StylesController.deleteStyle(event.context);
+		}
 	});
 
 	//==================================================================//

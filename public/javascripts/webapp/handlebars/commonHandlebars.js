@@ -1,6 +1,28 @@
 //---------------------------------------------------------------------------------------//
 
 /**
+ * data contains the file to upload
+ */
+Ember.Handlebars.registerBoundHelper('fileName', 
+      function(data, options) {
+         return data.files[0].name;
+      }
+);
+
+//---------------------------------------------------------------------------------------//
+
+/**
+ * defines a progressBar
+ */
+Ember.Handlebars.registerBoundHelper('progressBar', 
+      function(percentage, options) {
+         return new Handlebars.SafeString("<div class=\"progress "+options.hash.span+"\"><div class=\"bar\" style=\"width: "+percentage+"%;\"></div></div>");
+      }
+);
+
+//---------------------------------------------------------------------------------------//
+
+/**
  * transform 40303 ==> 40.30 KB
  */
 Ember.Handlebars.registerBoundHelper('fileSize', 

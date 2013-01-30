@@ -34,7 +34,7 @@
 		//------------------------------------------//
 		// actions
 		
-		newMap: Ember.Route.transitionTo('mapCreation'),
+		newMap: Ember.Route.transitionTo('mapCreation.datasetSelection'),
 		styles: Ember.Route.transitionTo('styles'),
 		colorbars: Ember.Route.transitionTo('colorbars'),
 		datasets: Ember.Route.transitionTo('datasets'),
