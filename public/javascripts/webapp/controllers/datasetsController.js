@@ -43,7 +43,7 @@
 	}
 
 	
-	DatasetsController.cancelUpload = function(data) 
+	DatasetsController.removeUpload = function(data) 
 	{
       App.datasetsData.filesToUpload.removeObject(data);
 	}
@@ -127,7 +127,11 @@
 		},
 
 		cancelUpload: function(router, event){
-		   DatasetsController.cancelUpload(event.context);
+		   DatasetsController.removeUpload(event.context);
+		},
+
+		removeUpload: function(router, event){
+		   DatasetsController.removeUpload(event.context);
 		},
 		
 		openUploadWindow: function(){DatasetsController.openUploadWindow()}

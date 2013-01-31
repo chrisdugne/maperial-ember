@@ -41,9 +41,11 @@
 					{{progressBar data.percentage span="span3"}}
 				{{else}}
 					{{#if data.isUploaded}}
-					<div class="offset4">
-						<p>uploaded !</p>
-					</div>
+						<div class="offset4">
+							<button {{action removeUpload data}} class="btn-small btn-success">
+								<i class="icon-ok icon-white"></i>
+							</button>
+						</div>
 					{{else}}
 						<button {{action startUpload data}} class="offset2 btn-small btn-success">
 							<i class="icon-upload icon-white"></i>

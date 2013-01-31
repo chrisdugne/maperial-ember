@@ -37,9 +37,9 @@
       datasetSelection: Ember.Route.extend({
          route: '/datasetSelection',
          connectOutlets: function(router) {
-            var customParams = [];
-            customParams["datasets"] = App.user.datasets;
-            App.Router.openComponent(router, customParams);
+            var customContext = [];
+            customContext["datasetsData"] = App.datasetsData;
+            App.Router.openComponent(router, customContext);
          }
       })
 

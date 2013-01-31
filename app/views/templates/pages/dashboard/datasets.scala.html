@@ -1,22 +1,36 @@
 
-	
+
 <div class="span12">
-    <table role="presentation" class="table table-striped">
-       	<tbody class="files">
-      	 	<tr class="data-box-content-title template-download">
-		        <td class="name"><p class="filename">File</p></td>
-		        <td class="size"><span>Size</span></td>
-		        <td><span>Upload date</span></td>
-		    </tr>
-    		{{#each dataset in user.datasets}}
-			    <tr class="template-download">
-			        <td class="name"><p class="filename">{{dataset.name}}</p></td>
-				    {{#with dataset}}
-			        <td class="size"><span>{{fileSize size}}</span></td>
-			        <td><span>{{formatDate uploadTime}}</span></td>
-			        {{/with}}
-			    </tr>
-		    {{/each}}
-	    </tbody>
-       </table>
+	<table role="presentation" class="table table-striped">
+		<tbody class="files">
+			<tr class="data-box-content-title template-download">
+				<td class="name"><p class="filename">File</p></td>
+				<td class="size"><span>Size</span></td>
+				<td><span>Upload date</span></td>
+			</tr>
+
+			{{#each dataset in user.datasets}}
+			<tr class="template-download">
+				<td class="name"><p class="filename">{{dataset.name}}</p></td>
+				{{#with dataset}}
+				<td class="size"><span>{{fileSize size}}</span></td>
+				<td><span>{{formatDate uploadTime}}</span></td> 
+				{{/with}}
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+
+	{{#each data in datasetsData.filesToUpload}} 
+		{{#with data}} 
+			{{#if data.isUploading}}
+			<div class="uploadEntry">
+				<div class="span5 name">
+					<p class="filename">{{fileName data}}</p>
+				</div>
+				{{progressBar data.percentage span="span6"}}
+			</div>
+			{{/if}}
+		{{/with}} 
+	{{/each}}
 </div>

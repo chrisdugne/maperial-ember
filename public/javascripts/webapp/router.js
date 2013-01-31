@@ -37,9 +37,23 @@
 	
 	/**
 	 * the main purpose of Router.openView is to check if user.isLoggedIn
-	 * the second purpose is to create a full context, when no specific context is required
+	 * the second purpose is to create a full context, adding the customContext to everything else
+	 * 
+	 * context : may contain additional models required for the view
+	 * exemple 
+	 * connectOutlets: function(router){
+         var customContext = new Object();
+         customContext["datasetsData"] = App.datasetsData;
+         App.Router.openView(router, "dashboard", customContext);
+      }, 
+      
+      the custom context is added to the glabal context containing
+       - user
+       - publicData
+       - viewData
+       - currentView
 	 */
-	Router.openView = function (router, view, context)
+	Router.openView = function (router, view, customContext)
 	{
 		if(view != "home" && view != "tryscreen" && !App.user.loggedIn)
 		{
@@ -47,33 +61,41 @@
 			router.transitionTo('home');
 		}
 		else{
-			if(context == undefined)
-			{
-				// either we need a specific context = not undefined
-				// or we need everything = what happens below 
-				// or we need nothing = not matter if something is in the context
-				context = new Object();
-				context["user"] = App.user;
-				context["publicData"] = App.publicData;
-			}
-
-			// binding controller's data
-			context[view+"Data"] = App[view+"Data"];	
-			
-			// storing currentView
-			context["currentView"] = view;
-
+			var context = Router.buildGlobalContext(customContext, view);
 			router.get('applicationController').connectOutlet(view, context);
 		}
 	}
 
 	//-----------------------------------------------------------------------------------------//
 
+	Router.buildGlobalContext = function (customContext, view){
+	   
+	   var context;
+	 
+	   if(customContext == undefined)
+         context = new Object();
+	   else
+	      context = customContext;
+
+      context["user"] = App.user;
+      context["publicData"] = App.publicData;
+
+      // binding controller's data
+      context[view+"Data"] = App[view+"Data"];  
+      
+      // storing currentView
+      context["currentView"] = view;
+      
+      return context;
+	}
+
+	//-----------------------------------------------------------------------------------------//
+
 	/**
 	 * Load a component with the parentController as context
-	 * Append the customParams in the context
+	 * context : alike Router.openView
 	 */
-	Router.openComponent = function (router, customParams)
+	Router.openComponent = function (router, customContext)
 	{
 		var view = router.currentState.name;
 		var controller = Router.getMainController(router);
@@ -81,16 +103,11 @@
 		// Router initializing
 		if(controller == null)
 			return;
-		
-		var context = new Object();
-		context[controller + "Data"] = App[controller + "Data"];
+
+      var context = Router.buildGlobalContext(customContext, view);
+
+      context[controller + "Data"] = App[controller + "Data"];
 		context["currentView"] = view;
-		
-		for(var property in customParams) {
-			if (customParams.hasOwnProperty(property)) {
-				context[property] = customParams[property];
-			}
-		}
 		
 		router.get(controller+"Controller").connectOutlet(view, context);
 	}

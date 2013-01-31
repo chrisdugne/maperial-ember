@@ -1,64 +1,26 @@
- @import views.html.popups.uploadDatasetsWindow;
+@import views.html.popups.uploadDatasetsWindow; 
+@import views.html.templates.components.datasetList; 
 
 <div class="container-fluid">
 
 	<div class="webappContent marketing">
 		<h1>Datasets</h1>
-		<p class="marketing-byline">datasets</p>
+		<p class="marketing-byline">Manage your uploaded data</p>
 		<hr class="soften">
 
-		<div class="row">
+		<div class="row-fluid">
 			<div class="span3 offset1">You have uploaded
 				{{user.datasets.length}} datasets.</div>
 
-			<div class="span3 offset8">
-				<div id="uploadDatasetButton" {{action
-					openUploadWindow}} class="btn-large btn-primary">Upload
+			<div class="span2 offset5">
+				<div id="uploadDatasetButton" {{action openUploadWindow}} class="btn-large btn-primary">Upload
 					datasets</div>
 			</div>
 		</div>
 
 		<br /> <br />
 		
-		
-		<div class="span12 offset2">
-		
-			{{#each dataset in user.datasets}}
-			<div class="uploadEntry">
-				<div class="span4 offset1 name">
-					<p class="filename">{{dataset.name}}</p>
-				</div>
-				{{#with dataset}}
-				<div class="span1 size">
-					<span>{{fileSize size}}</span>
-				</div>
-				<div class="span1">
-					<span>{{formatDate uploadTime}}</span>
-				</div>
-				{{/with}}
-				<div class="offset2">
-					<button {{action deleteDataset
-						dataset}} class="btn-small btn-danger">
-						<i class="icon-trash icon-white"></i>
-					</button>
-				</div>
-			</div>
-			{{/each}} 
-			
-			{{#each data in datasetsData.filesToUpload}} 
-				{{#with data}}
-					{{#if data.isUploading}} 
-					<div class="uploadEntry">
-						<div class="span2 name">
-							<p class="filename">{{fileName data}}</p>
-						</div>
-						{{progressBar data.percentage span="span7"}} 
-					</div>
-					{{/if}}
-				{{/with}} 
-			{{/each}}
-		</div>
-
+		@datasetList()
 	</div>
 </div>
 

@@ -12,6 +12,7 @@
 	font-size: 15px;
 	color: #333;
 	white-space: nowrap;
+	text-align: left;
 }
 
 .longfilename {

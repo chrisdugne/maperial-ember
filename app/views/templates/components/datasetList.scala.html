@@ -1,0 +1,53 @@
+@(selection:Boolean = false)
+
+<div class="row-fluid offset1">
+		
+	{{#each dataset in user.datasets}}
+	<div class="row-fluid">
+		<div class="span3 offset1 name">
+			<p class="filename">{{dataset.name}}</p>
+		</div>
+		{{#with dataset}}
+		<div class="span1 size">
+			<span>{{fileSize size}}</span>
+		</div>
+		<div class="span1">
+			<span>{{formatDate uploadTime}}</span>
+		</div>
+		{{/with}}
+		<div class="span1 offset2">
+		@if(selection){
+			<button class="btn-small btn-success">
+				<i class="icon-arrow-right icon-white"></i>
+			</button>
+		}else{
+			<button {{action deleteDataset dataset}} class="btn-small btn-danger">
+				<i class="icon-trash icon-white"></i>
+			</button>
+		}
+		</div>
+	</div>
+	{{/each}} 
+
+	{{#each data in datasetsData.filesToUpload}} 
+		{{#with data}}
+			{{#if data.isUploading}} 
+			<div class="row-fluid">
+				<div class="span3 offset1 name">
+					<p class="filename">{{fileName data}}</p>
+				</div>
+				{{progressBar data.percentage span="span4"}}
+				@if(selection){
+					<div class="span1">
+						<button class="btn-small btn-success">
+							<i class="icon-arrow-right icon-white"></i>
+						</button>
+					</div>
+				}
+			</div>
+			{{/if}}
+		{{/with}} 
+	{{/each}}
+</div>
+
+<br /> <br />

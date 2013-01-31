@@ -28,7 +28,9 @@
 		route: '/dashboard',
 		
 		connectOutlets: function(router){
-			App.Router.openView(router, "dashboard");
+		   var customContext = new Object();
+		   customContext["datasetsData"] = App.datasetsData;
+			App.Router.openView(router, "dashboard", customContext);
 		},
 		
 		//------------------------------------------//
