@@ -45,19 +45,38 @@ Ember.Handlebars.registerBoundHelper('formatDate',
 //---------------------------------------------------------------------------------------//
 
 /**
- * Display a specific html template whether the currentView is the wanted one or not
+ * Display a specific html template whether data == value
+ * Static version : need a view refresh but may use Ember {{action}} in templates
+ * 
+ * note using registerBoundHelper instead of registerHelper so that the data is not a string
  */
-Ember.Handlebars.registerHelper('isCurrentView', 
-	function(view, options) 
+Ember.Handlebars.registerBoundHelper('equals', 
+   function(data, options) 
+   {
+      if(data == options.hash.value)
+         return options.fn(this);
+      else
+         return options.inverse(this);
+   }
+);
+
+/**
+ * Display a specific html template whether data == value
+ * Bound version : no need to refresh but CANNOT use Ember {{action}} in templates
+ * See isset below for specific actions
+ */
+Ember.Handlebars.registerBoundHelper('bound_equals', 
+	function(data, options) 
 	{
-		// 'this' is the context
-		// Route.openView puts the current view in "context.currentView")
-		var currentView = Ember.Handlebars.get(this, "currentView", options);
-	
-		if(view == currentView)
-			return options.fn(this);
-		else
-			return options.inverse(this);
+      var currentContext = (options.contexts && options.contexts[0]) || this;
+      var context = currentContext[Ember.META_KEY].values.content;
+
+      if(data == options.hash.value){
+         return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
+      }
+      else{
+         return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
+      }
 	}
 );
 
@@ -66,9 +85,6 @@ Ember.Handlebars.registerHelper('isCurrentView',
 Ember.Handlebars.registerBoundHelper('textInput', 
 	function(defaultValue, options) 
 	{
-		console.log("textInput");
-		console.log("options.hash.id : " + options.hash.id);
-		console.log("defaultValue : " + defaultValue);
 		return new Handlebars.SafeString("<input id=\""+options.hash.id+"\" type=\"text\" value=\""+defaultValue+"\"/>");
 	}
 );
@@ -150,22 +166,4 @@ Ember.Handlebars.registerBoundHelper('isset',
 	}
 );
 
-//---------------------------------------------------------------------------------------//
-
-Ember.Handlebars.registerBoundHelper('is', 
-	function(condition, options) 
-	{
-		var currentContext = (options.contexts && options.contexts[0]) || this;
-		var context = currentContext[Ember.META_KEY].values.content;
-		
-		if(condition){
-			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
-		}
-		else{
-			return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
-		}
-	}
-);
-
-//---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//

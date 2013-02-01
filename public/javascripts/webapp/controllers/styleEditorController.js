@@ -78,15 +78,28 @@
       App.stylesData.map = new GLMap ( "map", "magnifier" );
       App.stylesData.map.Start();
 
-      $("#map").css("height", $("#webappDiv").height() );
-      $("#map").css("width", $("#webappDiv").width() );
-
+      var popupTop = 160;
+      
+      if(App.user.isCreatingANewMap)
+      {
+         $("#map").css("height",  $("#webappDiv").height() - 100 );
+         $("#map").css("width", $("#webappDiv").width() );
+         $("#map").css("margin-top", -62 );
+         $("#map").css("margin-left", -20 );
+         
+         popupTop += 120;
+      }
+      else
+      {
+         $("#map").css("height", $("#webappDiv").height() );
+      }
+      
       $("#magnifier").dialogr({
          width:220,
          minWidth:220,
          height:250,
          minHeight:250,
-         position : [$("#webappDiv").width() - 300, 160],
+         position : [$("#webappDiv").width() - 300, popupTop],
          closeOnEscape: false,
          dialogClass: 'no-close'
       });
@@ -103,11 +116,18 @@
 
    StyleEditorController.renderStyle = function()
    {
+      var popupTop = 160;
+
+      if(App.user.isCreatingANewMap)
+      {
+         popupTop += 120;
+      }
+      
       $("#style").dialogr({
          width:460,
          minWidth:460,
          height:590,
-         position : [15,160],
+         position : [15, popupTop],
          closeOnEscape: false,
          dialogClass: 'no-close'
       });
@@ -147,7 +167,7 @@
       route: '/styleEditor',
 
       connectOutlets: function(router) {
-         App.Router.openView(router, "styleEditor");
+         App.Router.openPage(router, "styleEditor");
       },
 
       //--------------------------------------//

@@ -28,7 +28,7 @@
 		route: '/fonts',
 	
 		connectOutlets: function(router){
-			App.Router.openView(router, "fonts");
+			App.Router.openPage(router, "fonts");
 		}
 	});
 

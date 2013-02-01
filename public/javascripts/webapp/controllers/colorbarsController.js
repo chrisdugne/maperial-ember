@@ -74,7 +74,7 @@
 		route: '/colorbars',
         
 		connectOutlets: function(router) {
-			App.Router.openView(router, "colorbars");
+			App.Router.openPage(router, "colorbars");
         },
 
         //--------------------------------------//
@@ -85,7 +85,7 @@
         	connectOutlets: function(router) {
     			var customParams = [];
     			customParams["colorbars"] = App.user.colorbars;
-        		App.Router.openComponent(router, customParams);
+        		App.Router.openComponent(router, "colorbars", customParams);
         	}
         }),
         
@@ -94,7 +94,7 @@
     		connectOutlets: function(router) {
     			var customParams = [];
     			customParams["colorbars"] = App.publicData.colorbars;
-        		App.Router.openComponent(router, customParams);
+        		App.Router.openComponent(router, "colorbars", customParams);
     		}
         }),
 

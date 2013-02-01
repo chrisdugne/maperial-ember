@@ -12,6 +12,32 @@
 		}
 	});
 
-	Globals.initWindowSize();
+
+   //------------------------------------------------------//
+
+	App.initWindowSize = function()
+   {
+	   App.resizeWindow();
+
+      $(window).resize(function() {
+         App.resizeWindow();
+      });
+   }
+
+   //------------------------------------------------------//
+
+	App.resizeWindow = function()
+   {
+      $(document).ready(function() {
+           var webAppHeight = $(window).height() - $("#header").height() - $("#footer").height() - 120;
+           $("#webappDiv").css("min-height", webAppHeight );
+         });   
+   }
 	
+	//------------------------------------------------------//
+
+   App.initWindowSize();
+
+   //------------------------------------------------------//
+   
 })( this );

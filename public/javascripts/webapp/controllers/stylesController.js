@@ -57,13 +57,26 @@
 	//------------------------------------------------//
 	
 	/**
-	 * Reach from selectStyleWindow = new style being created
+	 * Component StyleList : 
+	 *   whether the currentPage is "styles" or "mapCreation", the continue is different
 	 */
 	StylesController.continueStyleCreation = function() 
 	{
-		$("#selectStyleWindow").modal("hide");
-		App.stylesData.set("editingStyle", false);
-		App.get('router').transitionTo('styleEditor');
+	   if(App.Globals.currentPage == "styles")
+	      StylesController.openStyleEditor();
+
+	   else if(App.Globals.currentPage == "mapCreation")
+	      App.MapCreationController.changeStyle();
+	}
+	
+	/**
+	 * Reach from selectStyleWindow = new style being created
+	 */
+	StylesController.openStyleEditor = function() 
+	{
+	   $("#selectStyleWindow").modal("hide");
+	   App.stylesData.set("editingStyle", false);
+	   App.get('router').transitionTo('styleEditor');
 	}
 
 	//------------------------------------------------//
@@ -77,7 +90,7 @@
 		route: '/styles',
         
 		connectOutlets: function(router) {
-		   App.Router.openView(router, "styles");
+		   App.Router.openPage(router, "styles");
 		},
 
 		//--------------------------------------//
@@ -88,7 +101,8 @@
 		   connectOutlets: function(router) {
 		      var customParams = [];
 		      customParams["styles"] = App.user.styles;
-		      App.Router.openComponent(router, customParams);
+            customParams["stylesData"] = App.stylesData;
+		      App.Router.openComponent(router, "styles", customParams);
 		   }
 		}),
 
@@ -97,7 +111,8 @@
 		   connectOutlets: function(router) {
 		      var customParams = [];
 		      customParams["styles"] = App.publicData.styles;
-		      App.Router.openComponent(router, customParams);
+            customParams["stylesData"] = App.stylesData;
+		      App.Router.openComponent(router, "styles", customParams);
 		   }
 		}),
 

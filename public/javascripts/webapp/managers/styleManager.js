@@ -12,7 +12,7 @@ StyleManager.uploadNewStyle = function(style)
 
 	$.ajax({
 	    type: "POST",
-	    url: Globals.mapServer + "/api/style?_method=DATA",
+	    url: App.Globals.mapServer + "/api/style?_method=DATA",
 	    data: JSON.stringify(style.content),  
 	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
@@ -39,7 +39,7 @@ StyleManager.saveStyle = function(style)
 
 	$.ajax({
 		type: "POST",
-		url: Globals.mapServer + "/api/style?_method=DATA&uid=" + style.uid,
+		url: App.Globals.mapServer + "/api/style?_method=DATA&uid=" + style.uid,
 		data: JSON.stringify(style.content), 
 		dataType: "text",
 		success: function (data, textStatus, jqXHR)
@@ -99,7 +99,7 @@ StyleManager.getStyle = function(styleUID, next)
 
 	$.ajax({  
 	    type: "GET",  
-	    url: Globals.mapServer + "/api/style/" + styleUID,
+	    url: App.Globals.mapServer + "/api/style/" + styleUID,
 	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
 		{
@@ -115,7 +115,7 @@ StyleManager.deleteStyle = function(style)
 {
 	$.ajax({  
 	    type: "DELETE",  
-	    url: Globals.mapServer + "/api/style?key=" + style.uid,
+	    url: App.Globals.mapServer + "/api/style?key=" + style.uid,
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{

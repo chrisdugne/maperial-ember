@@ -10,7 +10,6 @@
 	{
 	   ScriptLoader.getScripts([
                       //-- extension.upload
-                      "assets/javascripts/extensions/upload/jquery.iframe-transport.js",
                       "assets/javascripts/extensions/upload/jquery.fileupload.js",
                       "assets/javascripts/extensions/upload/main.js"
                       ],
@@ -22,7 +21,7 @@
 
 	DatasetsController.cleanUI = function()
 	{
-	   console.log("DatasetsController.cleanUI");
+	   
 	}
 
 	//==================================================================//
@@ -32,7 +31,6 @@
 	{
 		$('#uploadDatasetsWindow').modal();
 	}
-
 	
 	DatasetsController.startUpload = function(data) 
 	{
@@ -111,32 +109,37 @@
 		route: '/datasets',
 		
 		connectOutlets: function(router){
-			App.Router.openView(router, "datasets");
+			App.Router.openPage(router, "datasets");
 		},
 		
 		//-----------------------------------------------//
 		// actions
 		
+		// ---- upload actions
+		startUpload: function(router, event){
+         DatasetsController.startUpload(event.context);
+      },
+
+      cancelUpload: function(router, event){
+         DatasetsController.removeUpload(event.context);
+      },
+
+      removeUpload: function(router, event){
+         DatasetsController.removeUpload(event.context);
+      },
+      
+      openUploadWindow: function(){DatasetsController.openUploadWindow()},
+
+      // ---- 		
 		deleteDataset: function(router, event){
 			var dataset = event.context;
 			DatasetManager.deleteDataset(dataset);
-		},
+		}
 
-		startUpload: function(router, event){
-		   DatasetsController.startUpload(event.context);
-		},
-
-		cancelUpload: function(router, event){
-		   DatasetsController.removeUpload(event.context);
-		},
-
-		removeUpload: function(router, event){
-		   DatasetsController.removeUpload(event.context);
-		},
-		
-		openUploadWindow: function(){DatasetsController.openUploadWindow()}
 	});
 
+
+	
 	//--------------------------------------------------------------------------//
 	
 })();

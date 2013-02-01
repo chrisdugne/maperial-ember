@@ -35,7 +35,7 @@
 		route: '/',
 		
 		connectOutlets: function(router){
-			App.Router.openView(router, "home");
+			App.Router.openPage(router, "home");
 		},
 		
 		//-----------------------------------//

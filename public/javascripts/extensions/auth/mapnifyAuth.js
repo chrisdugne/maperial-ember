@@ -9,7 +9,7 @@ this.MapnifyAuth = {};
 MapnifyAuth.authorize = function() 
 {
 	var authorizeURL = "http://map.x-ray.fr/user/auth"
-		+ "?redirect=" + Globals.APP_URL + "/mapnifyAuthToken";
+		+ "?redirect=" + App.Globals.APP_URL + "/mapnifyAuthToken";
 
 	Utils.popup(authorizeURL, 'signin', 400, 150);
 }

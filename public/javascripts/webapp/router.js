@@ -36,7 +36,7 @@
 	//-----------------------------------------------------------------------------------------//
 	
 	/**
-	 * the main purpose of Router.openView is to check if user.isLoggedIn
+	 * the main purpose of Router.openPage is to check if user.isLoggedIn
 	 * the second purpose is to create a full context, adding the customContext to everything else
 	 * 
 	 * context : may contain additional models required for the view
@@ -44,7 +44,7 @@
 	 * connectOutlets: function(router){
          var customContext = new Object();
          customContext["datasetsData"] = App.datasetsData;
-         App.Router.openView(router, "dashboard", customContext);
+         App.Router.openPage(router, "dashboard", customContext);
       }, 
       
       the custom context is added to the glabal context containing
@@ -53,29 +53,54 @@
        - viewData
        - currentView
 	 */
-	Router.openView = function (router, view, customContext)
+	Router.openPage = function (router, page, customContext)
 	{
-		if(view != "home" && view != "tryscreen" && !App.user.loggedIn)
+      console.log("openPage " + page);
+		if(page != "home" && page != "tryscreen" && !App.user.loggedIn)
 		{
 			console.log("Not connected ! Redirected to the home page");
 			router.transitionTo('home');
 		}
 		else{
-			var context = Router.buildGlobalContext(customContext, view);
-			router.get('applicationController').connectOutlet(view, context);
+			var context = Router.buildGlobalContext(customContext, page);
+	      App.Globals.set("currentPage", page);
+	      App.Globals.set("currentView", page);
+	      App.Globals.set("parentView", "root");
+	      
+			router.get('applicationController').connectOutlet(page, context);
 		}
 	}
 
 	//-----------------------------------------------------------------------------------------//
 
-	Router.buildGlobalContext = function (customContext, view){
-	   
-	   var context;
-	 
-	   if(customContext == undefined)
+   /**
+    * Load a component with the parentController as context
+    * context : alike Router.openPage
+    */
+   Router.openComponent = function (router, parentView, customContext)
+   {
+      var view = router.currentState.name;
+      console.log("Router.openComponent " + view);
+
+      var context = Router.buildGlobalContext(customContext, view);
+
+      context["currentView"] = view;
+      App.Globals.set("currentView", view);
+      App.Globals.set("parentView", parentView);
+      
+      router.get(parentView+"Controller").connectOutlet(view, context);
+   }
+
+   //-----------------------------------------------------------------------------------------//
+
+   Router.buildGlobalContext = function (customContext, view){
+
+      var context;
+    
+      if(customContext == undefined)
          context = new Object();
-	   else
-	      context = customContext;
+      else
+         context = customContext;
 
       context["user"] = App.user;
       context["publicData"] = App.publicData;
@@ -83,59 +108,11 @@
       // binding controller's data
       context[view+"Data"] = App[view+"Data"];  
       
-      // storing currentView
-      context["currentView"] = view;
-      
       return context;
-	}
+   }
 
-	//-----------------------------------------------------------------------------------------//
+   //-----------------------------------------------------------------------------------------//
 
-	/**
-	 * Load a component with the parentController as context
-	 * context : alike Router.openView
-	 */
-	Router.openComponent = function (router, customContext)
-	{
-		var view = router.currentState.name;
-		var controller = Router.getMainController(router);
-		
-		// Router initializing
-		if(controller == null)
-			return;
-
-      var context = Router.buildGlobalContext(customContext, view);
-
-      context[controller + "Data"] = App[controller + "Data"];
-		context["currentView"] = view;
-		
-		router.get(controller+"Controller").connectOutlet(view, context);
-	}
-
-	//-----------------------------------------------------------------------------------------//
-
-	/**
-	 * Retrieve to top controller's name (the currentPage, just under 'root')
-	 * with this controllerName :
-	 * 	- we can reach the model "controllerNameData" to push in the context
-	 * 	- we can reach the actual Ember.Controller "controllerNameController" to connect the outlet
-	 */
-	Router.getMainController = function (router)
-	{
-		// Ember.Router initialisation calls Router.openComponent : nothing to do here
-		if(router.currentState.parentState.name == "root")
-			return null;
-		
-		var parentState = router.currentState.parentState;
-		
-		while(parentState.parentState.name != "root")
-			parentState = parentState.parentState;
-		
-		return parentState.name;
-	}
-			
-	//-----------------------------------------------------------------------------------------//
-		
 	App.Router = Router;
 
 	//-----------------------------------------------------------------------------------------//

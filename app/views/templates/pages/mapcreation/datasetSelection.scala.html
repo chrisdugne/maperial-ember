@@ -1,4 +1,23 @@
+@import views.html.popups.uploadDatasetsWindow; 
 @import views.html.templates.components.datasetList; 
- 
-@datasetList(true)
 
+<div class="row-fluid">
+	<div class="span3 offset8">
+		<div id="continueWithoutDatasetButton" {{action openStyleAndColorbar}} class="btn-large btn-primary">Continue without data</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<p class="marketing-byline">Or select a dataset</p>
+</div>
+
+<br/>
+
+@datasetList(true)
+			
+<div class="row-fluid">
+	<div class="span2 offset5">
+		<div id="uploadDatasetButton" {{action openUploadWindow}} class="btn-large btn-primary">Upload</div>
+	</div>
+</div>
+
+@uploadDatasetsWindow() 

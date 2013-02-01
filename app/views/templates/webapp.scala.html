@@ -28,6 +28,8 @@
 <!-- Sub pages as components -->
 
 @import views.html.templates.pages.mapcreation.datasetSelection;
+@import views.html.templates.pages.mapcreation.styleAndColorbar;
+@import views.html.templates.pages.mapcreation.generation;
 
 <!-- ------------------------------------------------------------------- -->
 
@@ -37,7 +39,7 @@
 
 <!-- ------------------------------------------------------------------- -->
 
-<!-- Pages -->
+<!-- --- Pages --- -->
 @pageTemplate("home"){@home()}
 @pageTemplate("dashboard", false){@dashboard()}
 @pageTemplate("tryscreen", false){@tryscreen())}
@@ -51,11 +53,16 @@
 @pageTemplate("styleEditor"){@styleEditor()}
 @pageTemplate("colorbarEditor"){@colorbarEditor()}
 
-<!-- Components -->
+<!-- --- Components --- -->
 
 @componentTemplate("styleList"){@styleList()}
 @componentTemplate("colorbarList"){@colorbarList()}
 
+<!-- --- Sub pages as components --- -->
+
+<!-- mapCreation-->
 @componentTemplate("datasetSelection"){@datasetSelection()}
+@componentTemplate("styleAndColorbar"){@styleAndColorbar()}
+@componentTemplate("generation"){@generation()}
 
 <!-- ------------------------------------------------------------------- -->

@@ -10,7 +10,7 @@ ColorbarManager.uploadNewColorbar = function(colorbar)
 {
 	$.ajax({
 	    type: "POST",
-	    url: Globals.mapServer + "/api/colorbar?_method=DATA",
+	    url: App.Globals.mapServer + "/api/colorbar?_method=DATA",
 	    data: JSON.stringify(colorbar.content),  
 	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
@@ -37,7 +37,7 @@ ColorbarManager.saveColorbar = function(colorbar)
 
 	$.ajax({
 		type: "POST",
-		url: Globals.mapServer + "/api/colorbar?_method=DATA&uid=" + colorbar.uid,
+		url: App.Globals.mapServer + "/api/colorbar?_method=DATA&uid=" + colorbar.uid,
 		data: JSON.stringify(colorbar.content), 
 		dataType: "text",
 		success: function (data, textStatus, jqXHR)
@@ -97,7 +97,7 @@ ColorbarManager.getColorbar = function(colorbarUID, next)
 
 	$.ajax({  
 	    type: "GET",  
-	    url: Globals.mapServer + "/api/colorbar/" + colorbarUID,
+	    url: App.Globals.mapServer + "/api/colorbar/" + colorbarUID,
 	    dataType: "json",
 	    success: function (data, textStatus, jqXHR)
 		{
@@ -114,7 +114,7 @@ ColorbarManager.deleteColorbar = function(colorbar)
 {
 	$.ajax({  
 	    type: "DELETE",  
-	    url: Globals.mapServer + "/api/colorbar?key=" + colorbar.uid,
+	    url: App.Globals.mapServer + "/api/colorbar?key=" + colorbar.uid,
 	    dataType: "text",
 	    success: function (data, textStatus, jqXHR)
 		{

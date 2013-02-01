@@ -1,10 +1,10 @@
 @(selection:Boolean = false)
 
-<div class="row-fluid offset1">
+<div class="row-fluid">
 		
 	{{#each dataset in user.datasets}}
 	<div class="row-fluid">
-		<div class="span3 offset1 name">
+		<div class="span3 offset2 name">
 			<p class="filename">{{dataset.name}}</p>
 		</div>
 		{{#with dataset}}
@@ -33,7 +33,7 @@
 		{{#with data}}
 			{{#if data.isUploading}} 
 			<div class="row-fluid">
-				<div class="span3 offset1 name">
+				<div class="span3 offset2 name">
 					<p class="filename">{{fileName data}}</p>
 				</div>
 				{{progressBar data.percentage span="span4"}}

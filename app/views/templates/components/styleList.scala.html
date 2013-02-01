@@ -8,20 +8,19 @@
     <div class="row">
     
 	<br/>
-	
         <div class="span3">
-			{{#isCurrentView myStyles}}
-				<h1>My styles</h1>
+			{{#equals App.Globals.currentView value='myStyles'}}
+				<p class="popupTitle">My styles</p>
 			{{else}}			
-				<h1>Public styles</h1>
-			{{/isCurrentView}}
+				<p class="popupTitle">Public styles</p>
+			{{/equals}}
         </div>
         <div class="span2 offset1">
-			{{#isCurrentView myStyles}}
+			{{#equals App.Globals.currentView value='myStyles'}}
 				<div class="btn-small btn-primary" {{action showPublicStyles}}>Show public styles</div>
 			{{else}}			
 				<div class="btn-small btn-primary" {{action showMyStyles}}>Show my styles</div>
-			{{/isCurrentView}}
+			{{/equals}}
          </div>
     </div>
 	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
@@ -42,15 +41,15 @@
 	</div>
 	
     <div id="selectedStyleArea" class="row">
-    {{isset stylesData.selectedStyle
-      yes='<div class="span2">
-      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(context.stylesData.selectedStyle.uid)}"></img>
-				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
-					<i class="icon icon-ex-white-outline"></i>
-				</a>
-      	   </div>
-      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="App.StylesController.continueStyleCreation()">Continue with this preset</div>'
-      no='<h4 class="offset2">(Select a style to start with)</h4>'}}
+	    {{isset stylesData.selectedStyle
+	      yes='<div class="span2">
+	      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(context.stylesData.selectedStyle.uid)}"></img>
+					<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
+						<i class="icon icon-ex-white-outline"></i>
+					</a>
+	      	   </div>
+	      	   <div id="continueButton" class="span2 offset1 btn-large btn-primary" onclick="App.StylesController.continueStyleCreation()">Continue</div>'
+	      no='<h4 class="offset2">(Select a style)</h4>'}}
 	</div>
 
 	<br/>

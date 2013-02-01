@@ -28,7 +28,7 @@
 		route: '/icons',
 	
 		connectOutlets: function(router){
-			App.Router.openView(router, "icons");
+			App.Router.openPage(router, "icons");
 		}
 	});
 

@@ -135,7 +135,7 @@ TileRenderer.RenderLayers = function ( dummyTile , ctx , data , zoom , style , b
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.LayerLookup = function ( point, ctx , data , zoom ) {
+TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style ) {
    
    ctx.scale(1,1);
    var i;
@@ -160,7 +160,7 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom ) {
          if (al) attr = al[l] // attributlist
          for ( var li = 0 ; li < lines.length ; ++li ) 
          {
-            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , layerId , zoom);
+            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , layerId , zoom, style);
          }
       }
 
@@ -176,9 +176,9 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom ) {
    }
 }
 
-TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, layerId , zoom  ) {
+TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, layerId , zoom, style  ) {
    try {
-      var curLayer = TileRenderer.__style [ layerId ] // on a 1 seul symbolizer par layer
+      var curLayer = style [ layerId ] 
 
       if ( !curLayer.visible ) return;
 

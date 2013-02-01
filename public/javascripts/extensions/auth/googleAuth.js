@@ -10,7 +10,7 @@ this.GoogleAuth = {};
 // <script src="https://apis.google.com/js/client.js?onload=GoogleAuthOnload"></script>
 GoogleAuthOnload = function(app) 
 {
-	gapi.client.setApiKey(Globals.apiKey);
+	gapi.client.setApiKey(App.Globals.apiKey);
 	window.setTimeout(GoogleAuth.checkGoogleAuth,1);
 }
 
@@ -18,7 +18,7 @@ GoogleAuthOnload = function(app)
 
 GoogleAuth.checkGoogleAuth = function() 
 {
-	gapi.auth.authorize({client_id: Globals.googleClientId, scope: Globals.scopes, immediate: true}, GoogleAuth.googleAuthResult);
+	gapi.auth.authorize({client_id: App.Globals.googleClientId, scope: App.Globals.scopes, immediate: true}, GoogleAuth.googleAuthResult);
 }
 
 //------------------------------------------------------------------------------------------//
@@ -26,7 +26,7 @@ GoogleAuth.checkGoogleAuth = function()
 	
 GoogleAuth.googleAuthorize = function(event) 
 {
-	gapi.auth.authorize({client_id: Globals.googleClientId, scope: Globals.scopes, immediate: false}, GoogleAuth.googleAuthResult);
+	gapi.auth.authorize({client_id: App.Globals.googleClientId, scope: App.Globals.scopes, immediate: false}, GoogleAuth.googleAuthResult);
 	return false;
 }
 

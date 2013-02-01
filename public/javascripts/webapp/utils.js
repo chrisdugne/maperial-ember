@@ -170,7 +170,7 @@ Utils.thumbURL = function(uid, type)
 	var end = uid.substring(uid.length-4);
 	var folders = end.split("");
 	
-	var url = Globals.mapServer + "/thumbs" + type;
+	var url = App.Globals.mapServer + "/thumbs" + type;
 	folders.forEach(function(folder) {
 		url += "/" + folder;
 	});

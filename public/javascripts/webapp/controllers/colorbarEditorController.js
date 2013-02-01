@@ -144,7 +144,7 @@
 		route: '/colorbarEditor',
 		
 		connectOutlets: function(router) {
-			App.Router.openView(router, "colorbarEditor");
+			App.Router.openPage(router, "colorbarEditor");
 		},
 
         //--------------------------------------//

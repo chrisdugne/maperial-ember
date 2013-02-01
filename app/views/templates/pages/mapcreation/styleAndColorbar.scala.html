@@ -1,0 +1,23 @@
+
+@import views.html.popups.selectStyleWindow;
+
+<canvas id="map"></canvas>
+<canvas id="magnifier" title="Magnifier" width="200" height="200"></canvas>
+
+<div id="style" title="Style" class="hide">
+
+	<div class="row">
+		<!-- style = Dialogr = jqueryui = no ember.action but onclicks... -->
+		<div class="span2">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
+		<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openGeneration()">Continue</div>
+		<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openDatasetSelection()">Back</div>
+		<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openStyleSelection()">More</div>
+	</div>
+	
+	<canvas id="dummyTilesCanvas" class="hide"></canvas>
+	<div id="mapEditorTree"></div>
+	<div id="mapEditorWidget"></div>
+	
+</div>
+
+@selectStyleWindow()

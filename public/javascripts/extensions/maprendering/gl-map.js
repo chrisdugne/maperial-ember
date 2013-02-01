@@ -1,15 +1,14 @@
 //=====================================================================================//
 //uniquement cote wwwClient
 
-if(typeof(Globals)==='undefined' || Globals == null) Globals={}
+if(typeof(App)==='undefined' || App == null) App={Globals:{}}
 if(typeof(Utils)==='undefined' || Utils == null) Utils={}
 
 //=====================================================================================//
-//a mettre dans webapp/globals.js
+//a mettre dans webapp/models/globals.js
 
-
-Globals.refreshRate   = 30; // ms
-Globals.tileDLTimeOut = 60000 ; //ms
+App.Globals.refreshRate   = 30; // ms
+App.Globals.tileDLTimeOut = 60000 ; //ms
 
 //=====================================================================================//
 //a mettre dans webapp/utils.js
@@ -71,7 +70,7 @@ function GLMap(mapName, magnifierName, tilesize) {
          type     : "GET",
          url      : inUrl,
          dataType : "json",  
-         timeout  : Globals.tileDLTimeOut,
+         timeout  : App.Globals.tileDLTimeOut,
          success  : function(data, textStatus, jqXHR) {
             if ( ! data ) {
                tile.isLoad = true;
@@ -147,6 +146,9 @@ function GLMap(mapName, magnifierName, tilesize) {
    }
 
    GLMap.prototype.OnMouseWheel = function (event, delta) {
+      
+      event.preventDefault();
+      
       var w2,h2;
       var r;
       var deltaM
@@ -290,7 +292,7 @@ function GLMap(mapName, magnifierName, tilesize) {
 
       this.params.OnChange ( Utils.bindObjFuncEvent ( this, "OnParamsChange" ) );
       this.DrawScene();
-      setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , Globals.refreshRate );
+      setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , App.Globals.refreshRate );
    } 
 
 
@@ -381,7 +383,7 @@ function GLMap(mapName, magnifierName, tilesize) {
                tile.texCreated = true
             }
 
-            if ( time > ( Globals.refreshRate - 5 ) )
+            if ( time > ( App.Globals.refreshRate - 5 ) )
                break;
          }
       }
@@ -559,7 +561,7 @@ function GLMap(mapName, magnifierName, tilesize) {
       ctx.save();
 
       // render the tile inside this invisibleCanvas with the layerId colors
-      var layerId = TileRenderer.LayerLookup ( tileClickCoord , ctx , tile.data , this.zoom ) ;
+      var layerId = TileRenderer.LayerLookup ( tileClickCoord , ctx , tile.data , this.zoom, this.params.GetStyle()  ) ;
       console.log("layerId : " + layerId);
 
       ctx.restore();

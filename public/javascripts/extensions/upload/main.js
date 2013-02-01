@@ -25,7 +25,7 @@ ExtensionUpload.init = function ()
    var uploader = $('#fileupload').fileupload({
       // Uncomment the following to send cross-domain cookies:
       //xhrFields: {withCredentials: true},
-      url: Globals.mapServer + '/api/dataset',
+      url: App.Globals.mapServer + '/api/dataset',
 
       add: function (e, data) {
          App.datasetsData.filesToUpload.pushObject(data);
@@ -42,7 +42,7 @@ ExtensionUpload.init = function ()
    });
 
    uploader.fileupload('option', {
-      url: Globals.mapServer + '/api/dataset',
+      url: App.Globals.mapServer + '/api/dataset',
       maxFileSize: 15000000,
       acceptFileTypes: /(\.|\/)(pst|gif|jpe?g|png)$/i,
       process: [
