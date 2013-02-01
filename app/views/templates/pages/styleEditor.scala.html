@@ -1,9 +1,27 @@
 
+
 <canvas id="map"></canvas>
-<canvas id="magnifier" title="Magnifier" width="200" height="200"></canvas>
+<canvas id="dummyTilesCanvas" class="hide"></canvas>	
 
-<div id="style" title="Style" class="hide">
+<a class="trigger" id="triggerDetailsMenu" href="#">Details</a>
+<div class="panel" id="panelDetailsMenu">
+  <div id="detailsMenu"></div>
+</div>
+<a class="trigger" id="triggerQuickEdit"  href="#">Quick Edit</a>
+<div class="panel" id="panelQuickEdit">
+  <div id="quickEdit"></div>
+</div>
+<a class="trigger" id="triggerZooms"  href="#">Zooms</a>
+<div class="panel" id="panelZooms">
+  <div id="zooms"></div>
+</div>
+<a class="trigger" id="triggerMagnifier"  href="#">Magnifier</a>
+<div class="panel" id="panelMagnifier">
+  <canvas id="magnifier" width="200" height="200"></canvas>
+</div>
 
+<a class="trigger" id="triggerStyleManager"  href="#">Menu</a>
+	<div class="panel" id="panelStyleManager">
 	{{#if user.waiting}}
 		<div class="row">
 			<div id="waitingDiv">WAITING</div>
@@ -14,9 +32,5 @@
 			<div onclick="App.StyleEditorController.saveStyle()" class="span1 btn-small btn-primary" id="saveStyleButton">Save</div>
 		</div>
 	{{/if}}
-	
-	<canvas id="dummyTilesCanvas" class="hide"></canvas>
-	<div id="mapEditorTree"></div>
-	<div id="mapEditorWidget"></div>
-	
 </div>
+

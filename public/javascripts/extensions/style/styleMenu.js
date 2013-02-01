@@ -61,8 +61,10 @@ StyleMenu.refMap = null;
 // parent div
 StyleMenu.styleMenuParentEl = null;
 StyleMenu.styleMenuParentEl2 = null;
+StyleMenu.styleMenuParentEl3 = null;
 StyleMenu.mainDiv = null;
 StyleMenu.widgetDiv = null;
+StyleMenu.zoomDiv = null;
 
 // current element id
 StyleMenu.currentUid = null;
@@ -300,10 +302,10 @@ StyleMenu.SetParamIdZNew = function(uid,param,value){
 
 	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
 		var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
-		console.log(zmin);
+		//console.log(zmin);
 		//var zmax = StyleMenu.__style[uid]["s"][rule]["zmax"];
 		if ( $.inArray(zmin, StyleMenu.activZooms) > -1 ){
-			console.log("zoom is to be changed");
+			//console.log("zoom is to be changed");
 			var def = StyleMenu.DefFromRule(uid,rule);
 			if ( def < 0 ){
 				continue;
@@ -463,6 +465,7 @@ StyleMenu.__LoadStyle = function(){
 
   StyleMenu.styleMenuParentEl.empty();   
   StyleMenu.styleMenuParentEl2.empty();   
+  StyleMenu.styleMenuParentEl3.empty();   
 
   StyleMenu.styleMenuParentEl.hide(); // hide me during loading
   StyleMenu.styleMenuParentEl.css('width','400px'); // force width (avoid scrollbar issue)
@@ -470,9 +473,11 @@ StyleMenu.__LoadStyle = function(){
   StyleMenu.mainDiv = $("<div id=\"styleMenu_menu_maindiv\"></div>");
   StyleMenu.mainDiv.appendTo(StyleMenu.styleMenuParentEl);
 
-    
   StyleMenu.widgetDiv = $('<div class="styleMenu_menu_widgetDiv" id="styleMenu_menu_widgetDiv"></div>');
   StyleMenu.widgetDiv.appendTo(StyleMenu.styleMenuParentEl2);
+
+  StyleMenu.zoomDiv = $('<div class="styleMenu_menu_zoomDiv" id="styleMenu_menu_zoomDiv"></div>');
+  StyleMenu.zoomDiv.appendTo(StyleMenu.styleMenuParentEl3);
 
   //StyleMenu.__FillZoomDef();
   StyleMenu.__InsertZoomEdition();
@@ -536,8 +541,8 @@ StyleMenu.__InsertZoomEdition2 = function(){
       tmpcb += '  <input type="checkbox" class="styleMenu_menu_checkboxz" id="styleMenu_menu_zcheck' + z + '"/><label for="styleMenu_menu_zcheck' + z + '">Z' + z + '</label>';
   }    
   
-  $('<h2 class="styleMenu_menu_par_title"> Edit some zoom</h2><div id="styleMenu_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(StyleMenu.widgetDiv);//.hide();
-  $('<h2 class="styleMenu_menu_par_title"> Edit a zoom range</h2><div id="styleMenu_menu_sliderrangez"></div><br/>').appendTo(StyleMenu.widgetDiv);
+  $('<h2 class="styleMenu_menu_par_title_z"> Edit some zoom</h2><div id="styleMenu_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(StyleMenu.zoomDiv);//.hide();
+  $('<h2 class="styleMenu_menu_par_title_z"> Edit a zoom range</h2><div id="styleMenu_menu_sliderrangez"></div><br/>').appendTo(StyleMenu.zoomDiv);
 
   $( "#styleMenu_menu_zoom_selector" ).buttonset();
 
@@ -549,7 +554,7 @@ StyleMenu.__InsertZoomEdition2 = function(){
   
   $( "#styleMenu_menu_sliderrangez" ).slider({
           range: true,
-          min: 0,
+          min: 1,
           max: 18,
           values: [ StyleMenu.currentZmin, StyleMenu.currentZmax ],
           change: function( event, ui ) {
@@ -701,7 +706,7 @@ StyleMenu.FillWidget = function(uid){
 	var ruleId = rd.ruleId;
 	var rule = rd.rule;
 	
-	console.log(def,ruleId,rule);
+	console.log("fill widget for",def,ruleId,rule);
 	
 	if ( ruleId < 0 ){
      console.log("Cannot find ruleId for zoom " + StyleMenu.refMap.GetZoom());
@@ -763,6 +768,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
  
    //clear parent div
    StyleMenu.widgetDiv.empty();
+   StyleMenu.zoomDiv.empty();
 
    StyleMenu.currentUid = uid;
    StyleMenu.currentGroup = group;
@@ -844,7 +850,7 @@ StyleMenu.GetGroupNameFilterFromLayerId = function(uid){
          if ( StyleMenu.groups[group][name].type == "line" ){
             var casing = StyleMenu.groups[group][name].casing;
             var center = StyleMenu.groups[group][name].center;
-            console.log(casing,center);
+            //console.log(casing,center);
             childs = childs.concat( StyleMenu.GetUids(casing) );
             childs = childs.concat( StyleMenu.GetUids(center) );
          }
@@ -854,7 +860,7 @@ StyleMenu.GetGroupNameFilterFromLayerId = function(uid){
          else{
             ///@todo
          }
-         console.log(group,name,uids);
+         //console.log(group,name,uids);
          if ( uids.length == 0 ){
              continue;
          }
@@ -989,19 +995,26 @@ StyleMenu.LoadStyle = function(){
    StyleMenu.refMap.DrawScene(false,true);
 }
   
+
+StyleMenu.SetStyle = function (style){
+   StyleMenu.__style = style;
+   StyleMenu.Load(); // will call LoadMapping and then LoadStyle ...
+}
  
 //////////////////////////////////////////////////////////
 //  init !
 //////////////////////////////////////////////////////////
-StyleMenu.init = function(container,container2,isMovable,maps,style){
+StyleMenu.init = function(container,container2,container3,isMovable,maps,style){
   StyleMenu.styleMenuParentEl = container;
   StyleMenu.styleMenuParentEl2 = container2;
+  StyleMenu.styleMenuParentEl3 = container3;
   StyleMenu.__style = style;
   StyleMenu.refMap = maps;
   StyleMenu.Load(); // will call LoadMapping and then LoadStyle ...
   if ( isMovable){
       StyleMenu.styleMenuParentEl.draggable();    
       StyleMenu.styleMenuParentEl2.draggable();    
+      StyleMenu.styleMenuParentEl3.draggable();    
   }
 }// end class StyleMenu.init
 

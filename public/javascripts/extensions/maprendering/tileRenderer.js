@@ -7,13 +7,16 @@ var TileRenderer = {};
  */
 
 TileRenderer.layerDummyColors = [];
-TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level , style ) {
+TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , layerType , style ) {
 
    try {
       var curLayer = style [ layerId ] // on a 1 seul symbolizer par layer
-
+      if ( /*layerId == "02d" ||*/ layerId == "02e") {
+         curLayer.layer = "front";
+      }
+      
       if ( !curLayer.visible ) return;
-      if ( level != MapParameter.LayerSelect && curLayer.layer != level) return;
+      if ( curLayer.layer != layerType) return;
 
       for (var _s = 0 ; _s < curLayer.s.length ; _s++ ) {
          var curStyle = curLayer.s[_s];
@@ -24,28 +27,6 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level ,
 
                if ( TileRenderer[params.rt] ) 
                { 
-                  if(level == MapParameter.LayerSelect){
-
-                     if(TileRenderer.layerDummyColors[layerId] == undefined)
-                     {
-                        var rd1 =  (Math.floor (Math.random()*16)).toString(16);
-                        var rd2 =  (Math.floor (Math.random()*16)).toString(16);
-                        var rd3 =  (Math.floor (Math.random()*16)).toString(16);
-                        var color = "#" + rd1 + layerId[0] + rd2 + layerId[1] + layerId[2] + rd3;
-
-                        console.log("layerId hidden : " + layerId);
-                        console.log("colorRandomized : " + color);
-                        TileRenderer.layerDummyColors[layerId] = color;
-                     }
-                     else
-                        var color = TileRenderer.layerDummyColors[layerId];
-
-                     var params = jQuery.extend(true, {}, params);
-                     params["alpha"] = "1";
-                     params["fill"] = color;
-                     params["stroke"] = color;
-                  }
-
                   TileRenderer[ params.rt ] ( ctx , line, attr, params )
                }
             }
@@ -70,17 +51,8 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , level ,
  *  g group
  */
 TileRenderer.maxRenderTime = 0
-TileRenderer.RenderLayers = function ( dummyTile , ctx , data , zoom , style , begin  ) {
-
-   //------//
+TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , begin  ) {
    
-   var level = MapParameter.LayerBack; 
-   
-   if(dummyTile)
-      level = MapParameter.LayerSelect;
-
-   //------//
-
    var beginAt;
    var limitTime = false;
 
@@ -107,17 +79,17 @@ TileRenderer.RenderLayers = function ( dummyTile , ctx , data , zoom , style , b
       if (ll == null) 
          continue
 
-         for ( var l = 0 ; l < ll.length ; ++l ) {
-            var lines = ll[l] // liste de lignes
-            var attr  = null // attribut
-            if (al) attr = al[l] // attributlist
-            for ( var li = 0 ; li < lines.length ; ++li ) 
-            {
-               var line = lines[li]
+      for ( var l = 0 ; l < ll.length ; ++l ) {
+         var lines = ll[l] // liste de lignes
+         var attr  = null // attribut
+         if (al) attr = al[l] // attributlist
+         for ( var li = 0 ; li < lines.length ; ++li ) 
+         {
+            var line = lines[li]
 
-               TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, level, style )
-            }
+            TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, layerType, style )
          }
+      }
       if (limitTime) {
          var diffT   = (new Date).getTime() - startT;
          TileRenderer.maxRenderTime = Math.max(TileRenderer.maxRenderTime,diffT);
@@ -135,19 +107,25 @@ TileRenderer.RenderLayers = function ( dummyTile , ctx , data , zoom , style , b
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style ) {
-   
+TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, layerType ) {
+
    ctx.scale(1,1);
    var i;
    for (i = data["l"].length - 1 ; i >= 0  ; i-- ) {
       
+      // render the symbolizers
+      var layer = data["l"][i]; // layerGroup
+      var layerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
+      
+      var curLayer = style [ layerId ]
+      
+      if(curLayer.layer != layerType)
+         continue;
+
       // clear
       ctx.fillStyle = "#fff";
       ctx.fillRect(point.x, point.y, 1, 1);
-
-      // render the symbolizers
-      var layer = data["l"][i]; // layerGroup
-      var layerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ? 
+      
       var ll = layer["g"]; // liste de listes de lignes
       var al = null; // attributlist
       if ("a" in layer) al = layer["a"]
@@ -174,6 +152,8 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style ) {
       if(color != "ffffff")
          return layerId;
    }
+   
+   return false;
 }
 
 TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, layerId , zoom, style  ) {

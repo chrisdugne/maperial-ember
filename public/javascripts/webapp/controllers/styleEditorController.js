@@ -14,9 +14,12 @@
                          // map rendering
                          "assets/javascripts/libs/gl-matrix-min.js",
                          "assets/javascripts/libs/jquery.mousewheel.min.js",
+                         "assets/javascripts/extensions/maprendering/coordinate-system.js",
                          "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
                          "assets/javascripts/extensions/maprendering/gl-tools.js",
-                         "assets/javascripts/extensions/maprendering/coordinate-system.js",
+                         "assets/javascripts/extensions/maprendering/gl-rasterlayer.js",
+                         "assets/javascripts/extensions/maprendering/gl-tile.js",
+                         "assets/javascripts/extensions/maprendering/gl-vectoriallayer.js",
                          "assets/javascripts/extensions/maprendering/render-line.js",
                          "assets/javascripts/extensions/maprendering/render-text.js",
                          "assets/javascripts/extensions/maprendering/tileRenderer.js",
@@ -75,9 +78,20 @@
 
    StyleEditorController.renderMap = function()
    {
+      var cbData = [];
+      
+      cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );
+      for (var i = 1 ; i < 256 ; i = i + 1) {
+         cbData.push ( i );cbData.push ( 0 );cbData.push ( 255-i );cbData.push ( 255 );
+      }
+      
+      console.log (cbData ) 
       App.stylesData.map = new GLMap ( "map", "magnifier" );
-      App.stylesData.map.Start();
+      App.stylesData.map.GetParams().SetStyle(App.stylesData.selectedStyle.content);
+      App.stylesData.map.GetParams().SetColorBar(cbData)
+      App.stylesData.map.Start (); 
 
+      
       var popupTop = 160;
       
       if(App.user.isCreatingANewMap)
@@ -94,16 +108,6 @@
          $("#map").css("height", $("#webappDiv").height() );
       }
       
-      $("#magnifier").dialogr({
-         width:220,
-         minWidth:220,
-         height:250,
-         minHeight:250,
-         position : [$("#webappDiv").width() - 300, popupTop],
-         closeOnEscape: false,
-         dialogClass: 'no-close'
-      });
-
    }
 
    StyleEditorController.cleanMap = function()
@@ -122,18 +126,39 @@
       {
          popupTop += 120;
       }
-      
-      $("#style").dialogr({
-         width:460,
-         minWidth:460,
-         height:590,
-         position : [15, popupTop],
-         closeOnEscape: false,
-         dialogClass: 'no-close'
-      });
 
       // set the menu up
-      StyleMenu.init($("#mapEditorTree") , $("#mapEditorWidget") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
+      StyleMenu.init($("#mapnifyMenu") , $("#mapnifyWidget") , $("#mapnifyZoom") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
+      
+      $("#trigger1").click(function(){
+         $("#panel1").toggle("fast");
+         $(this).toggleClass("active");
+         return false;
+      });
+
+      $("#trigger2").click(function(){
+         $("#panel2").toggle("fast");
+         $(this).toggleClass("active");
+         return false;
+      });
+      
+      $("#trigger3").click(function(){
+         $("#panel3").toggle("fast");
+         $(this).toggleClass("active");
+         return false;
+      });
+
+      $("#triggerMagnifier").click(function(){
+         $("#panelMagnifier").toggle("fast");
+         $(this).toggleClass("active");
+         return false;
+      });
+      
+      $("#triggerStyleManager").click(function(){
+         $("#panelStyleManager").toggle("fast");
+         $(this).toggleClass("active");
+         return false;
+      });
    }
 
    StyleEditorController.cleanStyle = function()

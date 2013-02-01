@@ -6,19 +6,29 @@ function MapParameter () {
    this.contrast  = 0.0;
    this.luminosity= 0.0;
    this.bwMethod  = 1.0;
-   
+   this.editMode  = true;
    this.obs       = [];
 }
 
-MapParameter.StyleChanged        = 1
-MapParameter.ColorBarChanged     = 2
-MapParameter.ContrastChanged     = 3
-MapParameter.LuminosityChanged   = 4
-MapParameter.BWMethodChanged     = 5
+MapParameter.refreshRate         = 30; // ms
+MapParameter.tileDLTimeOut       = 60000 ; //ms
+MapParameter.tileSize            = 256;
 
-MapParameter.LayerBack           = "back"
-MapParameter.LayerFront          = "Front"
-MapParameter.LayerSelect         = "select"
+MapParameter.StyleChanged        = 1;
+MapParameter.ColorBarChanged     = 2;
+MapParameter.ContrastChanged     = 3;
+MapParameter.LuminosityChanged   = 4;
+MapParameter.BWMethodChanged     = 5;
+
+MapParameter.LayerBack           = "back";
+MapParameter.LayerRaster         = "raster";
+MapParameter.LayerFront          = "front";
+MapParameter.LayerSelect         = "select";
+
+MapParameter.Vector              = "vector";
+MapParameter.Raster              = "raster";
+MapParameter.LayerOrder          = [ MapParameter.LayerBack , MapParameter.LayerRaster , MapParameter.LayerFront  ];
+MapParameter.LayerType           = [ MapParameter.Vector    , MapParameter.Raster      , MapParameter.Vector      ];
 
 MapParameter.prototype.Invalidate = function (changeEvent) {
    this._Change (changeEvent) 
@@ -60,6 +70,9 @@ MapParameter.prototype.GetStyle = function(){
 }
 
 MapParameter.prototype.SetColorBar = function(colorbar){
+   if (this.colorbar)
+      delete this.colorbar
+
    if (colorbar.constructor === String) {
       this.colorbar = null;
       $.ajax({
@@ -67,12 +80,12 @@ MapParameter.prototype.SetColorBar = function(colorbar){
          async       : false,
          dataType    : 'json',
          success     : function (data) {
-            this.colorbar = data;
+            this.colorbar = new Uint8Array(data);
          }
       });
    }
    else {
-      this.colorbar = colorbar;
+      this.colorbar = new Uint8Array(colorbar);
    }
    this._Change(MapParameter.ColorBarChanged)
 }
@@ -93,7 +106,8 @@ MapParameter.prototype.GetMapURL = function (tx,ty,z) {
 }
 
 MapParameter.prototype.GetDatasetURL = function (tx,ty,z) {
-   return None
+   var url = "http://map.x-ray.fr/test/data.raw"
+   return url
 }
 
 MapParameter.prototype.SetContrast = function ( v ) {
@@ -121,4 +135,12 @@ MapParameter.prototype.SetBWMethod = function ( m ) {
 
 MapParameter.prototype.GetBWMethod = function ( ) {
    return this.bwMethod;
+}
+
+MapParameter.prototype.SetEditMode = function ( em ) {
+   this.editMode = em
+}
+
+MapParameter.prototype.GetEditMode = function ( ) {
+   return this.editMode
 }
