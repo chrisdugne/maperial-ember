@@ -99,6 +99,12 @@ Tile.prototype._LoadVectorial = function ( inVecUrl ) {
 }
 
 Tile.prototype._LoadRaster = function ( inRasterUrl ) {
+   if ( ! inRasterUrl ) {
+      this.rError   = true;
+      this.rLoad    = true;
+      return ;
+   }
+
    // https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data
    // JQuery can not use XMLHttpRequest V2 (binary data)
    
@@ -107,9 +113,9 @@ Tile.prototype._LoadRaster = function ( inRasterUrl ) {
    this.rReq.open ("GET", inRasterUrl, true);
    this.rReq.responseType = "arraybuffer";
 
-   this.rReq.onload = function (oEvent) {
+   this.rReq.onload = function (oEvent) {      
       var arrayBuffer = me.rReq.response;                    // Note: not this.rReq.responseText
-      if (arrayBuffer) {
+      if (arrayBuffer && me.rReq.status == 200 && arrayBuffer.byteLength > 0 ) {
          for ( var kl in me.layers ) {
             if ( me.layers [ kl ].GetType() == MapParameter.Raster )
                me.layers [ kl ].Init( arrayBuffer );
@@ -120,6 +126,11 @@ Tile.prototype._LoadRaster = function ( inRasterUrl ) {
       }
       me.rLoad    = true;
    };
+   this.rReq.onerror = function (oEvent) {
+      me.rLoad    = true;
+      me.rError   = true;
+      console.log("azerty");
+   }
    function ajaxTimeout() { me.rReq.abort(); }
    var tm = setTimeout(ajaxTimeout,MapParameter.tileDLTimeOut);
    this.rReq.send(null);

@@ -178,6 +178,11 @@ GLMap.prototype.OnParamsChange = function (event) {
    else if (event == MapParameter.BWMethodChanged) {
       this.DrawScene (true)
    }
+   else if (event == MapParameter.dataSrcChanged) {
+      //Reload ALL ???? and Redraw ??
+      //this.DrawScene (true)
+   }
+   
 }
 
 //----------------------------------------------------------------------//

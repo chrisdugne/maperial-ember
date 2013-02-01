@@ -1,17 +1,22 @@
 
 function MapParameter () {
    this.style     = null;
-   this.colorbar  = null;
-   this.datasetSrc= null;
+   
+   this.datasetUid= null;
    this.contrast  = 0.0;
    this.luminosity= 0.0;
    this.bwMethod  = 1.0;
    this.editMode  = true;
    this.obs       = [];
+
+   this.colorbar  = [];
+   for ( i = 0 ; i < 256 * 4 ; i++ ) {
+      this.colorbar.push ( 0 );
+   }
 }
 
 MapParameter.refreshRate         = 30; // ms
-MapParameter.tileDLTimeOut       = 60000 ; //ms
+MapParameter.tileDLTimeOut       = 60000; //ms
 MapParameter.tileSize            = 256;
 
 MapParameter.StyleChanged        = 1;
@@ -19,6 +24,7 @@ MapParameter.ColorBarChanged     = 2;
 MapParameter.ContrastChanged     = 3;
 MapParameter.LuminosityChanged   = 4;
 MapParameter.BWMethodChanged     = 5;
+MapParameter.dataSrcChanged      = 6;
 
 MapParameter.LayerBack           = "back";
 MapParameter.LayerRaster         = "raster";
@@ -106,8 +112,15 @@ MapParameter.prototype.GetMapURL = function (tx,ty,z) {
 }
 
 MapParameter.prototype.GetDatasetURL = function (tx,ty,z) {
-   var url = "http://map.x-ray.fr/test/data.raw"
+   var url = null
+   if (this.datasetUid) 
+      url = "http://map.x-ray.fr/api/tile/"+this.datasetUid+"?x="+tx+"&y="+ty+"&z="+z
    return url
+}
+
+MapParameter.prototype.SetDatasetUid = function ( inUid ) {
+   this.datasetUid  = inUid
+   this._Change(MapParameter.dataSrcChanged)
 }
 
 MapParameter.prototype.SetContrast = function ( v ) {
