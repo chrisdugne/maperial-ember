@@ -91,23 +91,8 @@
       App.stylesData.map.GetParams().SetColorBar(cbData)
       App.stylesData.map.Start (); 
 
-      
-      var popupTop = 160;
-      
-      if(App.user.isCreatingANewMap)
-      {
-         $("#map").css("height",  $("#webappDiv").height() - 100 );
-         $("#map").css("width", $("#webappDiv").width() );
-         $("#map").css("margin-top", -62 );
-         $("#map").css("margin-left", -20 );
-         
-         popupTop += 120;
-      }
-      else
-      {
-         $("#map").css("height", $("#webappDiv").height() );
-      }
-      
+      $("#map").css("height", $("#webappDiv").height() );
+      $("#map").css("width", $("#webappDiv").width() );
    }
 
    StyleEditorController.cleanMap = function()
@@ -130,35 +115,13 @@
       // set the menu up
       StyleMenu.init($("#mapnifyMenu") , $("#mapnifyWidget") , $("#mapnifyZoom") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
       
-      $("#trigger1").click(function(){
-         $("#panel1").toggle("fast");
+      $(".trigger").click(function(){
+         var name = $(this).context.id.replace("trigger","");
+         $("#panel"+name).toggle("fast");
          $(this).toggleClass("active");
          return false;
       });
 
-      $("#trigger2").click(function(){
-         $("#panel2").toggle("fast");
-         $(this).toggleClass("active");
-         return false;
-      });
-      
-      $("#trigger3").click(function(){
-         $("#panel3").toggle("fast");
-         $(this).toggleClass("active");
-         return false;
-      });
-
-      $("#triggerMagnifier").click(function(){
-         $("#panelMagnifier").toggle("fast");
-         $(this).toggleClass("active");
-         return false;
-      });
-      
-      $("#triggerStyleManager").click(function(){
-         $("#panelStyleManager").toggle("fast");
-         $(this).toggleClass("active");
-         return false;
-      });
    }
 
    StyleEditorController.cleanStyle = function()

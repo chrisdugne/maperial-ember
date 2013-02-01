@@ -10,6 +10,7 @@
    MapCreationController.init = function()
    {
       App.user.set("isCreatingANewMap", true);
+      MapCreationController.wizardSetView("datasetSelection");
       MapCreationController.renderDatasetSelectionUI();
    }
 
@@ -57,11 +58,34 @@
    //==================================================================//
    // Controls
 
+   MapCreationController.wizardSetView = function(view){
+
+      console.log("----->  wizardSetView : " + view);
+      
+      var isViewDatasetSelection = view == "datasetSelection";
+      var isViewStyleAndColorbar = view == "styleAndColorbar";
+      var isViewGeneration = view == "generation";
+      
+      console.log("isViewDatasetGeneration : " + isViewDatasetSelection);
+      console.log("isViewStyleAndColorbar : " + isViewStyleAndColorbar);
+      console.log("isViewGeneration : " + isViewGeneration);
+
+      App.Globals.set("isViewDatasetSelection", isViewDatasetSelection);
+      App.Globals.set("isViewStyleAndColorbar", isViewStyleAndColorbar);
+      App.Globals.set("isViewGeneration", isViewGeneration);   
+      
+      console.log("App.Globals.isViewDatasetGeneration : " + App.Globals.isViewDatasetGeneration);
+      console.log("App.Globals.isViewStyleAndColorbar : " + App.Globals.isViewStyleAndColorbar);
+      console.log("App.Globals.isViewGeneration : " + App.Globals.isViewGeneration);
+      
+   }
+   
    // --------------------- 
    // --- dataset selection
 
    MapCreationController.openDatasetSelection = function(){
       App.get('router').transitionTo("mapCreation.datasetSelection");
+      MapCreationController.wizardSetView("datasetSelection");
    }
 
    // --------------------- 
@@ -79,6 +103,8 @@
 
    MapCreationController.openStyleSelection = function()
    {
+      MapCreationController.wizardSetView("styleAndColorbar");
+      
       App.StylesController.openStyleSelectionWindow();
       App.get('router').transitionTo('mapCreation.styleAndColorbar.publicStyles');
 
@@ -117,6 +143,7 @@
 
    MapCreationController.openGeneration = function(){
       App.get('router').transitionTo("mapCreation.generation");
+      MapCreationController.wizardSetView("generation");
    }
    
    //--------------------------------------//

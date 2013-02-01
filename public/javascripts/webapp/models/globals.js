@@ -11,7 +11,13 @@
       APP_URL : window.location.hostname == "localhost" ? 'http://localhost:9000' : 'http://mapnify.herokuApp.com',
       currentView: "",
       parentView: "",
-      currentPage: ""
+      currentPage: "",
+
+      //-------------------------------------------//
+      // mapcreation - wizardStepper in header
+      isViewDatasetSelection: false,
+      isViewStyleAndColorbar: false,
+      isViewGeneration: false
    });
 
    //------------------------------------------------------//

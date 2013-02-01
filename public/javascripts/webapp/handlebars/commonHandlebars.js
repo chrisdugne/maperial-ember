@@ -68,21 +68,13 @@ Ember.Handlebars.registerBoundHelper('equals',
 Ember.Handlebars.registerBoundHelper('bound_equals', 
 	function(data, options) 
 	{
-      console.log("bound_equals");
-      console.log(options.hash.value);
-      console.log(data);
-
       var currentContext = (options.contexts && options.contexts[0]) || this;
       var context = currentContext[Ember.META_KEY].values.content;
 
       if(data == options.hash.value){
-         console.log("ok, yes");
-         console.log(options.hash.yes);
          return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
       }
       else{
-         console.log("well, no");
-         console.log(options.hash.no);
          return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
       }
 	}

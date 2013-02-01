@@ -34,12 +34,48 @@
 				yes='<h1>Datasets</h1><p class="marketing-byline">Upload your data</p>'
 		   	 	no=''
 		   	}}
-
+			
 			{{bound_equals App.Globals.currentPage value='mapCreation'
-				yes='<h1>New Map</h1><p class="marketing-byline">Create !</p>'
+				yes='<h1>New Map</h1>'
+		   	 	no=''
+		   	}}
+			{{#if user.isCreatingANewMap}}
+				<div class="wizardStepper">
+					<div class="span2">
+						{{#if App.Globals.isViewDatasetSelection}}
+						<h3>1 - Select the data</h3>
+						{{else}}
+						<h4>1 - Select the data</h4>
+						{{/if}}
+					</div>
+					<div class="span2">
+						{{#if App.Globals.isViewStyleAndColorbar}}
+						<h3>2 - Style your map</h3>
+						{{else}}
+						<h4>2 - Style your map</h4>
+						{{/if}}
+					</div>
+					<div class="span2">
+						{{#if App.Globals.isViewGeneration}}
+						<h3>3 - Generate !</h3>
+						{{else}}
+						<h4>3 - Generate !</h4>
+						{{/if}}
+					</div>
+				</div>
+			{{/if}}
+
+			{{bound_equals App.Globals.currentPage value='styleEditor'
+				yes='<h1>Style Editor</h1><p class="marketing-byline">Design your style</p>'
+		   	 	no=''
+		   	}}
+
+			{{bound_equals App.Globals.currentPage value='corlobarEditor'
+				yes='<h1>Colorbar Editor</h1><p class="marketing-byline">Design your data</p>'
 		   	 	no=''
 		   	}}
 			</div>
+			
             <button {{action openDashboard}} class="btn-small btn-success headerButton">
                 <i class="icon-th-large icon-white"></i>
             </button>
