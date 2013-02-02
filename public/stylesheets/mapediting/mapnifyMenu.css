@@ -61,7 +61,6 @@
 	left: 0;
 	display: none;
 	background: #111;
-	border: 1px solid #777;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -79,7 +78,6 @@
 	right: 0;
 	display: none;
 	background: #111;
-	border: 1px solid #777;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
@@ -98,7 +96,6 @@
 	right: 25%; /*500px;*/
 	display: none;
 	background: #111;
-	border: 1px solid #777;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -116,7 +113,6 @@
 	left: 0; 
 	display: none;
 	background: #111;
-	border: 1px solid #777;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -135,13 +131,10 @@
 	right: 0; 
 	display: none;
 	background: #222;
-	border:0;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-topleft: 20px;
-	-webkit-border-top-left-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	padding: 3px 3px 3px 3px;
@@ -155,11 +148,10 @@ a#triggerDetailsMenu {
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
-	color: #fff;
+	color: #cdd;
 	padding: 20px 40px 20px 15px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
-	border: 1px solid #777;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -179,8 +171,7 @@ a#triggerDetailsMenu:hover {
 	color: #fff;
 	padding: 20px 40px 20px 20px;
 	font-weight: 700;
-	background: #eee url(../../images/mapediting/plus.png) 85% 55% no-repeat;
-	border: 1px solid #777;
+	background: #333 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -200,11 +191,10 @@ a#triggerQuickEdit {
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
-	color: #fff;
+	color: #cdd;
 	padding: 20px 15px 20px 40px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
-	border: 1px solid #777;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
@@ -224,8 +214,7 @@ a#triggerQuickEdit:hover {
 	color: #fff;
 	padding: 20px 20px 20px 40px;
 	font-weight: 700;
-	background: #eee url(../../images/mapediting/plus.png) 15% 55% no-repeat;
-	border: 1px solid #777;
+	background: #333 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
@@ -240,16 +229,15 @@ a.active#triggerQuickEdit {
 a#triggerZooms {
 	position: absolute;
 	text-decoration: none;
-	top: 0px; /*left: 510px;*/
+	top: 103px;
 	left: 25%;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
-	color: #fff;
+	color: #cdd;
 	padding: 20px 20px 15px 40px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
-	border: 1px solid #777;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -261,7 +249,7 @@ a#triggerZooms {
 a#triggerZooms:hover {
 	position: absolute;
 	text-decoration: none;
-	top: 0px; /*left: 510px;*/
+	top: 103px; 
 	left: 25%;
 	font-size: 16px;
 	letter-spacing: -1px;
@@ -269,8 +257,7 @@ a#triggerZooms:hover {
 	color: #fff;
 	padding: 20px 20px 20px 40px;
 	font-weight: 700;
-	background: #eee url(../../images/mapediting/plus.png) 15% 55% no-repeat;
-	border: 1px solid #777;
+	background: #333 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -291,11 +278,10 @@ a#triggerStyleManager {
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
-	color: #fff;
+	color: #cdd;
 	padding: 20px 40px 20px 15px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
-	border: 1px solid #777;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -315,8 +301,7 @@ a#triggerStyleManager:hover {
 	color: #fff;
 	padding: 20px 40px 20px 20px;
 	font-weight: 700;
-	background: #eee url(../../images/mapediting/plus.png) 85% 55% no-repeat;
-	border: 1px solid #777;
+	background: #333 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -340,7 +325,6 @@ a#triggerMagnifier {
 	padding: 20px 15px 20px 40px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
-	border: 1px solid #777;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
@@ -361,7 +345,6 @@ a#triggerMagnifier:hover {
 	padding: 20px 20px 20px 40px;
 	font-weight: 700;
 	background: #333 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
-	border: 1px solid #777;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
