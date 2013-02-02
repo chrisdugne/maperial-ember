@@ -107,7 +107,6 @@
             MapCreationController.refreshMap();
          }
          else{
-            App.StyleEditorController.renderTriggers();
             App.StyleEditorController.renderUI();
             MapCreationController.styleAndColorbarUIReady = true;
          }

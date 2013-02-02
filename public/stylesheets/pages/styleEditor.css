@@ -48,6 +48,11 @@
 }
 
 /*-------------------------*/
+#map {
+	margin-bottom: -5px;
+	margin-top: 104px;
+}
+
 #magnifier {
 	margin-bottom: -4px;
 	

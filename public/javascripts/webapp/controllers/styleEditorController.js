@@ -92,7 +92,7 @@
       App.stylesData.map.GetParams().SetColorBar(cbData)
       App.stylesData.map.Start (); 
 
-      $("#map").css("height", $("#webappDiv").height() );
+      $("#map").css("height", $("#webappDiv").height() - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
       $("#map").css("width", $("#webappDiv").width() );
    }
 

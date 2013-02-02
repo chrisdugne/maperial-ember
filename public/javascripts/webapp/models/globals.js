@@ -2,6 +2,14 @@
    'use strict';
 
    var Globals = Ember.Object.extend({
+
+      //-------------------------------------------//
+
+      HEADER_HEIGHT: 104,
+      FOOTER_HEIGHT: 101,
+      
+      //-------------------------------------------//
+      
       isLocal: window.location.hostname == "localhost",
       debug: false,
       mapServer: '//map.x-ray.fr',
@@ -23,5 +31,8 @@
    //------------------------------------------------------//
    
    App.Globals = Globals.create();
-   
+   App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
+
+   //------------------------------------------------------//
+
 })( App);
