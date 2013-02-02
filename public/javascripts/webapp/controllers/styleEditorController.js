@@ -50,6 +50,7 @@
    
                App.stylesData.set("selectedStyle", newStyle);
             }
+
    
             //-----------------------------
             // retrieve the content from the tileServer
@@ -59,7 +60,7 @@
    
                StyleEditorController.renderMap();
                StyleEditorController.renderStyle();
-               $(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+               StyleEditorController.renderTriggers();
 
                // screen is ready
                App.user.set("waiting", false);
@@ -103,24 +104,23 @@
 
    //------------------------------------------------//
 
-   StyleEditorController.renderStyle = function()
+   StyleEditorController.renderTriggers = function()
    {
-      var popupTop = 160;
-
-      if(App.user.isCreatingANewMap)
-      {
-         popupTop += 120;
-      }
-
-      // set the menu up
-      StyleMenu.init($("#mapnifyMenu") , $("#mapnifyWidget") , $("#mapnifyZoom") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
-      
       $(".trigger").click(function(){
          var name = $(this).context.id.replace("trigger","");
          $("#panel"+name).toggle("fast");
          $(this).toggleClass("active");
          return false;
       });
+      
+      $("#styleEditorContent").removeClass("hide");
+      $("#styleEditorManagement").removeClass("hide");
+   }
+   
+   StyleEditorController.renderStyle = function()
+   {
+      // set the menu up
+      StyleMenu.init($("#mapnifyMenu") , $("#mapnifyWidget") , $("#mapnifyZoom") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
 
    }
 

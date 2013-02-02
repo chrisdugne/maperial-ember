@@ -51,11 +51,11 @@ VectorialLayer.prototype.Release = function (  ) {
       delete this.cnv;
 }
 
-VectorialLayer.prototype.IsRendered = function ( ) {
+VectorialLayer.prototype.IsUpToDate = function ( ) {
    return this.lcnt == null;
 }
 
-VectorialLayer.prototype.Render = function ( data, z , style , layerType) {
+VectorialLayer.prototype.Update = function ( data, z , style , layerType) {
    var rendererStatus   = TileRenderer.RenderLayers (layerType,  this.ctx , data , z , style , this.lcnt ) ;
    this.lcnt            = rendererStatus[0]
    if (this.lcnt == null) { // Render is finished, build GL Texture

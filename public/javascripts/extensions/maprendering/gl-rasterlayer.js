@@ -30,11 +30,11 @@ RasterLayer.prototype.Release = function (  ) {
    }
 }
 
-RasterLayer.prototype.IsRendered = function ( ) {
+RasterLayer.prototype.IsUpToDate = function ( ) {
    return true;
 }
 
-RasterLayer.prototype.Render = function ( ) {
+RasterLayer.prototype.Update = function ( ) {
    // Nothing
    return 0
 }

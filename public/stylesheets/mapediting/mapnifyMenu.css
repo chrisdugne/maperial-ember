@@ -29,16 +29,14 @@
 
 /*zoom select buttons*/
 #styleMenu_menu_zoom_selector {
-	margin: 5px;
 	align: center;
-	width: 800px;
+	width: 85%;
 }
 
 /*zoom slider*/
 #styleMenu_menu_sliderrangez {
-	margin: 5px;
 	align: center;
-	width: 800px;
+	width: 85%;
 }
 
 /* header of main section */
@@ -60,9 +58,9 @@
 #panelDetailsMenu {
 	position: fixed;
 	top: 250px;
-	right: 0;
+	left: 0;
 	display: none;
-	background: #ddd;
+	background: #111;
 	border: 1px solid #777;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
@@ -77,10 +75,10 @@
 
 #panelQuickEdit {
 	position: fixed;
-	top: 150px;
+	top: 70px;
 	right: 0;
 	display: none;
-	background: #ddd;
+	background: #111;
 	border: 1px solid #777;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
@@ -95,11 +93,11 @@
 
 #panelZooms {
 	position: fixed;
-	top: 80px;
+	top: 0px;
 	left: 25%; /*500px;*/
 	right: 25%; /*500px;*/
 	display: none;
-	background: #ddd;
+	background: #111;
 	border: 1px solid #777;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
@@ -117,10 +115,10 @@
 	top: 80px;
 	left: 0; 
 	display: none;
-	background: #ddd;
+	background: #111;
 	border: 1px solid #777;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
 	-webkit-border-bottom-right-radius: 20px;
 	/*width: 480px;*/
@@ -131,21 +129,22 @@
 }
 
 #panelMagnifier {
+	height: 200px;
 	position: fixed;
-	bottom: 120px;
-	left: 0; 
+	bottom: 123px;
+	right: 0; 
 	display: none;
-	background: #ddd;
-	border: 1px solid #777;
+	background: #222;
+	border:0;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	/*width: 480px;*/
-	height: auto;
-	padding: 30px 30px 30px 130px;
-	filter: alpha(opacity = 85);
-	opacity: .85;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	padding: 3px 3px 3px 3px;
 }
 
 a#triggerDetailsMenu {
@@ -159,7 +158,7 @@ a#triggerDetailsMenu {
 	color: #fff;
 	padding: 20px 40px 20px 15px;
 	font-weight: 700;
-	background: #ddd url(../../images/mapediting/plus.png) 85% 55% no-repeat;
+	background: #111 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
 	border: 1px solid #777;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
@@ -190,7 +189,7 @@ a#triggerDetailsMenu:hover {
 }
 
 a.active#triggerDetailsMenu {
-	background: #ddd url(../../images/mapediting/minus.png) 85% 55% no-repeat;
+	background: #111 url(../../images/mapediting/minus.png) 85% 55% no-repeat;
 }
 
 a#triggerQuickEdit {
@@ -204,7 +203,7 @@ a#triggerQuickEdit {
 	color: #fff;
 	padding: 20px 15px 20px 40px;
 	font-weight: 700;
-	background: #ddd url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
 	border: 1px solid #777;
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
@@ -235,7 +234,7 @@ a#triggerQuickEdit:hover {
 }
 
 a.active#triggerQuickEdit {
-	background: #ddd url(../../images/mapediting/minus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/minus.png) 15% 55% no-repeat;
 }
 
 a#triggerZooms {
@@ -249,7 +248,7 @@ a#triggerZooms {
 	color: #fff;
 	padding: 20px 20px 15px 40px;
 	font-weight: 700;
-	background: #ddd url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
 	border: 1px solid #777;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
@@ -280,7 +279,7 @@ a#triggerZooms:hover {
 }
 
 a.active#triggerZooms {
-	background: #ddd url(../../images/mapediting/minus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/minus.png) 15% 55% no-repeat;
 }
 
 
@@ -288,16 +287,17 @@ a#triggerStyleManager {
 	position: absolute;
 	text-decoration: none;
 	left: 0;
+	top : 80px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
 	color: #fff;
-	padding: 20px 20px 15px 40px;
+	padding: 20px 40px 20px 15px;
 	font-weight: 700;
-	background: #ddd url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
 	border: 1px solid #777;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
 	-webkit-border-bottom-right-radius: 20px;
 	display: block;
@@ -308,42 +308,43 @@ a#triggerStyleManager:hover {
 	position: absolute;
 	text-decoration: none;
 	left: 0;
+	top : 80px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
 	color: #fff;
-	padding: 20px 20px 20px 40px;
+	padding: 20px 40px 20px 20px;
 	font-weight: 700;
-	background: #eee url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	background: #eee url(../../images/mapediting/plus.png) 85% 55% no-repeat;
 	border: 1px solid #777;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
 	-webkit-border-bottom-right-radius: 20px;
 	display: block;
 }
 
 a.active#triggerStyleManager {
-	background: #ddd url(../../images/mapediting/minus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/minus.png) 85% 55% no-repeat;
 }
 
 a#triggerMagnifier {
 	position: absolute;
 	text-decoration: none;
-	left: 0;
-	bottom: 100px;
+	right: 0;
+	bottom: 307px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
-	color: #fff;
-	padding: 20px 20px 15px 40px;
+	color: #cdd;
+	padding: 20px 15px 20px 40px;
 	font-weight: 700;
-	background: #ddd url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
 	border: 1px solid #777;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
 	display: block;
 	z-index: 9999;
 }
@@ -351,23 +352,26 @@ a#triggerMagnifier {
 a#triggerMagnifier:hover {
 	position: absolute;
 	text-decoration: none;
-	left: 0;
-	bottom: 100px;
+	right: 0;
+	bottom: 307px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
 	color: #fff;
 	padding: 20px 20px 20px 40px;
 	font-weight: 700;
-	background: #eee url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	background: #333 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
 	border: 1px solid #777;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
 	display: block;
 }
 
 a.active#triggerMagnifier {
-	background: #ddd url(../../images/mapediting/minus.png) 15% 55% no-repeat;
+	background: #111 url(../../images/mapediting/minus.png) 15% 55% no-repeat;
+	width: 19px;
+	padding: 0;
+	font-size: 0;
 }

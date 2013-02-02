@@ -188,6 +188,32 @@ TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, layerId , zoom, st
 }
 
 //----------------------------------------------------------------------------------------------//
+
+TileRenderer.DrawImages = function (tile, ctx, wx, wy ) {
+   
+   if ( tile && tile.IsLoad() && tile.IsUpToDate()) {
+      ctx.beginPath();
+      ctx.rect(wx, wy , MapParameter.tileSize, MapParameter.tileSize);
+      ctx.closePath();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.closePath();
+      
+      tile.RenderVectorialLayers(ctx, wx, wy);
+   }
+   else {
+      ctx.beginPath();
+      ctx.rect(wx, wy , MapParameter.tileSize, MapParameter.tileSize);
+      ctx.closePath();
+      ctx.fillStyle = '#EEEEEE';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.closePath();
+   }
+}
+
+//----------------------------------------------------------------------------------------------//
 //Symbolizer rendering
 
 TileRenderer.LineSymbolizer = function( ctx , line , attr , params ) {

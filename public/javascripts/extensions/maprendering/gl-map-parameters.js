@@ -41,11 +41,9 @@ MapParameter.prototype.Invalidate = function (changeEvent) {
 }
 
 MapParameter.prototype._Change = function (changeEvent) {   // private 
-   this.obs.forEach(
-      function(el) {
-          el.call(changeEvent);
-      }
-   );
+   for (var i = 0 ; i < this.obs.length ; i++ ) {
+      this.obs[i](changeEvent);
+   }
 }
    
 MapParameter.prototype.OnChange = function (callback) {
@@ -114,7 +112,7 @@ MapParameter.prototype.GetMapURL = function (tx,ty,z) {
 MapParameter.prototype.GetDatasetURL = function (tx,ty,z) {
    var url = null
    if (this.datasetUid) 
-      url = "http://map.x-ray.fr/api/tile/"+this.datasetUid+"?x="+tx+"&y="+ty+"&z="+z
+      url = "http://192.168.0.1:8081/api/tile/"+this.datasetUid+"?x="+tx+"&y="+ty+"&z="+z
    return url
 }
 

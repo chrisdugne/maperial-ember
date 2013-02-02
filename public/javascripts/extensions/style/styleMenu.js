@@ -86,13 +86,19 @@ StyleMenu.EventProxy.NewEvent = function(){
     if ( StyleMenu.EventProxy.lastEvt == null){
        StyleMenu.EventProxy.lastEvt = curTime;
        StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
-       StyleMenu.refMap.DrawScene(false,true);
+       try{
+          //StyleMenu.refMap.DrawScene(false,true);
+       }
+       catch(e){};
        return;
     }
     if ( curTime - StyleMenu.EventProxy.lastEvt > StyleMenu.EventProxy.eventRate){
        StyleMenu.EventProxy.lastEvt = curTime;
        StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
-       StyleMenu.refMap.DrawScene(false,true);
+       try{
+          //StyleMenu.refMap.DrawScene(false,true);
+       }
+       catch(e){};
        return;
     }
     StyleMenu.EventProxy.queuedEvt = curTime;
@@ -107,7 +113,7 @@ window.setInterval(
       }
       if ( curTime - StyleMenu.EventProxy.queuedEvt > StyleMenu.EventProxy.eventRate){ // if last event is "old"
         StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
-        StyleMenu.refMap.DrawScene(false,true);
+        //StyleMenu.refMap.DrawScene(false,true);
         StyleMenu.EventProxy.queuedEvt = null;
       }
     },
@@ -481,6 +487,7 @@ StyleMenu.__LoadStyle = function(){
 
   //StyleMenu.__FillZoomDef();
   StyleMenu.__InsertZoomEdition();
+  StyleMenu.__InsertZoomEdition2();
   StyleMenu.__InsertAccordion();
 }  
 
@@ -522,10 +529,10 @@ StyleMenu.ZoomIn = function(){
 //////////////////////////////////////////////////////////////
 StyleMenu.__InsertZoomEdition = function(){
 
-  $('<button onclick="StyleMenu.ReLoad()"  class="styleMenu_menu_rlbutton" id="styleMenu_menu_rlbutton"  > Reload </button>').appendTo(StyleMenu.mainDiv).hide();
+  $('<button onclick="StyleMenu.ReLoad()"  class="styleMenu_menu_rlbutton" id="styleMenu_menu_rlbutton"  > Reload </button>').appendTo(StyleMenu.zoomDiv).hide();
 
-  $('<button onclick="StyleMenu.ZoomOut()" class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonminus" > - </button>').appendTo(StyleMenu.mainDiv);
-  $('<button onclick="StyleMenu.ZoomIn()"  class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonplus"  > + </button>').appendTo(StyleMenu.mainDiv);
+  $('<button onclick="StyleMenu.ZoomOut()" class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonminus" > - </button>').appendTo(StyleMenu.zoomDiv);
+  $('<button onclick="StyleMenu.ZoomIn()"  class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonplus"  > + </button>').appendTo(StyleMenu.zoomDiv);
   
   $("#styleMenu_menu_rlbutton").button();
   $("#styleMenu_menu_zbuttonminus").button();
@@ -768,7 +775,6 @@ StyleMenu.__BuildWidget = function(group,name,uid){
  
    //clear parent div
    StyleMenu.widgetDiv.empty();
-   StyleMenu.zoomDiv.empty();
 
    StyleMenu.currentUid = uid;
    StyleMenu.currentGroup = group;
@@ -778,8 +784,6 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       console.log( uid + " not in style");
       return;
    }
-
-   StyleMenu.__InsertZoomEdition2();
 
    $("<h2 class=\"styleMenu_menu_par_title\">" + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(StyleMenu.widgetDiv);
 
@@ -813,6 +817,9 @@ StyleMenu.__BuildWidget = function(group,name,uid){
    }
    else if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "poly" ){
       //console.log("I'm a poly !");
+	  
+      StyleMenu.FillWidget(uid);	  
+	  
       var border = StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].line;
       var border_uid = StyleMenu.GetUid(border,StyleMenu.mappingArray[uid].filter);
       
@@ -821,6 +828,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //console.log("border found : " + border);
+		  ///@todo
       }      
    }
 
@@ -992,7 +1000,10 @@ StyleMenu.LoadStyle = function(){
       StyleMenu.__LoadStyle();
    }
    StyleMenu.refMap.GetParams().SetStyle(StyleMenu.__style); 
-   StyleMenu.refMap.DrawScene(false,true);
+   try{
+      //StyleMenu.refMap.DrawScene(false,true);
+   }
+  catch(e){};
 }
   
 

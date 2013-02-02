@@ -65,7 +65,7 @@ GLMap.prototype.OnMouseMove = function (event) {
    // refresh magnifier
    var mouseP = this.getPoint(event);
    this.mouseM = this.convertPointToMeters ( mouseP );
-   //this.DrawMagnifier ( true );
+   this.DrawMagnifier();
    
    if (!this.mouseDown){
       return;
@@ -405,12 +405,10 @@ GLMap.prototype.DrawMagnifier = function () {
 
    var originP = this.coordS.MetersToPixels ( originM.x, originM.y, this.zoom );
    var shift   = new Point ( Math.floor ( tileC.x * MapParameter.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * MapParameter.tileSize - originP.y ) ) );
-
-   var nbTileX = Math.floor ( w  / MapParameter.tileSize +1 );
-   var nbTileY = Math.floor ( h / MapParameter.tileSize  +1 ) ; 
-
+   
    var ctxMagnifier = this.magnifierCanvas.getContext("2d");
    ctxMagnifier.save();
+   ctxMagnifier.globalCompositeOperation="source-over";
    ctxMagnifier.scale(scale, scale);
 
    // wx/wy (pixels) in canvas mark ( coord ) !!
@@ -418,25 +416,7 @@ GLMap.prototype.DrawMagnifier = function () {
       for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+MapParameter.tileSize , ty = ty - 1) {
          var key  = tx + "," + ty + "," + this.zoom;
          var tile = this.tileCache[key] 
-         if ( tile && tile.isLoad && !tile.error) {
-            ctxMagnifier.beginPath();
-            ctxMagnifier.rect(wx, wy , MapParameter.tileSize, MapParameter.tileSize);
-            ctxMagnifier.closePath();
-            ctxMagnifier.fillStyle = '#FFFFFF';
-            ctxMagnifier.fill();
-            ctxMagnifier.beginPath();
-            ctxMagnifier.closePath();
-            ctxMagnifier.drawImage(tile.cnv,wx,wy);
-         }
-         else {
-            ctxMagnifier.beginPath();
-            ctxMagnifier.rect(wx, wy , MapParameter.tileSize, MapParameter.tileSize);
-            ctxMagnifier.closePath();
-            ctxMagnifier.fillStyle = '#EEEEEE';
-            ctxMagnifier.fill();
-            ctxMagnifier.beginPath();
-            ctxMagnifier.closePath();
-         }
+         TileRenderer.DrawImages(tile, ctxMagnifier, wx, wy);
       }
    }    
    

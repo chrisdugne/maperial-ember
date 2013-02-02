@@ -1,10 +1,11 @@
 
 @import views.html.popups.selectStyleWindow;
+@import views.html.templates.components.styleEditorContent; 
 
-<canvas id="map"></canvas>
+@styleEditorContent()
 
-<div id="style" title="Style" class="hide">
-
+<a class="trigger" id="triggerStyleManager"  href="#">Menu</a>
+<div class="panel" id="panelStyleManager">
 	<div class="row">
 		<!-- style = Dialogr = jqueryui = no ember.action but onclicks... -->
 		<div class="span2">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
@@ -12,11 +13,6 @@
 		<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openDatasetSelection()">Back</div>
 		<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openStyleSelection()">More</div>
 	</div>
-	
-	<canvas id="dummyTilesCanvas" class="hide"></canvas>
-	<div id="mapEditorTree"></div>
-	<div id="mapEditorWidget"></div>
-	
 </div>
 
 @selectStyleWindow()

@@ -1,5 +1,8 @@
 
 function Tile ( z , inGlCtx, inGlAsset) {
+
+   //----------------------------------------------------------------------------------------------------------------------//
+    
    this.z      = z;
    this.gl     = inGlCtx;
    this.layers = {}
@@ -14,6 +17,8 @@ function Tile ( z , inGlCtx, inGlAsset) {
    this.rError = false;
    this.error  = false;
    this.glAsset= inGlAsset;
+
+   //----------------------------------------------------------------------------------------------------------------------//
    
    for( var i = 0 ; i < MapParameter.LayerOrder.length ; i++ ) {
       if ( MapParameter.LayerType[i] == MapParameter.Vector ) {
@@ -25,6 +30,9 @@ function Tile ( z , inGlCtx, inGlAsset) {
    }
 }
 
+
+//----------------------------------------------------------------------------------------------------------------------//
+ 
 Tile.prototype.Init = function ( inVecUrl, inRasterUrl ) {
    if (this.vReq || this.rReq)
       return false;
@@ -54,22 +62,27 @@ Tile.prototype.Reset = function ( ) {
    }
 }
 
+//----------------------------------------------------------------------------------------------------------------------//
+ 
 Tile.prototype.IsLoad = function ( ) {
    return ( this.vLoad && this.rLoad );
 }
+
 
 Tile.prototype.IsUpToDate = function ( ) {
    if( !this.vLoad || ! this.rLoad )   return false;
    if ( this.vError )                  return false
       
    for (kl in this.layers) {
-      if (! this.layers [ kl ].IsRendered ( ) )
+      if (! this.layers [ kl ].IsUpToDate ( ) )
          return false;
    }
    
    return true
 }
 
+//----------------------------------------------------------------------------------------------------------------------//
+ 
 Tile.prototype._LoadVectorial = function ( inVecUrl ) {
    var me = this;
    this.vReq    = $.ajax({
@@ -98,6 +111,8 @@ Tile.prototype._LoadVectorial = function ( inVecUrl ) {
    });
 }
 
+//----------------------------------------------------------------------------------------------------------------------//
+ 
 Tile.prototype._LoadRaster = function ( inRasterUrl ) {
    if ( ! inRasterUrl ) {
       this.rError   = true;
@@ -136,17 +151,17 @@ Tile.prototype._LoadRaster = function ( inRasterUrl ) {
    this.rReq.send(null);
 }
 
-Tile.prototype.Update = function ( maxTime, style, zoom ) {
-   timeRemaining = maxTime;
+//----------------------------------------------------------------------------------------------------------------------//
+   
+Tile.prototype.RenderVectorialLayers = function ( context, wx, wy ) {
    for (kl in this.layers) {
-      if (! this.layers [ kl ].IsRendered ( ) ) {
-         timeRemaining -= this.layers[kl].Render( this.vdata, zoom , style , kl );
-         if ( timeRemaining <= 0 )
-            break;
+      if (this.layers[kl].GetType() == MapParameter.Vector && this.layers [ kl ].IsUpToDate () ) {
+         context.drawImage(this.layers [ kl ].cnv, wx, wy);
       }
    }
-   return timeRemaining
 }
+
+//----------------------------------------------------------------------------------------------------------------------//
 
 Tile.prototype.LayerLookup = function ( tileClickCoord , ctx  , zoom, style ) {
    for (var i = MapParameter.LayerOrder.length-1 ; i >= 0 ; --i) {
@@ -154,8 +169,21 @@ Tile.prototype.LayerLookup = function ( tileClickCoord , ctx  , zoom, style ) {
       
       if(layerResult)
          return layerResult;
-      
    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------//
+
+Tile.prototype.Update = function ( maxTime, style, zoom ) {
+   timeRemaining = maxTime;
+   for (kl in this.layers) {
+      if (! this.layers [ kl ].IsUpToDate ( ) ) {
+         timeRemaining -= this.layers[kl].Update( this.vdata, zoom , style , kl );
+         if ( timeRemaining <= 0 )
+            break;
+      }
+   }
+   return timeRemaining
 }
 
    
