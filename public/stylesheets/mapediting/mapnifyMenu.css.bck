@@ -7,12 +7,8 @@
 	border-style: solid;
 	border-width: 0px;
 	border-color: #000;
-	background-color: #000;
+	background-color: #222;
 	color: #fff;
-	filter: alpha(opacity = 85);
-	opacity: .85;	
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
 }
 
 /* main widget div*/
@@ -24,12 +20,8 @@
 	border-style: solid;
 	border-width: 0px;
 	border-color: #000;
-	background-color: #000;
+	background-color: #222;
 	color: #fff;
-	filter: alpha(opacity = 85);
-	opacity: .85;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
 }
 
 /* zoom h2 */
@@ -40,15 +32,13 @@
 /*zoom select buttons*/
 #styleMenu_menu_zoom_selector {
 	align: center;
-	width: 100%;
-	padding: 10 0;
+	width: 85%;
 }
 
 /*zoom slider*/
 #styleMenu_menu_sliderrangez {
 	align: center;
-	width: 100%;
-	padding: 0 0;
+	width: 85%;
 }
 
 /* header of main section */
@@ -69,8 +59,8 @@
 /*************************/
 #panelDetailsMenu {
 	position: fixed;
-	top: 280px;
-	left: 0;
+	top: 250px;
+	right: 0;
 	display: none;
 	background: #000000;
 	//background-image: url(IMAGE_URL); /* fallback */
@@ -80,13 +70,13 @@
 	background-image:  -ms-linear-gradient(top, #444444, #000000); /* IE10 */
 	background-image:  -o-linear-gradient(top, #444444, #000000); /* Opera 11.10+ */
 	background-image:  linear-gradient(top, #444444, #000000);
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
 	width: 370px;
 	height: auto;
-	padding: 30px 30px 30px 30px;
+	padding: 80px 30px 30px 30px;
 	filter: alpha(opacity = 85);
 	opacity: .85;
 }
@@ -117,9 +107,8 @@
 
 #panelZooms {
 	position: fixed;
-	top: 0px;
-	/*right: 25%;*/
-	left: 25%;
+	top: 400px;
+	right: 0;
 	display: none;
 	background: #000000;
 	//background-image: url(IMAGE_URL); /* fallback */
@@ -133,12 +122,9 @@
 	-webkit-border-bottom-left-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
 	-webkit-border-bottom-right-radius: 20px;
-	width: 820px;
+	/*width: 480px;*/
 	height: auto;
-	padding: 10px 10px 10px 10px;
-	/*margin-right: auto; 
-  margin-left: auto;*/
-  text-align: center;
+	padding: 30px 30px 30px 130px;
 	filter: alpha(opacity = 85);
 	opacity: .85;
 }
@@ -170,7 +156,7 @@
 #panelMagnifier {
 	height: 200px;
 	position: fixed;
-	bottom: 0px;
+	bottom: 123px;
 	left: 0; 
 	display: none;
 	background: #000000;
@@ -194,7 +180,7 @@ a#triggerDetailsMenu {
 	position: fixed;
 	text-decoration: none;
 	top: 280px;
-	left: 0;
+	right: 0;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
@@ -202,21 +188,19 @@ a#triggerDetailsMenu {
 	padding: 20px 40px 20px 15px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-topright: 20px;
-	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
 	display: block;
 	z-index: 9999;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerDetailsMenu:hover {
 	position: fixed;
 	text-decoration: none;
 	top: 280px;
-	left: 0;
+	right: 0;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
@@ -224,20 +208,15 @@ a#triggerDetailsMenu:hover {
 	padding: 20px 40px 20px 20px;
 	font-weight: 700;
 	background: #333 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-topright: 20px;
-	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
 	display: block;
 }
 
 a.active#triggerDetailsMenu {
 	background: #111 url(../../images/mapediting/minus.png) 85% 55% no-repeat;
-	width: 19px;
-	padding: 0;
-	font-size: 0;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerQuickEdit {
@@ -258,8 +237,6 @@ a#triggerQuickEdit {
 	-webkit-border-bottom-left-radius: 20px;
 	display: block;
 	z-index: 9999;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerQuickEdit:hover {
@@ -283,40 +260,33 @@ a#triggerQuickEdit:hover {
 
 a.active#triggerQuickEdit {
 	background: #111 url(../../images/mapediting/minus.png) 15% 55% no-repeat;
-	width: 19px;
-	padding: 0;
-	font-size: 0;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerZooms {
 	position: absolute;
 	text-decoration: none;
-	top: 0px;
-	left: 25%;
+	top: 400px;
+	right: 0;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
 	color: #cdd;
-	padding: 20px 20px 20px 40px;
+	padding: 20px 20px 15px 40px;
 	font-weight: 700;
 	background: #111 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
 	display: block;
 	z-index: 9999;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerZooms:hover {
 	position: absolute;
 	text-decoration: none;
-	top: 0px;
-	left: 25%;
+	top: 400px;
+	right: 0;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
@@ -333,11 +303,6 @@ a#triggerZooms:hover {
 
 a.active#triggerZooms {
 	background: #111 url(../../images/mapediting/minus.png) 15% 55% no-repeat;
-	width: 19px;
-	padding: 0;
-	font-size: 0;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 
@@ -359,8 +324,6 @@ a#triggerStyleManager {
 	-webkit-border-bottom-right-radius: 20px;
 	display: block;
 	z-index: 9999;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerStyleManager:hover {
@@ -383,19 +346,14 @@ a#triggerStyleManager:hover {
 }
 
 a.active#triggerStyleManager {
-	background: #111 url(../../images/mapediting/minus.png) 15% 55% no-repeat;
-	width: 19px;
-	padding: 0;
-	font-size: 0;
-	filter: alpha(opacity = 85);
-	opacity: .85;
+	background: #111 url(../../images/mapediting/minus.png) 85% 55% no-repeat;
 }
 
 a#triggerMagnifier {
 	position: absolute;
 	text-decoration: none;
 	left: 0;
-	bottom: 185px;
+	bottom: 307px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
@@ -409,15 +367,13 @@ a#triggerMagnifier {
 	-webkit-border-bottom-right-radius: 20px;
 	display: block;
 	z-index: 9999;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }
 
 a#triggerMagnifier:hover {
 	position: absolute;
 	text-decoration: none;
 	left: 0;
-	bottom: 185px;
+	bottom: 307px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
@@ -437,6 +393,4 @@ a.active#triggerMagnifier {
 	width: 19px;
 	padding: 0;
 	font-size: 0;
-	filter: alpha(opacity = 85);
-	opacity: .85;
 }

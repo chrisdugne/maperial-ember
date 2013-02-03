@@ -28,14 +28,14 @@
 
    App.resizeWindow = function()
    {
-      $(document).ready(function() {
-         console.log("READY");
-         console.log("$(window).height() : " + $(window).height());
+      console.log("resize !");
+      var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT; // on nenleve pas le header car il est inclus dans la webapp
+      $("#webappDiv").css("min-height", webAppHeight );
 
-         var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT; // on nenleve pas le header car il est inclus dans la webapp
-         console.log("webAppHeight : " + webAppHeight);
-         $("#webappDiv").css("min-height", webAppHeight );
-      });   
+      console.log("webAppHeight : " +  webAppHeight);
+
+      $("#map").css("height", webAppHeight - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
+      $("#map").css("width", $("#webappDiv").width() );
    }
 
    //------------------------------------------------------//
