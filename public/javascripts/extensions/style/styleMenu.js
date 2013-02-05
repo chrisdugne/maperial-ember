@@ -123,7 +123,7 @@ window.setInterval(
 StyleMenu.RuleIdFromDef = function(uid,def){
 	// CARE DEPRECATED this one is now FALSE !!! DO NOT USE unless you are very sure of what you are trying to do !!!
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return null;
 	}
 
@@ -149,7 +149,7 @@ StyleMenu.DefFromRule = function(uid,rule){
 	// CARE DEPRECATED this one is not usefull anymore and will/should return 0
 
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return -1;
 	}
 
@@ -169,7 +169,7 @@ StyleMenu.DefRuleIdFromZoom = function(uid,zoom){
 	// CARE DEPRECATED this one will return the good ruleId and will/should return def 0
 
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return {"def" : -1, "ruleId" : -1, "rule" : -1};
 	}
 
@@ -196,7 +196,7 @@ StyleMenu.DefRuleFromZoom = function(uid,zoom){
 	// CARE DEPRECATED this one will return the good rule and will/should return def 0
 
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return {"def" : -1, "rule" : -1};
 	}
 
@@ -248,7 +248,7 @@ StyleMenu.DefFromRuleId = function(uid,ruleId){
 //////////////////////////////////////////////////////////////
 StyleMenu.SetParam = function(uid,rule,def,param,value){
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return false;
 	}
 
@@ -258,13 +258,13 @@ StyleMenu.SetParam = function(uid,rule,def,param,value){
 		if ( paramName == param ){
 			StyleMenu.__style[uid]["s"][rule]["s"][def][paramName] = value;
 			var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
-			console.log("changing for z " + zmin);
+			//console.log("changing for z " + zmin);
 			ok = true;
 			break;
 		}
 	}
 	if ( !ok ){
-		console.log(" not found , adding!" , uid , rule, def , param);
+		//console.log(" not found , adding!" , uid , rule, def , param);
 		StyleMenu.__style[uid]["s"][rule]["s"][def][param] = value;
 	}
 	StyleMenu.EventProxy.NewEvent();
@@ -274,7 +274,7 @@ StyleMenu.SetParam = function(uid,rule,def,param,value){
 //////////////////////////////////////////////////////////////
 StyleMenu.SetParamId = function(uid,ruid,param,value){
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return false;
 	}
 	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
@@ -302,7 +302,7 @@ StyleMenu.SetParamId = function(uid,ruid,param,value){
 //////////////////////////////////////////////////////////////
 StyleMenu.SetParamIdZNew = function(uid,param,value){
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		console.log( uid + " not in style");
 		return false;
 	}
 
@@ -325,7 +325,7 @@ StyleMenu.SetParamIdZNew = function(uid,param,value){
 //////////////////////////////////////////////////////////////
 StyleMenu.GetParamId = function(uid,ruid,param){
   if ( StyleMenu.__style[uid] == undefined ){
-      //console.log(uid + " not in style");
+      console.log(uid + " not in style");
       return undefined;
    }
    for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
@@ -352,7 +352,7 @@ StyleMenu.GetZoomSpectra = function(uid,def){
 	var zmin = undefined;
 	var zmax = undefined;
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log(uid + " not in style");
+		console.log(uid + " not in style");
 		return {"zmin":zmin,"zmax":zmax};
 	}
 
@@ -405,7 +405,7 @@ StyleMenu.LoadGroup = function(){
 StyleMenu.__LoadMapping = function(){
    console.log("##### MAPPING ####");
    for(var entrie = 0 ; entrie < Object.size(StyleMenu.mapping) ; entrie++){
-      console.log(StyleMenu.mapping[entrie]["name"]);
+      //console.log(StyleMenu.mapping[entrie]["name"]);
       // build mappingArray object
       for( var layer = 0 ; layer < Object.size(StyleMenu.mapping[entrie]["layers"]) ; layer++){
          //console.log("    filter : " + StyleMenu.mapping[entrie]["layers"][layer]["filter"]);
@@ -562,7 +562,7 @@ StyleMenu.__InsertZoomEdition2 = function(){
   $( "#styleMenu_menu_sliderrangez" ).slider({
           range: true,
           min: 1,
-          max: 18,
+          max: 19,
           values: [ StyleMenu.currentZmin, StyleMenu.currentZmax ],
           change: function( event, ui ) {
              var minV = ui.values[0];
@@ -570,7 +570,7 @@ StyleMenu.__InsertZoomEdition2 = function(){
              StyleMenu.currentZmin = minV;
              StyleMenu.currentZmax = maxV;
              for(var z = 1 ; z < 19 ; ++z){
-                if ( z >= minV && z <= maxV){
+                if ( z >= minV && z < maxV){
                    $("#styleMenu_menu_zcheck" + z ).check();
                 }
                 else{
@@ -581,12 +581,15 @@ StyleMenu.__InsertZoomEdition2 = function(){
              StyleMenu.UpdateActivZoom();
           },
           slide: function( event, ui ) {
+             if ( (ui.values[0] + 1) > ui.values[1] ) {
+                return false;      
+             }                      
              var minV = ui.values[0];
              var maxV = ui.values[1];
              StyleMenu.currentZmin = minV;
              StyleMenu.currentZmax = maxV;
              for(var z = 1 ; z < 19 ; ++z){
-                if ( z >= minV && z <= maxV){
+                if ( z >= minV && z < maxV){
                    $("#styleMenu_menu_zcheck" + z ).check();
                 }
                 else{
@@ -598,7 +601,7 @@ StyleMenu.__InsertZoomEdition2 = function(){
           }
   });
 
-  $( "#styleMenu_menu_sliderrangez" ).slider( "values",  [StyleMenu.currentZmin, StyleMenu.currentZmax] );  
+  $( "#styleMenu_menu_sliderrangez" ).slider( "values",  [StyleMenu.currentZmin, StyleMenu.currentZmax+1] );  
 
 }
 
@@ -640,8 +643,33 @@ StyleMenu.GetSelectCallBack = function(_uid,_ruleId,_pName){
 StyleMenu.GetCheckBoxCallBack = function(_uid){
     return function() {
        var vis = $("#styleMenu_menu_check_" + _uid + ":checked").val()?true:false;
-       StyleMenu.__style[_uid]["visible"] = vis; 
-       StyleMenu.EventProxy.NewEvent();     ///@todo this is not in a "set" function ... I don't like that !!!
+       StyleMenu.__style[_uid]["visible"] = vis;               ///@todo this is not in a "set" function ... I don't like that !!!
+
+       var gn = StyleMenu.GetGroupNameFilterFromLayerId(_uid);
+
+       var childs = Array();
+       if ( StyleMenu.groups[gn.group][gn.name].type == "line" ){
+         var casing = StyleMenu.groups[gn.group][gn.name].casing;
+         var center = StyleMenu.groups[gn.group][gn.name].center;
+         //console.log(casing,center);
+         childs = childs.concat( StyleMenu.GetUids(casing) );
+         childs = childs.concat( StyleMenu.GetUids(center) );
+       }
+       else if (StyleMenu.groups[gn.group][gn.name].type == "poly"){
+         childs = childs.concat( StyleMenu.GetUids(StyleMenu.groups[gn.group][gn.name].line) );
+       } 
+       else{
+          ///@todo
+       }
+       
+       for (var i = 0 ; i < childs.length ; i++){
+         var uid = childs[i];
+         if ( StyleMenu.mappingArray[uid].filter == StyleMenu.mappingArray[_uid].filter ){
+            StyleMenu.__style[uid]["visible"] = vis;               ///@todo this is not in a "set" function ... I don't like that !!!
+         }
+       } 
+        
+       StyleMenu.EventProxy.NewEvent();     
        //console.log( _uid, "visible",  vis );
     }
 }; 
@@ -786,6 +814,9 @@ StyleMenu.__BuildWidget = function(group,name,uid){
    }
 
    $("<h2 class=\"styleMenu_menu_par_title\">" + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(StyleMenu.widgetDiv);
+   if ( StyleMenu.mappingArray[uid].filter != "" && StyleMenu.GetUids(name).length > 1){
+      $("<h2 class=\"styleMenu_menu_par_title\">(" + StyleMenu.mappingArray[uid].filter + ")</h2>").appendTo(StyleMenu.widgetDiv);
+   }
 
    if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "line" ){
       //console.log("I'm a line !");
@@ -828,8 +859,11 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //console.log("border found : " + border);
-		  ///@todo
+		      ///@todo
       }      
+   }
+   else{
+      ///@todo
    }
 
    StyleMenu.UpdateActivZoom();
@@ -931,7 +965,7 @@ StyleMenu.__InsertAccordion = function(){
              continue;
          }
          
-         console.log("Found " + uids.length + " ids for " + name, group);
+         //console.log("Found " + uids.length + " ids for " + name, group);
          
          for (var i = 0 ; i < uids.length ; i++){        // for uids of type "element" (different filters ... see landmark for exemple)
            var uid = uids[i];

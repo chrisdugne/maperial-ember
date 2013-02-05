@@ -28,7 +28,9 @@ public class Account extends Model {
 	
 	// dixit Iban : attention : 1-4 different de 1-100000 dans le schema : or ici generation automatique
 	// effectivement une liste de 100000 trucs on ne la veut pas en objet !
-	// list a virer pour test ! (le ManyToOne doit suffire)
+	
+	// list a virer pour test ! (le ManyToOne doit suffire) ----> No ! test montre que non : est ce quil y a autre chose a rajouter dans ce cas ?
+	
 	// J2M : add des parametres : cascade par exemple
 	@OneToMany
 	@Expose
