@@ -1,6 +1,5 @@
-
 .wizardStepper {
-	margin-left : -137px;
+	margin-left: -137px;
 }
 
 .wizardStepper h3 {
@@ -13,4 +12,187 @@
 	line-height: 16px;
 	font-size: 16px;
 	color: #888;
+}
+
+/*---------------------------------------------------------------*/
+#panelSettings {
+	height: 400px;
+	position: fixed;
+	top: 104px;
+	left: 0;
+	display: none;
+	background: #000000; //
+	background-image: url(IMAGE_URL); /* fallback */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#444444),
+		to(#000000) ); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #444444, #000000);
+	/* Chrome 10+, Saf5.1+ */
+	background-image: -moz-linear-gradient(top, #444444, #000000);
+	/* FF3.6+ */
+	background-image: -ms-linear-gradient(top, #444444, #000000);
+	/* IE10 */
+	background-image: -o-linear-gradient(top, #444444, #000000);
+	/* Opera 11.10+ */
+	background-image: linear-gradient(top, #444444, #000000);
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	padding: 3px 3px 3px 3px;
+}
+
+a#triggerSettings {
+	position: absolute;
+	text-decoration: none;
+	left: 0;
+	top: 104px;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 20px 15px 20px 40px;
+	font-weight: 700;
+	background: #000 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	display: block;
+	z-index: 9999;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+a#triggerSettings:hover {
+	position: absolute;
+	text-decoration: none;
+	left: 0;
+	top: 104px;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #fff;
+	padding: 20px 20px 20px 40px;
+	font-weight: 700;
+	background: #333 url(../../images/mapediting/plus.png) 15% 55% no-repeat;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	display: block;
+}
+
+a.active#triggerSettings {
+	background: #000 url(../../images/mapediting/minus.png) 15% 55%
+		no-repeat;
+	width: 19px;
+	padding: 0;
+	font-size: 0;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+/*------------------------------------------------------------*/
+/* SETTINGS*/
+
+#buttonBoundingBoxMode {
+	position: absolute;
+	text-decoration: none;
+	right: 200px;
+	top: 104px;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 4px 13px 4px 13px;
+	font-weight: 700;
+	background: #000;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	display: block;
+	z-index: 9999;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+#buttonBoundingBoxMode:hover {
+	position: absolute;
+	text-decoration: none;
+	right: 200px;
+	top: 104px;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 6px 13px 6px 13px;
+	font-weight: 700;
+	background: #000;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	display: block;
+	z-index: 9999;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+div.active#buttonBoundingBoxMode {
+	padding: 6px 13px 6px 13px;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+#buttonMapMode {
+	position: absolute;
+	text-decoration: none;
+	right: 240px;
+	top: 104px;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 4px 13px 4px 13px;
+	font-weight: 700;
+	background: #000;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	display: block;
+	z-index: 9999;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+#buttonMapMode:hover {
+	position: absolute;
+	text-decoration: none;
+	right: 240px;
+	top: 104px;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 6px 13px 6px 13px;
+	font-weight: 700;
+	background: #000;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	display: block;
+	z-index: 9999;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+div.active#buttonMapMode {
+	padding: 6px 13px 6px 13px;
+	filter: alpha(opacity =   85);
+	opacity: .85;
 }

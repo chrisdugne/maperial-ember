@@ -8,7 +8,7 @@
 	
 	DashboardController.renderUI = function()
 	{
-
+	   
 	}
 
 	DashboardController.cleanUI = function()

@@ -1,0 +1,96 @@
+#header h1 {
+	color: #eee;
+	margin-top: 14px;
+	font-size: 60px;
+	font-weight: 200;
+	line-height: 1;
+	letter-spacing: -1px;
+}
+
+#logoHeader {
+	margin-top: 14px;
+}
+
+/*--------------------------------*/
+.headerTitle {
+	z-index: 2;
+	position: fixed;
+	color: #fff;
+	margin-left: 45%;
+	margin-top: 20px;
+}
+
+.headerTitle h1 {
+	font-size: 38px;
+	font-weight: normal;
+	color: #eee;
+	margin: 0;
+	line-height: 40px;
+}
+
+.headerTitle p {
+	padding-left: 3px;
+	font-size: 17px;
+	color: #666666;
+}
+
+/*--------------------------------*/
+#signinButton {
+	margin-top: 26px;
+	margin-left: 80%;
+	font-weight: bold;
+	cursor: pointer;
+	cursor: hand;
+	position: fixed;
+	z-index: 2;
+}
+
+#tryButton {
+	margin-top: 26px;
+	margin-left: 45%;
+	font-weight: bold;
+	cursor: pointer;
+	cursor: hand;
+	position: fixed;
+	z-index: 2;
+}
+
+.headerButton {
+	margin-top: 35px;
+	margin-left: 80%;
+	cursor: pointer;
+	cursor: hand;
+	position: fixed;
+	z-index: 2;
+}
+
+.googleUser {
+	margin-top: 38px;
+	margin-left: 84%;
+	color: #bbb;
+	background: url(../../images/global/arrow_down.png) no-repeat right 8px;
+	cursor: pointer;
+	position: fixed;
+	padding-right: 15px;
+	z-index: 2;
+}
+
+#waitingSpin {
+	z-index: 999;
+	position: fixed;
+	margin-left: 47%;
+	margin-top: 155px;
+}
+
+/*--------------------------------------------------*/
+
+#body{
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/*--------------------------------------------------*/
+
+#drawBoardContainer{
+	position: absolute;
+}

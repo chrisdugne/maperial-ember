@@ -2,6 +2,10 @@
 @import views.html.popups.selectStyleWindow;
 @import views.html.templates.components.styleEditorContent; 
 
+<div id="drawBoardContainer" class="hide">
+	<canvas id="drawBoard"></canvas>
+</div>
+
 @styleEditorContent()
 
 <div id="styleEditorManagement" class="hide">
@@ -10,11 +14,25 @@
 		<div class="row">
 			<!-- style = Dialogr = jqueryui = no ember.action but onclicks... -->
 			<div class="span2">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
-			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openGeneration()">Continue</div>
+			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openSettings()">Continue</div>
 			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openDatasetSelection()">Back</div>
 			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openStyleSelection()">More</div>
 		</div>
 	</div>
 </div>
+
+<div id="settings" class="hide">
+	<a class="trigger" id="triggerSettings"  href="#">Settings</a>
+	<div class="panel" id="panelSettings">
+		<div class="row">
+			<!-- style = Dialogr = jqueryui = no ember.action but onclicks... -->
+			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.finish()">Finish !</div>
+			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.backToStyleAndColorbar()">Back</div>
+		</div>
+	</div>
+	<div id="buttonBoundingBoxMode"><i class="icon-th-large icon-white"></i></div>
+	<div id="buttonMapMode"><i class="icon-th-large icon-white"></i></div>
+</div>
+
 
 @selectStyleWindow()

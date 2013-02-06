@@ -97,7 +97,7 @@
 		// states
 
 		myStyles: Ember.Route.extend({
-		   route: '/myStyles',
+		   route: '/',
 		   connectOutlets: function(router) {
 		      var customParams = [];
 		      customParams["styles"] = App.user.styles;
@@ -107,7 +107,7 @@
 		}),
 
 		publicStyles: Ember.Route.extend({
-		   route: '/publicStyles',
+		   route: '/',
 		   connectOutlets: function(router) {
 		      var customParams = [];
 		      customParams["styles"] = App.publicData.styles;

@@ -2,133 +2,41 @@
 (function() {
    'use strict';
 
+   //==================================================================//
+
    var StyleEditorController = Ember.ObjectController.extend({});
 
    //==================================================================//
 
    StyleEditorController.renderUI = function()
    {
-      App.user.set("waiting", true);
+      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/mapEditor.js"], function(){
 
-      ScriptLoader.getScripts([
-                         // map rendering
-                         "assets/javascripts/libs/gl-matrix-min.js",
-                         "assets/javascripts/libs/jquery.mousewheel.min.js",
-                         "assets/javascripts/extensions/maprendering/coordinate-system.js",
-                         "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
-                         "assets/javascripts/extensions/maprendering/gl-tools.js",
-                         "assets/javascripts/extensions/maprendering/gl-rasterlayer.js",
-                         "assets/javascripts/extensions/maprendering/gl-tile.js",
-                         "assets/javascripts/extensions/maprendering/gl-vectoriallayer.js",
-                         "assets/javascripts/extensions/maprendering/render-line.js",
-                         "assets/javascripts/extensions/maprendering/render-text.js",
-                         "assets/javascripts/extensions/maprendering/tileRenderer.js",
-                         "assets/javascripts/extensions/maprendering/gl-map.js",
+         //-----------------------------
+         // if creating a new style : copy the selected style as a new style
+         if(!App.stylesData.editingStyle)
+         {
+            console.log("Creating a new style");
+            var newStyle = {
+                  name : "CopyOf" + App.stylesData.selectedStyle.name,
+                  content : App.stylesData.selectedStyle.content,
+                  uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
+            };
+            console.log(newStyle.name);
 
-                         // map editing
-                         "assets/javascripts/extensions/mapeditortools/v_colortool.js",
-                         "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
-                         "assets/javascripts/extensions/mapeditortools/colorpicker.js",
-                         "assets/javascripts/extensions/mapeditortools/RGBColor.js",
+            App.stylesData.set("selectedStyle", newStyle);
+         }
 
-                         // style
-                         "assets/javascripts/extensions/style/styleMenu.js"],
-          function()
-          {
-            //-----------------------------
-   
-            // if creating a new style : copy the selected style as a new style
-            if(!App.stylesData.editingStyle)
-            {
-               console.log("Creating a new style");
-               var newStyle = {
-                     name : "CopyOf" + App.stylesData.selectedStyle.name,
-                     content : App.stylesData.selectedStyle.content,
-                     uid  : App.stylesData.selectedStyle.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
-               };
-               console.log(newStyle.name);
-   
-               App.stylesData.set("selectedStyle", newStyle);
-            }
+         StyleEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null);
+         StyleEditorController.mapEditor.renderUI();
 
-   
-            //-----------------------------
-            // retrieve the content from the tileServer
-            StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
-               //-----------------------------
-               // rendering after reception
-   
-               StyleEditorController.renderMap();
-               StyleEditorController.renderStyle();
-               StyleEditorController.renderTriggers();
-
-               // screen is ready
-               App.user.set("waiting", false);
-            });
-          }
-      );
+      });
    }
 
    StyleEditorController.cleanUI = function()
    {
-      StyleEditorController.cleanStyle();
-      StyleEditorController.cleanMap();
+      StyleEditorController.mapEditor.cleanUI();
    }
-
-   //------------------------------------------------//
-
-   StyleEditorController.renderMap = function()
-   {
-      var cbData = [];
-      
-      cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );
-      for (var i = 1 ; i < 256 ; i = i + 1) {
-         cbData.push ( i );cbData.push ( 0 );cbData.push ( 255-i );cbData.push ( 255 );
-      }
-      
-      console.log (cbData ) 
-      App.stylesData.map = new GLMap ( "map", "magnifier" );
-      App.stylesData.map.GetParams().SetStyle(App.stylesData.selectedStyle.content);
-      App.stylesData.map.GetParams().SetColorBar(cbData)
-      App.stylesData.map.Start (); 
-
-      $("#map").css("height", $("#webappDiv").height() - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
-      $("#map").css("width", $("#webappDiv").width() );
-   }
-
-   StyleEditorController.cleanMap = function()
-   {
-      $("#map").remove();
-      $("#magnifier").remove();
-   }
-
-   //------------------------------------------------//
-
-   StyleEditorController.renderTriggers = function()
-   {
-      $(".trigger").click(function(){
-         var name = $(this).context.id.replace("trigger","");
-         $("#panel"+name).toggle("fast");
-         $(this).toggleClass("active");
-         return false;
-      });
-      
-      $("#styleEditorContent").removeClass("hide");
-      $("#styleEditorManagement").removeClass("hide");
-   }
-   
-   StyleEditorController.renderStyle = function()
-   {
-      // set the menu up
-      StyleMenu.init($("#mapnifyMenu") , $("#mapnifyWidget") , $("#mapnifyZoom") , false , App.stylesData.map , App.stylesData.selectedStyle.content);
-
-   }
-
-   StyleEditorController.cleanStyle = function()
-   {
-      $("#style").remove();
-   }
-
 
    //==================================================================//
    // Controls

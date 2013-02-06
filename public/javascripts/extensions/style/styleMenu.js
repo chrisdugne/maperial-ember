@@ -29,6 +29,8 @@ Object.size = function(obj) {
 
 this.StyleMenu = {};
 
+StyleMenu.debug = false;
+
 // -------------------------------------------//
 
 //////////////////////////////////////////////////////////////
@@ -123,7 +125,7 @@ window.setInterval(
 StyleMenu.RuleIdFromDef = function(uid,def){
 	// CARE DEPRECATED this one is now FALSE !!! DO NOT USE unless you are very sure of what you are trying to do !!!
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return null;
 	}
 
@@ -132,7 +134,7 @@ StyleMenu.RuleIdFromDef = function(uid,def){
 		while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){       // find the first not-empty symbolizer (for multi-zoom def case)
 			rule = rule + 1;
 			if ( rule >= Object.size(StyleMenu.__style[uid]["s"]) ){
-				console.log("cannot find rule ...", uid, def);
+				if(StyleMenu.debug)console.log("cannot find rule ...", uid, def);
 				return null;
 			}
 		}
@@ -149,7 +151,7 @@ StyleMenu.DefFromRule = function(uid,rule){
 	// CARE DEPRECATED this one is not usefull anymore and will/should return 0
 
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return -1;
 	}
 
@@ -157,7 +159,7 @@ StyleMenu.DefFromRule = function(uid,rule){
 	while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
 		def = def + 1;
 		if ( def >= Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-			console.log("cannot find def ...", uid, rule);
+			if(StyleMenu.debug)console.log("cannot find def ...", uid, rule);
 			return -1;
 		}
 	}
@@ -169,7 +171,7 @@ StyleMenu.DefRuleIdFromZoom = function(uid,zoom){
 	// CARE DEPRECATED this one will return the good ruleId and will/should return def 0
 
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return {"def" : -1, "ruleId" : -1, "rule" : -1};
 	}
 
@@ -180,7 +182,7 @@ StyleMenu.DefRuleIdFromZoom = function(uid,zoom){
 			while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
 				def = def + 1;
 				if ( def >= Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-					console.log("cannot find def ...", uid, rule);
+					if(StyleMenu.debug)console.log("cannot find def ...", uid, rule);
 					def = -1;
 					return {"def" : -1, "ruleId" : -1, "rule" : -1};
 				}
@@ -196,7 +198,7 @@ StyleMenu.DefRuleFromZoom = function(uid,zoom){
 	// CARE DEPRECATED this one will return the good rule and will/should return def 0
 
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return {"def" : -1, "rule" : -1};
 	}
 
@@ -207,7 +209,7 @@ StyleMenu.DefRuleFromZoom = function(uid,zoom){
 			while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
 				def = def + 1;
 				if ( def >= Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-					console.log("cannot find def ...", uid, rule);
+					if(StyleMenu.debug)console.log("cannot find def ...", uid, rule);
 					def = -1;
 					return {"def" : -1, "rule" : -1};
 				}
@@ -223,7 +225,7 @@ StyleMenu.DefRuleFromZoom = function(uid,zoom){
 StyleMenu.DefFromRuleId = function(uid,ruleId){
 	// CARE DEPRECATED this one will/should return 0
 	if ( StyleMenu.__style[uid] == undefined ){
-		//console.log( uid + " not in style");
+		//if(StyleMenu.debug)console.log( uid + " not in style");
 		return -1;
 	}
 
@@ -234,7 +236,7 @@ StyleMenu.DefFromRuleId = function(uid,ruleId){
 				while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
 					def = def + 1;
 					if ( def > Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-						console.log("cannot find not empty def ...");
+						if(StyleMenu.debug)console.log("cannot find not empty def ...");
 						return -1;
 					}
 				}
@@ -248,7 +250,7 @@ StyleMenu.DefFromRuleId = function(uid,ruleId){
 //////////////////////////////////////////////////////////////
 StyleMenu.SetParam = function(uid,rule,def,param,value){
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return false;
 	}
 
@@ -258,13 +260,13 @@ StyleMenu.SetParam = function(uid,rule,def,param,value){
 		if ( paramName == param ){
 			StyleMenu.__style[uid]["s"][rule]["s"][def][paramName] = value;
 			var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
-			//console.log("changing for z " + zmin);
+			//if(StyleMenu.debug)console.log("changing for z " + zmin);
 			ok = true;
 			break;
 		}
 	}
 	if ( !ok ){
-		//console.log(" not found , adding!" , uid , rule, def , param);
+		//if(StyleMenu.debug)console.log(" not found , adding!" , uid , rule, def , param);
 		StyleMenu.__style[uid]["s"][rule]["s"][def][param] = value;
 	}
 	StyleMenu.EventProxy.NewEvent();
@@ -274,7 +276,7 @@ StyleMenu.SetParam = function(uid,rule,def,param,value){
 //////////////////////////////////////////////////////////////
 StyleMenu.SetParamId = function(uid,ruid,param,value){
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return false;
 	}
 	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
@@ -288,30 +290,30 @@ StyleMenu.SetParamId = function(uid,ruid,param,value){
 						return true;
 					}
 				}
-				//console.log(" not found , adding!" , uid , ruid , param);
+				//if(StyleMenu.debug)console.log(" not found , adding!" , uid , ruid , param);
 				StyleMenu.__style[uid]["s"][rule]["s"][d][param] = value;
 				StyleMenu.EventProxy.NewEvent();
 				return true;
 			}
 		}
 	}
-	console.log(" not found !" , uid , ruid , param);
+	if(StyleMenu.debug)console.log(" not found !" , uid , ruid , param);
 	return false;
 }
 
 //////////////////////////////////////////////////////////////
 StyleMenu.SetParamIdZNew = function(uid,param,value){
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log( uid + " not in style");
+		if(StyleMenu.debug)console.log( uid + " not in style");
 		return false;
 	}
 
 	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
 		var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
-		//console.log(zmin);
+		//if(StyleMenu.debug)console.log(zmin);
 		//var zmax = StyleMenu.__style[uid]["s"][rule]["zmax"];
 		if ( $.inArray(zmin, StyleMenu.activZooms) > -1 ){
-			//console.log("zoom is to be changed");
+			//if(StyleMenu.debug)console.log("zoom is to be changed");
 			var def = StyleMenu.DefFromRule(uid,rule);
 			if ( def < 0 ){
 				continue;
@@ -325,7 +327,7 @@ StyleMenu.SetParamIdZNew = function(uid,param,value){
 //////////////////////////////////////////////////////////////
 StyleMenu.GetParamId = function(uid,ruid,param){
   if ( StyleMenu.__style[uid] == undefined ){
-      console.log(uid + " not in style");
+      if(StyleMenu.debug)console.log(uid + " not in style");
       return undefined;
    }
    for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
@@ -337,13 +339,13 @@ StyleMenu.GetParamId = function(uid,ruid,param){
                    return StyleMenu.__style[uid]["s"][rule]["s"][d][paramName];
                }
             }
-            //console.log(" not found , adding!" , uid , ruid , param);
+            //if(StyleMenu.debug)console.log(" not found , adding!" , uid , ruid , param);
             //StyleMenu.__style[uid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
             //return StyleMenu.__style[uid]["s"][rule]["s"][d][param]; 
          }
       }
    }
-   //console.log(" not found !", uid , ruid, param);
+   //if(StyleMenu.debug)console.log(" not found !", uid , ruid, param);
    return undefined;
 }
 
@@ -352,7 +354,7 @@ StyleMenu.GetZoomSpectra = function(uid,def){
 	var zmin = undefined;
 	var zmax = undefined;
 	if ( StyleMenu.__style[uid] == undefined ){
-		console.log(uid + " not in style");
+		if(StyleMenu.debug)console.log(uid + " not in style");
 		return {"zmin":zmin,"zmax":zmax};
 	}
 
@@ -385,7 +387,7 @@ StyleMenu.ReLoad = function(){
 //////////////////////////////////////////////////////////////
 // AJaX load group
 StyleMenu.LoadGroup = function(){
-  console.log("Loading groups");
+  if(StyleMenu.debug)console.log("Loading groups");
   $.ajax({
      url: StyleMenu.serverRootDirV+'style/group2.json',
      async: false,
@@ -396,20 +398,20 @@ StyleMenu.LoadGroup = function(){
         StyleMenu.LoadMapping();
      },
      error: function (){
-        console.log("Loading group failed");
+        if(StyleMenu.debug)console.log("Loading group failed");
      }
   });
 }
 
 //////////////////////////////////////////////////////////////
 StyleMenu.__LoadMapping = function(){
-   console.log("##### MAPPING ####");
+   if(StyleMenu.debug)console.log("##### MAPPING ####");
    for(var entrie = 0 ; entrie < Object.size(StyleMenu.mapping) ; entrie++){
-      //console.log(StyleMenu.mapping[entrie]["name"]);
+      //if(StyleMenu.debug)console.log(StyleMenu.mapping[entrie]["name"]);
       // build mappingArray object
       for( var layer = 0 ; layer < Object.size(StyleMenu.mapping[entrie]["layers"]) ; layer++){
-         //console.log("    filter : " + StyleMenu.mapping[entrie]["layers"][layer]["filter"]);
-         //console.log("    uid : " + StyleMenu.mapping[entrie]["layers"][layer]["id"]);
+         //if(StyleMenu.debug)console.log("    filter : " + StyleMenu.mapping[entrie]["layers"][layer]["filter"]);
+         //if(StyleMenu.debug)console.log("    uid : " + StyleMenu.mapping[entrie]["layers"][layer]["id"]);
          StyleMenu.mappingArray[ StyleMenu.mapping[entrie]["layers"][layer]["id"] ] = { name : StyleMenu.mapping[entrie]["name"] , filter : StyleMenu.mapping[entrie]["layers"][layer]["filter"]};
       }
    }
@@ -449,7 +451,7 @@ StyleMenu.GetUid = function(name,filter){
 //////////////////////////////////////////////////////////////
 // AJaX load mapping
 StyleMenu.LoadMapping = function(){
-  console.log("Loading mapping");
+  if(StyleMenu.debug)console.log("Loading mapping");
   $.ajax({
      url: StyleMenu.serverRootDirV+'style/mapping.json',
      async: false,
@@ -460,7 +462,7 @@ StyleMenu.LoadMapping = function(){
         StyleMenu.__LoadMapping();
      },
      error: function (){
-        console.log("Loading mapping failed");
+        if(StyleMenu.debug)console.log("Loading mapping failed");
      }
   });
 }
@@ -496,7 +498,7 @@ StyleMenu.UpdateActivZoom = function(){
 	StyleMenu.activZooms = [];
 	for ( var z = 1 ; z < 19 ; ++z){
 		if ( z == StyleMenu.refMap.GetZoom() ){
-			console.log("map zoom is " + z);
+			if(StyleMenu.debug)console.log("map zoom is " + z);
 			$("#styleMenu_menu_zcheck"+z).button( "option", "label", "Z" + z + "*");
 		}
 		else{
@@ -651,7 +653,7 @@ StyleMenu.GetCheckBoxCallBack = function(_uid){
        if ( StyleMenu.groups[gn.group][gn.name].type == "line" ){
          var casing = StyleMenu.groups[gn.group][gn.name].casing;
          var center = StyleMenu.groups[gn.group][gn.name].center;
-         //console.log(casing,center);
+         //if(StyleMenu.debug)console.log(casing,center);
          childs = childs.concat( StyleMenu.GetUids(casing) );
          childs = childs.concat( StyleMenu.GetUids(center) );
        }
@@ -670,7 +672,7 @@ StyleMenu.GetCheckBoxCallBack = function(_uid){
        } 
         
        StyleMenu.EventProxy.NewEvent();     
-       //console.log( _uid, "visible",  vis );
+       //if(StyleMenu.debug)console.log( _uid, "visible",  vis );
     }
 }; 
 
@@ -729,11 +731,11 @@ StyleMenu.AddCombo = function(_paramName,_paramValue,_uid,_ruleId,_container,_va
 //////////////////////////////////////////////////////////////
 StyleMenu.FillWidget = function(uid){
 	if ( StyleMenu.__style[uid]["s"].length < 1 ){
-		console.log("Error : empty style " + uid );
+		if(StyleMenu.debug)console.log("Error : empty style " + uid );
 		return;
 	}
 
-	console.log("Current zoom is " , StyleMenu.refMap.GetZoom() , uid, def , rule); 
+	if(StyleMenu.debug)console.log("Current zoom is " , StyleMenu.refMap.GetZoom() , uid, def , rule); 
 
 	//var def = 0; // first def is always the good one :-)
 	var rd = StyleMenu.DefRuleIdFromZoom(uid,StyleMenu.refMap.GetZoom());
@@ -741,20 +743,20 @@ StyleMenu.FillWidget = function(uid){
 	var ruleId = rd.ruleId;
 	var rule = rd.rule;
 	
-	console.log("fill widget for",def,ruleId,rule);
+	if(StyleMenu.debug)console.log("fill widget for",def,ruleId,rule);
 	
 	if ( ruleId < 0 ){
-     console.log("Cannot find ruleId for zoom " + StyleMenu.refMap.GetZoom());
+     if(StyleMenu.debug)console.log("Cannot find ruleId for zoom " + StyleMenu.refMap.GetZoom());
      return;
     }
 
 	if ( rule < 0 ){
-     console.log("Cannot find rule for zoom " + StyleMenu.refMap.GetZoom());
+     if(StyleMenu.debug)console.log("Cannot find rule for zoom " + StyleMenu.refMap.GetZoom());
      return;
     }
 	
 	if ( def < 0 ){
-     console.log("Cannot find def for zoom " + StyleMenu.refMap.GetZoom());
+     if(StyleMenu.debug)console.log("Cannot find def for zoom " + StyleMenu.refMap.GetZoom());
      return;
     }
 	
@@ -773,7 +775,7 @@ StyleMenu.FillWidget = function(uid){
 			paramValue = Symbolizer.default[paramName];
 			//continue;
 		}
-		//console.log( paramName + " : " + paramValue ) ;
+		//if(StyleMenu.debug)console.log( paramName + " : " + paramValue ) ;
 
 		if ( paramName == "width" ){  
 			StyleMenu.AddSpinner(paramName,paramValue,uid,ruleId,ulul,0.25,0,10);
@@ -799,7 +801,7 @@ StyleMenu.FillWidget = function(uid){
 //////////////////////////////////////////////////////////////
 StyleMenu.__BuildWidget = function(group,name,uid){
   
-   console.log("building widget ",group,name,uid);
+   if(StyleMenu.debug)console.log("building widget ",group,name,uid);
  
    //clear parent div
    StyleMenu.widgetDiv.empty();
@@ -809,7 +811,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
    StyleMenu.currentName = name;
    
    if ( StyleMenu.__style[uid] == undefined ){
-      console.log( uid + " not in style");
+      if(StyleMenu.debug)console.log( uid + " not in style");
       return;
    }
 
@@ -819,7 +821,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
    }
 
    if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "line" ){
-      //console.log("I'm a line !");
+      //if(StyleMenu.debug)console.log("I'm a line !");
       
       StyleMenu.FillWidget(uid);
       
@@ -829,25 +831,25 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       var center_uid = StyleMenu.GetUid(center,StyleMenu.mappingArray[uid].filter);
 
       if ( casing_uid == null){
-          //console.log("casing not found : " + casing);
+          //if(StyleMenu.debug)console.log("casing not found : " + casing);
       }
       else{
-          //console.log("casing found : " + casing);
+          //if(StyleMenu.debug)console.log("casing found : " + casing);
           $('<h2 class="styleMenu_menu_par_title">Casing </h2>').appendTo(StyleMenu.widgetDiv);
           StyleMenu.FillWidget(casing_uid);
       }
 
       if ( center_uid == null){
-          //console.log("center not found : " + center);
+          //if(StyleMenu.debug)console.log("center not found : " + center);
       }
       else{
-          //console.log("center found : " + center);
+          //if(StyleMenu.debug)console.log("center found : " + center);
           $('<h2 class="styleMenu_menu_par_title"> Center line </h2>').appendTo(StyleMenu.widgetDiv);
           StyleMenu.FillWidget(center_uid);
       }                      
    }
    else if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "poly" ){
-      //console.log("I'm a poly !");
+      //if(StyleMenu.debug)console.log("I'm a poly !");
 	  
       StyleMenu.FillWidget(uid);	  
 	  
@@ -855,10 +857,10 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       var border_uid = StyleMenu.GetUid(border,StyleMenu.mappingArray[uid].filter);
       
       if ( border_uid == null){
-          //console.log("border not found : " + border);
+          //if(StyleMenu.debug)console.log("border not found : " + border);
       }
       else{
-          //console.log("border found : " + border);
+          //if(StyleMenu.debug)console.log("border found : " + border);
 		      ///@todo
       }      
    }
@@ -872,7 +874,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
 //////////////////////////////////////////////////////////////
 StyleMenu.GetWidgetCallBack = function(group,name,uid){
     return function(){
-      //console.log(uid + " clicked");
+      //if(StyleMenu.debug)console.log(uid + " clicked");
       StyleMenu.__BuildWidget(group,name,uid);
     } 
 }
@@ -892,7 +894,7 @@ StyleMenu.GetGroupNameFilterFromLayerId = function(uid){
          if ( StyleMenu.groups[group][name].type == "line" ){
             var casing = StyleMenu.groups[group][name].casing;
             var center = StyleMenu.groups[group][name].center;
-            //console.log(casing,center);
+            //if(StyleMenu.debug)console.log(casing,center);
             childs = childs.concat( StyleMenu.GetUids(casing) );
             childs = childs.concat( StyleMenu.GetUids(center) );
          }
@@ -902,7 +904,7 @@ StyleMenu.GetGroupNameFilterFromLayerId = function(uid){
          else{
             ///@todo
          }
-         //console.log(group,name,uids);
+         //if(StyleMenu.debug)console.log(group,name,uids);
          if ( uids.length == 0 ){
              continue;
          }
@@ -944,7 +946,7 @@ StyleMenu.__InsertAccordion = function(){
     if (!StyleMenu.groups.hasOwnProperty(group)) {
      continue;
     }
-    console.log(group);
+    if(StyleMenu.debug)console.log(group);
 
     $("<h1 id=\"styleMenu_menu_groupaccordion_head_group_" + groupNum + "\"> Group : " + group + "</h1>").appendTo(outterAcc);
     var groupAcc = $("<div class=\"styleMenu_menu_accordion\" id=\"styleMenu_menu_groupaccordion_div_group_" + groupNum +  "\"></div>");
@@ -956,20 +958,20 @@ StyleMenu.__InsertAccordion = function(){
          if (!StyleMenu.groups[group].hasOwnProperty(name)) {
             continue;
          }
-         console.log("found ! : " + name );
+         if(StyleMenu.debug)console.log("found ! : " + name );
          
          var uids = StyleMenu.GetUids(name);
          
          if ( uids.length == 0 ){
-             console.log("Warning : no uid found for " + name, group);
+             if(StyleMenu.debug)console.log("Warning : no uid found for " + name, group);
              continue;
          }
          
-         //console.log("Found " + uids.length + " ids for " + name, group);
+         //if(StyleMenu.debug)console.log("Found " + uids.length + " ids for " + name, group);
          
          for (var i = 0 ; i < uids.length ; i++){        // for uids of type "element" (different filters ... see landmark for exemple)
            var uid = uids[i];
-           //console.log(uid);
+           //if(StyleMenu.debug)console.log(uid);
            // make header
            $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
            // bind onclick header event!
@@ -1012,9 +1014,9 @@ StyleMenu.__InsertAccordion = function(){
 //////////////////////////////////////////////////////////////
 // AJaX load style
 StyleMenu.LoadStyle = function(){
-  console.log("Loading style");
+  if(StyleMenu.debug)console.log("Loading style");
   if ( StyleMenu.__style === undefined ){
-    console.log("Style not defined ... reading default");
+    if(StyleMenu.debug)console.log("Style not defined ... reading default");
     $.ajax({
       url: StyleMenu.serverRootDirV+'style/style.json',
       //url: 'http://map.x-ray.fr/api/style/1_style_13ba851b4e18833e08e',
@@ -1026,7 +1028,7 @@ StyleMenu.LoadStyle = function(){
           StyleMenu.__LoadStyle();
       },
       error: function (){
-        console.log("Loading style failed");
+        if(StyleMenu.debug)console.log("Loading style failed");
       }  
     });
    }

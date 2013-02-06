@@ -18,6 +18,18 @@ Utils.bindObjFuncEvent2 = function (toObject, methodName){
    return function(mEvent,mDelta){toObject[methodName](mEvent,mDelta)}
 }
 
+Utils.getPoint = function (event) {
+   var x = event.clientX - $(event.target).offset().left;
+   var y = event.clientY - $(event.target).offset().top;
+   
+   // pour fabric, le canvas contient le header => le offset doit etre ajuste
+   if(event.target.className == "upper-canvas")
+      y -= App.Globals.HEADER_HEIGHT;
+   
+   return new Point(x,y);
+}
+
+
 //=====================================================================================//
 
 function GLMap(mapName, magnifierName) {
@@ -63,7 +75,7 @@ GLMap.prototype.OnMouseUp = function (event) {
 GLMap.prototype.OnMouseMove = function (event) {
 
    // refresh magnifier
-   var mouseP = this.getPoint(event);
+   var mouseP = Utils.getPoint(event);
    this.mouseM = this.convertPointToMeters ( mouseP );
    this.DrawMagnifier();
    
@@ -502,13 +514,6 @@ GLMap.prototype.DrawMagnifierSight = function (ctxMagnifier) {
 
 //----------------------------------------------------------------------//
 // Utils
-
-GLMap.prototype.getPoint = function (event) {
-   var x = event.clientX - $(event.target).offset().left;
-   var y = event.clientY - $(event.target).offset().top;
-   
-   return new Point(x,y);
-}
 
 /**
  * param  mouseP : Point with coordinates in pixels, in the Canvas coordinates system
