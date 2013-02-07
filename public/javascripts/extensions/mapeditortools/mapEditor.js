@@ -121,7 +121,6 @@ MapEditor.prototype.renderMap = function(){
    for (var i = 1 ; i < 256 ; i = i + 1) {
       cbData.push ( i );cbData.push ( 0 );cbData.push ( 255-i );cbData.push ( 255 );
    }
-   console.log (cbData ) 
 
    this.map = new GLMap ( "map", "magnifier" );
    this.map.GetParams().SetStyle(this.style.content);
@@ -186,7 +185,7 @@ MapEditor.prototype.cleanStyle = function(){
 //------------------------------------------------//
 
 MapEditor.prototype.renderColorbar = function(){
-   ExtensionColorbar.init($("#colorBar"), this.colorbar.content);
+   ExtensionColorbar.init($("#colorbarMenu"), this.colorbar.content);
 }
 
 MapEditor.prototype.cleanColorbar = function(){
