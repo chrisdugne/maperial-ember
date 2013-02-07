@@ -122,7 +122,7 @@
             MapCreationController.refreshMap();
          }
          else{
-            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null);
+            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
             MapCreationController.mapEditor.renderUI();
             MapCreationController.styleAndColorbarUIReady = true;
          }

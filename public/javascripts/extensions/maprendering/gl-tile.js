@@ -57,7 +57,7 @@ Tile.prototype.Reset = function ( ) {
    if(this.IsLoad())
    {
       for( var i = 0 ; i < MapParameter.LayerOrder.length ; i++ ) {
-         this.layers [ MapParameter.LayerOrder[i] ].Reset (this.vdata);
+         this.layers [ MapParameter.LayerOrder[i] ].Reset ();
       }
    }
 }
@@ -144,7 +144,6 @@ Tile.prototype._LoadRaster = function ( inRasterUrl ) {
    this.rReq.onerror = function (oEvent) {
       me.rLoad    = true;
       me.rError   = true;
-      console.log("azerty");
    }
    function ajaxTimeout() { me.rReq.abort(); }
    var tm = setTimeout(ajaxTimeout,MapParameter.tileDLTimeOut);

@@ -10,18 +10,18 @@
 	<br/>
 	
         <div class="span3">
-			{{#isCurrentView myColorbars}}
+			{{#equals App.Globals.currentView value='myColorbars'}}
 				<h1>My colorbars</h1>
 			{{else}}			
 				<h1>Public colorbars</h1>
-			{{/isCurrentView}}
+			{{/equals}}
            </div>
         <div class="span2 offset1">
-			{{#isCurrentView myColorbars}}
+			{{#equals App.Globals.currentView value='myColorbars'}}
 				<div class="btn-small btn-primary" {{action showPublicColorbars}}>Show public colorbars</div>
 			{{else}}			
 				<div class="btn-small btn-primary" {{action showMyColorbars}}>Show my colorbars</div>
-			{{/isCurrentView}}
+			{{/equals}}
            </div>
     </div>
 	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">

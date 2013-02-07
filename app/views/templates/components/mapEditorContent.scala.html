@@ -1,8 +1,15 @@
 
-<div id="styleEditorContent">
+<div id="mapEditorContent">
 
 	<canvas id="map"></canvas>
 	<canvas id="dummyTilesCanvas" class="hide"></canvas>
+
+	<div id="commonTriggers" class="hide">
+		<a class="trigger" id="triggerMagnifier" href="#">Magnifier</a>
+		<div class="panel" id="panelMagnifier">
+			<canvas id="magnifier" width="200" height="200"></canvas>
+		</div>
+	</div>
 
 	<div id="styleEditorTriggers" class="hide">
 		<a class="trigger" id="triggerDetailsMenu" href="#">Details</a>
@@ -17,9 +24,17 @@
 		<div class="panel" id="panelZooms">
 			<div id="zooms"></div>
 		</div>
-		<a class="trigger" id="triggerMagnifier" href="#">Magnifier</a>
-		<div class="panel" id="panelMagnifier">
-			<canvas id="magnifier" width="200" height="200"></canvas>
+	</div>
+
+
+	<div id="colorbarEditorTriggers" class="hide">
+		<a class="trigger" id="triggerColorbar"  href="#">ColorBar</a>
+			<div class="panel" id="panelColorbar">
+		  <div id="colorbar"></div>
 		</div>
 	</div>
+
+
 </div>
+
+

@@ -4,7 +4,7 @@
   border-width: 1px;
   padding: 10px;
   margin: 0px;
-  background-color: #ddd;
+  background-color: #fff;
 }
 
 .cb_canvas {
@@ -68,4 +68,78 @@
 
 .cb_Interp, .cb_Hsl, .cb_Clear{
   margin: 5px;
+}
+
+#panelColorBar {
+	position: fixed;
+	top: 180px;
+	left: 0;
+	display: none;
+	background: #000000;
+	//background-image: url(IMAGE_URL); /* fallback */
+	background-image:  -webkit-gradient(linear, left top, left bottom, from(#444444), to(#000000)); /* Saf4+, Chrome */
+	background-image:  -webkit-linear-gradient(top, #444444, #000000); /* Chrome 10+, Saf5.1+ */
+	background-image:  -moz-linear-gradient(top, #444444, #000000); /* FF3.6+ */
+	background-image:  -ms-linear-gradient(top, #444444, #000000); /* IE10 */
+	background-image:  -o-linear-gradient(top, #444444, #000000); /* Opera 11.10+ */
+	background-image:  linear-gradient(top, #444444, #000000);
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	width: 370px;
+	height: auto;
+	padding: 30px 30px 30px 30px;
+	filter: alpha(opacity = 85);
+	opacity: .85;
+}
+
+a#triggerColorBar {
+	position: fixed;
+	text-decoration: none;
+	top: 180px;
+	left: 0;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 20px 40px 20px 15px;
+	font-weight: 700;
+	background: #111 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	display: block;
+	z-index: 9999;
+	filter: alpha(opacity = 85);
+	opacity: .85;
+}
+
+a#triggerColorBar:hover {
+	position: fixed;
+	text-decoration: none;
+	top: 180px;
+	left: 0;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #fff;
+	padding: 20px 40px 20px 20px;
+	font-weight: 700;
+	background: #333 url(../../images/mapediting/plus.png) 85% 55% no-repeat;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	display: block;
+}
+
+a.active#triggerColorBar {
+	background: #111 url(../../images/mapediting/minus.png) 85% 55% no-repeat;
+	width: 19px;
+	padding: 0;
+	font-size: 0;
+	filter: alpha(opacity = 85);
+	opacity: .85;
 }

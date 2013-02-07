@@ -1,11 +1,13 @@
 
 //==================================================================//
 
-function MapEditor(style, colorbar){
+function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers){
    this.map;
    this.style = style;
    this.colorbar = colorbar;
    this.boundingBoxManager;
+   this.showStyleTriggers = showStyleTriggers;
+   this.showColorbarTriggers = showColorbarTriggers;
 }
 
 //==================================================================//
@@ -37,6 +39,8 @@ MapEditor.prototype.renderUI = function() {
                 "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
                 "assets/javascripts/extensions/mapeditortools/colorpicker.js",
                 "assets/javascripts/extensions/mapeditortools/RGBColor.js",
+                "assets/javascripts/extensions/mapeditortools/map.js",
+                "assets/javascripts/extensions/mapeditortools/canvasutilities.js",
 
                 // style
                 "assets/javascripts/extensions/style/styleMenu.js",
@@ -49,26 +53,43 @@ MapEditor.prototype.renderUI = function() {
                //-----------------------------
                // retrieve the content from the tileServer
                StyleManager.getStyle(mapEditor.style.uid, function(){
-                  //-----------------------------
-                  // rendering after reception
          
-                  mapEditor.renderMap();
-                  mapEditor.renderStyle();
-                  mapEditor.renderTriggers();
-                  
                   if(mapEditor.colorbar){
-                     mapEditor.renderColorbar();
-                     mapEditor.renderMap();
-                  }
+                     //-----------------------------
+                     // retrieve the colorbar content from the tileServer
+                     ColorbarManager.getColorbar(mapEditor.colorbar.uid, function(){
 
-                  mapEditor.boundingBoxManager = new BoundingBoxManager(mapEditor.map);
-         
-                  // screen is ready
-                  App.user.set("waiting", false);
+                           // rendering after reception
+                           mapEditor.renderAll();
+                     });
+                     
+                  }
+                  else{
+                     // rendering after reception
+                     mapEditor.renderAll();
+                  }
                });
           }
    );
 }
+ 
+
+MapEditor.prototype.renderAll = function(){
+   
+   this.renderMap();
+   this.renderStyle();
+   this.renderTriggers();
+   
+   if(this.colorbar){
+      this.renderColorbar();
+   }
+   
+   this.boundingBoxManager = new BoundingBoxManager(this.map);
+   
+   // screen is ready
+   App.user.set("waiting", false);
+}
+
 
 MapEditor.prototype.cleanUI = function(){
    this.cleanStyle();
@@ -122,8 +143,11 @@ MapEditor.prototype.hideTriggers = function(){
    
    $('.trigger').unbind('click');
 
+   $("#commonTriggers").addClass("hide");
    $("#styleEditorTriggers").addClass("hide");
    $("#styleEditorManagement").addClass("hide");
+   $("#colorbarEditorTriggers").addClass("hide");
+   $("#colorbarEditorManagement").addClass("hide");
    
 }
 
@@ -136,43 +160,37 @@ MapEditor.prototype.renderTriggers = function(){
       return false;
    });
 
-   $("#styleEditorTriggers").removeClass("hide");
-   $("#styleEditorManagement").removeClass("hide");
+   $("#commonTriggers").removeClass("hide");
 
+   if(this.showStyleTriggers){
+      $("#styleEditorTriggers").removeClass("hide");
+      $("#styleEditorManagement").removeClass("hide");
+   }
+   
+   if(this.showColorbarTriggers){
+      $("#colorbarEditorTriggers").removeClass("hide");
+      $("#colorbarEditorManagement").removeClass("hide");
+   }
 }
 
 //------------------------------------------------//
 
 MapEditor.prototype.renderStyle = function(){
-   // set the menu up
-   StyleMenu.init($("#mapnifyMenu") , $("#mapnifyWidget") , $("#mapnifyZoom") , false , this.map , this.style.content);
+   StyleMenu.init($("#detailsMenu") , $("#quickEdit") , $("#zooms") , false , this.map , this.style.content);
 }
 
 MapEditor.prototype.cleanStyle = function(){
-   $("#style").remove();
+
 }
 
 //------------------------------------------------//
 
-MapEditor.prototype.renderColorbar = function()
-{
-   ExtensionColorbar.init($("#mapnifyColorBar"), this.colorbar.content, this.style.content);
-
-   $("#colorbar").dialogr({
-      width:460,
-      minWidth:460,
-      height:590,
-      position : [15,170],
-      closeOnEscape: false,
-      dialogClass: 'no-close'
-   });
-
-   $(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
+MapEditor.prototype.renderColorbar = function(){
+   ExtensionColorbar.init($("#colorBar"), this.colorbar.content);
 }
 
-MapEditor.prototype.cleanColorbar = function()
-{
-   $("#colorbar").remove();
+MapEditor.prototype.cleanColorbar = function(){
+
 }
 
 //==================================================================//

@@ -16,8 +16,8 @@ VectorialLayer.prototype.GetType = function ( ) {
 VectorialLayer.prototype.Init = function ( data ) {
    this.tex          = this.gl.createTexture();
    this.cnv          = document.createElement("canvas");
-   this.cnv.height   = data["h"];
-   this.cnv.width    = data["w"];
+   this.cnv.height   = MapParameter.tileSize ;
+   this.cnv.width    = MapParameter.tileSize ;
    this.ctx          = this.cnv.getContext("2d");
    ExtendCanvasContext  ( this.ctx );
    this.ctx.globalCompositeOperation="source-over";
@@ -30,13 +30,13 @@ VectorialLayer.prototype.Init = function ( data ) {
    this.ctx.fill     ( );
 }
 
-VectorialLayer.prototype.Reset = function ( data ) {
+VectorialLayer.prototype.Reset = function (  ) {
    this.lcnt         = 0
    this.texCreated   = false
    delete this.cnv;
    this.cnv          = document.createElement("canvas");
-   this.cnv.height   = this.data["h"];
-   this.cnv.width    = this.data["w"];
+   this.cnv.height   = MapParameter.tileSize;
+   this.cnv.width    = MapParameter.tileSize;
    this.ctx          = this.cnv.getContext("2d");
    ExtendCanvasContext ( this.ctx );
    this.ctx.globalCompositeOperation="source-over";

@@ -19,7 +19,7 @@ RasterLayer.prototype.Init = function ( data ) {
    this.gl.bindTexture  (this.gl.TEXTURE_2D, null );
 }
 
-RasterLayer.prototype.Reset = function ( data ) {
+RasterLayer.prototype.Reset = function (  ) {
    // Nothing
 }
 

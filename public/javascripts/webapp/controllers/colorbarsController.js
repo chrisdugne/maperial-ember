@@ -81,19 +81,21 @@
         // states
         
         myColorbars: Ember.Route.extend({
-        	route: '/myColorbars',
+        	route: '/',
         	connectOutlets: function(router) {
     			var customParams = [];
     			customParams["colorbars"] = App.user.colorbars;
+            customParams["colorbarsData"] = App.colorbarsData;
         		App.Router.openComponent(router, "colorbars", customParams);
         	}
         }),
         
         publicColorbars: Ember.Route.extend({
-        	route: '/publicColorbars',
+        	route: '/',
     		connectOutlets: function(router) {
     			var customParams = [];
     			customParams["colorbars"] = App.publicData.colorbars;
+    			customParams["colorbarsData"] = App.colorbarsData;
         		App.Router.openComponent(router, "colorbars", customParams);
     		}
         }),

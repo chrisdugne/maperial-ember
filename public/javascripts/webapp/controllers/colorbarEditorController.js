@@ -6,8 +6,7 @@
 
    //==================================================================//
 
-   ColorbarEditorController.renderUI = function()
-   {
+   ColorbarEditorController.renderUI = function() {
 
       ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/mapEditor.js"], function(){
          //-----------------------------
@@ -24,38 +23,22 @@
          }
 
          App.stylesData.set("selectedStyle", App.publicData.styles[0]);
+         ColorbarEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, App.colorbarsData.selectedColorbar, false, true);
+         ColorbarEditorController.mapEditor.renderUI();
 
-         //-----------------------------
-         // retrieve the colorbar content from the tileServer
-         ColorbarManager.getColorbar(App.colorbarsData.selectedColorbar.uid, function(){
-
-            //-----------------------------
-            // retrieve the style content from the tileServer
-            StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
-               //-----------------------------
-               // rendering after reception
-
-               ColorbarEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, App.colorbarsData.selectedColorbar);
-               ColorbarEditorController.mapEditor.renderUI();
-
-               App.user.set("waiting", false);
-            });
-         });
       });
    }
 
-   ColorbarEditorController.cleanUI = function()
-   {
+   ColorbarEditorController.cleanUI = function() {
       ColorbarEditorController.mapEditor.cleanUI();
    }
 
 
 // ==================================================================//
 // Controls
-// ------------------------------------------------//
 
-   ColorbarEditorController.saveColorbar = function()
-   {
+   ColorbarEditorController.saveColorbar = function() {
+      
       var colorbarContent = {};
       ExtensionColorbar.fillContent(colorbarContent);
 

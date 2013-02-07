@@ -27,9 +27,8 @@
             App.stylesData.set("selectedStyle", newStyle);
          }
 
-         StyleEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null);
+         StyleEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
          StyleEditorController.mapEditor.renderUI();
-
       });
    }
 
