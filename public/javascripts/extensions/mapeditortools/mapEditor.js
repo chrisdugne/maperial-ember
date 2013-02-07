@@ -99,21 +99,6 @@ MapEditor.prototype.cleanUI = function(){
 
 //------------------------------------------------//
 
-MapEditor.prototype.showBoundingBoxManager = function(){
-
-   this.boundingBoxManager.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
-   
-   $("#drawBoardContainer").removeClass("hide");
-}
-
-MapEditor.prototype.hideBoundingBoxManager = function(){
-
-   $("#drawBoardContainer").addClass("hide");
-   
-}
-   
-//------------------------------------------------//
-
 MapEditor.prototype.renderMap = function(){
    
    var cbData = [];
@@ -190,6 +175,29 @@ MapEditor.prototype.renderColorbar = function(){
 
 MapEditor.prototype.cleanColorbar = function(){
 
+}
+
+//------------------------------------------------//
+
+MapEditor.prototype.showBoundingBoxManager = function(){
+
+ this.boundingBoxManager.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
+ 
+ $("#drawBoardContainer").removeClass("hide");
+}
+
+MapEditor.prototype.hideBoundingBoxManager = function(){
+
+ $("#drawBoardContainer").addClass("hide");
+ 
+}
+
+MapEditor.prototype.blockBoundingBoxManager = function(){
+   this.boundingBoxManager.block();
+}
+ 
+MapEditor.prototype.allowBoundingBoxManager = function(){
+   this.boundingBoxManager.allow();
 }
 
 //==================================================================//

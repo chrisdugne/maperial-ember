@@ -6,9 +6,9 @@
       templateName: 'datasetSelection'
    });
 
-   App.StyleAndColorbarController = Ember.ObjectController.extend({});
-   App.StyleAndColorbarView = Ember.View.extend({
-      templateName: 'styleAndColorbar',
+   App.MapEditionController = Ember.ObjectController.extend({});
+   App.MapEditionView = Ember.View.extend({
+      templateName: 'mapEdition',
       didInsertElement: function(){
          App.MapCreationController.renderStyleAndColorbarUI();
       },
@@ -17,15 +17,5 @@
       }
    });
 
-   App.SettingsController = Ember.ObjectController.extend({});
-   App.SettingsView = Ember.View.extend({
-      templateName: 'settings',
-      didInsertElement: function(){
-         App.MapCreationController.renderSettingsUI();
-      },
-      willDestroyElement: function(){
-         App.MapCreationController.cleanSettingsUI();
-      }
-   });
 
 })( App);

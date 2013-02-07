@@ -1,7 +1,7 @@
 
 function MapParameter () {
    this.style     = null;
-   
+
    this.datasetUid= null;
    this.contrast  = 0.0;
    this.luminosity= 0.0;
@@ -15,9 +15,14 @@ function MapParameter () {
    }
 }
 
-MapParameter.refreshRate         = 30; // ms
-MapParameter.tileDLTimeOut       = 60000; //ms
-MapParameter.tileSize            = 256;
+MapParameter.refreshRate            = 15; // ms
+MapParameter.tileDLTimeOut          = 60000; //ms
+MapParameter.tileSize               = 256;
+
+MapParameter.autoMoveSpeedRate      = 0.2;
+MapParameter.autoMoveMillis         = 700;
+MapParameter.autoMoveDeceleration   = 0.005;
+MapParameter.autoMoveAnalyseSize    = 10;
 
 MapParameter.StyleChanged        = 1;
 MapParameter.ColorBarChanged     = 2;
@@ -45,7 +50,7 @@ MapParameter.prototype._Change = function (changeEvent) {   // private
       this.obs[i](changeEvent);
    }
 }
-   
+
 MapParameter.prototype.OnChange = function (callback) {
    this.obs.push(callback);
 }
@@ -70,32 +75,32 @@ MapParameter.prototype.SetStyle = function(style){
 }
 
 MapParameter.prototype.GetStyle = function(){
-    return this.style;
+   return this.style;
 }
 
 MapParameter.prototype.SetColorBar = function(colorbar){
    if (this.colorbar)
       delete this.colorbar
 
-   if (colorbar.constructor === String) {
-      this.colorbar = null;
-      $.ajax({
-         url         : colorbar ,
-         async       : false,
-         dataType    : 'json',
-         success     : function (data) {
-            this.colorbar = new Uint8Array(data);
-         }
-      });
-   }
-   else {
-      this.colorbar = new Uint8Array(colorbar);
-   }
+      if (colorbar.constructor === String) {
+         this.colorbar = null;
+         $.ajax({
+            url         : colorbar ,
+            async       : false,
+            dataType    : 'json',
+            success     : function (data) {
+               this.colorbar = new Uint8Array(data);
+            }
+         });
+      }
+      else {
+         this.colorbar = new Uint8Array(colorbar);
+      }
    this._Change(MapParameter.ColorBarChanged)
 }
 
 MapParameter.prototype.GetColorBar = function(){
-    return this.colorbar;
+   return this.colorbar;
 }
 
 MapParameter.prototype.GetMapURL = function (tx,ty,z) {
@@ -113,7 +118,7 @@ MapParameter.prototype.GetDatasetURL = function (tx,ty,z) {
    var url = null
    if (this.datasetUid) 
       url = "http://192.168.0.1:8081/api/tile/"+this.datasetUid+"?x="+tx+"&y="+ty+"&z="+z
-   return url
+      return url
 }
 
 MapParameter.prototype.SetDatasetUid = function ( inUid ) {

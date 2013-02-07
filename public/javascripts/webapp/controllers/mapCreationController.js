@@ -58,19 +58,6 @@
       MapCreationController.styleAndColorbarUIReady = false;
    }
    
-   //-----------------------------------------//
-   
-   MapCreationController.renderSettingsUI = function()
-   {
-      
-   }
-   
-   MapCreationController.cleanSettingsUI = function()
-   {
-      
-   }
-   
-   
    //==================================================================//
    // Controls
 
@@ -109,8 +96,8 @@
    MapCreationController.openStyleSelection = function()
    {
       MapCreationController.wizardSetView("styleAndColorbar");
-      App.get('router').transitionTo('mapCreation.styleAndColorbar.publicStyles');
-
+      App.get('router').transitionTo('mapCreation.mapEdition.publicStyles');
+      
       $('#selectStyleWindow').modal();
       $('#selectStyleWindow').off('hidden');
       $('#selectStyleWindow').on('hidden', function () {
@@ -122,6 +109,7 @@
             MapCreationController.refreshMap();
          }
          else{
+            // map rendering !
             MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
             MapCreationController.mapEditor.renderUI();
             MapCreationController.styleAndColorbarUIReady = true;
@@ -156,38 +144,37 @@
       
       MapCreationController.wizardSetView("settings");
       MapCreationController.mapEditor.hideTriggers();
+      MapCreationController.mapEditor.showBoundingBoxManager();
 
+      $("#settings").removeClass("hide");
+      $("#buttonMapMode").addClass("active");
+      
       $("#triggerSettings").click(function(){
          $("#panelSettings").toggle("fast");
          $(this).toggleClass("active");
-         return false;
-      });
-      
-      $("#settings").removeClass("hide");
-
-      $("#buttonMapMode").addClass("active");
-      
-      $("#buttonBoundingBoxMode").click(function(){
-         $(this).addClass("active");
-         $("#buttonMapMode").removeClass("active");
-         MapCreationController.mapEditor.showBoundingBoxManager();
          return false;
       });
 
       $("#buttonMapMode").click(function(){
          $(this).addClass("active");
          $("#buttonBoundingBoxMode").removeClass("active");
-         MapCreationController.mapEditor.hideBoundingBoxManager();
+         MapCreationController.mapEditor.blockBoundingBoxManager();
+         return false;
+      });
+
+      $("#buttonBoundingBoxMode").click(function(){
+         $(this).addClass("active");
+         $("#buttonMapMode").removeClass("active");
+         MapCreationController.mapEditor.allowBoundingBoxManager();
          return false;
       });
    }
 
    MapCreationController.closeSettings = function(){
       MapCreationController.mapEditor.hideBoundingBoxManager();
-      $("#triggerSettings").unbind("click");
       $("#settings").addClass("hide");
       
-      $("#buttonBoundingBoxMode").unbind("click");
+      $("#triggerSettings").unbind("click");
       $("#buttonMapMode").unbind("click");
    }
    
@@ -244,7 +231,7 @@
       }),
 
 
-      styleAndColorbar: Ember.Route.extend({
+      mapEdition: Ember.Route.extend({
          route: '/style',
          connectOutlets: function(router) {
             App.Router.openComponent(router, "mapCreation");
@@ -259,7 +246,7 @@
                var customParams = [];
                customParams["styles"] = App.user.styles;
                customParams["stylesData"] = App.stylesData;
-               App.Router.openComponent(router, "styleAndColorbar", customParams);
+               App.Router.openComponent(router, "mapEdition", customParams);
             }
          }),
    
@@ -269,7 +256,7 @@
                var customParams = [];
                customParams["styles"] = App.publicData.styles;
                customParams["stylesData"] = App.stylesData;
-               App.Router.openComponent(router, "styleAndColorbar", customParams);
+               App.Router.openComponent(router, "mapEdition", customParams);
             }
          }),
 
@@ -278,8 +265,8 @@
          // state actions
          
          // ---- select style actions
-         showPublicStyles: Ember.Route.transitionTo('mapCreation.styleAndColorbar.publicStyles'),
-         showMyStyles: Ember.Route.transitionTo('mapCreation.styleAndColorbar.myStyles'),
+         showPublicStyles: Ember.Route.transitionTo('mapCreation.mapEdition.publicStyles'),
+         showMyStyles: Ember.Route.transitionTo('mapCreation.mapEdition.myStyles'),
    
          selectStyle : function(router, event){
             console.log("calling MapCreationController.selectStyle with " + event.context.name);
@@ -288,20 +275,13 @@
          // -----
       }),
       
-      settings: Ember.Route.extend({
-         route: '/settings',
-         connectOutlets: function(router) {
-            App.Router.openComponent(router, "mapCreation");
-         }
-      }),
       
       //--------------------------------------//
       // actions
       
       //--- wizard
       openDatasetSelection: Ember.Route.transitionTo('mapCreation.datasetSelection'),
-      openStyleAndColorbar: Ember.Route.transitionTo('mapCreation.styleAndColorbar'),
-      openSettings: Ember.Route.transitionTo('mapCreation.settings')
+      openMapEdition: Ember.Route.transitionTo('mapCreation.mapEdition')
       // ---- 
    });
 

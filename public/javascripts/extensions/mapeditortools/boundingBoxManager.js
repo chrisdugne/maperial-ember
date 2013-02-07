@@ -160,3 +160,23 @@ BoundingBoxManager.prototype.drawBoundingBox = function () {
 
 //----------------------------------------------------------------------//
 
+
+BoundingBoxManager.prototype.block = function () {
+   this.drawBoard.item(0).selectable = false;
+}
+
+BoundingBoxManager.prototype.allow = function () {
+   this.drawBoard.item(0).selectable = true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
