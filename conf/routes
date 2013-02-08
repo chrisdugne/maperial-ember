@@ -23,6 +23,8 @@ POST /getAccount					controllers.AccountService.getAccount()
 
 POST /addDataset					controllers.DatasetService.addDataset()
 POST /removeDataset					controllers.DatasetService.removeDataset()
+POST /addRaster						controllers.DatasetService.addRaster()
+POST /removeRaster					controllers.DatasetService.removeRaster()
 
 #---------------------------------------------------------------------------
 #   StyleService 

@@ -3,15 +3,17 @@ package controllers;
 import java.util.Date;
 
 import models.Dataset;
+import models.Raster;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.Logger;
 import play.mvc.Result;
 import domain.AccountManager;
 
 public class DatasetService extends Application 
 {
-	// ---------------------------------------------//
+	// ===================================================================  //
 
 	public static Result addDataset()
 	{
@@ -67,7 +69,58 @@ public class DatasetService extends Application
 		
 		return ok();
 	}
-	
-	// ---------------------------------------------//
 
+	// ===================================================================  //
+	
+	public static Result addRaster()
+	{
+		//----------//
+
+		JsonNode params = request().body().asJson();
+		JsonNode datasetJson = params.get("dataset");
+		JsonNode rasterJson = params.get("raster");
+		
+		Logger.debug(rasterJson.toString());
+		
+		//----------//
+		
+		Raster raster = new Raster();
+		
+		String datasetUID = datasetJson.get("uid").asText();
+		String rasterUID = rasterJson.get("uid").asText();
+		String name = rasterJson.get("name").asText();
+		
+		raster.setUid(rasterUID);
+		raster.setName(name);
+		raster.setCreationTime(new Date().getTime());
+		
+		//----------//
+		
+		AccountManager.addRaster(datasetUID, raster);
+		
+		//----------//
+		
+		return ok(gson.toJson(raster));
+	}
+
+	
+	public static Result removeRaster()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode rasterJson = params.get("raster");
+		
+		//----------//
+
+		String rasterUID = rasterJson.get("uid").asText();
+		
+		//----------//
+		
+		AccountManager.removeRaster(rasterUID);
+		
+		//----------//
+		
+		return ok();
+	}
 }

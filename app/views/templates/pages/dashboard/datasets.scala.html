@@ -5,14 +5,16 @@
 		<tbody class="files">
 			<tr class="data-box-content-title template-download">
 				<td class="name"><p class="filename">File</p></td>
+				<td class="size"><span>Rasters</span></td>
 				<td class="size"><span>Size</span></td>
 				<td><span>Upload date</span></td>
 			</tr>
 
 			{{#each dataset in user.datasets}}
 			<tr class="template-download">
-				<td class="name"><p class="filename">{{dataset.name}}</p></td>
 				{{#with dataset}}
+				<td class="name"><p class="filename">{{name}}</p></td>
+				<td class="size"><span>{{rasters.length}}</span></td>
 				<td class="size"><span>{{fileSize size}}</span></td>
 				<td><span>{{formatDate uploadTime}}</span></td> 
 				{{/with}}

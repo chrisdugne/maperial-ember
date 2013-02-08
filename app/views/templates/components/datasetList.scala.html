@@ -3,30 +3,44 @@
 <div class="row-fluid">
 		
 	{{#each dataset in user.datasets}}
-	<div class="row-fluid">
-		<div class="span3 offset2 name">
-			<p class="filename">{{dataset.name}}</p>
+		<div class="row-fluid datasetTitle">
+			{{#with dataset}}
+			<div class="span3 offset2 name">
+				<p class="filename">{{name}}</p>
+			</div>
+			<div class="span1 size">
+				<span>{{fileSize size}}</span>
+			</div>
+			<div class="span1">
+				<span>{{formatDate uploadTime}}</span>
+			</div>
+			{{/with}}
+			<div class="span1 offset2">
+			@if(selection){
+				<button class="btn-small btn-success">
+					<i class="icon-arrow-right icon-white"></i>
+				</button>
+			}else{
+				<button {{action deleteDataset dataset}} class="btn-small btn-danger">
+					<i class="icon-trash icon-white"></i>
+				</button>
+			}
+			</div>
 		</div>
-		{{#with dataset}}
-		<div class="span1 size">
-			<span>{{fileSize size}}</span>
+		<div class="row-fluid">
+		{{bound_equals dataset.rasters.length value='0'
+			yes='<div class="span2 offset3">(No raster)</div>'
+			no=''
+		}}
+		{{#each raster in dataset.rasters}}
+			{{#with raster}}
+				<p>{{id}}</p>
+			{{/with}}
+		{{/each}} 
+		<button {{action createRaster dataset}} class="btn-small btn-success">
+			<i class="icon-plus icon-white"></i>
+		</button>
 		</div>
-		<div class="span1">
-			<span>{{formatDate uploadTime}}</span>
-		</div>
-		{{/with}}
-		<div class="span1 offset2">
-		@if(selection){
-			<button class="btn-small btn-success">
-				<i class="icon-arrow-right icon-white"></i>
-			</button>
-		}else{
-			<button {{action deleteDataset dataset}} class="btn-small btn-danger">
-				<i class="icon-trash icon-white"></i>
-			</button>
-		}
-		</div>
-	</div>
 	{{/each}} 
 
 	{{#each data in datasetsData.filesToUpload}} 

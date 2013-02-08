@@ -79,7 +79,8 @@
       var dataset = {
             name : data.result.files[0].name,
             size : data.result.files[0].size,
-            uid  : data.result.files[0].datasetUID
+            uid  : data.result.files[0].datasetUID,
+            rasters : []
       };
       
       App.user.datasets.pushObject(dataset);
@@ -134,7 +135,12 @@
 		deleteDataset: function(router, event){
 			var dataset = event.context;
 			DatasetManager.deleteDataset(dataset);
-		}
+		},
+
+      createRaster: function(router, event){
+         var dataset = event.context;
+         DatasetManager.createRaster(dataset);
+      }
 
 	});
 
