@@ -1,8 +1,11 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.db.ebean.Model;
 
@@ -26,10 +29,15 @@ public class Dataset extends Model{
 	@Expose
 	private Long uploadTime;
 
+	@OneToMany
+	@Expose
+	private List<Raster> rasters;
+
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
 	private Account account;
+	
 	
 	// -----------------------------------------------------------------------------------------------//
 	// -- Queries
@@ -70,6 +78,14 @@ public class Dataset extends Model{
 		this.account = account;
 	}
 	
+	public List<Raster> getRasters() {
+		return rasters;
+	}
+
+	public void setRasters(List<Raster> rasters) {
+		this.rasters = rasters;
+	}
+
 	public Long getSize() {
 		return size;
 	}

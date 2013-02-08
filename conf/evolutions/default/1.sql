@@ -1,3 +1,6 @@
+# --- Created by Ebean DDL
+# To stop Ebean DDL generation, remove this comment and start using Evolutions
+
 # --- !Ups
 
 create table account (
@@ -51,6 +54,14 @@ create table map (
   constraint pk_map primary key (uid))
 ;
 
+create table raster (
+  uid                       varchar(255) not null,
+  name                      varchar(255),
+  creation_time             bigint,
+  dataset_uid               varchar(255),
+  constraint pk_raster primary key (uid))
+;
+
 create table style (
   uid                       varchar(255) not null,
   name                      varchar(255),
@@ -71,6 +82,8 @@ create sequence icon_seq;
 
 create sequence map_seq;
 
+create sequence raster_seq;
+
 create sequence style_seq;
 
 alter table colorbar add constraint fk_colorbar_account_1 foreign key (account_uid) references account (uid);
@@ -89,8 +102,10 @@ alter table map add constraint fk_map_dataset_7 foreign key (dataset_uid) refere
 create index ix_map_dataset_7 on map (dataset_uid);
 alter table map add constraint fk_map_account_8 foreign key (account_uid) references account (uid);
 create index ix_map_account_8 on map (account_uid);
-alter table style add constraint fk_style_account_9 foreign key (account_uid) references account (uid);
-create index ix_style_account_9 on style (account_uid);
+alter table raster add constraint fk_raster_dataset_9 foreign key (dataset_uid) references dataset (uid);
+create index ix_raster_dataset_9 on raster (dataset_uid);
+alter table style add constraint fk_style_account_10 foreign key (account_uid) references account (uid);
+create index ix_style_account_10 on style (account_uid);
 
 
 
@@ -108,6 +123,8 @@ drop table if exists icon cascade;
 
 drop table if exists map cascade;
 
+drop table if exists raster cascade;
+
 drop table if exists style cascade;
 
 drop sequence if exists account_seq;
@@ -121,6 +138,8 @@ drop sequence if exists font_seq;
 drop sequence if exists icon_seq;
 
 drop sequence if exists map_seq;
+
+drop sequence if exists raster_seq;
 
 drop sequence if exists style_seq;
 
