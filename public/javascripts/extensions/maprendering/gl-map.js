@@ -39,9 +39,6 @@ function GLMap(mapName, magnifierName) {
    this.mapCanvas          = $("#"+mapName)[0];
    this.mapElement         = $("#"+mapName);
    this.mouseDown          = false;
-   this.lastMouseX         = null;
-   this.lastMouseY         = null;
-   this.fifoMouse          = [];
    this.coordS             = new CoordinateSystem ( MapParameter.tileSize );
    this.centerM            = this.coordS.LatLonToMeters( 45.7 , 3.12 );
    this.mouseM             = this.centerM;
@@ -49,7 +46,7 @@ function GLMap(mapName, magnifierName) {
    this.tileCache          = {};
    this.dataCache          = {};
    this.params             = new MapParameter(); 
-   this.autoMoving         = false;
+   this.mover              = new MapMover(this);
 }
 
 
@@ -62,12 +59,8 @@ GLMap.prototype.GetParams = function (  ) {
 //----------------------------------------------------------------------//
 
 GLMap.prototype.OnMouseDown = function (event) {
-   this.mouseDown     = true;
-   this.lastMouseX    = event.clientX;
-   this.lastMouseY    = event.clientY;
-   this.fifoMouse     = [];
-   this.autoMoving    = false;
-   
+   this.mouseDown = true;
+   this.mover.reset(event);
 }
 
 GLMap.prototype.OnMouseLeave = function (event) {
@@ -77,9 +70,9 @@ GLMap.prototype.OnMouseLeave = function (event) {
 
 GLMap.prototype.OnMouseUp = function (event) {
    this.mouseDown = false; 
-   this.autoMove();
+   this.mover.autoMove();
    
-   if(!this.autoMoving){
+   if(!this.mover.autoMoving){
       if(this.params.GetEditMode() )
          this.EditStyle(event);      
    }
@@ -97,18 +90,7 @@ GLMap.prototype.OnMouseMove = function (event) {
    }
    
    // dragging
-   var newX = event.clientX;
-   var newY = event.clientY;
-   var deltaX = newX - this.lastMouseX;
-   var deltaY = newY - this.lastMouseY;
-   this.lastMouseX = newX
-   this.lastMouseY = newY;
-   
-   this.registerMouseData(newX, newY);
-   
-   var r            = this.coordS.Resolution ( this.zoom );
-   this.centerM.x   = this.centerM.x - deltaX * r;
-   this.centerM.y   = this.centerM.y + deltaY * r;       
+   this.mover.drag(event);
 }
 
 GLMap.prototype.OnMouseWheel = function (event, delta) {
@@ -143,75 +125,6 @@ GLMap.prototype.OnMouseWheel = function (event, delta) {
       this.centerM.x = cursorM.x - deltaM.x;
       this.centerM.y = cursorM.y - deltaM.y;
    } 
-}
-
-//----------------------------------------------------------------------//
-
-GLMap.prototype.autoMove = function () {
-
-   // on arrive dans des cas chelous qui petent tout parfois..
-   if(this.fifoMouse.length < 3)
-      return;
-
-   // recup des derniers moves de la souris
-   var startPoint = this.fifoMouse[0];
-   var endPoint = this.fifoMouse.pop();
-   
-   // verif si la souris n'a pas été statique a la fin = no automove
-   var now = new Date().getTime();
-   if(now - endPoint.time > 120)
-      return;
-   
-   var startPoint = this.fifoMouse[0];
-   var endPoint = this.fifoMouse.pop();
-   
-   var deltaX = endPoint.x - startPoint.x;
-   var deltaY = endPoint.y - startPoint.y;
-   
-   var deltaTime = endPoint.time - startPoint.time;
-   var distance = Math.sqrt( deltaX*deltaX + deltaY*deltaY );
-   
-   var speed = (distance*1000/deltaTime)/MapParameter.refreshRate;
-   
-   var speedX = (speed*deltaX/distance)*MapParameter.autoMoveSpeedRate;
-   var speedY = (speed*deltaY/distance)*MapParameter.autoMoveSpeedRate;
-
-   this.autoMoving = true;
-   this.moveScene(MapParameter.autoMoveMillis, speedX, speedY, 0);
-}
-
-GLMap.prototype.moveScene = function (timeRemaining, speedX, speedY, nbAutoMove) {
-   
-   if(timeRemaining < 0 || !this.autoMoving)
-      return;
-   
-   if(isNaN(speedX)){
-      return;
-   }
-
-   var r            = this.coordS.Resolution ( this.zoom );
-   this.centerM.x   = this.centerM.x - speedX * r;
-   this.centerM.y   = this.centerM.y + speedY * r;
-
-   var me = this;
-   var rate = 0.99 - nbAutoMove* MapParameter.autoMoveDeceleration;
-   
-   setTimeout(function() {me.moveScene(timeRemaining - MapParameter.refreshRate, speedX*rate, speedY*rate, nbAutoMove+1)}, MapParameter.refreshRate );
-}
-
-   
-GLMap.prototype.registerMouseData = function (x, y) {
-   
-   if(this.fifoMouse.length >= MapParameter.autoMoveAnalyseSize)
-      this.fifoMouse.shift();
-   
-   var mouseData = new Object();
-   mouseData.x = x;
-   mouseData.y = y;
-   mouseData.time = new Date().getTime();
-   
-   this.fifoMouse.push(mouseData);
-   
 }
 
 //----------------------------------------------------------------------//

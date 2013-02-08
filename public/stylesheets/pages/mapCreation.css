@@ -97,7 +97,7 @@ a.active#triggerSettings {
 /*------------------------------------------------------------*/
 /* SETTINGS*/
 
-#buttonBoundingBoxMode {
+#buttonDrawMode {
 	position: absolute;
 	text-decoration: none;
 	right: 200px;
@@ -119,7 +119,7 @@ a.active#triggerSettings {
 	opacity: .85;
 }
 
-#buttonBoundingBoxMode:hover {
+#buttonDrawMode:hover {
 	position: absolute;
 	text-decoration: none;
 	right: 200px;
@@ -141,7 +141,7 @@ a.active#triggerSettings {
 	opacity: .85;
 }
 
-div.active#buttonBoundingBoxMode {
+div.active#buttonDrawMode {
 	padding: 6px 13px 6px 13px;
 	filter: alpha(opacity =   85);
 	opacity: .85;

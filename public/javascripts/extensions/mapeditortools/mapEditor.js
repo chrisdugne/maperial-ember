@@ -5,7 +5,7 @@ function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers){
    this.map;
    this.style = style;
    this.colorbar = colorbar;
-   this.boundingBoxManager;
+   this.boundingBoxDrawer;
    this.showStyleTriggers = showStyleTriggers;
    this.showColorbarTriggers = showColorbarTriggers;
 }
@@ -30,11 +30,12 @@ MapEditor.prototype.renderUI = function() {
                 "assets/javascripts/extensions/maprendering/render-line.js",
                 "assets/javascripts/extensions/maprendering/render-text.js",
                 "assets/javascripts/extensions/maprendering/tileRenderer.js",
+                "assets/javascripts/extensions/maprendering/mapMover.js",
                 "assets/javascripts/extensions/maprendering/gl-map.js",
 
                 // map editing
                 "assets/javascripts/extensions/mapeditortools/fabric.all.1.0.6.js",
-                "assets/javascripts/extensions/mapeditortools/boundingBoxManager.js",
+                "assets/javascripts/extensions/mapeditortools/boundingBoxDrawer.js",
                 "assets/javascripts/extensions/mapeditortools/v_colortool.js",
                 "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
                 "assets/javascripts/extensions/mapeditortools/colorpicker.js",
@@ -84,7 +85,7 @@ MapEditor.prototype.renderAll = function(){
       this.renderColorbar();
    }
    
-   this.boundingBoxManager = new BoundingBoxManager(this.map);
+   this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
    
    // screen is ready
    App.user.set("waiting", false);
@@ -179,25 +180,25 @@ MapEditor.prototype.cleanColorbar = function(){
 
 //------------------------------------------------//
 
-MapEditor.prototype.showBoundingBoxManager = function(){
+MapEditor.prototype.showBoundingBox = function(){
 
- this.boundingBoxManager.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
+ this.boundingBoxDrawer.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
  
  $("#drawBoardContainer").removeClass("hide");
 }
 
-MapEditor.prototype.hideBoundingBoxManager = function(){
+MapEditor.prototype.hideBoundingBox = function(){
 
  $("#drawBoardContainer").addClass("hide");
  
 }
 
-MapEditor.prototype.blockBoundingBoxManager = function(){
-   this.boundingBoxManager.block();
+MapEditor.prototype.deactivateBoundingBoxDrawing = function(){
+   this.boundingBoxDrawer.deactivateDrawing();
 }
  
-MapEditor.prototype.allowBoundingBoxManager = function(){
-   this.boundingBoxManager.allow();
+MapEditor.prototype.activateBoundingBoxDrawing = function(){
+   this.boundingBoxDrawer.activateDrawing();
 }
 
 //==================================================================//

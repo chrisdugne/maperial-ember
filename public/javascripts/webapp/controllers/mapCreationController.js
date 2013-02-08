@@ -144,10 +144,12 @@
       
       MapCreationController.wizardSetView("settings");
       MapCreationController.mapEditor.hideTriggers();
-      MapCreationController.mapEditor.showBoundingBoxManager();
+      MapCreationController.mapEditor.showBoundingBox();
+      MapCreationController.mapEditor.deactivateBoundingBoxDrawing();
 
       $("#settings").removeClass("hide");
       $("#buttonMapMode").addClass("active");
+      $("#buttonDrawMode").removeClass("active");
       
       $("#triggerSettings").click(function(){
          $("#panelSettings").toggle("fast");
@@ -157,21 +159,21 @@
 
       $("#buttonMapMode").click(function(){
          $(this).addClass("active");
-         $("#buttonBoundingBoxMode").removeClass("active");
-         MapCreationController.mapEditor.blockBoundingBoxManager();
+         $("#buttonDrawMode").removeClass("active");
+         MapCreationController.mapEditor.deactivateBoundingBoxDrawing();
          return false;
       });
 
-      $("#buttonBoundingBoxMode").click(function(){
+      $("#buttonDrawMode").click(function(){
          $(this).addClass("active");
          $("#buttonMapMode").removeClass("active");
-         MapCreationController.mapEditor.allowBoundingBoxManager();
+         MapCreationController.mapEditor.activateBoundingBoxDrawing();
          return false;
       });
    }
 
    MapCreationController.closeSettings = function(){
-      MapCreationController.mapEditor.hideBoundingBoxManager();
+      MapCreationController.mapEditor.hideBoundingBox();
       $("#settings").addClass("hide");
       
       $("#triggerSettings").unbind("click");
