@@ -31,7 +31,7 @@ UserManager.getAccount = function()
    var params = new Object();
    params["user"] = App.user;
 
-   $.ajax({  
+   $.ajax({
       type: "POST",  
       url: "/getAccount",
       data: JSON.stringify(params),  
@@ -39,8 +39,6 @@ UserManager.getAccount = function()
       dataType: "json",
       success: function (account, textStatus, jqXHR)
       {
-         console.log(account);
-
          App.user.set("uid", account.uid);
          App.user.set("email", account.email);
          App.user.set("name", account.name);
@@ -50,6 +48,8 @@ UserManager.getAccount = function()
          App.user.set("colorbars", account.colorbars);
          App.user.set("fonts", account.fonts);
          App.user.set("icons", account.icons);
+         
+         DatasetManager.getHeaders();
       }
    });
 }

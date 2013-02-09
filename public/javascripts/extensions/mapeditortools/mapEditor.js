@@ -31,6 +31,7 @@ MapEditor.prototype.renderUI = function() {
                 "assets/javascripts/extensions/maprendering/render-text.js",
                 "assets/javascripts/extensions/maprendering/tileRenderer.js",
                 "assets/javascripts/extensions/maprendering/mapMover.js",
+                "assets/javascripts/extensions/maprendering/geoloc.js",
                 "assets/javascripts/extensions/maprendering/gl-map.js",
 
                 // map editing

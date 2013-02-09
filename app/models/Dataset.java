@@ -2,6 +2,7 @@ package models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -22,6 +23,9 @@ public class Dataset extends Model{
 	
 	@Expose
 	private String name;
+	
+	@Expose
+	private String separator;
 
 	@Expose
 	private Long size;
@@ -29,7 +33,7 @@ public class Dataset extends Model{
 	@Expose
 	private Long uploadTime;
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@Expose
 	private List<Raster> rasters;
 
@@ -60,6 +64,14 @@ public class Dataset extends Model{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSeparator() {
+		return separator;
+	}
+
+	public void setSeparator(String separator) {
+		this.separator = separator;
 	}
 
 	public Long getUploadTime() {

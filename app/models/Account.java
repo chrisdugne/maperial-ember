@@ -2,6 +2,7 @@ package models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -39,7 +40,7 @@ public class Account extends Model {
 	@OneToMany
 	@Expose
 	private List<Style> styles;
-	
+
 	@OneToMany
 	@Expose
 	private List<Dataset> datasets;

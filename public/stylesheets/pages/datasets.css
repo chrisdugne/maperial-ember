@@ -12,3 +12,12 @@
 .datasetTitle {
 	background-color: #eef;
 }
+
+/*------------------------------*/
+.rasterParam {
+	margin-bottom: 0px;
+}
+
+.rasterParamName {
+	margin-top: 8px;
+}

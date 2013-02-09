@@ -6,8 +6,27 @@ this.DatasetManager = {};
 
 //-------------------------------------------//
 
-DatasetManager.addDataset = function(dataset)
+DatasetManager.getHeaders = function()
 {
+   for(var i=0; i< App.user.datasets.length; i++){
+      var dataset = App.user.datasets[i];
+      
+      $.ajax({
+         type: "GET",  
+         url: App.Globals.mapServer + "/api/dataset/header/"+dataset.uid+"?sep="+dataset.separator,
+         dataType: "json",
+         success: function (data)
+         {
+            dataset.header = data.header;
+         }
+      });
+   }   
+}
+
+//-------------------------------------------//
+   
+DatasetManager.addDataset = function(dataset)
+   {
    var params = new Object();
    params["user"] = App.user;
    params["dataset"] = dataset;
@@ -54,21 +73,24 @@ DatasetManager.deleteDataset = function(dataset)
 
 //-------------------------------------------//
 
-DatasetManager.createRaster = function(dataset){
+DatasetManager.createRaster = function(){
 
-   var raster = new Object();
-   raster.name = "MesCouillesSurTonNezCaFaitDindon";
-   raster.datasetUID = dataset.uid;
-   raster.x = "X(m)";
-   raster.y = "Y(m)";
-   raster.v = "data";
-   raster.proj = "epsg";
-   raster.zMin = "0";
-   raster.zMax = "18";
+   
+   var dataset = App.datasetsData.selectedDataset;
+   var raster = App.datasetsData.rasterBeingConfigured;
+//   raster.name = "MesCouillesSurTonNezCaFaitDindon";
+//   raster.datasetUID = dataset.uid;
+//   raster.x = "X(m)";
+//   raster.y = "Y(m)";
+//   raster.v = "data";
+//   raster.proj = "epsg";
+//   raster.zMin = "0";
+//   raster.zMax = "18";
+//   raster.sep = ",";
 
    $.ajax({
       type: "POST",  
-      url: App.Globals.mapServer + ":8081/api/raster",
+      url: App.Globals.mapServer + "/api/raster",
       data: $.param(raster),
       dataType: "json",
       error: function (e, message){
@@ -101,5 +123,50 @@ DatasetManager.createRaster = function(dataset){
    });
 }
 
+//-------------------------------------------//
+
+DatasetManager.deleteRaster = function(raster, dataset)
+{
+   // ------------ a virer
+
+   dataset.rasters.removeObject(raster);
+
+   // remove from the db
+   var params = new Object();
+   params["raster"] = raster;
+
+   $.ajax({  
+      type: "POST",  
+      url: "/removeRaster",
+      data: JSON.stringify(params),  
+      contentType: "application/json; charset=utf-8"
+   });
+   
+   return;
+    
+   // ------------ 
+   
+   $.ajax({  
+      type: "DELETE",  
+      url: App.Globals.mapServer + "/api/raster?key=" + raster.uid,
+      dataType: "text",
+      success: function (data, textStatus, jqXHR)
+      {
+         dataset.rasters.removeObject(raster);
+
+         // remove from the db
+         var params = new Object();
+         params["raster"] = raster;
+
+         $.ajax({  
+            type: "POST",  
+            url: "/removeRaster",
+            data: JSON.stringify(params),  
+            contentType: "application/json; charset=utf-8"
+         });
+         
+      }
+   });
+}
 
 //-------------------------------------------//

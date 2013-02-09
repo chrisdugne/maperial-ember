@@ -22,6 +22,7 @@ create table colorbar (
 create table dataset (
   uid                       varchar(255) not null,
   name                      varchar(255),
+  separator                 varchar(255),
   size                      bigint,
   upload_time               bigint,
   account_uid               varchar(255),

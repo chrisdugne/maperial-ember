@@ -34,6 +34,7 @@ public class DatasetService extends Application
 		
 		dataset.setUid(datasetUID);
 		dataset.setName(datasetName);
+		dataset.setSeparator(",");
 		dataset.setSize(datasetSize);
 		dataset.setUploadTime(new Date().getTime());
 

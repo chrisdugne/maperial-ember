@@ -101,6 +101,29 @@
 
 	//----------------------------------------------------//
 	
+	DatasetsController.openConfigureRasterWindow = function(dataset) 
+	{
+	   App.datasetsData.set("selectedDataset", dataset);
+	   App.datasetsData.set("rasterBeingConfigured", {});
+	   $('#configureRasterWindow').modal();
+	}
+
+	//----------------------------------------------------//
+	
+	DatasetsController.selectX = function(column){
+	   App.datasetsData.set("rasterBeingConfigured.x", column);
+	} 
+
+	DatasetsController.selectY = function(column){
+	   App.datasetsData.set("rasterBeingConfigured.y", column);
+	} 
+
+	DatasetsController.selectV = function(column){
+	   App.datasetsData.set("rasterBeingConfigured.v", column);
+	} 
+
+	//----------------------------------------------------//
+	
 	App.DatasetsController = DatasetsController;
 
 	//==================================================================//
@@ -137,10 +160,37 @@
 			DatasetManager.deleteDataset(dataset);
 		},
 
-      createRaster: function(router, event){
+		// ---- 		
+      createRaster: function(){
+         DatasetManager.createRaster();
+      },
+      
+      openConfigureRasterWindow: function(router, event){
          var dataset = event.context;
-         DatasetManager.createRaster(dataset);
-      }
+         DatasetsController.openConfigureRasterWindow(dataset);
+      },
+
+		deleteRaster: function(router, event){
+		   var raster = event.contexts[0];
+		   var dataset = event.contexts[1];
+		   DatasetManager.deleteRaster(raster, dataset);
+		},
+		// ---- 		
+
+		selectX: function(router, event){
+		   var column = event.context;
+		   DatasetsController.selectX(column);
+		},
+
+		selectY: function(router, event){
+		   var column = event.context;
+		   DatasetsController.selectY(column);
+		},
+		
+		selectV: function(router, event){
+		   var column = event.context;
+		   DatasetsController.selectV(column);
+		},
 
 	});
 

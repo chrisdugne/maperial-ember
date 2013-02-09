@@ -129,6 +129,11 @@ GLMap.prototype.OnMouseWheel = function (event, delta) {
 
 //----------------------------------------------------------------------//
 
+GLMap.prototype.SetCenter=function(lat,lon){
+   this.centerM            = this.coordS.LatLonToMeters( lat , lon );
+   this.DrawScene();
+}
+
 GLMap.prototype.SetZoom = function(z){
    if ( z > -1 && z < 19 ){
       this.zoom = z;
