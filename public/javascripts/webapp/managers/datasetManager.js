@@ -73,11 +73,9 @@ DatasetManager.deleteDataset = function(dataset)
 
 //-------------------------------------------//
 
-DatasetManager.createRaster = function(){
+DatasetManager.validateRaterConfig = function(raster){
 
    
-   var dataset = App.datasetsData.selectedDataset;
-   var raster = App.datasetsData.rasterBeingConfigured;
 //   raster.name = "MesCouillesSurTonNezCaFaitDindon";
 //   raster.datasetUID = dataset.uid;
 //   raster.x = "X(m)";
@@ -87,6 +85,48 @@ DatasetManager.createRaster = function(){
 //   raster.zMin = "0";
 //   raster.zMax = "18";
 //   raster.sep = ",";
+   
+   var errorTitle = "This raster is not well configured";
+   var checkMessage = "Check out this parameter : ";
+   var area = "rasterErrorArea";
+
+   $("#"+area).empty();
+
+   if(!raster.x){
+      Utils.alert(area, "error", errorTitle, checkMessage + "X column");
+      return false;
+   }   
+
+   if(!raster.y){
+      Utils.alert(area, "error", errorTitle, checkMessage + "Y column");
+      return false;
+   }   
+   
+   if(!raster.v){
+      Utils.alert(area, "error", errorTitle, checkMessage + "Data");
+      return false;
+   }   
+   
+   if(!raster.proj){
+      Utils.alert(area, "error", errorTitle, checkMessage + "Epsg");
+      return false;
+   }   
+   
+   if(!raster.name){
+      Utils.alert(area, "error", errorTitle, checkMessage + "Name");
+      return false;
+   }   
+   
+   return true;
+}
+
+DatasetManager.createRaster = function(){
+   
+   var dataset = App.datasetsData.selectedDataset;
+   var raster = App.datasetsData.rasterBeingConfigured;
+
+   if(!DatasetManager.validateRaterConfig(raster))
+      return;
 
    $.ajax({
       type: "POST",  

@@ -105,7 +105,36 @@
 	{
 	   App.datasetsData.set("selectedDataset", dataset);
 	   App.datasetsData.set("rasterBeingConfigured", {});
+	   App.datasetsData.set("rasterBeingConfigured.zMin", 4);
+	   App.datasetsData.set("rasterBeingConfigured.zMax", 14);
+
+	   $( "#projections" ).autocomplete({
+	      source: App.Globals.epsg
+	    });
+	   
 	   $('#configureRasterWindow').modal();
+	   
+	   $( "#rasterZoomSlider" ).slider({
+         range: true,
+         min: 1,
+         max: 18,
+         values: [ App.datasetsData.rasterBeingConfigured.zMin, App.datasetsData.rasterBeingConfigured.zMax ],
+         change: function( event, ui ) {
+            var minV = ui.values[0];
+            var maxV = ui.values[1];
+            App.datasetsData.set("rasterBeingConfigured.zMin", minV);
+            App.datasetsData.set("rasterBeingConfigured.zMax", maxV);
+         },
+         slide: function( event, ui ) {
+            if ( (ui.values[0] + 1) > ui.values[1] ) {
+               return false;      
+            }                      
+            var minV = ui.values[0];
+            var maxV = ui.values[1];
+            App.datasetsData.set("rasterBeingConfigured.zMin", minV);
+            App.datasetsData.set("rasterBeingConfigured.zMax", maxV);
+         }
+	   });
 	}
 
 	//----------------------------------------------------//

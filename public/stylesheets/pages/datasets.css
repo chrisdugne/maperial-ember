@@ -21,3 +21,12 @@
 .rasterParamName {
 	margin-top: 8px;
 }
+
+/*------------------------------*/
+#rasterZoomSlider.ui-widget-content {
+	color: #eee;
+	border: 1px solid #ddd;
+	background: #ddd;
+	width: 50%;
+	margin-left: 25%;
+}

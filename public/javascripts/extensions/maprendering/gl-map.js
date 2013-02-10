@@ -462,13 +462,14 @@ GLMap.prototype.EditStyle = function (event) {
 
    // render the tile inside this invisibleCanvas with the layerId colors
    var layerId = tile.LayerLookup( tileClickCoord , ctx , this.zoom, this.params.GetStyle() ) ;
-   console.log("layerId : " + layerId);
+   //console.log("layerId : " + layerId);
 
    ctx.restore();
 
    var gn = StyleMenu.GetGroupNameFilterFromLayerId(layerId);
    if ( gn.group != null && gn.name != null ){
       StyleMenu.__BuildWidget(gn.group,gn.name,gn.uid);
+      StyleMenu.Accordion(gn.group,gn.name,gn.uid);
    }
 }
 

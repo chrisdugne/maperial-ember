@@ -553,13 +553,13 @@ StyleMenu.__InsertZoomEdition2 = function(){
   $('<h2 class="styleMenu_menu_par_title_z"> Edit some zoom</h2><div id="styleMenu_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(StyleMenu.zoomDiv);//.hide();
   $('<h2 class="styleMenu_menu_par_title_z"> Edit a zoom range</h2><div id="styleMenu_menu_sliderrangez"></div><br/>').appendTo(StyleMenu.zoomDiv);
 
-  $( "#styleMenu_menu_zoom_selector" ).buttonset();
-
   for ( var z = 1 ; z < 19 ; ++z){
       $("#styleMenu_menu_zcheck"+z).change(function(){
            StyleMenu.UpdateActivZoom();
       });
   }
+  
+  $( "#styleMenu_menu_zoom_selector" ).buttonset();
   
   $( "#styleMenu_menu_sliderrangez" ).slider({
           range: true,
@@ -603,6 +603,7 @@ StyleMenu.__InsertZoomEdition2 = function(){
           }
   });
 
+
   $( "#styleMenu_menu_sliderrangez" ).slider( "values",  [StyleMenu.currentZmin, StyleMenu.currentZmax+1] );  
 
 }
@@ -624,6 +625,15 @@ StyleMenu.GetColorPickerCallBack = function(_uid,_ruleId,pName){
 //////////////////////////////////////////////////////////////
 // Closure for spinner callback
 StyleMenu.GetSpinnerCallBack = function(_uid,_ruleId,pName){  
+   return function (event, ui) {
+      var newV = ui.value;
+      StyleMenu.SetParamIdZNew(_uid,pName,newV);
+   }
+}
+
+//////////////////////////////////////////////////////////////
+// Closure for slider callback
+StyleMenu.GetSliderCallBack = function(_uid,_ruleId,pName){  
    return function (event, ui) {
       var newV = ui.value;
       StyleMenu.SetParamIdZNew(_uid,pName,newV);
@@ -699,7 +709,7 @@ StyleMenu.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleId,_contain
 //////////////////////////////////////////////////////////////
 StyleMenu.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_container,_step,_min,_max){
   // add to view
-  $( "<li>" + _paramName + " : " +"<input id=\"styleMenu_menu_spinner_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
+  $( "<li>" + _paramName + " : " +"<input class=\"styleMenu_menu_spinner\" id=\"styleMenu_menu_spinner_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
   
   // set callback
   $( "#styleMenu_menu_spinner_"+_paramName+"_"+_ruleId ).spinner({
@@ -712,6 +722,26 @@ StyleMenu.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_container,_
 
   // set initial value    
   $( "#styleMenu_menu_spinner_"+_paramName+"_"+_ruleId ).spinner("value" , _paramValue);  
+}
+
+//////////////////////////////////////////////////////////////
+StyleMenu.AddSlider = function(_paramName,_paramValue,_uid,_ruleId,_container,_step,_min,_max){
+  // add to view
+  $( "<li>" + _paramName + " : " +"<div class=\"styleMenu_menu_slider\" id=\"styleMenu_menu_slider_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
+
+  // set callback
+  $( "#styleMenu_menu_slider_"+_paramName+"_"+_ruleId ).slider({
+          range: false,
+          min: _min,
+          max: _max,
+          step: _step,
+          value: _paramValue,
+          change: StyleMenu.GetSliderCallBack(_uid,_ruleId,_paramName),
+          slide:  StyleMenu.GetSliderCallBack(_uid,_ruleId,_paramName)
+  });
+
+  // set initial value
+  $( "#styleMenu_menu_slider_"+_paramName+"_"+_ruleId ).slider("value" , _paramValue);
 }
 
 //////////////////////////////////////////////////////////////
@@ -729,6 +759,31 @@ StyleMenu.AddCombo = function(_paramName,_paramValue,_uid,_ruleId,_container,_va
 }
 
 //////////////////////////////////////////////////////////////
+StyleMenu.Accordion = function(_group,_name,uid){
+	
+  if ( StyleMenu.__style[uid]["s"].length < 1 ){
+		if(StyleMenu.debug)console.log("Error : empty style " + uid );
+		return;
+	}
+	
+	var groupNum = 0;
+  for ( var group in StyleMenu.groups ){ // for all groups of element
+    if (!StyleMenu.groups.hasOwnProperty(group)) {
+       continue;
+    }
+    if ( group == _group){
+       break;
+    }
+    groupNum++;
+  }
+	n = $("#styleMenu_menu_groupaccordion_div_group_"+groupNum+" h2").index($("#styleMenu_menu_headeraccordion_" + uid));
+	//console.log($("#styleMenu_menu_groupaccordion_div_group_"+groupNum+" h2"));
+	//console.log(n);
+	$("#styleMenu_menu_accordion" ).accordion('activate', groupNum);
+  $("#styleMenu_menu_groupaccordion_div_group_" + groupNum).accordion('activate', n);
+}
+
+//////////////////////////////////////////////////////////////
 StyleMenu.FillWidget = function(uid){
 	if ( StyleMenu.__style[uid]["s"].length < 1 ){
 		if(StyleMenu.debug)console.log("Error : empty style " + uid );
@@ -743,7 +798,7 @@ StyleMenu.FillWidget = function(uid){
 	var ruleId = rd.ruleId;
 	var rule = rd.rule;
 	
-	if(StyleMenu.debug)console.log("fill widget for",def,ruleId,rule);
+	if(StyleMenu.debug)console.log("Fill widget for",def,ruleId,rule);
 	
 	if ( ruleId < 0 ){
      if(StyleMenu.debug)console.log("Cannot find ruleId for zoom " + StyleMenu.refMap.GetZoom());
@@ -778,13 +833,13 @@ StyleMenu.FillWidget = function(uid){
 		//if(StyleMenu.debug)console.log( paramName + " : " + paramValue ) ;
 
 		if ( paramName == "width" ){  
-			StyleMenu.AddSpinner(paramName,paramValue,uid,ruleId,ulul,0.25,0,10);
+			StyleMenu.AddSlider(paramName,paramValue,uid,ruleId,ulul,0.25,0,20);
 		}
 		else if ( paramName == "fill" || paramName == "stroke" ){
 			StyleMenu.AddColorPicker(paramName,paramValue,uid,ruleId,ulul);
 		}
 		else if ( paramName == "alpha" ){
-			StyleMenu.AddSpinner(paramName,paramValue,uid,ruleId,ulul,0.05,0,1);
+			StyleMenu.AddSlider(paramName,paramValue,uid,ruleId,ulul,0.05,0,1);
 		}
 		else if ( paramName == "linejoin" ){
 			StyleMenu.AddCombo(paramName,paramValue,uid,ruleId,ulul,Symbolizer.combos["linejoin"]);
@@ -793,7 +848,7 @@ StyleMenu.FillWidget = function(uid){
 			StyleMenu.AddCombo(paramName,paramValue,uid,ruleId,ulul,Symbolizer.combos["linecap"]);
 		}  
 		else{
-			$("<li>" + paramName + " : " + paramValue + "</li>").appendTo(ulul) ; 
+			$("<li>" + paramName + "(not implemented yet) : " + paramValue + "</li>").appendTo(ulul) ; 
 		}
 	}
 }
@@ -817,7 +872,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
 
    $("<h2 class=\"styleMenu_menu_par_title\">" + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(StyleMenu.widgetDiv);
    if ( StyleMenu.mappingArray[uid].filter != "" && StyleMenu.GetUids(name).length > 1){
-      $("<h2 class=\"styleMenu_menu_par_title\">(" + StyleMenu.mappingArray[uid].filter + ")</h2>").appendTo(StyleMenu.widgetDiv);
+      $("<p class=\"styleMenu_menu_filter_title\">(" + StyleMenu.mappingArray[uid].filter + ")</p>").appendTo(StyleMenu.widgetDiv);
    }
 
    if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "line" ){
@@ -835,7 +890,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //if(StyleMenu.debug)console.log("casing found : " + casing);
-          $('<h2 class="styleMenu_menu_par_title">Casing </h2>').appendTo(StyleMenu.widgetDiv);
+          $('<h2 class="styleMenu_menu_par_title">casing </h2>').appendTo(StyleMenu.widgetDiv);
           StyleMenu.FillWidget(casing_uid);
       }
 
@@ -844,7 +899,7 @@ StyleMenu.__BuildWidget = function(group,name,uid){
       }
       else{
           //if(StyleMenu.debug)console.log("center found : " + center);
-          $('<h2 class="styleMenu_menu_par_title"> Center line </h2>').appendTo(StyleMenu.widgetDiv);
+          $('<h2 class="styleMenu_menu_par_title">center line </h2>').appendTo(StyleMenu.widgetDiv);
           StyleMenu.FillWidget(center_uid);
       }                      
    }

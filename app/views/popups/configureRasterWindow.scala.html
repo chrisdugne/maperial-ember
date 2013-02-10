@@ -14,18 +14,31 @@
 			<p>{{datasetsData.selectedDataset.name}}</p>
 		</div>
 	</div>
-	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark"
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer"
 		data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i>
 	</a>
-	
+
+	<div id="rasterErrorArea"></div>
+
 	<div class="row-fluid">
-	@rasterParam("X", "{{action selectX column}}", "x")
-	@rasterParam("Y", "{{action selectY column}}", "y")
+		@rasterParam("X", "{{action selectX selectedColumn}}", "x")
+		@rasterParam("Y", "{{action selectY selectedColumn}}", "y")
 	</div>
 		
 	<div class="row-fluid">
-	@rasterParam("V", "{{action selectV column}}", "v")
-	@rasterParam("V", "{{action selectV column}}", "v")
+		@rasterParam("Data", "{{action selectV selectedColumn}}", "v")
+		<div>
+		  <div class="rasterParamName span1">Epsg: </div>
+		  <input id="projections" />
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		Zoom ( {{datasetsData.rasterBeingConfigured.zMin}} <i class="icon-arrow-right"></i> {{datasetsData.rasterBeingConfigured.zMax}} )
+	</div>
+
+	<div class="row-fluid">
+		<div id="rasterZoomSlider"></div>
 	</div>
 
 	<button {{action createRaster}} class="btn-small btn-success">

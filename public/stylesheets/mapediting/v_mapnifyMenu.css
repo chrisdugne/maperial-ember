@@ -51,6 +51,12 @@
 	padding: 0 0;
 }
 
+/* Widget slider*/
+.styleMenu_menu_slider {
+   width: 100px !important;
+   display:inline-block !important;
+}
+
 /* header of main section */
 .styleMenu_menu_par_title {
 	color: #fff;
@@ -89,6 +95,7 @@
 	padding: 30px 30px 30px 30px;
 	filter: alpha(opacity = 85);
 	opacity: .85;
+   z-index: 9990;
 }
 
 #panelQuickEdit {
@@ -113,6 +120,7 @@
 	padding: 30px 80px 30px 30px;
 	filter: alpha(opacity = 85);
 	opacity: .85;
+   z-index: 9990;
 }
 
 #panelZooms {
@@ -141,6 +149,7 @@
   text-align: center;
 	filter: alpha(opacity = 85);
 	opacity: .85;
+   z-index: 9990;
 }
 
 #panelMagnifier {
@@ -164,9 +173,14 @@
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	padding: 3px 3px 3px 3px;
+   z-index: 9990;
 }
 
 a#triggerDetailsMenu {
+  -moz-user-select: none; 
+  -khtml-user-select: none; 
+  -webkit-user-select: none; 
+  -o-user-select: none;
 	position: fixed;
 	text-decoration: none;
 	top: 280px;
@@ -217,6 +231,10 @@ a.active#triggerDetailsMenu {
 }
 
 a#triggerQuickEdit {
+  -moz-user-select: none; 
+  -khtml-user-select: none; 
+  -webkit-user-select: none; 
+  -o-user-select: none;
 	position: absolute;
 	text-decoration: none;
 	top: 103px;
@@ -267,6 +285,10 @@ a.active#triggerQuickEdit {
 }
 
 a#triggerZooms {
+  -moz-user-select: none; 
+  -khtml-user-select: none; 
+  -webkit-user-select: none; 
+  -o-user-select: none;
 	position: absolute;
 	text-decoration: none;
 	top: 0px;
@@ -318,6 +340,10 @@ a.active#triggerZooms {
 
 
 a#triggerMagnifier {
+  -moz-user-select: none; 
+  -khtml-user-select: none; 
+  -webkit-user-select: none; 
+  -o-user-select: none;
 	position: absolute;
 	text-decoration: none;
 	left: 0;

@@ -29,6 +29,13 @@ Utils.dateTime = function()
 
 //----------------------------------------------------------------------------------------//
 
+Utils.alert = function (area, type, title, message) {
+   $("#" + area).append($("<div class='alert-message alert-" + type + " fade in' data-alert><a class=\"btn btn-rounded btn-icon-only btn-dark closer\" data-dismiss=\"alert\"> <i class=\"icon icon-ex-white-outline\"></i></a><h4 class=\"alert-heading\">"+title+"</h4> " + message + " </div>"));
+   //$(".alert-message").delay(2000).fadeOut("slow", function () { $(this).remove(); });
+}
+
+//----------------------------------------------------------------------------------------//
+
 /*
  * helpers for html encoding and decoding
  */

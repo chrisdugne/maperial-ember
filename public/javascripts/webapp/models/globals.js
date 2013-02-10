@@ -20,6 +20,7 @@
       currentView: "",
       parentView: "",
       currentPage: "",
+      epsg: [],
 
       //-------------------------------------------//
       // mapcreation - wizardStepper in header
@@ -29,10 +30,19 @@
    });
 
    //------------------------------------------------------//
-   
+
    App.Globals = Globals.create();
    App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
 
    //------------------------------------------------------//
+   
+   $.get('/assets/epsg.txt', function(data){
+      var lines = data.split("\n");
+      for(var i=0; i< lines.length; i++){
+         if(lines[i][0] == "#")
+            App.Globals.epsg.push(lines[i].substr(2, lines[i].length-2));
+      }
+   });
 
+   //------------------------------------------------------//
 })( App);
