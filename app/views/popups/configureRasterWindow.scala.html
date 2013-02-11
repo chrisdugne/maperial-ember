@@ -11,7 +11,7 @@
 			<p class="popuptitle">Configure a Raster</p>
 		</div>
 		<div class="span2">
-			<p>{{datasetsData.selectedDataset.name}}</p>
+			<input id="rasterNameInput" type="text" />
 		</div>
 	</div>
 	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer"
@@ -41,7 +41,16 @@
 		<div id="rasterZoomSlider"></div>
 	</div>
 
-	<button {{action createRaster}} class="btn-small btn-success">
-		<i class="icon-plus icon-white"></i>
-	</button>
+	<br/>
+	<br/>
+
+	<div class="span2 offset5">
+		<span class="btn-small btn-success fileinput-button" {{action createRaster}}> 
+			<span>Interpolate</span>
+			<i class="icon-arrow-right icon-white"></i> 
+		</span>
+	</div>
+
+	<br/>
+	<br/>
 </div>

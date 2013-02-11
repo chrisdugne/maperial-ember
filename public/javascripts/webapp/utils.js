@@ -155,6 +155,18 @@ Utils.isObject = function(stuff)
 	return Object.prototype.toString.call( stuff ) === '[object Object]' ;
 }
 
+/**
+ * Ember : edition + binding of objects contained in an array : thanks to ObjectProxy
+ */
+Utils.editObjectInArray = function(object, property, value)
+{
+   var proxy = Ember.ObjectProxy.create({
+      content: object
+   });
+   
+   proxy.set(property, value);
+}
+
 //----------------------------------------------------------------------------------------//
 
 Utils.styleThumbURL = function(styleUID) 

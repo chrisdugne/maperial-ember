@@ -4,6 +4,7 @@
 	var DatasetsData = Ember.Object.extend({
 	   filesToUpload: Ember.A([]),
 	   selectedDataset : null,
+	   nbfilesCurrentlyUploading : 0,
 	   rasterBeingConfigured : null
 	});
 	

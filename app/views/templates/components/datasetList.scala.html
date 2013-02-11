@@ -6,62 +6,81 @@
 	{{#each dataset in user.datasets}}
 		<div class="row-fluid datasetTitle">
 			{{#with dataset}}
-			<div class="span3 offset2 name">
-				<p class="filename">{{name}}</p>
-			</div>
-			<div class="span1 size">
-				<span>{{fileSize size}}</span>
-			</div>
-			<div class="span1">
-				<span>{{separator}}</span>
-			</div>
-			<div class="span1">
-				<span>{{formatDate uploadTime}}</span>
-			</div>
-			{{/with}}
-			<div class="span1 offset2">
-			@if(selection){
-			}else{
-				<button {{action deleteDataset dataset}} class="btn-small btn-danger">
-					<i class="icon-trash icon-white"></i>
-				</button>
-			}
-			</div>
-		</div>
-		{{#each raster in dataset.rasters}}
-			<div class="row-fluid">
-				{{#with raster}}
-					<div class="span3 offset2 name">
-						<p class="filename">{{name}}</p>
+				<div class="span3 name">
+					<p class="datasetFileName">{{name}}</p>
+				</div>
+				{{#if onError}}
+					<div class="span2">
+						<span class="label label-important">Dataset Error</span>
+					</div>
+				{{else}}
+					<div class="span1 size">
+						<span>{{fileSize size}}</span>
 					</div>
 					<div class="span1">
-						<span>{{formatDate creationTime}}</span>
+						<span>{{separator}}</span>
 					</div>
-				{{/with}}
-				@if(selection){
-					<button class="btn-small btn-success">
-						<i class="icon-arrow-right icon-white"></i>
-					</button>
-				}else{
-					<button {{action deleteRaster raster dataset}} class="btn-small btn-danger">
+				{{/if}}
+				<div class="span1">
+					<span>{{formatDate uploadTime}}</span>
+				</div>
+			{{/with}}
+			
+			@if(selection){
+			}else{
+				<div class="span1 offset4">
+					<button {{action deleteDataset dataset}} class="btn-small btn-danger">
 						<i class="icon-trash icon-white"></i>
 					</button>
-				}
-			</div>
-		{{/each}} 
-		<div class="row-fluid">
+				</div>
+			}
+		</div>
+		
+		{{#if dataset.onError}}
+		{{else}}
+			{{#each raster in dataset.rasters}}
+				<div class="row-fluid">
+					{{#with raster}}
+						<div class="span3 offset2 name">
+							<p class="filename">{{name}}</p>
+						</div>
+						<div class="span1">
+							<span>{{formatDate creationTime}}</span>
+						</div>
+					{{/with}}
+					@if(selection){
+						<button class="btn-small btn-success">
+							<i class="icon-arrow-right icon-white"></i>
+						</button>
+					}else{
+						<button {{action deleteRaster raster dataset}} class="btn-small btn-danger">
+							<i class="icon-trash icon-white"></i>
+						</button>
+					}
+				</div>
+			{{/each}} 
 			{{bound_equals dataset.rasters.length value='0'
-				yes='<div>(No raster)</div>'
+				yes='<div class="row-fluid"><div>(No raster)</div></div>'
 				no=''
 			}}
-		</div>
-		<div class="row-fluid">
-			<button {{action openConfigureRasterWindow dataset}} class="btn-small btn-success">
-				<i class="icon-plus icon-white"></i>
-			</button>
-		</div>
-	{{/each}} 
+			<div class="row-fluid">
+				<button {{action openConfigureRasterWindow dataset}} class="btn-small btn-success">
+					<i class="icon-plus icon-white"></i>
+				</button>
+			</div>
+		{{/if}}
+	{{/each}}
 
+	{{bound_equals datasetsData.nbfilesCurrentlyUploading value='0'
+		yes=''
+		no='<div class="row-fluid datasetTitle">
+				<div class="span3 offset2 name">
+					<p class="datasetFileName">Uploading...</p>
+				</div>
+			</div>'
+	}}
+	
+	
 	{{#each data in datasetsData.filesToUpload}} 
 		{{#with data}}
 			{{#if data.isUploading}} 
@@ -70,13 +89,6 @@
 					<p class="filename">{{fileName data}}</p>
 				</div>
 				{{progressBar data.percentage span="span4"}}
-				@if(selection){
-					<div class="span1">
-						<button class="btn-small btn-success">
-							<i class="icon-arrow-right icon-white"></i>
-						</button>
-					</div>
-				}
 			</div>
 			{{/if}}
 		{{/with}} 

@@ -9,24 +9,34 @@ this.DatasetManager = {};
 DatasetManager.getHeaders = function()
 {
    for(var i=0; i< App.user.datasets.length; i++){
-      var dataset = App.user.datasets[i];
-      
-      $.ajax({
-         type: "GET",  
-         url: App.Globals.mapServer + "/api/dataset/header/"+dataset.uid+"?sep="+dataset.separator,
-         dataType: "json",
-         success: function (data)
-         {
-            dataset.header = data.header;
-         }
-      });
+      (function(i){
+         DatasetManager.getHeader(App.user.datasets.objectAt(i));
+      })(i);
    }   
 }
+
+DatasetManager.getHeader = function(dataset)
+{
+   $.ajax({
+      type: "GET",  
+      url: App.Globals.mapServer + "/api/dataset/header/"+dataset.uid+"?sep="+dataset.separator,
+      dataType: "json",
+      success: function (data)
+      {
+         Utils.editObjectInArray(dataset, "header", data.header);
+      },
+      error: function()
+      {
+         Utils.editObjectInArray(dataset, "onError", true);
+      }
+   });
+}
+
 
 //-------------------------------------------//
    
 DatasetManager.addDataset = function(dataset)
-   {
+{
    var params = new Object();
    params["user"] = App.user;
    params["dataset"] = dataset;
@@ -39,7 +49,7 @@ DatasetManager.addDataset = function(dataset)
       dataType: "text",
       success: function (data, textStatus, jqXHR)
       {
-
+         DatasetManager.getHeader(dataset);
       }
    });
 }
@@ -75,17 +85,6 @@ DatasetManager.deleteDataset = function(dataset)
 
 DatasetManager.validateRaterConfig = function(raster){
 
-   
-//   raster.name = "MesCouillesSurTonNezCaFaitDindon";
-//   raster.datasetUID = dataset.uid;
-//   raster.x = "X(m)";
-//   raster.y = "Y(m)";
-//   raster.v = "data";
-//   raster.proj = "epsg";
-//   raster.zMin = "0";
-//   raster.zMax = "18";
-//   raster.sep = ",";
-   
    var errorTitle = "This raster is not well configured";
    var checkMessage = "Check out this parameter : ";
    var area = "rasterErrorArea";
@@ -108,7 +107,7 @@ DatasetManager.validateRaterConfig = function(raster){
    }   
    
    if(!raster.proj){
-      Utils.alert(area, "error", errorTitle, checkMessage + "Epsg");
+      Utils.alert(area, "error", errorTitle, checkMessage + "Projection");
       return false;
    }   
    
@@ -119,6 +118,8 @@ DatasetManager.validateRaterConfig = function(raster){
    
    return true;
 }
+
+//-------------------------------------------//
 
 DatasetManager.createRaster = function(){
    
@@ -152,7 +153,7 @@ DatasetManager.createRaster = function(){
             contentType: "application/json; charset=utf-8",
             success: function (data, textStatus, jqXHR)
             {
-
+               $('#configureRasterWindow').modal("hide");
             }
          });
 

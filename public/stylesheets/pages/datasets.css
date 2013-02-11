@@ -1,4 +1,18 @@
 
+/*------------------------------*/
+.datasetTitle {
+	background-color: #333;
+	padding-top: 8px;
+	color: #eee;
+	width: 80%;
+	-webkit-border-radius: 20px;
+	margin-left: 10%;
+}
+
+.datasetFileName {
+	color: #ddd;
+}
+
 #uploadContent {
 	margin-left: 60px;
 	margin-right: 60px;
@@ -7,10 +21,6 @@
 
 .uploadEntry{
 	margin-bottom: 15px;
-}
-
-.datasetTitle {
-	background-color: #eef;
 }
 
 /*------------------------------*/

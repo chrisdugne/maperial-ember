@@ -38,6 +38,7 @@
       data.submit();
 
       App.datasetsData.filesToUpload.removeObject(data);
+      App.datasetsData.set("nbfilesCurrentlyUploading", (App.datasetsData.nbfilesCurrentlyUploading + 1)) ;
 	}
 
 	
@@ -59,12 +60,7 @@
 	   }
 
 	   var data = App.datasetsData.filesToUpload.objectAt(index);
-      
-	   var proxy = Ember.ObjectProxy.create({
-	      content: data
-	   });
-
-	   proxy.set("percentage", progress);
+	   Utils.editObjectInArray(data, "percentage", progress);
 	}
 	
 	
@@ -80,6 +76,7 @@
             name : data.result.files[0].name,
             size : data.result.files[0].size,
             uid  : data.result.files[0].datasetUID,
+            separator : ",",
             rasters : []
       };
       
@@ -97,6 +94,7 @@
 
       // binding
       App.datasetsData.filesToUpload.pushObject(data);
+      App.datasetsData.set("nbfilesCurrentlyUploading", (App.datasetsData.nbfilesCurrentlyUploading - 1)) ;
 	}
 
 	//----------------------------------------------------//
@@ -105,11 +103,19 @@
 	{
 	   App.datasetsData.set("selectedDataset", dataset);
 	   App.datasetsData.set("rasterBeingConfigured", {});
+	   App.datasetsData.set("rasterBeingConfigured.sep", dataset.separator);
+	   App.datasetsData.set("rasterBeingConfigured.datasetUID", dataset.uid);
 	   App.datasetsData.set("rasterBeingConfigured.zMin", 4);
 	   App.datasetsData.set("rasterBeingConfigured.zMax", 14);
 
+	   $("#rasterErrorArea").empty();
+	   $( "#rasterNameInput" ).val(dataset.name + " raster " + (dataset.rasters.length+1));
+
 	   $( "#projections" ).autocomplete({
-	      source: App.Globals.epsg
+	      source: App.Globals.epsg,
+	      select: function( event, ui ) {
+	         App.datasetsData.set("rasterBeingConfigured.proj", ui.item.value);
+	      }
 	    });
 	   
 	   $('#configureRasterWindow').modal();
@@ -151,6 +157,11 @@
 	   App.datasetsData.set("rasterBeingConfigured.v", column);
 	} 
 
+	DatasetsController.createRaster = function(){
+      App.datasetsData.set("rasterBeingConfigured.name", $("#rasterNameInput").val());
+	   DatasetManager.createRaster();
+	}
+	
 	//----------------------------------------------------//
 	
 	App.DatasetsController = DatasetsController;
@@ -191,7 +202,7 @@
 
 		// ---- 		
       createRaster: function(){
-         DatasetManager.createRaster();
+         DatasetsController.createRaster();
       },
       
       openConfigureRasterWindow: function(router, event){
