@@ -23,7 +23,6 @@ MapMover.prototype.reset = function (event) {
 //==================================================================//
 
 MapMover.prototype.addDrawer = function (drawer) {
-   console.log("************************** ADD DRAWER");
    this.drawers.push(drawer);
 }
 

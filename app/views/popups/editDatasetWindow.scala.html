@@ -1,0 +1,55 @@
+
+<div id="editDatasetWindow"
+	class="modal hide fade" role="dialog">
+
+	<br />
+	<div class="row">
+		<div class="span4">
+			<p class="popuptitle">Edit a dataset</p>
+		</div>
+	</div>
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer"
+		data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i>
+	</a>
+
+	<div class="row-fluid">
+		<div class="span2 offset1">
+			<p>Name : </p>
+		</div>
+		<div class="span2">
+			<input id="datasetNameInput" type="text" />
+		</div>
+	</div>
+	
+	{{#if datasetsData.selectedDataset.hasNoRaster}}
+	<div class="row-fluid">
+		<div class="span2 offset1">Separator :</div>
+		<ul class="separatorList nav nav-pills span2">
+		     <li class="dropdown">
+		       <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{{datasetsData.selectedDataset.separator}} <b class="caret"></b></a>
+		       <ul class="dropdown-menu" role="menu">
+				{{#each sep in App.Globals.separators}}
+					<li role="presentation"><a role="menuitem" tabindex="-1" {{action selectSeparator sep}}>{{sep}}</a></li>
+				{{/each}}
+		       </ul>
+		     </li>
+	   </ul>
+	</div>
+	{{else}}
+	<div class="row-fluid">
+		<div class="span2 offset1">Separator :</div>
+		<div class="span2 offset1">{{datasetsData.selectedDataset.separator}}</div>
+	</div>
+	{{/if}}
+		
+	<br/>
+
+	<div class="span2 offset5" data-dismiss="modal">
+		<span class="btn-small btn-success fileinput-button"> 
+			<span>Ok</span>
+		</span>
+	</div>
+
+	<br/>
+	<br/>
+</div>

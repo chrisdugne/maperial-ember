@@ -96,10 +96,21 @@ public class AccountManager {
 	//------------------------------------------------------------------------------------//
 
 	@Transactional
+	public static void editDataset(String datasetUID, String name, String separator) 
+	{
+		Dataset dataset = Dataset.find.where().ilike("uid", datasetUID).findUnique();
+		dataset.setName(name);
+		dataset.setSeparator(separator);
+		Ebean.save(dataset);  
+	}
+
+	//------------------------------------------------------------------------------------//
+	
+	@Transactional
 	public static void removeDataset(String datasetUID) 
 	{
 		Dataset dataset = Dataset.find.where().ilike("uid", datasetUID).findUnique();
-
+		
 		Ebean.delete(dataset);
 	}
 

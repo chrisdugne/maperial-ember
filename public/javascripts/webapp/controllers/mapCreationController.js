@@ -282,6 +282,7 @@
       // actions
       
       //--- wizard
+      datasets: Ember.Route.transitionTo('datasets'),
       openDatasetSelection: Ember.Route.transitionTo('mapCreation.datasetSelection'),
       openMapEdition: Ember.Route.transitionTo('mapCreation.mapEdition')
       // ---- 

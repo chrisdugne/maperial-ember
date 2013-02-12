@@ -1,6 +1,20 @@
 
 
 <div class="span12">
+
+	{{#each data in datasetsData.filesUploading}} 
+		{{#with data}} 
+			{{#if data.isUploading}}
+			<div class="uploadEntry">
+				<div class="span5 name">
+					<p class="filename">{{fileName data}}</p>
+				</div>
+				{{progressBar data.percentage span="span6"}}
+			</div>
+			{{/if}}
+		{{/with}} 
+	{{/each}}
+
 	<table role="presentation" class="table table-striped">
 		<tbody class="files">
 			<tr class="data-box-content-title template-download">
@@ -22,17 +36,4 @@
 			{{/each}}
 		</tbody>
 	</table>
-
-	{{#each data in datasetsData.filesToUpload}} 
-		{{#with data}} 
-			{{#if data.isUploading}}
-			<div class="uploadEntry">
-				<div class="span5 name">
-					<p class="filename">{{fileName data}}</p>
-				</div>
-				{{progressBar data.percentage span="span6"}}
-			</div>
-			{{/if}}
-		{{/with}} 
-	{{/each}}
 </div>

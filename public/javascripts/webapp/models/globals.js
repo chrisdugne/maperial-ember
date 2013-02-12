@@ -21,6 +21,7 @@
       parentView: "",
       currentPage: "",
       epsg: [],
+      separators: [",", ";", "|", "\t"],
 
       //-------------------------------------------//
       // mapcreation - wizardStepper in header

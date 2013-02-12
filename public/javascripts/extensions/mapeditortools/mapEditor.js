@@ -145,6 +145,26 @@ MapEditor.prototype.renderTriggers = function(){
       $(this).toggleClass("active");
       return false;
    });
+   
+   $( ".panel" ).draggable();
+   $( ".trigger" ).draggable();
+   
+   $( ".panel" ).bind('drag',function( event ){
+      var name = $(this).context.id.replace("panel","");
+      console.log($(this).context);
+      $("#trigger"+name).css({
+         top: $(this).context.offsetTop,
+         left: $(this).context.offsetLeft
+         });
+   });
+   
+   $( ".trigger" ).bind('drag',function( event ){
+      var name = $(this).context.id.replace("trigger","");
+      $("#panel"+name).css({
+         top: $(this).context.offsetTop,
+         left: $(this).context.offsetLeft
+      });
+   });
 
    $("#commonTriggers").removeClass("hide");
 

@@ -41,25 +41,18 @@
       App.datasetsData.set("nbfilesCurrentlyUploading", (App.datasetsData.nbfilesCurrentlyUploading + 1)) ;
 	}
 
-	
-	DatasetsController.removeUpload = function(data) 
-	{
-      App.datasetsData.filesToUpload.removeObject(data);
-	}
-
-	
 	DatasetsController.progressUpload = function(data) 
 	{
 	   var progress = parseInt(data.loaded / data.total * 100, 10);
-	   var index = App.datasetsData.filesToUpload.indexOf(data);
+	   var index = App.datasetsData.filesUploading.indexOf(data);
 	   
-	   // -> first progressUpload : add the data in filesToUpload
+	   // -> first progressUpload : add the data in filesUploading
 	   if(index == -1){
-	      App.datasetsData.filesToUpload.pushObject(data);
-	      index = App.datasetsData.filesToUpload.indexOf(data);
+	      App.datasetsData.filesUploading.pushObject(data);
+	      index = App.datasetsData.filesUploading.indexOf(data);
 	   }
 
-	   var data = App.datasetsData.filesToUpload.objectAt(index);
+	   var data = App.datasetsData.filesUploading.objectAt(index);
 	   Utils.editObjectInArray(data, "percentage", progress);
 	}
 	
@@ -85,7 +78,7 @@
       //--------------------------------------------
       // binding de datasetsData.filesToUpload
       
-      App.datasetsData.filesToUpload.removeObject(data);
+      App.datasetsData.filesUploading.removeObject(data);
       
       data.isUploading = false;
       data.isUploaded = true;
@@ -93,8 +86,23 @@
       DatasetManager.addDataset(dataset);
 
       // binding
-      App.datasetsData.filesToUpload.pushObject(data);
+//      App.datasetsData.filesToUpload.pushObject(data);
       App.datasetsData.set("nbfilesCurrentlyUploading", (App.datasetsData.nbfilesCurrentlyUploading - 1)) ;
+	}
+	
+	//----------------------------------------------------//
+	
+	DatasetsController.openEditDatasetWindow = function(dataset) 
+	{
+	   App.datasetsData.set("selectedDataset", dataset);
+	   $( "#datasetNameInput" ).val(dataset.name);
+
+      $('#editDatasetWindow').modal();
+      $('#editDatasetWindow').off("hide");
+      $('#editDatasetWindow').on("hide", function(){
+         Utils.editObjectInArray(dataset, "name", $("#datasetNameInput").val());
+         DatasetManager.editDataset(dataset);
+      });
 	}
 
 	//----------------------------------------------------//
@@ -157,6 +165,11 @@
 	   App.datasetsData.set("rasterBeingConfigured.v", column);
 	} 
 
+	DatasetsController.selectSeparator = function(separator){
+	   Utils.editObjectInArray(App.datasetsData.selectedDataset, "separator", separator);
+	   DatasetManager.getHeader(App.datasetsData.selectedDataset);
+	} 
+
 	DatasetsController.createRaster = function(){
       App.datasetsData.set("rasterBeingConfigured.name", $("#rasterNameInput").val());
 	   DatasetManager.createRaster();
@@ -193,6 +206,11 @@
       },
       
       openUploadWindow: function(){DatasetsController.openUploadWindow()},
+      
+      openEditDatasetWindow: function(router, event){
+         var dataset = event.context;
+         DatasetsController.openEditDatasetWindow(dataset);
+      },
 
       // ---- 		
 		deleteDataset: function(router, event){
@@ -230,6 +248,12 @@
 		selectV: function(router, event){
 		   var column = event.context;
 		   DatasetsController.selectV(column);
+		},
+		
+		selectSeparator: function(router, event){
+		   var separator = event.context;
+		   
+		   DatasetsController.selectSeparator(separator);
 		},
 
 	});

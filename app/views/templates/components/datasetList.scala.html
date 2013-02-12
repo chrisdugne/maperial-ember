@@ -1,62 +1,96 @@
-@(selection:Boolean = false)
 @import views.html.popups.configureRasterWindow; 
+@import views.html.popups.editDatasetWindow; 
 
 <div class="row-fluid">
-		
+	
+	{{bound_equals datasetsData.nbfilesCurrentlyUploading value='0'
+		yes=''
+		no='<div class="row-fluid datasetTitle">
+				<div class="span3 offset2 name">
+					<p class="datasetFileName">Uploading...</p>
+				</div>
+			</div>'
+	}}
+	
+	{{#each data in datasetsData.filesUploading}} 
+		{{#with data}}
+			{{#if data.isUploading}} 
+			<div class="row-fluid">
+				<div class="span3 offset2 name">
+					<p class="filename">{{fileName data}}</p>
+				</div>
+				{{progressBar data.percentage span="span4"}}
+			</div>
+			{{/if}}
+		{{/with}} 
+	{{/each}}
+	
+	
 	{{#each dataset in user.datasets}}
 		<div class="row-fluid datasetTitle">
-			{{#with dataset}}
-				<div class="span3 name">
-					<p class="datasetFileName">{{name}}</p>
-				</div>
-				{{#if onError}}
+			<div class="span3 name">
+				<p class="datasetFileName">{{dataset.name}}</p>
+			</div>
+			{{#if dataset.onError}}
+				{{#if dataset.badSeparator}}
 					<div class="span2">
+						<span class="label label-important">Separator Error</span>
+					</div>
+					<div class="span3 offset1">Try to change the separator</div>
+				{{else}}
+					<div class="span5">
 						<span class="label label-important">Dataset Error</span>
 					</div>
-				{{else}}
-					<div class="span1 size">
-						<span>{{fileSize size}}</span>
-					</div>
-					<div class="span1">
-						<span>{{separator}}</span>
-					</div>
 				{{/if}}
-				<div class="span1">
-					<span>{{formatDate uploadTime}}</span>
+			{{else}}
+				<div class="span1 size">
+					<span>{{fileSize dataset.size}}</span>
 				</div>
-			{{/with}}
-			
-			@if(selection){
-			}else{
 				<div class="span1 offset4">
-					<button {{action deleteDataset dataset}} class="btn-small btn-danger">
-						<i class="icon-trash icon-white"></i>
-					</button>
+					<span>{{formatDate dataset.uploadTime}}</span>
 				</div>
-			}
+			{{/if}}
+			
+			<div class="span1 offset1">
+				<button {{action openEditDatasetWindow dataset}} class="btn-small btn-success">
+					<i class="icon-edit icon-white"></i>
+				</button>
+			</div>
+			<div class="span1">
+				<button {{action deleteDataset dataset}} class="btn-small btn-danger">
+					<i class="icon-trash icon-white"></i>
+				</button>
+			</div>
 		</div>
 		
 		{{#if dataset.onError}}
 		{{else}}
 			{{#each raster in dataset.rasters}}
 				<div class="row-fluid">
-					{{#with raster}}
+					{{#if raster.onError}}
+						<div class="span2 offset2">
+							<span class="label label-important">Raster Error</span>
+						</div>
+						<div class="span4">
+							<span>{{raster.error}}</span>
+						</div>
+					{{else}}
 						<div class="span3 offset2 name">
-							<p class="filename">{{name}}</p>
+							<p class="filename">{{raster.name}}</p>
 						</div>
-						<div class="span1">
-							<span>{{formatDate creationTime}}</span>
-						</div>
-					{{/with}}
-					@if(selection){
-						<button class="btn-small btn-success">
-							<i class="icon-arrow-right icon-white"></i>
-						</button>
-					}else{
+						{{#if raster.interpolating}}
+							{{progressBar raster.percentage span="span4"}}
+						{{else}}
+							<div class="span1">
+								<span>{{formatDate raster.creationTime}}</span>
+							</div>
+						{{/if}}
+					{{/if}}
+					<div class="span1 offset1">
 						<button {{action deleteRaster raster dataset}} class="btn-small btn-danger">
 							<i class="icon-trash icon-white"></i>
 						</button>
-					}
+					</div>
 				</div>
 			{{/each}} 
 			{{bound_equals dataset.rasters.length value='0'
@@ -71,30 +105,9 @@
 		{{/if}}
 	{{/each}}
 
-	{{bound_equals datasetsData.nbfilesCurrentlyUploading value='0'
-		yes=''
-		no='<div class="row-fluid datasetTitle">
-				<div class="span3 offset2 name">
-					<p class="datasetFileName">Uploading...</p>
-				</div>
-			</div>'
-	}}
-	
-	
-	{{#each data in datasetsData.filesToUpload}} 
-		{{#with data}}
-			{{#if data.isUploading}} 
-			<div class="row-fluid">
-				<div class="span3 offset2 name">
-					<p class="filename">{{fileName data}}</p>
-				</div>
-				{{progressBar data.percentage span="span4"}}
-			</div>
-			{{/if}}
-		{{/with}} 
-	{{/each}}
 </div>
 
 <br /> <br />
 
 @configureRasterWindow()
+@editDatasetWindow()

@@ -49,7 +49,9 @@ UserManager.getAccount = function()
          App.user.set("fonts", account.fonts);
          App.user.set("icons", account.icons);
          
-         DatasetManager.getHeaders();
+         DatasetManager.initDatasets();
+         
+         console.log(App.user);
       }
    });
 }

@@ -1,5 +1,5 @@
 @import views.html.popups.uploadDatasetsWindow; 
-@import views.html.templates.components.datasetList; 
+@import views.html.templates.components.rasterList; 
 
 <div class="container-fluid">
 	<div class="webappContent marketing">
@@ -14,12 +14,10 @@
 		
 		<br/>
 		
-		@datasetList(true)
+		@rasterList()
 					
 		<div class="row-fluid">
-			<div class="span2 offset5">
-				<div id="uploadDatasetButton" {{action openUploadWindow}} class="btn-large btn-primary">Upload</div>
-			</div>
+			<div id="uploadDatasetButton" {{action datasets}} class="btn-large btn-primary">Manage data sets</div>
 		</div>
 	</div>
 </div>

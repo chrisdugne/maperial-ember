@@ -51,6 +51,32 @@ public class DatasetService extends Application
 	// ---------------------------------------------//
 	
 	
+	public static Result editDataset()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode datasetJson = params.get("dataset");
+		
+		//----------//
+
+		String datasetUID = datasetJson.get("uid").asText();
+		String name = datasetJson.get("name").asText();
+		String separator = datasetJson.get("separator").asText();
+		
+		//----------//
+		
+		AccountManager.editDataset(datasetUID, name, separator);
+		
+		//----------//
+		
+		return ok();
+	}
+	
+	
+	// ---------------------------------------------//
+	
+	
 	public static Result removeDataset()
 	{
 		//----------//
@@ -80,8 +106,6 @@ public class DatasetService extends Application
 		JsonNode params = request().body().asJson();
 		JsonNode datasetJson = params.get("dataset");
 		JsonNode rasterJson = params.get("raster");
-		
-		Logger.debug(rasterJson.toString());
 		
 		//----------//
 		
