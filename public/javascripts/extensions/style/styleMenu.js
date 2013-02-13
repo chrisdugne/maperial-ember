@@ -476,7 +476,6 @@ StyleMenu.__LoadStyle = function(){
   StyleMenu.styleMenuParentEl3.empty();   
 
   StyleMenu.styleMenuParentEl.hide(); // hide me during loading
-  StyleMenu.styleMenuParentEl.css('width','400px'); // force width (avoid scrollbar issue)
 
   StyleMenu.mainDiv = $("<div id=\"styleMenu_menu_maindiv\"></div>");
   StyleMenu.mainDiv.appendTo(StyleMenu.styleMenuParentEl);
@@ -602,7 +601,6 @@ StyleMenu.__InsertZoomEdition2 = function(){
              StyleMenu.UpdateActivZoom();
           }
   });
-
 
   $( "#styleMenu_menu_sliderrangez" ).slider( "values",  [StyleMenu.currentZmin, StyleMenu.currentZmax+1] );  
 

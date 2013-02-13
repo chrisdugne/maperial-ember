@@ -23,15 +23,31 @@
 				{{#each raster in dataset.rasters}}
 					{{#with raster}}
 						<div class="row-fluid">
+						{{#if onError}}
+							<div class="span2 offset2">
+								<span class="label label-important">Raster Error</span>
+							</div>
+							<div class="span4">
+								<span>{{error}}</span>
+							</div>
+						{{else}}
 							<div class="span3 offset2 name">
 								<p class="filename">{{name}}</p>
 							</div>
-							<div class="span1">
-								<span>{{formatDate creationTime}}</span>
-							</div>
-							<button class="btn-small btn-success">
-								<i class="icon-arrow-right icon-white"></i>
-							</button>
+							{{#if interpolating}}
+								{{progressBar percentage span="span3"}}
+								<div class="span1">
+									<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
+								</div>
+							{{else}}
+								<div class="span1">
+									<span>{{formatDate creationTime}}</span>
+								</div>
+								<button class="btn-small btn-success">
+									<i class="icon-arrow-right icon-white"></i>
+								</button>
+							{{/if}}
+						{{/if}}
 						</div>
 					{{/with}}
 				{{/each}} 

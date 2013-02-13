@@ -111,6 +111,7 @@
 	{
 	   App.datasetsData.set("selectedDataset", dataset);
 	   App.datasetsData.set("rasterBeingConfigured", {});
+	   App.datasetsData.set("rasterBeingConfigured.creationAsked", false);
 	   App.datasetsData.set("rasterBeingConfigured.sep", dataset.separator);
 	   App.datasetsData.set("rasterBeingConfigured.datasetUID", dataset.uid);
 	   App.datasetsData.set("rasterBeingConfigured.zMin", 4);
@@ -118,15 +119,13 @@
 
 	   $("#rasterErrorArea").empty();
 	   $( "#rasterNameInput" ).val(dataset.name + " raster " + (dataset.rasters.length+1));
-
+	   
 	   $( "#projections" ).autocomplete({
 	      source: App.Globals.epsg,
 	      select: function( event, ui ) {
 	         App.datasetsData.set("rasterBeingConfigured.proj", ui.item.value);
 	      }
-	    });
-	   
-	   $('#configureRasterWindow').modal();
+	    }).val('');
 	   
 	   $( "#rasterZoomSlider" ).slider({
          range: true,
@@ -149,6 +148,8 @@
             App.datasetsData.set("rasterBeingConfigured.zMax", maxV);
          }
 	   });
+
+	   $('#configureRasterWindow').modal();
 	}
 
 	//----------------------------------------------------//
@@ -170,7 +171,10 @@
 	   DatasetManager.getHeader(App.datasetsData.selectedDataset);
 	} 
 
+	//----------------------------------------------------//
+
 	DatasetsController.createRaster = function(){
+      App.datasetsData.set("rasterBeingConfigured.creationAsked", true);
       App.datasetsData.set("rasterBeingConfigured.name", $("#rasterNameInput").val());
 	   DatasetManager.createRaster();
 	}
@@ -219,15 +223,15 @@
 		},
 
 		// ---- 		
+		openConfigureRasterWindow: function(router, event){
+		   var dataset = event.context;
+		   DatasetsController.openConfigureRasterWindow(dataset);
+		},
+		
       createRaster: function(){
          DatasetsController.createRaster();
       },
       
-      openConfigureRasterWindow: function(router, event){
-         var dataset = event.context;
-         DatasetsController.openConfigureRasterWindow(dataset);
-      },
-
 		deleteRaster: function(router, event){
 		   var raster = event.contexts[0];
 		   var dataset = event.contexts[1];

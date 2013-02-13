@@ -79,14 +79,17 @@
 							<p class="filename">{{raster.name}}</p>
 						</div>
 						{{#if raster.interpolating}}
-							{{progressBar raster.percentage span="span4"}}
+							{{progressBar raster.percentage span="span3"}}
+							<div class="span1">
+								<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
+							</div>
 						{{else}}
 							<div class="span1">
 								<span>{{formatDate raster.creationTime}}</span>
 							</div>
 						{{/if}}
 					{{/if}}
-					<div class="span1 offset1">
+					<div class="span1">
 						<button {{action deleteRaster raster dataset}} class="btn-small btn-danger">
 							<i class="icon-trash icon-white"></i>
 						</button>

@@ -44,12 +44,18 @@
 	<br/>
 	<br/>
 
-	<div class="span2 offset5">
-		<span class="btn-small btn-success fileinput-button" {{action createRaster}}> 
-			<span>Interpolate</span>
-			<i class="icon-arrow-right icon-white"></i> 
-		</span>
-	</div>
+	{{#if datasetsData.rasterBeingConfigured.creationAsked}}
+		<div class="span1 offset6">
+			<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
+		</div>
+	{{else}}
+		<div class="span2 offset5">
+			<span class="btn-small btn-success fileinput-button" {{action createRaster}}> 
+				<span>Interpolate</span>
+				<i class="icon-arrow-right icon-white"></i> 
+			</span>
+		</div>
+	{{/if}}
 
 	<br/>
 	<br/>

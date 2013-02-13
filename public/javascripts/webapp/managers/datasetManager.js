@@ -12,6 +12,13 @@ DatasetManager.initDatasets = function()
       (function(i){
          var dataset = App.user.datasets.objectAt(i);
          dataset.hasNoRaster = dataset.rasters.length == 0;
+         
+         for(var j=0; j< dataset.rasters.length; j++){
+            (function(j, dataset){
+               DatasetManager.checkRaster(dataset.rasters[j]);
+            })(j, dataset);
+         }
+         
          DatasetManager.getHeader(dataset);
       })(i);
    }   
@@ -169,20 +176,19 @@ DatasetManager.createRaster = function(){
          raster.uid = data.rasterUID;
          dataset.rasters.pushObject(raster);
          Utils.editObjectInArray(dataset, "hasNoRaster", false);
-         Utils.editObjectInArray(raster, "interpolating", true);
 
          $('#configureRasterWindow').modal("hide");
+
+         DatasetManager.addRaster(raster);
          DatasetManager.checkRaster(raster);
       }
    });
 }
 
-// http://map.x-ray.fr:8081/api/raster/1_raster_13cbba7cfda2f3ec449
-// {"running": 90.9091}
-// { "bbox" : [ 2.96564, 45.7647, 3.11383, 45.7973 ], "inP" : 17, "max" : 12.8822, "min" : 10.7532 }
 DatasetManager.checkRaster = function(raster){
    
    Utils.editObjectInArray(raster, "onError", false);
+   Utils.editObjectInArray(raster, "interpolating", true);
    
    $.ajax({
       type: "GET",  
@@ -190,18 +196,30 @@ DatasetManager.checkRaster = function(raster){
       dataType: "json",
       error: function (e, message){
          Utils.editObjectInArray(raster, "onError", true);
-         Utils.editObjectInArray(raster, "error", "Please double check your raster config !");
+         Utils.editObjectInArray(raster, "interpolating", false);
+         Utils.editObjectInArray(raster, "error", "Configuration refused by the server");
       },
       success: function (data)
       {
-         if(data.running){
-            console.log(data.running + "%");
+         if(data.running != undefined){
             Utils.editObjectInArray(raster, "percentage", data.running);
             setTimeout(function(){DatasetManager.checkRaster(raster)}, 1000);
          }
          else{
             Utils.editObjectInArray(raster, "interpolating", false);
-            DatasetManager.addRaster(raster);
+
+            if(data.error != undefined){
+               // { "errcode" : 3, "error" : "Projection failed" }
+               Utils.editObjectInArray(raster, "onError", true);
+               Utils.editObjectInArray(raster, "error", data.error);
+            }
+            else{
+               // { "bbox" : [ 2.96564, 45.7647, 3.11383, 45.7973 ], "inP" : 17, "max" : 12.8822, "min" : 10.7532 }
+               Utils.editObjectInArray(raster, "bbox", data.bbox);
+               Utils.editObjectInArray(raster, "inP", data.inP);
+               Utils.editObjectInArray(raster, "min", data.min);
+               Utils.editObjectInArray(raster, "max", data.max);
+            }
          }
       }
    });
