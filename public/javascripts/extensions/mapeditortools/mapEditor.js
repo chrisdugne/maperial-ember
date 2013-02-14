@@ -20,7 +20,6 @@ MapEditor.prototype.renderUI = function() {
    ScriptLoader.getScripts([
              // map rendering
              "assets/javascripts/libs/gl-matrix-min.js",
-             "assets/javascripts/libs/jquery.mousewheel.min.js",
              "assets/javascripts/extensions/maprendering/coordinate-system.js",
              "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
              "assets/javascripts/extensions/maprendering/gl-tools.js",

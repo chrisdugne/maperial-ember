@@ -1,0 +1,40 @@
+/*--------------------------------*/
+#homeContent{
+	padding: 0;
+	z-index: 1;
+}
+
+.homeImage {
+	width: 100%;
+}
+
+#mapnifyAuthFrame {
+	width: 532px;
+	height: 423px;
+	border: 0px;
+}
+
+/*--------------------------------*/
+
+#part1 {
+	margin-top: 0px;
+}
+
+.homePart {
+	background: #fff;
+	margin-top: 700px;
+}
+
+/*--------------------------------*/
+
+#homeBack {
+	z-index:-2;
+	top: 0;
+	left: 0;
+	position: fixed;
+	overflow: hidden;
+}
+
+.imageBack {
+	width: 100%;
+}
