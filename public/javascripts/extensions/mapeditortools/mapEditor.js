@@ -18,60 +18,60 @@ MapEditor.prototype.renderUI = function() {
    var mapEditor = this; // to have access to 'this' in the callBack
 
    ScriptLoader.getScripts([
-                            // map rendering
-                            "assets/javascripts/libs/gl-matrix-min.js",
-                            "assets/javascripts/libs/jquery.mousewheel.min.js",
-                            "assets/javascripts/extensions/maprendering/coordinate-system.js",
-                            "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
-                            "assets/javascripts/extensions/maprendering/gl-tools.js",
-                            "assets/javascripts/extensions/maprendering/gl-rasterlayer.js",
-                            "assets/javascripts/extensions/maprendering/gl-tile.js",
-                            "assets/javascripts/extensions/maprendering/gl-vectoriallayer.js",
-                            "assets/javascripts/extensions/maprendering/render-line.js",
-                            "assets/javascripts/extensions/maprendering/render-text.js",
-                            "assets/javascripts/extensions/maprendering/tileRenderer.js",
-                            "assets/javascripts/extensions/maprendering/mapMover.js",
-                            "assets/javascripts/extensions/maprendering/geoloc.js",
-                            "assets/javascripts/extensions/maprendering/gl-map.js",
+             // map rendering
+             "assets/javascripts/libs/gl-matrix-min.js",
+             "assets/javascripts/libs/jquery.mousewheel.min.js",
+             "assets/javascripts/extensions/maprendering/coordinate-system.js",
+             "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
+             "assets/javascripts/extensions/maprendering/gl-tools.js",
+             "assets/javascripts/extensions/maprendering/gl-rasterlayer.js",
+             "assets/javascripts/extensions/maprendering/gl-tile.js",
+             "assets/javascripts/extensions/maprendering/gl-vectoriallayer.js",
+             "assets/javascripts/extensions/maprendering/render-line.js",
+             "assets/javascripts/extensions/maprendering/render-text.js",
+             "assets/javascripts/extensions/maprendering/tileRenderer.js",
+             "assets/javascripts/extensions/maprendering/mapMover.js",
+             "assets/javascripts/extensions/maprendering/geoloc.js",
+             "assets/javascripts/extensions/maprendering/gl-map.js",
 
-                            // map editing
-                            "assets/javascripts/extensions/mapeditortools/fabric.all.1.0.6.js",
-                            "assets/javascripts/extensions/mapeditortools/boundingBoxDrawer.js",
-                            "assets/javascripts/extensions/mapeditortools/v_colortool.js",
-                            "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
-                            "assets/javascripts/extensions/mapeditortools/colorpicker.js",
-                            "assets/javascripts/extensions/mapeditortools/RGBColor.js",
-                            "assets/javascripts/extensions/mapeditortools/map.js",
-                            "assets/javascripts/extensions/mapeditortools/canvasutilities.js",
+             // map editing
+             "assets/javascripts/extensions/mapeditortools/fabric.all.1.0.6.js",
+             "assets/javascripts/extensions/mapeditortools/boundingBoxDrawer.js",
+             "assets/javascripts/extensions/mapeditortools/v_colortool.js",
+             "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
+             "assets/javascripts/extensions/mapeditortools/colorpicker.js",
+             "assets/javascripts/extensions/mapeditortools/RGBColor.js",
+             "assets/javascripts/extensions/mapeditortools/map.js",
+             "assets/javascripts/extensions/mapeditortools/canvasutilities.js",
 
-                            // style
-                            "assets/javascripts/extensions/style/styleMenu.js",
+             // style
+             "assets/javascripts/extensions/style/styleMenu.js",
 
-                            // colorbar
-                            "assets/javascripts/extensions/colorbar/colorBar.js",
-                            "assets/javascripts/extensions/colorbar/main.js"],
-                            function()
-                            {
-      //-----------------------------
-      // retrieve the content from the tileServer
-      StyleManager.getStyle(mapEditor.style.uid, function(){
-
-         if(mapEditor.colorbar){
+             // colorbar
+             "assets/javascripts/extensions/colorbar/colorBar.js",
+             "assets/javascripts/extensions/colorbar/main.js"],
+       function()
+       {
             //-----------------------------
-            // retrieve the colorbar content from the tileServer
-            ColorbarManager.getColorbar(mapEditor.colorbar.uid, function(){
-
-               // rendering after reception
-               mapEditor.renderAll();
+            // retrieve the content from the tileServer
+            StyleManager.getStyle(mapEditor.style.uid, function(){
+      
+               if(mapEditor.colorbar){
+                  //-----------------------------
+                  // retrieve the colorbar content from the tileServer
+                  ColorbarManager.getColorbar(mapEditor.colorbar.uid, function(){
+      
+                     // rendering after reception
+                     mapEditor.renderAll();
+                  });
+      
+               }
+               else{
+                  // rendering after reception
+                  mapEditor.renderAll();
+               }
             });
-
-         }
-         else{
-            // rendering after reception
-            mapEditor.renderAll();
-         }
-      });
-                            }
+       }
    );
 }
 
@@ -87,6 +87,7 @@ MapEditor.prototype.renderAll = function(){
    }
 
    this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
+   GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map);
 
    // screen is ready
    App.user.set("waiting", false);

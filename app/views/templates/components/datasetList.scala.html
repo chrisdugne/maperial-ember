@@ -71,15 +71,15 @@
 						<div class="span2 offset2">
 							<span class="label label-important">Raster Error</span>
 						</div>
-						<div class="span4">
+						<div class="span5">
 							<span>{{raster.error}}</span>
 						</div>
 					{{else}}
-						<div class="span3 offset2 name">
+						<div class="span2 offset2 name">
 							<p class="filename">{{raster.name}}</p>
 						</div>
 						{{#if raster.interpolating}}
-							{{progressBar raster.percentage span="span3"}}
+							{{progressBar raster.percentage span="span4"}}
 							<div class="span1">
 								<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
 							</div>

@@ -74,19 +74,8 @@
       };
       
       App.user.datasets.pushObject(dataset);
-
-      //--------------------------------------------
-      // binding de datasetsData.filesToUpload
-      
-      App.datasetsData.filesUploading.removeObject(data);
-      
-      data.isUploading = false;
-      data.isUploaded = true;
-      
       DatasetManager.addDataset(dataset);
 
-      // binding
-//      App.datasetsData.filesToUpload.pushObject(data);
       App.datasetsData.set("nbfilesCurrentlyUploading", (App.datasetsData.nbfilesCurrentlyUploading - 1)) ;
 	}
 	
@@ -114,8 +103,8 @@
 	   App.datasetsData.set("rasterBeingConfigured.creationAsked", false);
 	   App.datasetsData.set("rasterBeingConfigured.sep", dataset.separator);
 	   App.datasetsData.set("rasterBeingConfigured.datasetUID", dataset.uid);
-	   App.datasetsData.set("rasterBeingConfigured.zMin", 4);
-	   App.datasetsData.set("rasterBeingConfigured.zMax", 14);
+	   App.datasetsData.set("rasterBeingConfigured.zMin", App.Globals.RASTER_DEFAULT_ZMIN);
+	   App.datasetsData.set("rasterBeingConfigured.zMax", App.Globals.RASTER_DEFAULT_ZMAX);
 
 	   $("#rasterErrorArea").empty();
 	   $( "#rasterNameInput" ).val(dataset.name + " raster " + (dataset.rasters.length+1));

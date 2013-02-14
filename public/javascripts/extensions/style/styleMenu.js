@@ -1100,6 +1100,16 @@ StyleMenu.SetStyle = function (style){
    StyleMenu.__style = style;
    StyleMenu.Load(); // will call LoadMapping and then LoadStyle ...
 }
+
+
+
+StyleMenu.OpenStyle = function (layerId) {
+   var gn = StyleMenu.GetGroupNameFilterFromLayerId(layerId);
+   if ( gn.group != null && gn.name != null ){
+      StyleMenu.__BuildWidget(gn.group,gn.name,gn.uid);
+      StyleMenu.Accordion(gn.group,gn.name,gn.uid);
+   }
+}
  
 //////////////////////////////////////////////////////////
 //  init !
@@ -1116,6 +1126,10 @@ StyleMenu.init = function(container,container2,container3,isMovable,maps,style){
       StyleMenu.styleMenuParentEl2.draggable();    
       StyleMenu.styleMenuParentEl3.draggable();    
   }
+  
+  // style edition default 
+  StyleMenu.OpenStyle("001");
+  
 }// end class StyleMenu.init
 
 

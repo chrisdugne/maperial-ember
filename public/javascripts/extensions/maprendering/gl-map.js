@@ -74,7 +74,7 @@ GLMap.prototype.OnMouseUp = function (event) {
    
    if(!this.mover.autoMoving){
       if(this.params.GetEditMode() )
-         this.EditStyle(event);      
+         this.OpenStyle(event);      
    }
 }
 
@@ -433,7 +433,7 @@ GLMap.prototype.DrawMagnifier = function () {
 
 //----------------------------------------------------------------------//
 
-GLMap.prototype.EditStyle = function (event) {
+GLMap.prototype.OpenStyle = function (event) {
    
    // retrieve the tile clicked
    var tileCoord = this.coordS.MetersToTile ( this.mouseM.x, this.mouseM.y , this.zoom );
@@ -447,32 +447,12 @@ GLMap.prototype.EditStyle = function (event) {
    // find the click coordinates inside invisibleCanvas
    // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
    var clickP = this.coordS.MetersToPixels ( this.mouseM.x, this.mouseM.y, this.zoom );
-   
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameter.tileSize), Math.floor ( (tileCoord.y+1) * MapParameter.tileSize - clickP.y ) );
 
-   // create an invisibleCanvas to render the pixel for every layers
-   var canvas = document.getElementById("dummyTilesCanvas");
-   var ctx = canvas.getContext("2d");
-   ExtendCanvasContext ( ctx );
-   canvas.height = 1;
-   canvas.width = 1;
+   var layerId = tile.LayerLookup( tileClickCoord , this.zoom, this.params.GetStyle() ) ;
 
-   ctx.translate(-tileClickCoord.x, -tileClickCoord.y);
-   ctx.save();
-
-   // render the tile inside this invisibleCanvas with the layerId colors
-   var layerId = tile.LayerLookup( tileClickCoord , ctx , this.zoom, this.params.GetStyle() ) ;
-   //console.log("layerId : " + layerId);
-
-   ctx.restore();
-
-   var gn = StyleMenu.GetGroupNameFilterFromLayerId(layerId);
-   if ( gn.group != null && gn.name != null ){
-      StyleMenu.__BuildWidget(gn.group,gn.name,gn.uid);
-      StyleMenu.Accordion(gn.group,gn.name,gn.uid);
-   }
+   StyleMenu.OpenStyle(layerId);
 }
-
 
 //----------------------------------------------------------------------//
 

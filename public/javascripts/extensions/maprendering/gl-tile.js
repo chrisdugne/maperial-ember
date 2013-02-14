@@ -162,13 +162,27 @@ Tile.prototype.RenderVectorialLayers = function ( context, wx, wy ) {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
-Tile.prototype.LayerLookup = function ( tileClickCoord , ctx  , zoom, style ) {
+/*
+ *  render the tile inside an invisibleCanvas with the layerId colors
+ */
+Tile.prototype.LayerLookup = function ( tileClickCoord, zoom, style ) {
+
+   // create an invisibleCanvas to render the pixel for every layers
+   var canvas = document.getElementById("dummyTilesCanvas");
+   var ctx = canvas.getContext("2d");
+   ExtendCanvasContext ( ctx );
+   canvas.height = 1;
+   canvas.width = 1;
+
+   ctx.translate(-tileClickCoord.x, -tileClickCoord.y);
+
    for (var i = MapParameter.LayerOrder.length-1 ; i >= 0 ; --i) {
       var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.vdata , zoom, style, MapParameter.LayerOrder[i] );
       
       if(layerResult)
          return layerResult;
    }
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
