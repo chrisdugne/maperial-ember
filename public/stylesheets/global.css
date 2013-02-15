@@ -1,14 +1,15 @@
 #header h1 {
 	color: #eee;
-	margin-top: 14px;
-	font-size: 60px;
+	margin-top: 7px;
+	font-size: 45px;
 	font-weight: 200;
 	line-height: 1;
 	letter-spacing: -1px;
 }
 
 #logoHeader {
-	margin-top: 14px;
+	margin-top: 2px;
+	width: 100%;
 }
 
 /*--------------------------------*/
@@ -21,22 +22,22 @@
 }
 
 .headerTitle h1 {
-	font-size: 38px;
+	font-size: 28px;
 	font-weight: normal;
 	color: #eee;
-	margin: 0;
-	line-height: 40px;
+	margin-top: -18px;
 }
 
 .headerTitle p {
 	padding-left: 3px;
 	font-size: 17px;
 	color: #666666;
+	margin-top: -13px;
 }
 
 /*--------------------------------*/
 #signinButton {
-	margin-top: 26px;
+	margin-top: 10px;
 	margin-left: 80%;
 	font-weight: bold;
 	cursor: pointer;
@@ -46,8 +47,8 @@
 }
 
 #tryButton {
-	margin-top: 26px;
-	margin-left: 45%;
+	margin-top: 10px;
+	margin-left: 19%;
 	font-weight: bold;
 	cursor: pointer;
 	cursor: hand;
@@ -56,7 +57,7 @@
 }
 
 .headerButton {
-	margin-top: 35px;
+	margin-top: 19px;
 	margin-left: 80%;
 	cursor: pointer;
 	cursor: hand;
@@ -65,7 +66,7 @@
 }
 
 .googleUser {
-	margin-top: 38px;
+	margin-top: 21px;
 	margin-left: 84%;
 	color: #bbb;
 	background: url(../images/global/arrow_down.png) no-repeat right 8px;

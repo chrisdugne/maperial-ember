@@ -5,7 +5,7 @@
 
       //-------------------------------------------//
 
-      HEADER_HEIGHT: 104,
+      HEADER_HEIGHT: 67,
       FOOTER_HEIGHT: 101,
 
       RASTER_DEFAULT_ZMIN: 4,

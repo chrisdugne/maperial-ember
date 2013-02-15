@@ -22,19 +22,33 @@
 
 .homePart {
 	background: #fff;
-	margin-top: 700px;
+	margin-top: 600px;
 }
 
 /*--------------------------------*/
 
-#homeBack {
-	z-index:-2;
-	top: 0;
-	left: 0;
+.imageBackContainer {
 	position: fixed;
-	overflow: hidden;
+	visibility : hidden;
 }
 
-.imageBack {
-	width: 100%;
+#imageBackContainer1 {
+	z-index:-12;
+	visibility : visible;
+}
+
+#imageBackContainer2 {
+	z-index:-11;
+}
+
+#imageBackContainer3 {
+	z-index:-10;
+}
+
+#imageBackContainer4 {
+	z-index:-9;
+}
+	
+#imageBackContainer5 {
+	z-index:-8;
 }

@@ -17,6 +17,7 @@
 
    App.initWindowSize = function()
    {
+      App.homeScroller = new HomeScroller();
       App.resizeWindow();
 
       $(window).resize(function() {
@@ -31,8 +32,12 @@
       var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT; // on nenleve pas le header car il est inclus dans la webapp
       $("#webappDiv").css("min-height", webAppHeight );
 
+      console.log("webAppHeight : " + $("#webappDiv").height());
+      
       $("#map").css("width", $("#webappDiv").width() );
       $("#map").css("height", webAppHeight - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
+      
+      App.homeScroller.resizeWindow($("#webappDiv").width());
    }
 
    //------------------------------------------------------//

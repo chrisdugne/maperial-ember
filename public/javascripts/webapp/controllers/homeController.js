@@ -8,7 +8,7 @@
 
 	HomeController.renderUI = function()
 	{
-	   $("#homeContent").bind('mousewheel', new HomeScroller().scroll);
+	   $("#homeContent").bind('mousewheel', App.homeScroller.scroll);
 	}
 
 	HomeController.cleanUI = function()

@@ -76,31 +76,31 @@
 /*-------------------------*/
 
 #panelColorbarManager {
-	top: 103px;
+	top: 67px;
 	left: 0; 
 }
 
 a#triggerColorbarManager {
+	top : 67px;
 	left: 0;
-	top : 103px;
 }
 
 /*-------------------------*/
 
 #panelStyleManager {
-	top: 103px;
+	top: 67px;
 	left: 0; 
 }
 
 a#triggerStyleManager {
 	left: 0;
-	top : 103px;
+	top : 67px;
 }
 
 /*-------------------------*/
 
 #panelGeoloc {
-	top: 104px;
+	top: 67px;
 	left: 42%; 
 	height: 30px;
 	width: 245px;
@@ -112,7 +112,7 @@ a#triggerStyleManager {
 /*-------------------------*/
 #map {
 	margin-bottom: -5px;
-	margin-top: 104px;
+	margin-top: 67px;
 }
 
 #magnifier {

@@ -1,5 +1,5 @@
 a:hover,a:active{outline:0;}
-img{max-width:100%;height:auto;border:0;-ms-interpolation-mode:bicubic;}
+img{height:auto;border:0;-ms-interpolation-mode:bicubic;}
 button,input,select,textarea{margin:0;font-size:100%;vertical-align:middle;}
 button,input{*overflow:visible;line-height:normal;}
 button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0;}

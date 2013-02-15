@@ -113,9 +113,16 @@ MapEditor.prototype.renderMap = function(){
    this.map.GetParams().SetStyle(this.style.content);
    this.map.GetParams().SetColorBar(cbData)
    this.map.Start(); 
-
+   
+   // weird..but $("#webappDiv").height()  is false here...
+   App.resizeWindow();
+   
    $("#map").css("width", $("#webappDiv").width() );
    $("#map").css("height", $("#webappDiv").height() - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
+   
+
+   console.log("webAppHeight : " + $("#webappDiv").height());
+   console.log("maph : " + ($("#webappDiv").height() - App.Globals.HEADER_HEIGHT));
 }
 
 MapEditor.prototype.cleanMap = function(){
