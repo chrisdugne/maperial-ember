@@ -2,7 +2,7 @@
 function MapParameter () {
    this.style     = null;
 
-   this.datasetUid= null;
+   this.rasterUid= null;
    this.contrast  = 0.0;
    this.luminosity= 0.0;
    this.bwMethod  = 1.0;
@@ -114,15 +114,15 @@ MapParameter.prototype.GetMapURL = function (tx,ty,z) {
    // return url
 }
 
-MapParameter.prototype.GetDatasetURL = function (tx,ty,z) {
+MapParameter.prototype.GetRasterURL = function (tx,ty,z) {
    var url = null
-   if (this.datasetUid) 
-      url = "http://192.168.0.1:8081/api/tile/"+this.datasetUid+"?x="+tx+"&y="+ty+"&z="+z
+   if (this.rasterUid) 
+      url = "http://map.x-ray.fr/api/tile/"+this.rasterUid+"?x="+tx+"&y="+ty+"&z="+z
       return url
 }
 
-MapParameter.prototype.SetDatasetUid = function ( inUid ) {
-   this.datasetUid  = inUid
+MapParameter.prototype.SetRasterUid = function ( inUid ) {
+   this.rasterUid  = inUid
    this._Change(MapParameter.dataSrcChanged)
 }
 

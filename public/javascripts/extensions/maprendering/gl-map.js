@@ -300,7 +300,7 @@ GLMap.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, forceTi
          keyList.push(key) 
          if ( this.tileCache[key] == null ) {
             var vurl             = this.params.GetMapURL       ( tx, ty, zoom );
-            var rurl             = this.params.GetDatasetURL   ( tx, ty, zoom );
+            var rurl             = this.params.GetRasterURL   ( tx, ty, zoom );
             this.tileCache[key]  = new Tile ( zoom, this.gl, this.glAsset );
             this.tileCache[key].Init ( vurl , rurl );
          }

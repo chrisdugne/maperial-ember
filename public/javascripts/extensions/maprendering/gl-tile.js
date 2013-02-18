@@ -71,13 +71,17 @@ Tile.prototype.IsLoad = function ( ) {
 
 Tile.prototype.IsUpToDate = function ( ) {
    if( !this.vLoad || ! this.rLoad )   return false;
-   if ( this.vError )                  return false
       
    for (kl in this.layers) {
-      if (! this.layers [ kl ].IsUpToDate ( ) )
-         return false;
+      if ( this.layers [ kl ].GetType() == MapParameter.Vector ) {
+         if ( !this.vError && ! this.layers [ kl ].IsUpToDate ( ) )
+            return false
+      }
+      else if ( this.layers [ kl ].GetType() == MapParameter.Raster ) {
+         if ( !this.rError && ! this.layers [ kl ].IsUpToDate ( ) )
+            return false
+      }
    }
-   
    return true
 }
 
@@ -131,9 +135,14 @@ Tile.prototype._LoadRaster = function ( inRasterUrl ) {
    this.rReq.onload = function (oEvent) {      
       var arrayBuffer = me.rReq.response;                    // Note: not this.rReq.responseText
       if (arrayBuffer && me.rReq.status == 200 && arrayBuffer.byteLength > 0 ) {
-         for ( var kl in me.layers ) {
-            if ( me.layers [ kl ].GetType() == MapParameter.Raster )
-               me.layers [ kl ].Init( arrayBuffer );
+         if (arrayBuffer.length != 0) {
+            for ( var kl in me.layers ) {
+               if ( me.layers [ kl ].GetType() == MapParameter.Raster )
+                  me.layers [ kl ].Init( arrayBuffer );
+            }
+         }
+         else {
+            me.rError   = true; // No data ...
          }
       }
       else {
@@ -205,7 +214,7 @@ Tile.prototype.Render = function ( pMatrix, mvMatrix , params) {
       if ( this.rLoad && !this.rError ) {
       
          var layerDataParams = [ params.GetContrast(), params.GetLuminosity(), params.GetBWMethod() ];
-      
+         var texSize         = [256.0,256.0]
          this.gl.useProgram               (this.glAsset.shaderProgramData);
          this.gl.uniformMatrix4fv         (this.glAsset.shaderProgramData.params.pMatrixUniform , false, pMatrix);
          this.gl.uniformMatrix4fv         (this.glAsset.shaderProgramData.params.mvMatrixUniform, false, mvMatrix);
@@ -233,7 +242,8 @@ Tile.prototype.Render = function ( pMatrix, mvMatrix , params) {
          this.gl.bindTexture              (this.gl.TEXTURE_2D, this.glAsset.colorB);
          this.gl.uniform1i                (this.glAsset.shaderProgramData.params.samplerUniformCb, 3 );
          
-         this.gl.uniform3fv               (this.glAsset.shaderProgramData.params.vec3UniformParams, layerDataParams );
+         this.gl.uniform3fv               (this.glAsset.shaderProgramData.params.vec3UniformParams , layerDataParams );
+         this.gl.uniform2fv               (this.glAsset.shaderProgramData.params.vec2UniformTexSize, texSize );
                   
          this.gl.drawArrays               (this.gl.TRIANGLE_STRIP, 0, this.glAsset.squareVertexPositionBuffer.numItems);
       }
