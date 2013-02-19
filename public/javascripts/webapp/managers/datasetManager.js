@@ -208,17 +208,20 @@ DatasetManager.checkRaster = function(raster){
          else{
             Utils.editObjectInArray(raster, "interpolating", false);
 
-            if(data.error != undefined){
+            if(data.error != undefined && data.errCode != 0){
                // { "errcode" : 3, "error" : "Projection failed" }
+               
+               console.log(data.error);
                Utils.editObjectInArray(raster, "onError", true);
                Utils.editObjectInArray(raster, "error", data.error);
             }
             else{
                // { "bbox" : [ 2.96564, 45.7647, 3.11383, 45.7973 ], "inP" : 17, "max" : 12.8822, "min" : 10.7532 }
-               Utils.editObjectInArray(raster, "bbox", data.bbox);
-               Utils.editObjectInArray(raster, "inP", data.inP);
-               Utils.editObjectInArray(raster, "min", data.min);
-               Utils.editObjectInArray(raster, "max", data.max);
+               Utils.editObjectInArray(raster, "nbPoints", data.inP);
+               Utils.editObjectInArray(raster, "lonMin", data.bbox[0]);
+               Utils.editObjectInArray(raster, "latMin", data.bbox[1]);
+               Utils.editObjectInArray(raster, "lonMax", data.bbox[2]);
+               Utils.editObjectInArray(raster, "latMax", data.bbox[3]);
             }
          }
       }

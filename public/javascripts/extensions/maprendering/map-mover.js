@@ -55,7 +55,7 @@ MapMover.prototype.moveDrawers = function (dx, dy) {
          point.y += dy;
       }
       
-      drawer.draw(false);
+      drawer.draw();
    }
 }
 

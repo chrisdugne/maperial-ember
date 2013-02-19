@@ -23,15 +23,7 @@
 
    MapCreationController.renderDatasetSelectionUI = function()
    {
-         ScriptLoader.getScripts([
-                         //-- extension.upload
-                         "assets/javascripts/extensions/upload/jquery.fileupload.js",
-                         "assets/javascripts/extensions/upload/main.js"
-                         ],
-               function(){
-                  ExtensionUpload.init();
-               }
-         );
+      
    }
 
    MapCreationController.cleanDatasetSelectionUI = function()
@@ -80,6 +72,11 @@
       MapCreationController.wizardSetView("datasetSelection");
    }
 
+   MapCreationController.selectRaster = function(raster){
+      App.datasetsData.set("selectedRaster", raster);
+      App.get('router').transitionTo('mapCreation.mapEdition');
+   }
+
    // --------------------- 
    // --- style selection
    
@@ -89,7 +86,7 @@
    
    // store the selectedStyle and close the popup
    MapCreationController.changeStyle = function()  {
-      MapCreationController.currentStyle = App.stylesData.selectedStyle;
+      MapCreationController.currentStyle = App.stylesData.selectedStyle; // coucou crapaud je t aime tu es beau
       $("#selectStyleWindow").modal("hide");
    }
 
@@ -111,7 +108,14 @@
          else{
             // map rendering !
             MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
-            MapCreationController.mapEditor.renderUI();
+
+            if(App.datasetsData.selectedRaster){
+               var lat = (App.datasetsData.selectedRaster.latMin + App.datasetsData.selectedRaster.latMax)/2; 
+               var lon = (App.datasetsData.selectedRaster.lonMin + App.datasetsData.selectedRaster.lonMax)/2; 
+            }
+            
+            MapCreationController.mapEditor.renderUI(lat, lon);
+            
             MapCreationController.styleAndColorbarUIReady = true;
          }
       })
@@ -209,29 +213,14 @@
             var customContext = new Object();
             customContext["datasetsData"] = App.datasetsData; // datasetsData required in datasetList
             App.Router.openComponent(router, "mapCreation", customContext);
-         },
-      
-         //---------------------//
-         // state actions
-         
-         // ---- upload actions
-         startUpload: function(router, event){
-            App.DatasetsController.startUpload(event.context);
-         },
-
-         cancelUpload: function(router, event){
-            App.DatasetsController.removeUpload(event.context);
-         },
-
-         removeUpload: function(router, event){
-            App.DatasetsController.removeUpload(event.context);
-         },
-         
-         openUploadWindow: function(){App.DatasetsController.openUploadWindow()}
-         // ---- 
-
+         }
       }),
 
+      selectRaster : function(router, event){
+         MapCreationController.selectRaster(event.context);
+      },
+      
+      //--------------------------------------//
 
       mapEdition: Ember.Route.extend({
          route: '/style',

@@ -9,15 +9,6 @@
 					<div class="span3 name">
 						<p class="datasetFileName">{{name}}</p>
 					</div>
-					<div class="span1 size">
-						<span>{{fileSize size}}</span>
-					</div>
-					<div class="span1">
-						<span>{{separator}}</span>
-					</div>
-					<div class="span1">
-						<span>{{formatDate uploadTime}}</span>
-					</div>
 				</div>
 				
 				{{#each raster in dataset.rasters}}
@@ -40,10 +31,13 @@
 									<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
 								</div>
 							{{else}}
+								<div class="span2">
+									<span>{{raster.nbPoints}} pts</span>
+								</div>
 								<div class="span1">
 									<span>{{formatDate creationTime}}</span>
 								</div>
-								<button class="btn-small btn-success">
+								<button {{action selectRaster raster}}  class="btn-small btn-success">
 									<i class="icon-arrow-right icon-white"></i>
 								</button>
 							{{/if}}

@@ -84,7 +84,10 @@
 								<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
 							</div>
 						{{else}}
-							<div class="span1">
+							<div class="span2 offset1">
+								<span>{{raster.nbPoints}} pts</span>
+							</div>
+							<div class="span2">
 								<span>{{formatDate raster.creationTime}}</span>
 							</div>
 						{{/if}}

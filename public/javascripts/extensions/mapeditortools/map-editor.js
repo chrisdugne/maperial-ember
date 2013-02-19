@@ -3,6 +3,8 @@
 
 function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers){
    this.map;
+   this.startLat;
+   this.startLon;
    this.style = style;
    this.colorbar = colorbar;
    this.boundingBoxDrawer;
@@ -12,9 +14,15 @@ function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers){
 
 //==================================================================//
 
-MapEditor.prototype.renderUI = function() {
+MapEditor.prototype.renderUI = function(lat, lon) {
 
    App.user.set("waiting", true);
+   
+   this.startLon = lon;
+   this.startLat = lat;
+   
+   var tryGeoloc = this.startLat == undefined;
+   
    var mapEditor = this; // to have access to 'this' in the callBack
 
    ScriptLoader.getScripts([
@@ -28,14 +36,14 @@ MapEditor.prototype.renderUI = function() {
              "assets/javascripts/extensions/maprendering/gl-vectoriallayer.js",
              "assets/javascripts/extensions/maprendering/render-line.js",
              "assets/javascripts/extensions/maprendering/render-text.js",
-             "assets/javascripts/extensions/maprendering/tileRenderer.js",
-             "assets/javascripts/extensions/maprendering/mapMover.js",
+             "assets/javascripts/extensions/maprendering/tile-renderer.js",
+             "assets/javascripts/extensions/maprendering/map-mover.js",
              "assets/javascripts/extensions/maprendering/geoloc.js",
              "assets/javascripts/extensions/maprendering/gl-map.js",
 
              // map editing
              "assets/javascripts/extensions/mapeditortools/fabric.all.1.0.6.js",
-             "assets/javascripts/extensions/mapeditortools/boundingBoxDrawer.js",
+             "assets/javascripts/extensions/mapeditortools/boundingbox-drawer.js",
              "assets/javascripts/extensions/mapeditortools/v_colortool.js",
              "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
              "assets/javascripts/extensions/mapeditortools/colorpicker.js",
@@ -61,13 +69,13 @@ MapEditor.prototype.renderUI = function() {
                   ColorbarManager.getColorbar(mapEditor.colorbar.uid, function(){
       
                      // rendering after reception
-                     mapEditor.renderAll();
+                     mapEditor.renderAll(tryGeoloc);
                   });
       
                }
                else{
                   // rendering after reception
-                  mapEditor.renderAll();
+                  mapEditor.renderAll(tryGeoloc);
                }
             });
        }
@@ -75,7 +83,7 @@ MapEditor.prototype.renderUI = function() {
 }
 
 
-MapEditor.prototype.renderAll = function(){
+MapEditor.prototype.renderAll = function(tryGeoloc){
 
    this.renderMap();
    this.renderStyle();
@@ -86,7 +94,7 @@ MapEditor.prototype.renderAll = function(){
    }
 
    this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
-   GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map);
+   GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map, tryGeoloc);
 
    // screen is ready
    App.user.set("waiting", false);
@@ -113,6 +121,8 @@ MapEditor.prototype.renderMap = function(){
    this.map.GetParams().SetStyle(this.style.content);
    this.map.GetParams().SetColorBar(cbData)
    this.map.Start(); 
+   
+   this.center();
    
    // weird..but $("#webappDiv").height()  is false here...
    App.resizeWindow();
@@ -302,3 +312,7 @@ MapEditor.prototype.activateBoundingBoxDrawing = function(){
 
 //==================================================================//
 
+
+MapEditor.prototype.center = function(){
+   this.map.SetCenter(this.startLat, this.startLon);
+}

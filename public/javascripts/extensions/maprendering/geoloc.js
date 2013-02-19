@@ -1,6 +1,6 @@
 this.GeoLoc = {};
 
-GeoLoc.init = function(inputId,goButton,map){
+GeoLoc.init = function(inputId, goButton, map, tryGeoloc){
 
      var geocoder;
 
@@ -50,24 +50,24 @@ GeoLoc.init = function(inputId,goButton,map){
      }  
 
      // init geocoder and geoloc
-     function initialize() {
+     function initialize(tryGeoloc) {
          geocoder = new google.maps.Geocoder();
          // default value
          var lat = 3.1;
          var lon = 45.3;
          var zoom = 13;
 
-         if (navigator.geolocation){
+         if (tryGeoloc && navigator.geolocation){
             navigator.geolocation.getCurrentPosition(callBackGeoLocNav);
          }
          else{
-            console.log("No HTML5 geoloc");
+            console.log("No HTML5 geoloc OR tryGeoloc " + tryGeoloc);
             initialize2();       
          }
      }
 
      ////////////////////
-     initialize();
+     initialize(tryGeoloc);
      ////////////////////
 };
 

@@ -77,7 +77,7 @@ BoundingBoxDrawer.prototype.init = function(boardName, width, height){
    
    this.topLeftPoint = new Point(200, 200);
    this.bottomRightPoint = new Point(400, 400);
-   this.draw(false);
+   this.draw();
    this.updateBoundings();
 
    //------- placing mouse listeners on this = drawer
@@ -119,11 +119,11 @@ BoundingBoxDrawer.prototype.init = function(boardName, width, height){
    this.drawBoard.on('mouse:move', function(options) {
       drawer.map.OnMouseMove(options.e);
    });
-
+   
    // -> object:modified happens at the end of dragging and at the end of scaling
    this.drawBoard.on('object:modified', function(options) {
-      console.log("OB MODIFIERD");
       drawer.updateBoundings();
+      drawer.draw();
    });
 
 }
@@ -224,23 +224,73 @@ BoundingBoxDrawer.prototype.draw = function () {
    this.drawBoard.clear();
 
    // --------------------------------------------//
-   
+
    var w = this.bottomRightPoint.x - this.topLeftPoint.x;
    var h = this.bottomRightPoint.y - this.topLeftPoint.y;
 
+   // --------------------------------------------//
+   
    var rect = new fabric.Rect({
       width: w,
       height: h,
       top: this.topLeftPoint.y + h/2,
       left: this.topLeftPoint.x + w/2,
-      fill: 'rgba(0,0,0,0.1)'
+      fill: 'rgba(0,0,0,0)'
+   });
+   
+   // --------------------------------------------//
+
+   var rectTop = new fabric.Rect({
+      width: this.drawBoard.getWidth(),
+      height: this.topLeftPoint.y,
+      top: this.topLeftPoint.y/2,
+      left: this.drawBoard.getWidth()/2,
+      fill: 'rgba(0,0,0,0.7)',
+      selectable: false,
+      hasControls: false
+   });
+   
+   var rectBottomHeight = this.drawBoard.getHeight() - this.topLeftPoint.y - h;
+   var rectBottom = new fabric.Rect({
+      width: this.drawBoard.getWidth(),
+      height: rectBottomHeight,
+      top: this.drawBoard.getHeight() - rectBottomHeight/2,
+      left: this.drawBoard.getWidth()/2,
+      fill: 'rgba(0,0,0,0.7)',
+      selectable: false,
+      hasControls: false
    });
 
+   var rectLeft = new fabric.Rect({
+      width: this.topLeftPoint.x,
+      height: h,
+      top: this.topLeftPoint.y + h/2,
+      left: this.topLeftPoint.x/2,
+      fill: 'rgba(0,0,0,0.7)',
+      selectable: false,
+      hasControls: false
+   });
+   
+   var rectRightWidth = this.drawBoard.getWidth() - this.topLeftPoint.x - w;
+   var rectRight = new fabric.Rect({
+      width: rectRightWidth,
+      height: h,
+      top: this.topLeftPoint.y + h/2,
+      left: this.drawBoard.getWidth() - rectRightWidth/2,
+      fill: 'rgba(0,0,0,0.7)',
+      selectable: false,
+      hasControls: false
+   });
+   
+   this.drawBoard.add(rectLeft);
+   this.drawBoard.add(rectRight);
+   this.drawBoard.add(rectTop);
+   this.drawBoard.add(rectBottom);
    this.drawBoard.add(rect);
    
    // --------------------------------------------//
 
-   this.currentBox = this.drawBoard.item(0);
+   this.currentBox = this.drawBoard.item(4);
 
    this.currentBox.lockRotation = true;
    this.currentBox.hasRotatingPoint = false;
