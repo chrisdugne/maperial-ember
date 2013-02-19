@@ -60,7 +60,7 @@ BoundingBoxDrawer.prototype.tryToRefresh = function(){
 /**
  * Init Fabric on the canvas + set mouse listeners
  */
-BoundingBoxDrawer.prototype.init = function(boardName, width, height){
+BoundingBoxDrawer.prototype.init = function(boardName, width, height, topLeftPoint, bottomRightPoint){
 
    //------- if this is still the same drawBoard, just draw again and do not add listeners !!
 
@@ -75,8 +75,15 @@ BoundingBoxDrawer.prototype.init = function(boardName, width, height){
 
    //------- draw dummy BB
    
-   this.topLeftPoint = new Point(200, 200);
-   this.bottomRightPoint = new Point(400, 400);
+   if(topLeftPoint == undefined){
+      this.topLeftPoint = new Point(200, 200);
+      this.bottomRightPoint = new Point(400, 400);
+   }
+   else{
+      this.topLeftPoint = topLeftPoint;
+      this.bottomRightPoint = bottomRightPoint;
+   }
+   
    this.draw();
    this.updateBoundings();
 

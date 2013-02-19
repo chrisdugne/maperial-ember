@@ -291,7 +291,34 @@ MapEditor.prototype.cleanColorbar = function(){
 
 MapEditor.prototype.showBoundingBox = function(){
 
-   this.boundingBoxDrawer.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
+   if(App.datasetsData.selectedRaster){
+      
+      var topLeftMeters = this.map.coordS.LatLonToMeters(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin); 
+      var bottomRightMeters = this.map.coordS.LatLonToMeters(App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
+      var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, this.map.zoom);
+      
+      console.log("-----------------------");
+      console.log("centerP : " + centerP.x + " | " + centerP.y);
+
+      var topLeftP = this.map.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, this.map.zoom);
+      var bottomRightP = this.map.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, this.map.zoom);
+
+      console.log("-----------------------");
+      console.log("topLeftP : " + topLeftP.x + " | " + topLeftP.y);
+      console.log("bottomRightP : " + bottomRightP.x + " | " + bottomRightP.y);
+
+      var topLeftPoint = new Point(topLeftP.x - centerP.x, topLeftP.y - centerP.y) ;
+      var bottomRightPoint = new Point(bottomRightP.x - centerP.x, bottomRightP.y - centerP.y) ;
+
+      console.log("==============");
+      console.log("topLeftPoint : " + topLeftPoint.x + " | " + topLeftPoint.y);
+      console.log("bottomRightPoint : " + bottomRightPoint.x + " | " + bottomRightPoint.y);
+
+      this.boundingBoxDrawer.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height(), topLeftPoint, bottomRightPoint);
+   }
+   else{
+      this.boundingBoxDrawer.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
+   }
 
    $("#drawBoardContainer").removeClass("hide");
 }

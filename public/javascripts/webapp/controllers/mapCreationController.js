@@ -35,7 +35,7 @@
    
    MapCreationController.renderStyleAndColorbarUI = function()
    {
-      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/mapEditor.js"], function(){
+      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
          
          App.stylesData.set("selectedStyle", App.publicData.styles[0]);
          MapCreationController.currentStyle = App.stylesData.selectedStyle;
@@ -69,6 +69,7 @@
 
    MapCreationController.openDatasetSelection = function(){
       App.get('router').transitionTo("mapCreation.datasetSelection");
+      App.datasetsData.set("selectedRaster", undefined);
       MapCreationController.wizardSetView("datasetSelection");
    }
 
