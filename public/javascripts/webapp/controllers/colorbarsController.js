@@ -8,7 +8,7 @@
 
 	ColorbarsController.renderUI = function()
 	{
-
+      App.resizeWindow();
 	}
 
 	ColorbarsController.cleanUI = function()

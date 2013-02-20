@@ -10,7 +10,7 @@
 
    StyleEditorController.renderUI = function()
    {
-      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/mapEditor.js"], function(){
+      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
 
          //-----------------------------
          // if creating a new style : copy the selected style as a new style
@@ -27,7 +27,10 @@
 
          StyleEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
          StyleEditorController.mapEditor.renderUI();
+         App.Globals.set("currentMapEditor", StyleEditorController.mapEditor);
       });
+
+      App.resizeWindow();
    }
 
    StyleEditorController.cleanUI = function()

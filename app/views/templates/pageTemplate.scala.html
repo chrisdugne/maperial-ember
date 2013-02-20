@@ -1,6 +1,7 @@
 @(templateName:String, defaultHeader:Boolean = true)(content:Html)
 
 @import views.html.templates.header;
+@import views.html.templates.footer;
 
 <!-- ------------------------------------------------------------------- -->
 
@@ -8,6 +9,8 @@
 	@header(defaultHeader)
 
 	@content
+
+	@footer()
 </script>
 
 <!-- ------------------------------------------------------------------- -->

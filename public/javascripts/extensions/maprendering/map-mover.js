@@ -37,6 +37,15 @@ MapMover.prototype.removeDrawer = function (drawer) {
    this.drawers.splice(i,1);
 }
 
+
+MapMover.prototype.resizeDrawers = function () {
+
+   for(var i = 0; i < this.drawers.length; i++){
+      this.drawers[i].resize(this.map.width, this.map.height);
+   }
+   
+}
+
 //==================================================================//
 
 MapMover.prototype.moveMap = function (dx, dy) {

@@ -8,7 +8,7 @@
 
 	IconsController.renderUI = function()
 	{
-
+      App.resizeWindow();
 	}
 
 	IconsController.cleanUI = function()

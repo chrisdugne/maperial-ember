@@ -12,6 +12,7 @@
       App.user.set("isCreatingANewMap", true);
       MapCreationController.wizardSetView("datasetSelection");
       MapCreationController.renderDatasetSelectionUI();
+      App.resizeWindow();
    }
 
    MapCreationController.terminate = function ()
@@ -36,12 +37,12 @@
    MapCreationController.renderStyleAndColorbarUI = function()
    {
       ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
-         
          App.stylesData.set("selectedStyle", App.publicData.styles[0]);
          MapCreationController.currentStyle = App.stylesData.selectedStyle;
          MapCreationController.openStyleSelection();
-      
       });
+      
+      App.resizeWindow();
    }
    
    MapCreationController.cleanStyleAndColorbarUI = function()
@@ -94,6 +95,7 @@
    MapCreationController.openStyleSelection = function()
    {
       MapCreationController.wizardSetView("styleAndColorbar");
+
       App.get('router').transitionTo('mapCreation.mapEdition.publicStyles');
       
       $('#selectStyleWindow').modal();
@@ -102,13 +104,14 @@
          // if the user dismissed : cancel
          // if he's validated : refreshMap has refreshed MapCreationController.currentStyle
          App.stylesData.set("selectedStyle", MapCreationController.currentStyle);
-         
+
          if(MapCreationController.styleAndColorbarUIReady){
             MapCreationController.refreshMap();
          }
          else{
             // map rendering !
             MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
+            App.Globals.set("currentMapEditor", MapCreationController.mapEditor);
 
             if(App.datasetsData.selectedRaster){
                var lat = (App.datasetsData.selectedRaster.latMin + App.datasetsData.selectedRaster.latMax)/2; 

@@ -157,11 +157,15 @@ DatasetManager.validateRaterConfig = function(raster){
 
 DatasetManager.createRaster = function(){
    
+   App.datasetsData.set("rasterBeingConfigured.creationAsked", true);
+   
    var dataset = App.datasetsData.selectedDataset;
    var raster = App.datasetsData.rasterBeingConfigured;
 
-   if(!DatasetManager.validateRaterConfig(raster))
+   if(!DatasetManager.validateRaterConfig(raster)){
+      App.datasetsData.set("rasterBeingConfigured.creationAsked", false);
       return;
+   }
 
    $.ajax({
       type: "POST",  

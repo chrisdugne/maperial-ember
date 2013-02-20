@@ -12,13 +12,11 @@
       }
    });
 
-
    //------------------------------------------------------//
 
    App.initWindowSize = function()
    {
       App.homeScroller = new HomeScroller();
-      App.resizeWindow();
 
       $(window).resize(function() {
          App.resizeWindow();
@@ -26,16 +24,27 @@
    }
 
    //------------------------------------------------------//
-
+   
    App.resizeWindow = function()
    {
-      var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT; // on nenleve pas le header car il est inclus dans la webapp
-      $("#webappDiv").css("min-height", webAppHeight );
+      if(App.Globals.currentMapEditor){
+         App.Globals.currentMapEditor.map.resize($("#webappDiv").width(), $(window).height() - App.Globals.FOOTER_HEIGHT - App.Globals.HEADER_HEIGHT);
+      }
 
-      console.log("webAppHeight : " + $("#webappDiv").height());
+      var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT ;
+
+      try{
+         webAppHeight -= $(".webappContent").css("margin-top").split("px")[0] ;
+         $(".webappContent").css("min-height", webAppHeight );
+      }catch(e){}
       
-      $("#map").css("width", $("#webappDiv").width() );
-      $("#map").css("height", webAppHeight - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
+      try{
+         webAppHeight -= $("#mapEditorContent").css("margin-top").split("px")[0] ;
+         $("#mapEditorContent").css("min-height", webAppHeight );
+      }catch(e){}
+
+      console.log("webAppHeight : " + webAppHeight);
+      console.log("mapheight : " + ($(window).height() - App.Globals.FOOTER_HEIGHT - App.Globals.HEADER_HEIGHT));
       
       App.homeScroller.resizeWindow($("#webappDiv").width());
    }

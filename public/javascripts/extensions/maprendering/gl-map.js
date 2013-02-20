@@ -34,6 +34,8 @@ Utils.getPoint = function (event) {
 
 function GLMap(mapName, magnifierName) {
 
+   this.width,
+   this.height,
    this.magnifierCanvas    = $("#"+magnifierName)[0];
    this.magnifierElement   = $("#"+magnifierName);
    this.mapCanvas          = $("#"+mapName)[0];
@@ -54,6 +56,16 @@ function GLMap(mapName, magnifierName) {
    
 GLMap.prototype.GetParams = function (  ) {
    return this.params;
+}
+
+//----------------------------------------------------------------------//
+
+GLMap.prototype.resize = function (width, height) {
+   this.width = width;
+   this.height = height;
+   this.mapElement.css("width", width );
+   this.mapElement.css("height", height );
+   this.mover.resizeDrawers();
 }
 
 //----------------------------------------------------------------------//

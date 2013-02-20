@@ -8,7 +8,8 @@
 
    ColorbarEditorController.renderUI = function() {
 
-      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/mapEditor.js"], function(){
+      App.resizeWindow();
+      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
          //-----------------------------
          // if creating a new colorbar : copy the selected colorbar as a new colorbar
          if(!App.colorbarsData.editingColorbar)
@@ -25,7 +26,7 @@
          App.stylesData.set("selectedStyle", App.publicData.styles[0]);
          ColorbarEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, App.colorbarsData.selectedColorbar, false, true);
          ColorbarEditorController.mapEditor.renderUI();
-
+         App.Globals.set("currentMapEditor", ColorbarEditorController.mapEditor);
       });
    }
 

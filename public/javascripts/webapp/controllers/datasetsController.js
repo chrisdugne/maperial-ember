@@ -8,6 +8,7 @@
 	 
 	DatasetsController.renderUI = function()
 	{
+      App.resizeWindow();
 	   ScriptLoader.getScripts([
                       //-- extension.upload
                       "assets/javascripts/extensions/upload/jquery.fileupload.js",
@@ -163,7 +164,6 @@
 	//----------------------------------------------------//
 
 	DatasetsController.createRaster = function(){
-      App.datasetsData.set("rasterBeingConfigured.creationAsked", true);
       App.datasetsData.set("rasterBeingConfigured.name", $("#rasterNameInput").val());
 	   DatasetManager.createRaster();
 	}

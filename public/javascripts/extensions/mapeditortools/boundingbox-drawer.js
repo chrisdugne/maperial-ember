@@ -1,16 +1,15 @@
-
-//----------------------------------------------------------------------//
-
-/** 
+/****************************************************************************************************************** 
  * Used inside MapEditor
  * 
  *  This is a Drawer
  *  - this.map : the linked Map to get the Mover from
  *  - this.draw() : the Mover calls this method to refresh the drawings
+ *  - this.resize(width, height) : the Mover calls this method to resize the drawBoard
  *  - this.pointsToMove : the Mover updates these points within the current move before to call drawer.draw()
- */
+ *
+ ******************************************************************************************************************/ 
 function BoundingBoxDrawer(map){
-   
+
    // -> Drawer
    this.map = map;
    this.drawBoard;
@@ -21,7 +20,13 @@ function BoundingBoxDrawer(map){
 
    // -> objects
    this.currentBox;
-   
+
+   // -> lat/lon to center the box, (not required)
+   this.latMin;
+   this.lonMin;
+   this.latMax;
+   this.lonMax;
+
    // -> to convert selection to boundingbox
    this.topLeftPoint;
    this.bottomRightPoint;
@@ -52,7 +57,7 @@ BoundingBoxDrawer.prototype.tryToRefresh = function(){
    }
 
    return true;
-   
+
 }
 
 //----------------------------------------------------------------------//
@@ -60,30 +65,26 @@ BoundingBoxDrawer.prototype.tryToRefresh = function(){
 /**
  * Init Fabric on the canvas + set mouse listeners
  */
-BoundingBoxDrawer.prototype.init = function(boardName, width, height, topLeftPoint, bottomRightPoint){
+BoundingBoxDrawer.prototype.init = function(boardName){
 
    //------- if this is still the same drawBoard, just draw again and do not add listeners !!
 
    if(this.tryToRefresh())
       return;
-   
+
    //------- init Fabric
 
    this.drawBoard = new fabric.Canvas(boardName);
-   this.drawBoard.setHeight(height);
-   this.drawBoard.setWidth(width);
+   this.drawBoard.setHeight(this.map.height);
+   this.drawBoard.setWidth(this.map.width);
 
    //------- draw dummy BB
-   
-   if(topLeftPoint == undefined){
-      this.topLeftPoint = new Point(200, 200);
-      this.bottomRightPoint = new Point(400, 400);
-   }
-   else{
-      this.topLeftPoint = topLeftPoint;
-      this.bottomRightPoint = bottomRightPoint;
-   }
-   
+
+   var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, this.map.zoom);
+
+   this.topLeftPoint = new Point(this.drawBoard.getWidth()/2 - 100, this.drawBoard.getHeight()/2 - 100) ;
+   this.bottomRightPoint = new Point(this.drawBoard.getWidth()/2 + 100, this.drawBoard.getHeight()/2 + 100) ;
+
    this.draw();
    this.updateBoundings();
 
@@ -91,7 +92,7 @@ BoundingBoxDrawer.prototype.init = function(boardName, width, height, topLeftPoi
 
    var drawer = this;
    this.map.mover.addDrawer(drawer);
-   
+
    this.drawBoard.on('mouse:down', function(options) {
 
       if(drawer.drawBoard.selection){
@@ -103,10 +104,10 @@ BoundingBoxDrawer.prototype.init = function(boardName, width, height, topLeftPoi
       else{
          drawer.map.OnMouseDown(options.e);
       }
-      
+
    });
 
-   
+
    this.drawBoard.on('mouse:up', function(options) {
 
       if(drawer.drawBoard.selection){
@@ -119,20 +120,35 @@ BoundingBoxDrawer.prototype.init = function(boardName, width, height, topLeftPoi
       else{
          drawer.map.OnMouseUp(options.e);
       }
-      
+
    });
 
-   
+
    this.drawBoard.on('mouse:move', function(options) {
       drawer.map.OnMouseMove(options.e);
    });
-   
+
    // -> object:modified happens at the end of dragging and at the end of scaling
    this.drawBoard.on('object:modified', function(options) {
       drawer.updateBoundings();
       drawer.draw();
    });
 
+}
+
+//----------------------------------------------------------------------//
+
+BoundingBoxDrawer.prototype.setLatLon = function(latMin, lonMin, latMax, lonMax){
+   this.latMin = latMin;
+   this.latMax = latMax;
+   this.lonMin = lonMin;
+   this.lonMax = lonMax;
+}
+
+BoundingBoxDrawer.prototype.resize = function(width, height){
+   this.drawBoard.setHeight(height);
+   this.drawBoard.setWidth(width);
+   this.draw();
 }
 
 //----------------------------------------------------------------------//
@@ -145,7 +161,7 @@ BoundingBoxDrawer.prototype.updateBoundings = function () {
    // fabric top/left is at the box's center
    this.topLeftPoint.x = this.currentBox.left - this.currentBox.width*this.currentBox.scaleX/2;
    this.topLeftPoint.y = this.currentBox.top - this.currentBox.height*this.currentBox.scaleY/2;
-   
+
    this.bottomRightPoint.x = this.currentBox.left + this.currentBox.width*this.currentBox.scaleX/2;
    this.bottomRightPoint.y = this.currentBox.top + this.currentBox.height*this.currentBox.scaleY/2;
 
@@ -155,20 +171,20 @@ BoundingBoxDrawer.prototype.updateBoundings = function () {
 //----------------------------------------------------------------------//
 
 BoundingBoxDrawer.prototype.drawNewBoundingBox = function () {
-   
+
    if(Math.abs(this.endPoint.x - this.startPoint.x) < this.minSelectionSize 
-   || Math.abs(this.endPoint.y - this.startPoint.y) < this.minSelectionSize ){
+         || Math.abs(this.endPoint.y - this.startPoint.y) < this.minSelectionSize ){
 
       // Tiny selection -> do not erase the currentBox ! And set the box active again
       this.drawBoard.setActiveObject(this.currentBox);
-      
+
    }
    else{
-      
+
       // new Selection = new Box 
       this.setBoundings();
       this.draw();
-      
+
    }
 }
 
@@ -188,7 +204,7 @@ BoundingBoxDrawer.prototype.setBoundings = function () {
          this.topLeftPoint = new Point(this.startPoint.x, this.startPoint.y);
          this.bottomRightPoint = new Point(this.endPoint.x, this.endPoint.y);
 
-      // drag vers le haut
+         // drag vers le haut
       }else{
 
          this.topLeftPoint = new Point(this.startPoint.x, this.endPoint.y);
@@ -196,7 +212,7 @@ BoundingBoxDrawer.prototype.setBoundings = function () {
 
       }
 
-   // drag vers la gauche
+      // drag vers la gauche
    }else{
 
       // drag vers le bas
@@ -205,7 +221,7 @@ BoundingBoxDrawer.prototype.setBoundings = function () {
          this.topLeftPoint = new Point(this.endPoint.x, this.startPoint.y);
          this.bottomRightPoint = new Point(this.startPoint.x, this.endPoint.y);
 
-      // drag vers le haut
+         // drag vers le haut
       }else{
 
          this.topLeftPoint = new Point(this.endPoint.x, this.endPoint.y);
@@ -213,7 +229,7 @@ BoundingBoxDrawer.prototype.setBoundings = function () {
 
       }
    }
-   
+
    this.pointsToMove = [this.topLeftPoint, this.bottomRightPoint];
    console.log("box from [" + this.topLeftPoint.x + " | " + this.topLeftPoint.y + "] to [" + this.bottomRightPoint.x + " | " + this.bottomRightPoint.y + "]");   
 }
@@ -227,7 +243,7 @@ BoundingBoxDrawer.prototype.setBoundings = function () {
 BoundingBoxDrawer.prototype.draw = function () {
 
    // --------------------------------------------//
-   
+
    this.drawBoard.clear();
 
    // --------------------------------------------//
@@ -236,7 +252,7 @@ BoundingBoxDrawer.prototype.draw = function () {
    var h = this.bottomRightPoint.y - this.topLeftPoint.y;
 
    // --------------------------------------------//
-   
+
    var rect = new fabric.Rect({
       width: w,
       height: h,
@@ -244,7 +260,7 @@ BoundingBoxDrawer.prototype.draw = function () {
       left: this.topLeftPoint.x + w/2,
       fill: 'rgba(0,0,0,0)'
    });
-   
+
    // --------------------------------------------//
 
    var rectTop = new fabric.Rect({
@@ -256,7 +272,7 @@ BoundingBoxDrawer.prototype.draw = function () {
       selectable: false,
       hasControls: false
    });
-   
+
    var rectBottomHeight = this.drawBoard.getHeight() - this.topLeftPoint.y - h;
    var rectBottom = new fabric.Rect({
       width: this.drawBoard.getWidth(),
@@ -277,7 +293,7 @@ BoundingBoxDrawer.prototype.draw = function () {
       selectable: false,
       hasControls: false
    });
-   
+
    var rectRightWidth = this.drawBoard.getWidth() - this.topLeftPoint.x - w;
    var rectRight = new fabric.Rect({
       width: rectRightWidth,
@@ -288,13 +304,13 @@ BoundingBoxDrawer.prototype.draw = function () {
       selectable: false,
       hasControls: false
    });
-   
+
    this.drawBoard.add(rectLeft);
    this.drawBoard.add(rectRight);
    this.drawBoard.add(rectTop);
    this.drawBoard.add(rectBottom);
    this.drawBoard.add(rect);
-   
+
    // --------------------------------------------//
 
    this.currentBox = this.drawBoard.item(4);
@@ -307,16 +323,51 @@ BoundingBoxDrawer.prototype.draw = function () {
       cornersize: 5
    });
 
-   
+
    // --------------------------------------------//
-   
+
    this.drawBoard.selection = this.drawingEnabled;
    this.currentBox.selectable = this.drawingEnabled;
    this.currentBox.hasControls = this.drawingEnabled;
-   
+
    if(this.drawingEnabled)
       this.drawBoard.setActiveObject(this.currentBox);
+
+}
+//----------------------------------------------------------------------//
+
+BoundingBoxDrawer.prototype.center = function () {
+   this.testZoom(this.map.zoom);
+}
+
+BoundingBoxDrawer.prototype.testZoom = function (zoom) {
    
+   var topLeftMeters = this.map.coordS.LatLonToMeters(this.latMin, this.lonMin); 
+   var bottomRightMeters = this.map.coordS.LatLonToMeters(this.latMax, this.lonMax);
+   var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, zoom);
+
+   var topLeftP = this.map.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, zoom);
+   var bottomRightP = this.map.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, zoom);
+
+   var shiftLeft = topLeftP.x - centerP.x;
+   var shiftTop = topLeftP.y - centerP.y;
+   var shiftRight = bottomRightP.x - centerP.x;
+   var shiftBottom = bottomRightP.y - centerP.y;
+
+   this.topLeftPoint = new Point(this.drawBoard.getWidth()/2 + shiftLeft, this.drawBoard.getHeight()/2 + shiftTop) ;
+   this.bottomRightPoint = new Point(this.drawBoard.getWidth()/2 + shiftRight, this.drawBoard.getHeight()/2 + shiftBottom) ;
+
+   if(this.topLeftPoint.x < 0 
+   || this.bottomRightPoint.x > this.drawBoard.getWidth()
+   || this.topLeftPoint.y < 0
+   || this.bottomRightPoint.y > this.drawBoard.getHeight()){
+      this.testZoom(zoom - 1);
+   }
+   else{
+      this.map.SetZoom(zoom);
+      this.draw();
+      this.updateBoundings();
+   }
 }
 
 //----------------------------------------------------------------------//
@@ -330,6 +381,5 @@ BoundingBoxDrawer.prototype.activateDrawing = function () {
    this.drawingEnabled = true;
    this.draw();
 }
-
 
 //----------------------------------------------------------------------//

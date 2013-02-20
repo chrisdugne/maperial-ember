@@ -124,15 +124,7 @@ MapEditor.prototype.renderMap = function(){
    
    this.center();
    
-   // weird..but $("#webappDiv").height()  is false here...
-   App.resizeWindow();
-   
-   $("#map").css("width", $("#webappDiv").width() );
-   $("#map").css("height", $("#webappDiv").height() - App.Globals.HEADER_HEIGHT ); // on a le header dans la webappdiv !!
-   
-
-   console.log("webAppHeight : " + $("#webappDiv").height());
-   console.log("maph : " + ($("#webappDiv").height() - App.Globals.HEADER_HEIGHT));
+   this.map.resize($("#webappDiv").width(), $("#webappDiv").height() - App.Globals.HEADER_HEIGHT  - App.Globals.FOOTER_HEIGHT );
 }
 
 MapEditor.prototype.cleanMap = function(){
@@ -291,33 +283,11 @@ MapEditor.prototype.cleanColorbar = function(){
 
 MapEditor.prototype.showBoundingBox = function(){
 
+   this.boundingBoxDrawer.init("drawBoard");
+
    if(App.datasetsData.selectedRaster){
-      
-      var topLeftMeters = this.map.coordS.LatLonToMeters(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin); 
-      var bottomRightMeters = this.map.coordS.LatLonToMeters(App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
-      var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, this.map.zoom);
-      
-      console.log("-----------------------");
-      console.log("centerP : " + centerP.x + " | " + centerP.y);
-
-      var topLeftP = this.map.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, this.map.zoom);
-      var bottomRightP = this.map.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, this.map.zoom);
-
-      console.log("-----------------------");
-      console.log("topLeftP : " + topLeftP.x + " | " + topLeftP.y);
-      console.log("bottomRightP : " + bottomRightP.x + " | " + bottomRightP.y);
-
-      var topLeftPoint = new Point(topLeftP.x - centerP.x, topLeftP.y - centerP.y) ;
-      var bottomRightPoint = new Point(bottomRightP.x - centerP.x, bottomRightP.y - centerP.y) ;
-
-      console.log("==============");
-      console.log("topLeftPoint : " + topLeftPoint.x + " | " + topLeftPoint.y);
-      console.log("bottomRightPoint : " + bottomRightPoint.x + " | " + bottomRightPoint.y);
-
-      this.boundingBoxDrawer.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height(), topLeftPoint, bottomRightPoint);
-   }
-   else{
-      this.boundingBoxDrawer.init("drawBoard", $("#webappDiv").width(), $("#webappDiv").height());
+      this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
+      this.center();
    }
 
    $("#drawBoardContainer").removeClass("hide");
@@ -342,4 +312,7 @@ MapEditor.prototype.activateBoundingBoxDrawing = function(){
 
 MapEditor.prototype.center = function(){
    this.map.SetCenter(this.startLat, this.startLon);
+   
+   if(this.boundingBoxDrawer)
+      this.boundingBoxDrawer.center();
 }
