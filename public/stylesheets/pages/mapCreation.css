@@ -1,12 +1,5 @@
 /*---------------------------------------------------------------*/
 
-#drawBoard {
-	margin-bottom: -5px;
-	margin-top: 67px;
-}
-
-/*---------------------------------------------------------------*/
-
 .wizardStepper {
 	margin-left: -137px;
 	margin-top: -23px;
@@ -39,11 +32,9 @@ a#triggerSettings {
 /*------------------------------------------------------------*/
 /* SETTINGS*/
 
-#buttonDrawMode {
+.buttonMode {
 	position: absolute;
 	text-decoration: none;
-	right: 200px;
-	top: 67px;
 	font-size: 16px;
 	letter-spacing: -1px;
 	font-family: verdana, helvetica, arial, sans-serif;
@@ -55,86 +46,40 @@ a#triggerSettings {
 	-webkit-border-bottom-right-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-	display: block;
 	z-index: 9999;
 	filter: alpha(opacity =   85);
-	opacity: .85;
+	
 }
 
-#buttonDrawMode:hover {
-	position: absolute;
-	text-decoration: none;
+.buttonMode:hover {
+	padding: 6px 13px 6px 13px;
+	color: #cdd;
+}
+
+div.active.buttonMode {
+	padding: 6px 13px 6px 13px;
+}
+	
+/*------------------------------------*/
+
+#buttonReset {
+	right: 160px;
+	top: 67px;
+}
+
+#buttonDrawMode {
 	right: 200px;
 	top: 67px;
-	font-size: 16px;
-	letter-spacing: -1px;
-	font-family: verdana, helvetica, arial, sans-serif;
-	color: #cdd;
-	padding: 6px 13px 6px 13px;
-	font-weight: 700;
-	background: #000;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	display: block;
-	z-index: 9999;
-	filter: alpha(opacity =   85);
-	opacity: .85;
-}
-
-div.active#buttonDrawMode {
-	padding: 6px 13px 6px 13px;
-	filter: alpha(opacity =   85);
-	opacity: .85;
 }
 
 #buttonMapMode {
-	position: absolute;
-	text-decoration: none;
 	right: 240px;
 	top: 67px;
-	font-size: 16px;
-	letter-spacing: -1px;
-	font-family: verdana, helvetica, arial, sans-serif;
-	color: #cdd;
-	padding: 4px 13px 4px 13px;
-	font-weight: 700;
-	background: #000;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	display: block;
-	z-index: 9999;
-	filter: alpha(opacity =   85);
-	opacity: .85;
 }
 
-#buttonMapMode:hover {
-	position: absolute;
-	text-decoration: none;
-	right: 240px;
+#buttonCenter {
+	right: 300px;
 	top: 67px;
-	font-size: 16px;
-	letter-spacing: -1px;
-	font-family: verdana, helvetica, arial, sans-serif;
-	color: #cdd;
-	padding: 6px 13px 6px 13px;
-	font-weight: 700;
-	background: #000;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	display: block;
-	z-index: 9999;
-	filter: alpha(opacity =   85);
-	opacity: .85;
 }
 
-div.active#buttonMapMode {
-	padding: 6px 13px 6px 13px;
-	filter: alpha(opacity =   85);
-	opacity: .85;
-}
+

@@ -1,27 +1,24 @@
 
 //==================================================================//
 
-function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers){
+function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers, boundingBoxStartLat, boundingBoxStartLon){
    this.map;
-   this.startLat;
-   this.startLon;
    this.style = style;
    this.colorbar = colorbar;
-   this.boundingBoxDrawer;
    this.showStyleTriggers = showStyleTriggers;
    this.showColorbarTriggers = showColorbarTriggers;
+   
+   this.boundingBoxStartLat = boundingBoxStartLat;
+   this.boundingBoxStartLon = boundingBoxStartLon;
 }
 
 //==================================================================//
 
-MapEditor.prototype.renderUI = function(lat, lon) {
+MapEditor.prototype.renderUI = function() {
 
    App.user.set("waiting", true);
    
-   this.startLon = lon;
-   this.startLat = lat;
-   
-   var tryGeoloc = this.startLat == undefined;
+   var tryGeoloc = this.boundingBoxStartLat == undefined;
    
    var mapEditor = this; // to have access to 'this' in the callBack
 
@@ -93,7 +90,6 @@ MapEditor.prototype.renderAll = function(tryGeoloc){
       this.renderColorbar();
    }
 
-   this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
    GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map, tryGeoloc);
 
    // screen is ready
@@ -122,7 +118,13 @@ MapEditor.prototype.renderMap = function(){
    this.map.GetParams().SetColorBar(cbData)
    this.map.Start(); 
    
-   this.center();
+   this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
+   
+   if(this.boundingBoxStartLat){
+      this.boundingBoxDrawer.centerLat = this.boundingBoxStartLat;
+      this.boundingBoxDrawer.centerLon = this.boundingBoxStartLon;
+      this.centerOnBoundingBox();
+   }
    
    this.map.resize($("#webappDiv").width(), $("#webappDiv").height() - App.Globals.HEADER_HEIGHT  - App.Globals.FOOTER_HEIGHT );
 }
@@ -287,7 +289,7 @@ MapEditor.prototype.showBoundingBox = function(){
 
    if(App.datasetsData.selectedRaster){
       this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
-      this.center();
+      this.centerOnBoundingBox();
    }
 
    $("#drawBoardContainer").removeClass("hide");
@@ -310,9 +312,8 @@ MapEditor.prototype.activateBoundingBoxDrawing = function(){
 //==================================================================//
 
 
-MapEditor.prototype.center = function(){
-   this.map.SetCenter(this.startLat, this.startLon);
-   
-   if(this.boundingBoxDrawer)
-      this.boundingBoxDrawer.center();
+MapEditor.prototype.centerOnBoundingBox = function(){
+   console.log("centerOnBoundingBox");
+   this.map.SetCenter(this.boundingBoxDrawer.centerLat, this.boundingBoxDrawer.centerLon);
+   this.boundingBoxDrawer.center();
 }

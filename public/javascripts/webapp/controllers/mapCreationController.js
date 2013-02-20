@@ -110,15 +110,15 @@
          }
          else{
             // map rendering !
-            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
-            App.Globals.set("currentMapEditor", MapCreationController.mapEditor);
 
             if(App.datasetsData.selectedRaster){
                var lat = (App.datasetsData.selectedRaster.latMin + App.datasetsData.selectedRaster.latMax)/2; 
                var lon = (App.datasetsData.selectedRaster.lonMin + App.datasetsData.selectedRaster.lonMax)/2; 
             }
             
-            MapCreationController.mapEditor.renderUI(lat, lon);
+            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false, lat, lon);
+            MapCreationController.mapEditor.renderUI();
+            App.Globals.set("currentMapEditor", MapCreationController.mapEditor);
             
             MapCreationController.styleAndColorbarUIReady = true;
          }
@@ -168,6 +168,8 @@
       $("#buttonMapMode").click(function(){
          $(this).addClass("active");
          $("#buttonDrawMode").removeClass("active");
+         $("#buttonCenter").removeClass("hide");
+         $("#buttonReset").addClass("hide");
          MapCreationController.mapEditor.deactivateBoundingBoxDrawing();
          return false;
       });
@@ -175,7 +177,14 @@
       $("#buttonDrawMode").click(function(){
          $(this).addClass("active");
          $("#buttonMapMode").removeClass("active");
+         $("#buttonCenter").addClass("hide");
+         $("#buttonReset").removeClass("hide");
          MapCreationController.mapEditor.activateBoundingBoxDrawing();
+         return false;
+      });
+      
+      $("#buttonCenter").click(function(){
+         MapCreationController.mapEditor.centerOnBoundingBox();
          return false;
       });
    }
