@@ -92,6 +92,8 @@ MapEditor.prototype.renderAll = function(tryGeoloc){
 
    GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map, tryGeoloc);
 
+   $("#footer").css({ position : "fixed" });  
+
    // screen is ready
    App.user.set("waiting", false);
 }
@@ -101,6 +103,7 @@ MapEditor.prototype.cleanUI = function(){
    this.cleanStyle();
    this.cleanColorbar();
    this.cleanMap();
+   $("#footer").css({ position : "relative" });  
 }
 
 //------------------------------------------------//
@@ -123,10 +126,10 @@ MapEditor.prototype.renderMap = function(){
    if(this.boundingBoxStartLat){
       this.boundingBoxDrawer.centerLat = this.boundingBoxStartLat;
       this.boundingBoxDrawer.centerLon = this.boundingBoxStartLon;
-      this.centerOnBoundingBox();
+      this.map.SetCenter(this.boundingBoxDrawer.centerLat, this.boundingBoxDrawer.centerLon);
    }
    
-   this.map.resize($("#webappDiv").width(), $("#webappDiv").height() - App.Globals.HEADER_HEIGHT  - App.Globals.FOOTER_HEIGHT );
+   this.map.resize($("#webappDiv").width(), $("#webappDiv").height() );
 }
 
 MapEditor.prototype.cleanMap = function(){
@@ -288,8 +291,10 @@ MapEditor.prototype.showBoundingBox = function(){
    this.boundingBoxDrawer.init("drawBoard");
 
    if(App.datasetsData.selectedRaster){
+      console.log("----> lat/lon from Raster")
       this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
-      this.centerOnBoundingBox();
+      this.boundingBoxDrawer.setInitLatLon();
+      this.boundingBoxDrawer.center();
    }
 
    $("#drawBoardContainer").removeClass("hide");
@@ -310,10 +315,3 @@ MapEditor.prototype.activateBoundingBoxDrawing = function(){
 }
 
 //==================================================================//
-
-
-MapEditor.prototype.centerOnBoundingBox = function(){
-   console.log("centerOnBoundingBox");
-   this.map.SetCenter(this.boundingBoxDrawer.centerLat, this.boundingBoxDrawer.centerLon);
-   this.boundingBoxDrawer.center();
-}

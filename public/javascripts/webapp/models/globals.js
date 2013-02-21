@@ -22,11 +22,16 @@
       APP_URL : window.location.hostname == "localhost" ? 'http://localhost:9000' : 'http://mapnify.herokuApp.com',
       mapnifyEmail: "",
       currentView: "",
-      currentMapEditor: "",
       parentView: "",
       currentPage: "",
       epsg: [],
       separators: [",", ";", "|", "\t"],
+
+      //-------------------------------------------//
+      // peut etre creer un modele commun pour le mapEditor et ses donnees
+      currentMapEditor: "",
+      latitude: "",
+      longitude: "",
 
       //-------------------------------------------//
       // mapcreation - wizardStepper in header

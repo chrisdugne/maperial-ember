@@ -28,7 +28,7 @@
    App.resizeWindow = function()
    {
       if(App.Globals.currentMapEditor){
-         App.Globals.currentMapEditor.map.resize($("#webappDiv").width(), $(window).height() - App.Globals.FOOTER_HEIGHT - App.Globals.HEADER_HEIGHT);
+         App.Globals.currentMapEditor.map.resize($("#webappDiv").width(), $(window).height());
       }
 
       var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT ;
@@ -44,7 +44,7 @@
       }catch(e){}
 
       console.log("webAppHeight : " + webAppHeight);
-      console.log("mapheight : " + ($(window).height() - App.Globals.FOOTER_HEIGHT - App.Globals.HEADER_HEIGHT));
+      console.log("mapheight : " + ($(window).height() - App.Globals.FOOTER_HEIGHT));
       
       App.homeScroller.resizeWindow($("#webappDiv").width());
    }

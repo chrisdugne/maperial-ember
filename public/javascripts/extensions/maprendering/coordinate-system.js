@@ -22,7 +22,7 @@ CoordinateSystem.prototype.MetersToLatLon = function ( mx, my ) {
    lon = (mx / this.originShift) * 180.0 ;
    lat = (my / this.originShift) * 180.0 ;
    lat = 180 / Math.PI * (2 * Math.atan( Math.exp( lat * Math.PI / 180.0)) - Math.PI / 2.0) ;
-   return new Point (lat, lon) ;
+   return new Point (lon, lat) ;
 }
 
 //"Converts pixel coordinates in given zoom level of pyramid to EPSG:900913"

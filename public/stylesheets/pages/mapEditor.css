@@ -109,10 +109,22 @@ a#triggerStyleManager {
 	padding-right: 20px;
 }
 
+#panelLatLon {
+	bottom: 100px;
+	left: 0; 
+	height: 20px;
+	width: 290px;
+	display: block;
+	padding-left: 7px;
+}
+
+#latlondiv {
+	color: #eee;
+}
+
 /*-------------------------*/
 #map {
 	margin-bottom: -5px;
-	margin-top: 67px;
 }
 
 #magnifier {

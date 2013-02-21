@@ -184,7 +184,12 @@
       });
       
       $("#buttonCenter").click(function(){
-         MapCreationController.mapEditor.centerOnBoundingBox();
+         MapCreationController.mapEditor.boundingBoxDrawer.center();
+         return false;
+      });
+      
+      $("#buttonReset").click(function(){
+         MapCreationController.mapEditor.boundingBoxDrawer.cancelEdition();
          return false;
       });
    }

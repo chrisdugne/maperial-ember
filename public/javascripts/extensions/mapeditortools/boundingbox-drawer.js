@@ -21,13 +21,22 @@ function BoundingBoxDrawer(map){
    // -> objects
    this.currentBox;
 
-   // -> lat/lon to center the box, (not required)
+   // -> lat/lon to center the box
    this.centerLat;
    this.centerLon;
    this.latMin;
    this.lonMin;
    this.latMax;
    this.lonMax;
+
+   // -> start lat/lon to use to cancel the changes 
+   this.initLatMin;
+   this.initLonMin;
+   this.initLatMax;
+   this.initLonMax;
+
+   // -> to store the bestZoom
+   this.zoomToFit;
 
    // -> to convert selection to boundingbox
    this.topLeftPoint;
@@ -39,7 +48,7 @@ function BoundingBoxDrawer(map){
    this.pointsToMove = []; 
 
    // -> parameters
-   this.minSelectionSize = 20;
+   this.minSelectionSize = 60;
 };
 
 //----------------------------------------------------------------------//
@@ -69,6 +78,8 @@ BoundingBoxDrawer.prototype.tryToRefresh = function(){
  */
 BoundingBoxDrawer.prototype.init = function(boardName){
 
+   this.zoomToFit = null;
+   
    //------- if this is still the same drawBoard, just draw again and do not add listeners !!
 
    if(this.tryToRefresh())
@@ -77,7 +88,7 @@ BoundingBoxDrawer.prototype.init = function(boardName){
    //------- init Fabric
 
    this.drawBoard = new fabric.Canvas(boardName);
-   this.drawBoard.setHeight(this.map.height + App.Globals.HEADER_HEIGHT);
+   this.drawBoard.setHeight(this.map.height);
    this.drawBoard.setWidth(this.map.width);
 
    //------- startBox
@@ -130,6 +141,10 @@ BoundingBoxDrawer.prototype.init = function(boardName){
       drawer.draw();
    });
 
+   $("#drawBoardContainer").bind('mousewheel', function(event, delta) {
+      drawer.map.OnMouseWheel(event, delta);
+      drawer.testZoom(drawer.map.zoom, false);
+   });
 }
 
 //----------------------------------------------------------------------//
@@ -147,6 +162,7 @@ BoundingBoxDrawer.prototype.newStartBox = function(){
    this.topLeftPoint = new Point(this.drawBoard.getWidth()/2 - startBoxWidth/2, this.drawBoard.getHeight()/2 - startBoxHeight/2) ;
    this.bottomRightPoint = new Point(this.drawBoard.getWidth()/2 + startBoxWidth/2, this.drawBoard.getHeight()/2 + startBoxHeight/2) ;
    this.boundingsHaveChanged();
+   this.setInitLatLon();
 
    //---------------------//
 
@@ -154,6 +170,19 @@ BoundingBoxDrawer.prototype.newStartBox = function(){
 }
 
 //----------------------------------------------------------------------//
+
+BoundingBoxDrawer.prototype.cancelEdition = function(){
+   this.setLatLon(this.initLatMin, this.initLonMin, this.initLatMax, this.initLonMax);
+   this.zoomToFit = null;
+   this.center();
+}
+
+BoundingBoxDrawer.prototype.setInitLatLon = function(){
+   this.initLatMin = this.latMin;
+   this.initLatMax = this.latMax;
+   this.initLonMin = this.lonMin;
+   this.initLonMax = this.lonMax;
+}
 
 BoundingBoxDrawer.prototype.setLatLon = function(latMin, lonMin, latMax, lonMax){
    this.latMin = latMin;
@@ -164,8 +193,11 @@ BoundingBoxDrawer.prototype.setLatLon = function(latMin, lonMin, latMax, lonMax)
    this.centerLat = (this.latMin + this.latMax)/2;
    this.centerLon = (this.lonMin + this.lonMax)/2;
 
+   console.log("-------");
+   console.log("setLatLon");
    console.log("this.centerLat " + this.centerLat);
    console.log("this.centerLon " + this.centerLon);
+   console.log("this.latMin " + this.latMin);
    console.log("this.lonMin " + this.lonMin);
    console.log("this.latMax " + this.latMax);
    console.log("this.lonMax " + this.lonMax);
@@ -210,7 +242,9 @@ BoundingBoxDrawer.prototype.drawNewBoundingBox = function () {
       // new Selection = new Box 
       this.setBoundings();
       this.draw();
-
+      
+      // the best zoom is to be recalculated
+      this.zoomToFit = null;
    }
 }
 
@@ -374,55 +408,116 @@ BoundingBoxDrawer.prototype.boundingsHaveChanged = function () {
  */
 BoundingBoxDrawer.prototype.refreshLatLon = function(){
 
+   // Attention ! pour shiftTop et shiftBottom, le repere a ordonnees vers le bas ici
    var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, this.map.zoom);
+   var shiftLeft = this.drawBoard.getWidth()/2 - this.topLeftPoint.x;
+   var shiftTop = this.drawBoard.getHeight()/2 - this.topLeftPoint.y;
+   var shiftRight = this.bottomRightPoint.x - this.drawBoard.getWidth()/2;
+   var shiftBottom = this.bottomRightPoint.y - this.drawBoard.getHeight()/2;
 
-   var topLeftMeters = this.map.coordS.PixelsToMeters(centerP.x - (this.drawBoard.getWidth()/2 - this.topLeftPoint.x), centerP.y - (this.drawBoard.getHeight()/2 - this.topLeftPoint.y), this.map.zoom);
-   var bottomRightMeters = this.map.coordS.PixelsToMeters(centerP.x + (this.bottomRightPoint.x - this.drawBoard.getWidth()/2), centerP.y + (this.bottomRightPoint.y - this.drawBoard.getHeight()/2), this.map.zoom);
+   console.log("-------");
+   console.log("refreshLatLon zoom : " + this.map.zoom);
+   console.log("centerP      " + centerP.x + " | " + centerP.y);
+   console.log("shiftLeft      " + shiftLeft);
+   console.log("shiftTop      " + shiftTop);
+   console.log("shiftRight      " + shiftRight);
+   console.log("shiftBottom      " + shiftBottom);
+
+   // Attention ! pour shiftTop et shiftBottom, le repere en metres a les ordonnees vers le haut
+   var topLeftMeters = this.map.coordS.PixelsToMeters(centerP.x - shiftLeft, centerP.y + shiftTop, this.map.zoom);
+   var bottomRightMeters = this.map.coordS.PixelsToMeters(centerP.x + shiftRight, centerP.y - shiftBottom, this.map.zoom);
+
+   console.log("-------");
+   console.log("topLeftMeters      " + topLeftMeters.x + " | " + topLeftMeters.y);
+   console.log("bottomRightMeters      " + bottomRightMeters.x + " | " + bottomRightMeters.y);
 
    var topLeftLatLon = this.map.coordS.MetersToLatLon(topLeftMeters.x, topLeftMeters.y);
    var bottomRightLatLon = this.map.coordS.MetersToLatLon(bottomRightMeters.x, bottomRightMeters.y);
 
-   this.setLatLon(topLeftLatLon.x, topLeftLatLon.y, bottomRightLatLon.x, bottomRightLatLon.y);
+   console.log("-------");
+   console.log("topLeftLatLon      " + topLeftLatLon.x + " | " + topLeftLatLon.y);
+   console.log("bottomRightLatLon      " + bottomRightLatLon.x + " | " + bottomRightLatLon.y);
+
+   var latMin = bottomRightLatLon.y;
+   var latMax = topLeftLatLon.y;
+   var lonMin = topLeftLatLon.x;
+   var lonMax = bottomRightLatLon.x;
+
+   console.log("-------");
+   console.log("latMin      " + latMin);
+   console.log("lonMin      " + lonMin);
+   console.log("latMax      " + latMax);
+   console.log("lonMax      " + lonMax);
+
+   this.setLatLon(latMin, lonMin, latMax, lonMax);
 
 }
 
 //----------------------------------------------------------------------//
 
 BoundingBoxDrawer.prototype.center = function () {
-   this.testZoom(this.map.zoom);
+
+   console.log("Center : " + this.zoomToFit)
+   if(this.zoomToFit)
+      this.testZoom(this.zoomToFit, false);
+   else
+      this.testZoom(16, true);
 }
 
-BoundingBoxDrawer.prototype.testZoom = function (zoom) {
+BoundingBoxDrawer.prototype.testZoom = function (zoom, fitToScreen) {
 
-   console.log("test zoom " + zoom);
+   this.map.SetCenter(this.centerLat, this.centerLon);
 
-   var topLeftMeters = this.map.coordS.LatLonToMeters(this.latMin, this.lonMin); 
-   var bottomRightMeters = this.map.coordS.LatLonToMeters(this.latMax, this.lonMax);
+   console.log("-------");
+   console.log("testZoom  " + zoom + " | fitToScreen : " + fitToScreen);
+   console.log("-------");
+
    var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, zoom);
+   var topLeftMeters = this.map.coordS.LatLonToMeters(this.latMax, this.lonMin); 
+   var bottomRightMeters = this.map.coordS.LatLonToMeters(this.latMin, this.lonMax);
+
+   console.log("-------");
+   console.log("centerP      " + centerP.x + " | " + centerP.y);
+   console.log("topLeftMeters      " + topLeftMeters.x + " | " + topLeftMeters.y);
+   console.log("bottomRightMeters      " + bottomRightMeters.x + " | " + bottomRightMeters.y);
 
    var topLeftP = this.map.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, zoom);
    var bottomRightP = this.map.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, zoom);
 
-   var shiftLeft = topLeftP.x - centerP.x;
+   console.log("-------");
+   console.log("topLeftP      " + topLeftP.x + " | " + topLeftP.y);
+   console.log("bottomRightP      " + bottomRightP.x + " | " + bottomRightP.y);
+
+   // Attention ! pour shiftTop et shiftBottom, le repere a ordonnees vers le haut ici
+   var shiftLeft = centerP.x - topLeftP.x;
    var shiftTop = topLeftP.y - centerP.y;
    var shiftRight = bottomRightP.x - centerP.x;
-   var shiftBottom = bottomRightP.y - centerP.y;
+   var shiftBottom = centerP.y - bottomRightP.y;
 
-   this.topLeftPoint = new Point(this.drawBoard.getWidth()/2 + shiftLeft, this.drawBoard.getHeight()/2 + shiftTop) ;
+   this.topLeftPoint = new Point(this.drawBoard.getWidth()/2 - shiftLeft, this.drawBoard.getHeight()/2 - shiftTop) ;
    this.bottomRightPoint = new Point(this.drawBoard.getWidth()/2 + shiftRight, this.drawBoard.getHeight()/2 + shiftBottom) ;
 
-   console.log("topLeftPoint " + this.topLeftPoint.x + " | " + this.topLeftPoint.y);
-   console.log("bottomRightPoint " + this.bottomRightPoint.x + " | " + this.bottomRightPoint.y);
+   console.log("-------");
+   console.log("shiftLeft      " + shiftLeft);
+   console.log("shiftTop      " + shiftTop);
+   console.log("shiftRight      " + shiftRight);
+   console.log("shiftBottom      " + shiftBottom);
+   console.log("this.topLeftPoint      " + this.topLeftPoint.x + " | " + this.topLeftPoint.y);
+   console.log("this.bottomRightPoint      " + this.bottomRightPoint.x + " | " + this.bottomRightPoint.y);
 
-   if(this.topLeftPoint.x < 0 
-         || this.bottomRightPoint.x > this.drawBoard.getWidth()
-         || this.topLeftPoint.y < 0
-         || this.bottomRightPoint.y > this.drawBoard.getHeight()){
-      this.testZoom(zoom - 1);
+   if(fitToScreen
+         && (this.topLeftPoint.x < 0 
+               || this.bottomRightPoint.x > this.drawBoard.getWidth()
+               || this.topLeftPoint.y < 0
+               || this.bottomRightPoint.y > this.drawBoard.getHeight())){
+      this.testZoom(zoom - 1, true);
    }
    else{
-      this.boundingsHaveChanged();
+      if(fitToScreen)
+         this.zoomToFit = zoom;
+      
       this.map.SetZoom(zoom);
+      this.boundingsHaveChanged();
       this.draw();
    }
 }
@@ -435,6 +530,10 @@ BoundingBoxDrawer.prototype.deactivateDrawing = function () {
 }
 
 BoundingBoxDrawer.prototype.activateDrawing = function () {
+   
+   if(this.zoomToFit && this.map.zoom > this.zoomToFit)
+      this.center();
+   
    this.drawingEnabled = true;
    this.draw();
 }
