@@ -41,13 +41,6 @@ a#triggerDetailsMenu {
 	overflow-y: auto;
 	overflow-x: hidden;
 	height: 437px;
-	
-	/* Track */
-	::-webkit-scrollbar-track {
-	    -webkit-border-radius: 20px;
-	    background: rgba(0,0,0,0.4); 
-	    border-radius: 20px;
-	}
 }
 
 /* main menu div*/
