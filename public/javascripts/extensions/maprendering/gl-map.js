@@ -25,7 +25,6 @@ Utils.getPoint = function (event) {
    return new Point(x,y);
 }
 
-
 //=====================================================================================//
 
 function GLMap(mapName, magnifierName) {
@@ -41,13 +40,14 @@ function GLMap(mapName, magnifierName) {
    this.centerM            = this.coordS.LatLonToMeters( 45.7 , 3.12 );
    this.mouseM             = this.centerM;
    this.mouseP             = null;
+   this.lastWheelMillis    = new Date().getTime();
    this.zoom               = 14;
    this.tileCache          = {};
    this.dataCache          = {};
    this.params             = new MapParameter(); 
    this.mover              = new MapMover(this);
+   
 }
-
 
 //----------------------------------------------------------------------//
 
@@ -108,6 +108,11 @@ GLMap.prototype.OnMouseMove = function (event) {
 
 GLMap.prototype.OnMouseWheel = function (event, delta) {
 
+   if(this.hasJustWheeled())
+      return;
+     
+   this.lastWheelMillis = new Date().getTime();
+      
    if (delta > 0) {
       this.zoom = Math.min(18, this.zoom + 1);
       this.centerM = this.convertCanvasPointToMeters(this.mouseP);
@@ -491,6 +496,10 @@ GLMap.prototype.DrawMagnifierSight = function (ctxMagnifier) {
 
 //----------------------------------------------------------------------//
 //Utils
+
+GLMap.prototype.hasJustWheeled = function () {
+   return new Date().getTime() - this.lastWheelMillis < 1300;
+}
 
 /**
  * param  mouseP : Point with coordinates in pixels, in the Canvas coordinates system

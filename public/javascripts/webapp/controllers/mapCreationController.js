@@ -143,6 +143,7 @@
       MapCreationController.closeSettings();
       MapCreationController.wizardSetView("styleAndColorbar");
       MapCreationController.mapEditor.renderTriggers();
+      App.resizeWindow();
    }
       
    // --------------------- 

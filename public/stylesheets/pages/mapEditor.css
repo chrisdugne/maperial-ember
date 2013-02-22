@@ -126,6 +126,7 @@ a#triggerStyleManager {
 
 #map {
 	margin-bottom: -5px;
+	position: absolute;
 }
 
 #magnifier {
