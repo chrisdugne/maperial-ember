@@ -678,6 +678,26 @@ StyleMenu.Accordion = function(_group,_name,uid){
 	$("#styleMenu_menu_accordion" ).accordion('activate', groupNum);
   $("#styleMenu_menu_groupaccordion_div_group_" + groupNum).accordion('activate', n);
 }
+//////////////////////////////////////////////////////////////
+StyleMenu.GetFilterAlias = function(group,name,uid){
+   if ( StyleMenu.groups[group][name].hasOwnProperty("alias") ){
+      for ( var al in StyleMenu.groups[group][name]["alias"] ){
+         var fal = StyleMenu.groups[group][name]["alias"][al];
+         if ( StyleMenu.mappingArray[uid].filter.indexOf(fal) >= 0 ){
+            console.log( fal + " is in " + StyleMenu.mappingArray[uid].filter );
+            return al;
+         }
+      }
+      if ( ! aliasFound ){
+         return StyleMenu.mappingArray[uid].filter;
+         //return StyleMenu.mappingArray[uid].name;
+      }
+   }
+   else{
+      return StyleMenu.mappingArray[uid].filter;
+      //return StyleMenu.mappingArray[uid].name;
+   }
+}
 
 //////////////////////////////////////////////////////////////
 StyleMenu.FillWidget = function(uid){
@@ -768,7 +788,8 @@ StyleMenu.__BuildWidget = function(group,name,uid){
 
    $("<h2 class=\"styleMenu_menu_par_title\">" + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(StyleMenu.widgetDiv);
    if ( StyleMenu.mappingArray[uid].filter != "" && StyleMenu.GetUids(name).length > 1){
-      $("<p class=\"styleMenu_menu_filter_title\">(" + StyleMenu.mappingArray[uid].filter + ")</p>").appendTo(StyleMenu.widgetDiv);
+      $("<p class=\"styleMenu_menu_filter_title\">(" + StyleMenu.GetFilterAlias(group,name,uid) + ")</p>").appendTo(StyleMenu.widgetDiv);
+      //$("<p class=\"styleMenu_menu_filter_title\">(" + StyleMenu.mappingArray[uid].filter + ")</p>").appendTo(StyleMenu.widgetDiv);
    }
 
    if( StyleMenu.groups[group][StyleMenu.mappingArray[uid].name].type == "line" ){
@@ -926,28 +947,7 @@ StyleMenu.__InsertAccordion = function(){
            // make header
 
            if ( StyleMenu.mappingArray[uid].filter != "" && StyleMenu.GetUids(name).length > 1){
-              if ( StyleMenu.groups[group][name].hasOwnProperty("alias") ){
-                 var aliasFound = false;
-                 for ( var al in StyleMenu.groups[group][name]["alias"] ){
-//                    console.log( al );
-//                    console.log(StyleMenu.groups[group][name]["alias"][al]);
-                    var fal = StyleMenu.groups[group][name]["alias"][al];
-                    if ( StyleMenu.mappingArray[uid].filter.indexOf(fal) >= 0 ){ 
-                       console.log( fal + " is in " + StyleMenu.mappingArray[uid].filter );
-                       $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">'+ al  + "</h2>").appendTo(groupAcc);
-                       aliasFound = true;
-                       break;
-                    }
-                 }
-                 if ( ! aliasFound ){
-                    //$('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">'+ StyleMenu.mappingArray[uid].filter + ")</h2>").appendTo(groupAcc);
-                    $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
-                 }
-              }
-              else{
-                 //$('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">'+ StyleMenu.mappingArray[uid].filter + ")</h2>").appendTo(groupAcc);
-                 $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
-              }
+              $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.GetFilterAlias(group,name,uid)  + "</h2>").appendTo(groupAcc);
            }
            else{
               $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);

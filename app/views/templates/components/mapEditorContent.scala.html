@@ -5,12 +5,12 @@
 	<canvas id="dummyTilesCanvas" class="hide"></canvas>
 
 	<div id="commonTriggers" class="hide">
-		<a class="trigger" id="triggerMagnifier" href="#">Magnifier</a>
-		<div class="panel" id="panelMagnifier">
+		<a class="trigger snapper" id="triggerMagnifier" href="#">Magnifier</a>
+		<div class="panel snapper" id="panelMagnifier">
 			<canvas id="magnifier" width="200" height="200"></canvas>
 		</div>
 
-		<div class="panel" id="panelGeoloc">
+		<div class="panel snapper" id="panelGeoloc">
 			<div id="geolocdiv" class="row-fluid">
 				<div class="span9">
 			   		<input type="text" id="GeoLoc" name="GeotLoc">
@@ -23,29 +23,29 @@
 	</div>
 
 	<div id="styleEditorTriggers" class="hide">
-		<a class="trigger" id="triggerDetailsMenu" href="#">Details</a>
-		<div class="panel" id="panelDetailsMenu">
+		<a class="trigger snapper" id="triggerDetailsMenu" href="#">Details</a>
+		<div class="panel snapper" id="panelDetailsMenu">
 			<div id="detailsMenu"></div>
 		</div>
-		<a class="trigger" id="triggerQuickEdit" href="#">Quick Edit</a>
-		<div class="panel" id="panelQuickEdit">
+		<a class="trigger snapper" id="triggerQuickEdit" href="#">Quick Edit</a>
+		<div class="panel snapper" id="panelQuickEdit">
 			<div id="quickEdit"></div>
 		</div>
-		<a class="trigger" id="triggerZooms" href="#">Zooms</a>
-		<div class="panel" id="panelZooms">
+		<a class="trigger snapper" id="triggerZooms" href="#">Zooms</a>
+		<div class="panel snapper" id="panelZooms">
 			<div id="zooms"></div>
 		</div>
 	</div>
 
 
 	<div id="colorbarEditorTriggers" class="hide">
-		<a class="trigger" id="triggerColorBar"  href="#">ColorBar</a>
-			<div class="panel" id="panelColorBar">
+		<a class="trigger snapper" id="triggerColorBar"  href="#">ColorBar</a>
+			<div class="panel snapper" id="panelColorBar">
 		  <div id="colorbarMenu"></div>
 		</div>
 	</div>
 
-	<div class="panel" id="panelLatLon">
+	<div class="panel snapper" id="panelLatLon">
 		<div id="latlondiv" class="row-fluid">
 			<div class="span6">
 				{{App.Globals.latitude}}

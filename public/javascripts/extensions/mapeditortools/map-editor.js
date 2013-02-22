@@ -156,7 +156,7 @@ MapEditor.prototype.renderTriggers = function(){
    //--------------------------------------------------------//
 
    var mapEditor = this;
-
+   
    //--------------------------------------------------------//
    // Init Triggers
 
@@ -192,20 +192,42 @@ MapEditor.prototype.renderTriggers = function(){
    //--------------------------------------------------------//
    // Dragging
 
-   $( ".panel" ).draggable({ snap: "#map" , containment: "#map", scroll: false });
-   $( ".trigger" ).draggable({ snap: "#map", containment: "#map", scroll: false });
+   //---------------
+   // snapping
+   
+   $( ".panel" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
+   $( ".trigger" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
+   
+   //---------------
+   // panels
 
    $( ".panel" ).bind('dragstart',function( event ){
+
       var id = $(this).context.id;
       var name = id.replace("panel","");
 
+      mapEditor.putOnTop(name);
+
+      // hide the close button
       $("#trigger"+name).css({
          opacity : 0
       });
-
-      mapEditor.putOnTop(name);
    });
 
+
+   // --  preventing dragstart when scrolling the detailsMenu using scrollBar
+   // note : bug when scrolling then trying immediately to drag..the user must dragstart twice
+   $( "#panelDetailsMenu" ).bind('dragstart',function( event ){
+      if(event.srcElement.id == "panelDetailsMenu"){
+         
+         // show the close button
+         $("#triggerDetailsMenu").css({
+            opacity : 1
+         });
+         
+         return false;
+      }   
+   });
 
    $( ".panel" ).bind('dragstop',function( event ){
       var id = $(this).context.id;
@@ -220,6 +242,9 @@ MapEditor.prototype.renderTriggers = function(){
       });
       
    });
+
+   //---------------
+   // triggers
 
    $( ".trigger" ).bind('dragstart',function( event ){
       $(this).addClass('noclick');
@@ -291,7 +316,6 @@ MapEditor.prototype.showBoundingBox = function(){
    this.boundingBoxDrawer.init("drawBoard");
 
    if(App.datasetsData.selectedRaster){
-      console.log("----> lat/lon from Raster")
       this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
       this.boundingBoxDrawer.setInitLatLon();
       this.boundingBoxDrawer.center();

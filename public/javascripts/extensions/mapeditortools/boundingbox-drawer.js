@@ -192,15 +192,6 @@ BoundingBoxDrawer.prototype.setLatLon = function(latMin, lonMin, latMax, lonMax)
 
    this.centerLat = (this.latMin + this.latMax)/2;
    this.centerLon = (this.lonMin + this.lonMax)/2;
-
-   console.log("-------");
-   console.log("setLatLon");
-   console.log("this.centerLat " + this.centerLat);
-   console.log("this.centerLon " + this.centerLon);
-   console.log("this.latMin " + this.latMin);
-   console.log("this.lonMin " + this.lonMin);
-   console.log("this.latMax " + this.latMax);
-   console.log("this.lonMax " + this.lonMax);
 }
 
 BoundingBoxDrawer.prototype.resize = function(width, height){
@@ -415,49 +406,25 @@ BoundingBoxDrawer.prototype.refreshLatLon = function(){
    var shiftRight = this.bottomRightPoint.x - this.drawBoard.getWidth()/2;
    var shiftBottom = this.bottomRightPoint.y - this.drawBoard.getHeight()/2;
 
-   console.log("-------");
-   console.log("refreshLatLon zoom : " + this.map.zoom);
-   console.log("centerP      " + centerP.x + " | " + centerP.y);
-   console.log("shiftLeft      " + shiftLeft);
-   console.log("shiftTop      " + shiftTop);
-   console.log("shiftRight      " + shiftRight);
-   console.log("shiftBottom      " + shiftBottom);
-
    // Attention ! pour shiftTop et shiftBottom, le repere en metres a les ordonnees vers le haut
    var topLeftMeters = this.map.coordS.PixelsToMeters(centerP.x - shiftLeft, centerP.y + shiftTop, this.map.zoom);
    var bottomRightMeters = this.map.coordS.PixelsToMeters(centerP.x + shiftRight, centerP.y - shiftBottom, this.map.zoom);
 
-   console.log("-------");
-   console.log("topLeftMeters      " + topLeftMeters.x + " | " + topLeftMeters.y);
-   console.log("bottomRightMeters      " + bottomRightMeters.x + " | " + bottomRightMeters.y);
-
    var topLeftLatLon = this.map.coordS.MetersToLatLon(topLeftMeters.x, topLeftMeters.y);
    var bottomRightLatLon = this.map.coordS.MetersToLatLon(bottomRightMeters.x, bottomRightMeters.y);
-
-   console.log("-------");
-   console.log("topLeftLatLon      " + topLeftLatLon.x + " | " + topLeftLatLon.y);
-   console.log("bottomRightLatLon      " + bottomRightLatLon.x + " | " + bottomRightLatLon.y);
 
    var latMin = bottomRightLatLon.y;
    var latMax = topLeftLatLon.y;
    var lonMin = topLeftLatLon.x;
    var lonMax = bottomRightLatLon.x;
 
-   console.log("-------");
-   console.log("latMin      " + latMin);
-   console.log("lonMin      " + lonMin);
-   console.log("latMax      " + latMax);
-   console.log("lonMax      " + lonMax);
-
    this.setLatLon(latMin, lonMin, latMax, lonMax);
-
 }
 
 //----------------------------------------------------------------------//
 
 BoundingBoxDrawer.prototype.center = function () {
 
-   console.log("Center : " + this.zoomToFit)
    this.map.SetCenter(this.centerLat, this.centerLon);
 
    if(this.zoomToFit)
@@ -468,28 +435,18 @@ BoundingBoxDrawer.prototype.center = function () {
 
 BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
 
-
-   console.log("-------");
-   console.log("setBoundingsForZoom  " + zoom + " | fitToScreen : " + fitToScreen);
-   console.log("-------");
-
+   // pour fitToScreen, on teste un nouveau zoom : necessaire de recentrer la carte pour le test
+   if(fitToScreen)
+      this.map.SetCenter(this.centerLat, this.centerLon);
+   
    var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, zoom);
    var topLeftMeters = this.map.coordS.LatLonToMeters(this.latMax, this.lonMin); 
    var bottomRightMeters = this.map.coordS.LatLonToMeters(this.latMin, this.lonMax);
 
-   console.log("-------");
-   console.log("centerP      " + centerP.x + " | " + centerP.y);
-   console.log("topLeftMeters      " + topLeftMeters.x + " | " + topLeftMeters.y);
-   console.log("bottomRightMeters      " + bottomRightMeters.x + " | " + bottomRightMeters.y);
-
    var topLeftP = this.map.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, zoom);
    var bottomRightP = this.map.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, zoom);
 
-   console.log("-------");
-   console.log("topLeftP      " + topLeftP.x + " | " + topLeftP.y);
-   console.log("bottomRightP      " + bottomRightP.x + " | " + bottomRightP.y);
-
-   // Attention ! pour shiftTop et shiftBottom, le repere a ordonnees vers le haut ici
+   // Attention ! pour shiftTop et shiftBottom, le repere a les ordonnees vers le haut ici
    var shiftLeft = centerP.x - topLeftP.x;
    var shiftTop = topLeftP.y - centerP.y;
    var shiftRight = bottomRightP.x - centerP.x;
@@ -497,14 +454,6 @@ BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
 
    this.topLeftPoint = new Point(this.drawBoard.getWidth()/2 - shiftLeft, this.drawBoard.getHeight()/2 - shiftTop) ;
    this.bottomRightPoint = new Point(this.drawBoard.getWidth()/2 + shiftRight, this.drawBoard.getHeight()/2 + shiftBottom) ;
-
-   console.log("-------");
-   console.log("shiftLeft      " + shiftLeft);
-   console.log("shiftTop      " + shiftTop);
-   console.log("shiftRight      " + shiftRight);
-   console.log("shiftBottom      " + shiftBottom);
-   console.log("this.topLeftPoint      " + this.topLeftPoint.x + " | " + this.topLeftPoint.y);
-   console.log("this.bottomRightPoint      " + this.bottomRightPoint.x + " | " + this.bottomRightPoint.y);
 
    if(fitToScreen
          && (this.topLeftPoint.x < 0 
