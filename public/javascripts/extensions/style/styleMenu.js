@@ -80,7 +80,7 @@ StyleMenu.EventProxy = {};
 
 StyleMenu.EventProxy.lastEvt = null;    //last event treated
 StyleMenu.EventProxy.queuedEvt = null;  //last event requested
-StyleMenu.EventProxy.eventRate = 3000;
+StyleMenu.EventProxy.eventRate = 1000;
 StyleMenu.EventProxy.refreshRate = 100;
 
 StyleMenu.EventProxy.NewEvent = function(){
@@ -122,44 +122,20 @@ window.setInterval(
     StyleMenu.EventProxy.refreshRate);
 
 //////////////////////////////////////////////////////////////
-StyleMenu.RuleIdFromDef = function(uid,def){
-	// CARE DEPRECATED this one is now FALSE !!! DO NOT USE unless you are very sure of what you are trying to do !!!
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
-		return null;
-	}
-
-	if ( StyleMenu.__style[uid]["s"].length > 0) { // is this can really happend ???
-		var rule = 0;
-		while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){       // find the first not-empty symbolizer (for multi-zoom def case)
-			rule = rule + 1;
-			if ( rule >= Object.size(StyleMenu.__style[uid]["s"]) ){
-				if(StyleMenu.debug)console.log("cannot find rule ...", uid, def);
-				return null;
-			}
-		}
-		var ruleId = StyleMenu.__style[uid]["s"][rule]["s"][def]["id"];
-		return ruleId;
-	}
-	else{
-		return null;
-	}
-}
-
-//////////////////////////////////////////////////////////////
-StyleMenu.DefFromRule = function(uid,rule){
+StyleMenu.DefFromRule = function(luid,rule){
 	// CARE DEPRECATED this one is not usefull anymore and will/should return 0
+   // because there is ONLY one def in each rule
 
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
+	if ( StyleMenu.__style[luid] == undefined ){
+		if(StyleMenu.debug)console.log( luid + " not in style");
 		return -1;
 	}
 
 	var def = 0;
-	while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
+	while ( Object.size(StyleMenu.__style[luid]["s"][rule]["s"][def]) < 3 ){
 		def = def + 1;
-		if ( def >= Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-			if(StyleMenu.debug)console.log("cannot find def ...", uid, rule);
+		if ( def >= Object.size(StyleMenu.__style[luid]["s"][rule]["s"]) ){
+			if(StyleMenu.debug)console.log("cannot find def ...", luid, rule);
 			return -1;
 		}
 	}
@@ -167,210 +143,132 @@ StyleMenu.DefFromRule = function(uid,rule){
 }
 
 //////////////////////////////////////////////////////////////
-StyleMenu.DefRuleIdFromZoom = function(uid,zoom){
+StyleMenu.DefRuleIdFromZoom = function(luid,zoom){
 	// CARE DEPRECATED this one will return the good ruleId and will/should return def 0
 
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
+	if ( StyleMenu.__style[luid] == undefined ){
+		if(StyleMenu.debug)console.log( luid + " not in style");
 		return {"def" : -1, "ruleId" : -1, "rule" : -1};
 	}
 
-	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){ // rule
-		var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
+	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[luid]["s"]) ; rule++){ // rule
+		var zmin = StyleMenu.__style[luid]["s"][rule]["zmin"];
 		if ( zmin == zoom ){
 			var def = 0;
-			while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
+			while ( Object.size(StyleMenu.__style[luid]["s"][rule]["s"][def]) < 3 ){
 				def = def + 1;
-				if ( def >= Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-					if(StyleMenu.debug)console.log("cannot find def ...", uid, rule);
+				if ( def >= Object.size(StyleMenu.__style[luid]["s"][rule]["s"]) ){
+					if(StyleMenu.debug)console.log("cannot find def ...", luid, rule);
 					def = -1;
 					return {"def" : -1, "ruleId" : -1, "rule" : -1};
 				}
 			}
-			return {"def" : def, "ruleId" : StyleMenu.__style[uid]["s"][rule]["s"][def]["id"], "rule" : rule};
+			return {"def" : def, "ruleId" : StyleMenu.__style[luid]["s"][rule]["s"][def]["id"], "rule" : rule};
 		}
 	}
 	return {"def" : -1, "ruleId" : -1, "rule" : -1};
 }
 
 //////////////////////////////////////////////////////////////
-StyleMenu.DefRuleFromZoom = function(uid,zoom){
-	// CARE DEPRECATED this one will return the good rule and will/should return def 0
-
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
-		return {"def" : -1, "rule" : -1};
-	}
-
-	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){ // rule
-		var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
-		if ( zmin == zoom ){
-			var def = 0;
-			while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
-				def = def + 1;
-				if ( def >= Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-					if(StyleMenu.debug)console.log("cannot find def ...", uid, rule);
-					def = -1;
-					return {"def" : -1, "rule" : -1};
-				}
-			}
-			return {"def" : def, "rule" : rule};
-		}
-	}
-	return {"def" : -1, "rule" : -1};
-}
-
-//////////////////////////////////////////////////////////////
-/*
-StyleMenu.DefFromRuleId = function(uid,ruleId){
-	// CARE DEPRECATED this one will/should return 0
-	if ( StyleMenu.__style[uid] == undefined ){
-		//if(StyleMenu.debug)console.log( uid + " not in style");
-		return -1;
-	}
-
-	var def = 0;
-	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){ // rule
-		for( var d =0 ; Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ; d++){ //def
-			if( StyleMenu.__style[uid]["s"][rule]["s"][d]["id"] == ruid ){	 // if this is the ruleId we are looking for
-				while ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) < 3 ){
-					def = def + 1;
-					if ( def > Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ){
-						if(StyleMenu.debug)console.log("cannot find not empty def ...");
-						return -1;
-					}
-				}
-				return def;
-			}
-		}
-	}
-	return -1;
-}
-*/
-//////////////////////////////////////////////////////////////
-StyleMenu.SetParam = function(uid,rule,def,param,value){
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
+StyleMenu.SetParam = function(luid,rule,def,param,value){
+	if ( StyleMenu.__style[luid] == undefined ){
+		if(StyleMenu.debug)console.log( luid + " not in style");
 		return false;
 	}
 
 	var ok = false;
-	for( var p = 0 ; p < Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def] ) ; p++){ // params
-    var paramName = Symbolizer.getParamName(StyleMenu.__style[uid]["s"][rule]["s"][def]["rt"],p);
+	for( var p = 0 ; p < Object.size(StyleMenu.__style[luid]["s"][rule]["s"][def] ) ; p++){ // params
+    var paramName = Symbolizer.getParamName(StyleMenu.__style[luid]["s"][rule]["s"][def]["rt"],p);
 		if ( paramName == param ){
-			StyleMenu.__style[uid]["s"][rule]["s"][def][paramName] = value;
-			var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
+			StyleMenu.__style[luid]["s"][rule]["s"][def][paramName] = value;
+			var zmin = StyleMenu.__style[luid]["s"][rule]["zmin"];
 			//if(StyleMenu.debug)console.log("changing for z " + zmin);
 			ok = true;
 			break;
 		}
 	}
 	if ( !ok ){
-		//if(StyleMenu.debug)console.log(" not found , adding!" , uid , rule, def , param);
-		StyleMenu.__style[uid]["s"][rule]["s"][def][param] = value;
+		//if(StyleMenu.debug)console.log(" not found , adding!" , luid , rule, def , param);
+		StyleMenu.__style[luid]["s"][rule]["s"][def][param] = value;
 	}
 	StyleMenu.EventProxy.NewEvent();
 	return ok;
 }
 
 //////////////////////////////////////////////////////////////
-StyleMenu.SetParamId = function(uid,ruid,param,value){
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
+StyleMenu.SetParamId = function(luid,ruid,param,value){
+	if ( StyleMenu.__style[luid] == undefined ){
+		if(StyleMenu.debug)console.log( luid + " not in style");
 		return false;
 	}
-	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
-		for( var d = 0 ; Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ; d++){ //def
-			if( StyleMenu.__style[uid]["s"][rule]["s"][d]["id"] == ruid ){
-				for( var p = 0 ; p < Object.size(StyleMenu.__style[uid]["s"][rule]["s"][d] ) ; p++){ //params
-          var paramName = Symbolizer.getParamName(StyleMenu.__style[uid]["s"][rule]["s"][d]["rt"],p);
+	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[luid]["s"]) ; rule++){
+		for( var d = 0 ; Object.size(StyleMenu.__style[luid]["s"][rule]["s"]) ; d++){ //def
+			if( StyleMenu.__style[luid]["s"][rule]["s"][d]["id"] == ruid ){
+				for( var p = 0 ; p < Object.size(StyleMenu.__style[luid]["s"][rule]["s"][d] ) ; p++){ //params
+          var paramName = Symbolizer.getParamName(StyleMenu.__style[luid]["s"][rule]["s"][d]["rt"],p);
 					if ( paramName == param ){
-						StyleMenu.__style[uid]["s"][rule]["s"][d][paramName] = value;
+						StyleMenu.__style[luid]["s"][rule]["s"][d][paramName] = value;
 						StyleMenu.EventProxy.NewEvent();
 						return true;
 					}
 				}
-				//if(StyleMenu.debug)console.log(" not found , adding!" , uid , ruid , param);
-				StyleMenu.__style[uid]["s"][rule]["s"][d][param] = value;
+				//if(StyleMenu.debug)console.log(" not found , adding!" , luid , ruid , param);
+				StyleMenu.__style[luid]["s"][rule]["s"][d][param] = value;
 				StyleMenu.EventProxy.NewEvent();
 				return true;
 			}
 		}
 	}
-	if(StyleMenu.debug)console.log(" not found !" , uid , ruid , param);
+	if(StyleMenu.debug)console.log(" not found !" , luid , ruid , param);
 	return false;
 }
 
 //////////////////////////////////////////////////////////////
-StyleMenu.SetParamIdZNew = function(uid,param,value){
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log( uid + " not in style");
+StyleMenu.SetParamIdZNew = function(luid,param,value){
+	if ( StyleMenu.__style[luid] == undefined ){
+		if(StyleMenu.debug)console.log( luid + " not in style");
 		return false;
 	}
 
-	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
-		var zmin = StyleMenu.__style[uid]["s"][rule]["zmin"];
+	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[luid]["s"]) ; rule++){
+		var zmin = StyleMenu.__style[luid]["s"][rule]["zmin"];
 		//if(StyleMenu.debug)console.log(zmin);
-		//var zmax = StyleMenu.__style[uid]["s"][rule]["zmax"];
+		//var zmax = StyleMenu.__style[luid]["s"][rule]["zmax"];
 		if ( $.inArray(zmin, StyleMenu.activZooms) > -1 ){
 			//if(StyleMenu.debug)console.log("zoom is to be changed");
-			var def = StyleMenu.DefFromRule(uid,rule);
+			var def = StyleMenu.DefFromRule(luid,rule);
 			if ( def < 0 ){
 				continue;
 			}
-			StyleMenu.SetParam(uid,rule,def,param,value);
+			StyleMenu.SetParam(luid,rule,def,param,value);
 		}
 	}
 	return true;
 }
 
 //////////////////////////////////////////////////////////////
-StyleMenu.GetParamId = function(uid,ruid,param){
-  if ( StyleMenu.__style[uid] == undefined ){
-      if(StyleMenu.debug)console.log(uid + " not in style");
+StyleMenu.GetParamId = function(luid,ruid,param){
+  if ( StyleMenu.__style[luid] == undefined ){
+      if(StyleMenu.debug)console.log(luid + " not in style");
       return undefined;
    }
-   for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
-      for( var d = 0 ; d < Object.size(StyleMenu.__style[uid]["s"][rule]["s"]) ; d++){ //def
-         if ( StyleMenu.__style[uid]["s"][rule]["s"][d]["id"] == ruid ){
-            for ( var p = 0 ; p < Object.size(StyleMenu.__style[uid]["s"][rule]["s"][d] ); p++){ //params
-               var paramName = Symbolizer.getParamName(StyleMenu.__style[uid]["s"][rule]["s"][d]["rt"],p);
+   for(var rule = 0 ; rule < Object.size(StyleMenu.__style[luid]["s"]) ; rule++){
+      for( var d = 0 ; d < Object.size(StyleMenu.__style[luid]["s"][rule]["s"]) ; d++){ //def
+         if ( StyleMenu.__style[luid]["s"][rule]["s"][d]["id"] == ruid ){
+            for ( var p = 0 ; p < Object.size(StyleMenu.__style[luid]["s"][rule]["s"][d] ); p++){ //params
+               var paramName = Symbolizer.getParamName(StyleMenu.__style[luid]["s"][rule]["s"][d]["rt"],p);
                if ( paramName == param ){
-                   return StyleMenu.__style[uid]["s"][rule]["s"][d][paramName];
+                   return StyleMenu.__style[luid]["s"][rule]["s"][d][paramName];
                }
             }
-            //if(StyleMenu.debug)console.log(" not found , adding!" , uid , ruid , param);
-            //StyleMenu.__style[uid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
-            //return StyleMenu.__style[uid]["s"][rule]["s"][d][param]; 
+            //if(StyleMenu.debug)console.log(" not found , adding!" , luid , ruid , param);
+            //StyleMenu.__style[luid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
+            //return StyleMenu.__style[luid]["s"][rule]["s"][d][param]; 
          }
       }
    }
-   //if(StyleMenu.debug)console.log(" not found !", uid , ruid, param);
+   //if(StyleMenu.debug)console.log(" not found !", luid , ruid, param);
    return undefined;
-}
-
-//////////////////////////////////////////////////////////////
-StyleMenu.GetZoomSpectra = function(uid,def){
-	var zmin = undefined;
-	var zmax = undefined;
-	if ( StyleMenu.__style[uid] == undefined ){
-		if(StyleMenu.debug)console.log(uid + " not in style");
-		return {"zmin":zmin,"zmax":zmax};
-	}
-
-	for(var rule = 0 ; rule < Object.size(StyleMenu.__style[uid]["s"]) ; rule++){
-		if ( Object.size(StyleMenu.__style[uid]["s"][rule]["s"][def]) >= 3 ){
-			var zminR = StyleMenu.__style[uid]["s"][rule]["zmin"];
-			var zmaxR = StyleMenu.__style[uid]["s"][rule]["zmax"];
-			if ( zmin === undefined)
-				zmin = zminR;
-			if ( zmax === undefined)
-				zmax = zmaxR;
-			zmin = Math.min(zmin, zminR);
-			zmax = Math.max(zmax, zmaxR);
-		} 
-	}
-	return {"zmin":zmin,"zmax":zmax};
 }
 
 //////////////////////////////////////////////////////////////
@@ -389,7 +287,7 @@ StyleMenu.ReLoad = function(){
 StyleMenu.LoadGroup = function(){
   if(StyleMenu.debug)console.log("Loading groups");
   $.ajax({
-     url: StyleMenu.serverRootDirV+'style/group2.json',
+     url: StyleMenu.serverRootDirV+'style/group3.json',
      async: false,
      dataType: 'json',
      //contentType:"application/x-javascript",
@@ -1026,7 +924,35 @@ StyleMenu.__InsertAccordion = function(){
            var uid = uids[i];
            //if(StyleMenu.debug)console.log(uid);
            // make header
-           $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+
+           if ( StyleMenu.mappingArray[uid].filter != "" && StyleMenu.GetUids(name).length > 1){
+              if ( StyleMenu.groups[group][name].hasOwnProperty("alias") ){
+                 var aliasFound = false;
+                 for ( var al in StyleMenu.groups[group][name]["alias"] ){
+//                    console.log( al );
+//                    console.log(StyleMenu.groups[group][name]["alias"][al]);
+                    var fal = StyleMenu.groups[group][name]["alias"][al];
+                    if ( StyleMenu.mappingArray[uid].filter.indexOf(fal) >= 0 ){ 
+                       console.log( fal + " is in " + StyleMenu.mappingArray[uid].filter );
+                       $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">'+ al  + "</h2>").appendTo(groupAcc);
+                       aliasFound = true;
+                       break;
+                    }
+                 }
+                 if ( ! aliasFound ){
+                    //$('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">'+ StyleMenu.mappingArray[uid].filter + ")</h2>").appendTo(groupAcc);
+                    $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+                 }
+              }
+              else{
+                 //$('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">'+ StyleMenu.mappingArray[uid].filter + ")</h2>").appendTo(groupAcc);
+                 $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+              }
+           }
+           else{
+              $('<h2 id="styleMenu_menu_headeraccordion_' + uid + '">' + StyleMenu.mappingArray[uid].name + "</h2>").appendTo(groupAcc);
+           }
+
            // bind onclick header event!
            $("#styleMenu_menu_headeraccordion_"+uid).bind('click',StyleMenu.GetWidgetCallBack(group,name,uid));
            // fill inner div with some info

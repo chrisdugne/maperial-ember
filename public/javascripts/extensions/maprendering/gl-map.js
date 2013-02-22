@@ -109,28 +109,22 @@ GLMap.prototype.OnMouseMove = function (event) {
 GLMap.prototype.OnMouseWheel = function (event, delta) {
 
    if (delta > 0) {
-      if ( this.zoom < 18 ) {
-         this.zoom = this.zoom + 1 ;                                        
-      }
-
+      this.zoom = Math.max(18, this.zoom + 1);
       this.centerM = this.convertCanvasPointToMeters(this.mouseP);
    }
    else if (delta < 0) {
 
       var centerP = this.coordS.MetersToPixels(this.centerM.x, this.centerM.y, this.zoom);
       var oldShiftP = new Point( this.mapElement.width()/2 - this.mouseP.x , this.mapElement.height()/2 - this.mouseP.y);
-
-      if ( this.zoom > 0 ) {
-         this.zoom = this.zoom - 1 ;            
-      }
+      
+      this.zoom = Math.min(0, this.zoom - 1);
 
       var r = this.coordS.Resolution ( this.zoom );
       var newShiftM = new Point(oldShiftP.x * r, oldShiftP.y * r);
       this.centerM = new Point(this.mouseM.x + newShiftM.x, this.mouseM.y - newShiftM.y);
-
    }
 
-   // refresh
+   // refresh mouse
    this.mouseP = Utils.getPoint(event);
    this.mouseM = this.convertCanvasPointToMeters ( this.mouseP );
 }

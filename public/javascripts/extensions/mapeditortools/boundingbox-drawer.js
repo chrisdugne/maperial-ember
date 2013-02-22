@@ -143,7 +143,7 @@ BoundingBoxDrawer.prototype.init = function(boardName){
 
    $("#drawBoardContainer").bind('mousewheel', function(event, delta) {
       drawer.map.OnMouseWheel(event, delta);
-      drawer.testZoom(drawer.map.zoom, false);
+      drawer.setBoundingsForZoom(drawer.map.zoom, false);
    });
 }
 
@@ -458,18 +458,19 @@ BoundingBoxDrawer.prototype.refreshLatLon = function(){
 BoundingBoxDrawer.prototype.center = function () {
 
    console.log("Center : " + this.zoomToFit)
-   if(this.zoomToFit)
-      this.testZoom(this.zoomToFit, false);
-   else
-      this.testZoom(16, true);
-}
-
-BoundingBoxDrawer.prototype.testZoom = function (zoom, fitToScreen) {
-
    this.map.SetCenter(this.centerLat, this.centerLon);
 
+   if(this.zoomToFit)
+      this.setBoundingsForZoom(this.zoomToFit, false);
+   else
+      this.setBoundingsForZoom(16, true);
+}
+
+BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
+
+
    console.log("-------");
-   console.log("testZoom  " + zoom + " | fitToScreen : " + fitToScreen);
+   console.log("setBoundingsForZoom  " + zoom + " | fitToScreen : " + fitToScreen);
    console.log("-------");
 
    var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, zoom);
@@ -510,7 +511,7 @@ BoundingBoxDrawer.prototype.testZoom = function (zoom, fitToScreen) {
                || this.bottomRightPoint.x > this.drawBoard.getWidth()
                || this.topLeftPoint.y < 0
                || this.bottomRightPoint.y > this.drawBoard.getHeight())){
-      this.testZoom(zoom - 1, true);
+      this.setBoundingsForZoom(zoom - 1, true);
    }
    else{
       if(fitToScreen)
