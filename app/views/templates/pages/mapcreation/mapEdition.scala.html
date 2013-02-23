@@ -8,16 +8,13 @@
 
 @mapEditorContent()
 
-<div id="styleEditorManagement" class="hide">
-	<a class="trigger" id="triggerStyleManager"  href="#">Menu</a>
-	<div class="panel" id="panelStyleManager">
-		<div class="row">
-			<!-- style = Dialogr = jqueryui = no ember.action but onclicks... -->
-			<div class="span2">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
-			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openSettings()">Continue</div>
-			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openDatasetSelection()">Back</div>
-			<div class="span1 btn-small btn-primary" onclick="App.MapCreationController.openStyleSelection()">More</div>
-		</div>
+<div class="panel snapper hide" id="panelStyleManager">
+	<div class="row-fluid">
+		<!-- style = Dialogr = jqueryui = no ember.action but onclicks... -->
+		<div class="span6">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
+		<div class="span2 btn-small btn-primary" onclick="App.MapCreationController.openDatasetSelection()">Back</div>
+		<div class="span2 btn-small btn-primary" onclick="App.MapCreationController.openStyleSelection()">More</div>
+		<div class="span2 btn-small btn-primary" onclick="App.MapCreationController.openSettings()">Next</div>
 	</div>
 </div>
 

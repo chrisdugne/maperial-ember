@@ -4,48 +4,21 @@
 	<canvas id="map"></canvas>
 	<canvas id="dummyTilesCanvas" class="hide"></canvas>
 
-	<div id="commonTriggers" class="hide">
-		<a class="trigger snapper" id="triggerMagnifier" href="#">Magnifier</a>
-		<div class="panel snapper" id="panelMagnifier">
-			<canvas id="magnifier" width="200" height="200"></canvas>
-		</div>
+	<!-- common triggers -->
 
-		<div class="panel snapper" id="panelGeoloc">
-			<div id="geolocdiv" class="row-fluid">
-				<div class="span9">
-			   		<input type="text" id="GeoLoc" name="GeotLoc">
-			   	</div>
-				<div class="span2 offset1">
-				   <div id="GeoLocGo" class="btn-small btn-primary"><i class="icon-arrow-right icon-white"></i></div>
-			   	</div>
-			</div>
+	<a class="trigger snapper hide" id="triggerMapEditorSettings" href="#"><i class="icon-cog icon-white"></i></a>
+	<div class="panel snapper hide" id="panelMapEditorSettings">
+		<div class="row-fluid">
+			<div class="span6">
+				{{App.Globals.latitude}}
+		   	</div>
+			<div class="span6">
+				{{App.Globals.longitude}}
+		   	</div>
 		</div>
 	</div>
-
-	<div id="styleEditorTriggers" class="hide">
-		<a class="trigger snapper" id="triggerDetailsMenu" href="#">Details</a>
-		<div class="panel snapper" id="panelDetailsMenu">
-			<div id="detailsMenu"></div>
-		</div>
-		<a class="trigger snapper" id="triggerQuickEdit" href="#">Quick Edit</a>
-		<div class="panel snapper" id="panelQuickEdit">
-			<div id="quickEdit"></div>
-		</div>
-		<a class="trigger snapper" id="triggerZooms" href="#">Zooms</a>
-		<div class="panel snapper" id="panelZooms">
-			<div id="zooms"></div>
-		</div>
-	</div>
-
-
-	<div id="colorbarEditorTriggers" class="hide">
-		<a class="trigger snapper" id="triggerColorBar"  href="#">ColorBar</a>
-			<div class="panel snapper" id="panelColorBar">
-		  <div id="colorbarMenu"></div>
-		</div>
-	</div>
-
-	<div class="panel snapper" id="panelLatLon">
+	
+	<div class="panel snapper hide" id="panelLatLon">
 		<div id="latlondiv" class="row-fluid">
 			<div class="span6">
 				{{App.Globals.latitude}}
@@ -54,6 +27,45 @@
 				{{App.Globals.longitude}}
 		   	</div>
 		</div>
+	</div>
+
+	<div class="panel snapper hide" id="panelGeoloc">
+		<div id="geolocdiv" class="row-fluid">
+			<div class="span9">
+		   		<input type="text" id="GeoLoc" name="GeotLoc">
+		   	</div>
+			<div class="span2 offset1">
+			   <div id="GeoLocGo" class="btn-small btn-primary"><i class="icon-arrow-right icon-white"></i></div>
+		   	</div>
+		</div>
+	</div>
+
+	<!-- styleEditor default triggers -->
+	<a class="trigger snapper hide" id="triggerDetailsMenu" href="#">Details</a>
+	<div class="panel snapper hide" id="panelDetailsMenu">
+		<div id="detailsMenu"></div>
+	</div>
+	
+	<a class="trigger snapper hide" id="triggerQuickEdit" href="#">Quick Edit</a>
+	<div class="panel snapper hide" id="panelQuickEdit">
+		<div id="quickEdit"></div>
+	</div>
+	
+	<a class="trigger snapper hide" id="triggerZooms" href="#">Zooms</a>
+	<div class="panel snapper hide" id="panelZooms">
+		<div id="zooms"></div>
+	</div>
+	
+	<a class="trigger snapper hide" id="triggerMagnifier" href="#">Magnifier</a>
+	<div class="panel snapper hide" id="panelMagnifier">
+		<canvas id="magnifier" width="200" height="200"></canvas>
+	</div>
+
+	<!-- corlorbarEditor default triggers -->
+
+	<a class="trigger snapper hide" id="triggerColorBar"  href="#">ColorBar</a>
+		<div class="panel snapper hide" id="panelColorBar">
+	  <div id="colorbarMenu"></div>
 	</div>
 
 </div>

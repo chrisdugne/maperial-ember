@@ -98,6 +98,48 @@ a#triggerStyleManager {
 }
 
 /*-------------------------*/
+	
+#panelMapEditorSettings {
+	left: 0px;
+	bottom: 100px;
+}
+
+a#triggerMapEditorSettings {
+	left: 0px;
+	bottom: 100px;
+}
+
+/*-------------------------*/
+
+.buttonMode {
+	position: absolute;
+	text-decoration: none;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 4px 13px 4px 13px;
+	font-weight: 700;
+	background: #000;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	z-index: 9999;
+	filter: alpha(opacity =   85);
+	
+}
+
+.buttonMode:hover {
+	padding: 6px 13px 6px 13px;
+	color: #cdd;
+}
+
+div.active.buttonMode {
+	padding: 6px 13px 6px 13px;
+}
+
+/*-------------------------*/
 
 #panelGeoloc {
 	top: 67px;

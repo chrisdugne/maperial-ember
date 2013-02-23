@@ -116,7 +116,7 @@
                var lon = (App.datasetsData.selectedRaster.lonMin + App.datasetsData.selectedRaster.lonMax)/2; 
             }
             
-            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false, lat, lon);
+            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, MapCreationController.getConfigStyleAndColorbar(), lat, lon);
             MapCreationController.mapEditor.renderUI();
             App.Globals.set("currentMapEditor", MapCreationController.mapEditor);
             
@@ -124,6 +124,19 @@
          }
       })
    }
+
+   MapCreationController.getConfigStyleAndColorbar = function(){
+      var config = {
+            // mapCreation.styleAndColorbar
+            "panelStyleManager"   : "1",
+
+            // mapEditor
+            "panelGeoloc"        : "1",
+            "triggerMagnifier"   : "1"
+      };
+      
+      return config;
+   }  
 
    MapCreationController.refreshMap = function()  
    {

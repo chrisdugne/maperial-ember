@@ -1,12 +1,11 @@
 
 //==================================================================//
 
-function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers, boundingBoxStartLat, boundingBoxStartLon){
+function MapEditor(style, colorbar, config, boundingBoxStartLat, boundingBoxStartLon){
    this.map;
    this.style = style;
    this.colorbar = colorbar;
-   this.showStyleTriggers = showStyleTriggers;
-   this.showColorbarTriggers = showColorbarTriggers;
+   this.config = config;
    
    this.boundingBoxStartLat = boundingBoxStartLat;
    this.boundingBoxStartLon = boundingBoxStartLon;
@@ -17,7 +16,6 @@ function MapEditor(style, colorbar, showStyleTriggers, showColorbarTriggers, bou
 MapEditor.prototype.renderUI = function() {
 
    App.user.set("waiting", true);
-   
    var tryGeoloc = this.boundingBoxStartLat == undefined;
    
    var mapEditor = this; // to have access to 'this' in the callBack
@@ -266,19 +264,41 @@ MapEditor.prototype.renderTriggers = function(){
       
    });
 
-   //--------------------------------------------------------//
-   // Show
+   this.refreshFromConfig();
+}
 
-   $("#commonTriggers").removeClass("hide");
 
-   if(this.showStyleTriggers){
-      $("#styleEditorTriggers").removeClass("hide");
-      $("#styleEditorManagement").removeClass("hide");
-   }
+MapEditor.prototype.refreshFromConfig = function(){
+   this.hideAllTriggers();
+   this.showTriggers();   
+}
 
-   if(this.showColorbarTriggers){
-      $("#colorbarEditorTriggers").removeClass("hide");
-      $("#colorbarEditorManagement").removeClass("hide");
+
+MapEditor.prototype.hideAllTriggers = function(){
+   
+   //$(".panel").hide("fast");
+   
+   $("#panelLatLon").addClass("hide");
+   $("#panelGeoloc").addClass("hide");
+   
+   $("#triggerDetailsMenu").addClass("hide");
+   $("#triggerQuickEdit").addClass("hide");
+   $("#triggerZooms").addClass("hide");
+   $("#triggerMagnifier").addClass("hide");
+   
+   $("#triggerColorBar").addClass("hide");
+
+   // hidden by default to appear after the whole loading
+   $("#triggerMapEditorSettings").removeClass("hide");
+}
+
+MapEditor.prototype.showTriggers = function(){
+   for (div in this.config) {
+      if(!this.config.hasOwnProperty(div))
+         continue;
+      
+      console.log("show " + div);
+      $("#"+div).removeClass("hide");
    }
 }
 

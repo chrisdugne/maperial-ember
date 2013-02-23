@@ -19,6 +19,17 @@
 
 /*---------------------------------------------------------------*/
 
+#panelStyleManager {
+	top: 67px;
+	left: 0;
+	height: 30px;
+	width: 420px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+/*---------------------------------------------------------------*/
+
 #panelSettings {
 	height: 400px;
 	top: 67px;
@@ -31,36 +42,6 @@ a#triggerSettings {
 }
 /*------------------------------------------------------------*/
 /* SETTINGS*/
-
-.buttonMode {
-	position: absolute;
-	text-decoration: none;
-	font-size: 16px;
-	letter-spacing: -1px;
-	font-family: verdana, helvetica, arial, sans-serif;
-	color: #cdd;
-	padding: 4px 13px 4px 13px;
-	font-weight: 700;
-	background: #000;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	z-index: 9999;
-	filter: alpha(opacity =   85);
-	
-}
-
-.buttonMode:hover {
-	padding: 6px 13px 6px 13px;
-	color: #cdd;
-}
-
-div.active.buttonMode {
-	padding: 6px 13px 6px 13px;
-}
-	
-/*------------------------------------*/
 
 #buttonReset {
 	right: 160px;
@@ -81,5 +62,6 @@ div.active.buttonMode {
 	right: 300px;
 	top: 67px;
 }
+
 
 
