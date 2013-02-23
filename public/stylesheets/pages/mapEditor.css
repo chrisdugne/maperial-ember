@@ -104,7 +104,6 @@ a#triggerStyleManager {
 	left: 42%; 
 	height: 30px;
 	width: 245px;
-	display: block;
 	padding-left: 20px;
 	padding-right: 20px;
 }
@@ -114,7 +113,6 @@ a#triggerStyleManager {
 	left: 0; 
 	height: 20px;
 	width: 290px;
-	display: block;
 	padding-left: 7px;
 }
 

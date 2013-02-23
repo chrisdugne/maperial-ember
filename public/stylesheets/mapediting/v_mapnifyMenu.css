@@ -120,7 +120,6 @@ a#triggerZooms {
 /*************************/
 .panel {
 	position: fixed;
-	display: none;
 	background: #000000; //
 	background-image: url(IMAGE_URL); /* fallback */
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#444444),
