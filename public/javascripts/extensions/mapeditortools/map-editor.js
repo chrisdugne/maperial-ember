@@ -80,6 +80,8 @@ MapEditor.prototype.renderUI = function() {
 
 MapEditor.prototype.renderAll = function(tryGeoloc){
 
+   //--------------------------//
+
    this.renderMap();
    this.renderStyle();
    this.renderTriggers();
@@ -88,9 +90,22 @@ MapEditor.prototype.renderAll = function(tryGeoloc){
       this.renderColorbar();
    }
 
-   GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map, tryGeoloc);
+   //--------------------------//
 
-   $("#footer").css({ position : "fixed" });  
+   GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map, tryGeoloc);
+   
+   //--------------------------//
+
+   $("#footer").css({ position : "fixed" });
+
+   //--------------------------//
+   // init slider lib
+   
+   $('.slider-button').toggle(function(){
+      $(this).addClass('on');
+   },function(){
+      $(this).removeClass('on');
+   });
 
    // screen is ready
    App.user.set("waiting", false);

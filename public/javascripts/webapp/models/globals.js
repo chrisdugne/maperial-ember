@@ -10,9 +10,9 @@
 
       RASTER_DEFAULT_ZMIN: 4,
       RASTER_DEFAULT_ZMAX: 10,
-      
+
       //-------------------------------------------//
-      
+
       isLocal: window.location.hostname == "localhost",
       debug: false,
       mapServer: '//map.x-ray.fr',
@@ -46,6 +46,7 @@
    App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
 
    //------------------------------------------------------//
+   // create footer email
 
    var guymal_enc= "ncjjiFkgvho`(eik";
    var email = "";
@@ -53,11 +54,12 @@
    {
       email += String.fromCharCode(6^guymal_enc.charCodeAt(i));
    }
-   
+
    App.Globals.set("mapnifyEmail", email);
 
    //------------------------------------------------------//
-   
+   // gather epsg list
+
    $.get('/assets/epsg.txt', function(data){
       var lines = data.split("\n");
       for(var i=0; i< lines.length; i++){

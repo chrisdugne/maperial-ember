@@ -101,12 +101,14 @@ a#triggerStyleManager {
 	
 #panelMapEditorSettings {
 	left: 0px;
-	bottom: 100px;
+	top: 650px;
+	width:300px;
+	height:300px;
 }
 
 a#triggerMapEditorSettings {
 	left: 0px;
-	bottom: 100px;
+	top: 650px;
 }
 
 /*-------------------------*/
