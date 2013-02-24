@@ -1,3 +1,4 @@
+@import views.html.templates.components.mapEditorSettings;
 
 <div id="mapEditorContent">
 
@@ -8,26 +9,7 @@
 
 	<a class="trigger snapper hide" id="triggerMapEditorSettings" href="#"><i class="icon-cog icon-white"></i></a>
 	<div class="panel snapper hide" id="panelMapEditorSettings">
-		<div class="row-fluid">
-			<div class="slider-frame">
-				<span class="slider-button"></span>
-			</div>
-		</div>
-		<div class="row-fluid">
-			<div class="slider-frame">
-				<span class="slider-button"></span>
-			</div>
-		</div>
-		<div class="row-fluid">
-			<div class="slider-frame">
-				<span class="slider-button"></span>
-			</div>
-		</div>
-		<div class="row-fluid">
-			<div class="slider-frame">
-				<span class="slider-button"></span>
-			</div>
-		</div>
+		@mapEditorSettings()
 	</div>
 
 	<div class="panel snapper hide" id="panelLatLon">

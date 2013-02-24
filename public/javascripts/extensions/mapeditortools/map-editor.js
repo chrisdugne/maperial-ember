@@ -1,14 +1,26 @@
 
 //==================================================================//
 
-function MapEditor(style, colorbar, config, boundingBoxStartLat, boundingBoxStartLon){
+function MapEditor(){
    this.map;
+   this.style;
+   this.colorbar;
+   this.config;
+   
+   this.boundingBoxStartLat;
+   this.boundingBoxStartLon;
+}
+
+MapEditor.prototype.reset = function(style, colorbar, config, boundingBoxStartLat, boundingBoxStartLon){
    this.style = style;
    this.colorbar = colorbar;
-   this.config = config;
    
    this.boundingBoxStartLat = boundingBoxStartLat;
-   this.boundingBoxStartLon = boundingBoxStartLon;
+   this.boundingBoxStartLon = boundingBoxStartLon;   
+   
+   this.changeConfig(config);
+   
+   this.renderUI();
 }
 
 //==================================================================//
@@ -77,6 +89,7 @@ MapEditor.prototype.renderUI = function() {
    );
 }
 
+//==================================================================//
 
 MapEditor.prototype.renderAll = function(tryGeoloc){
 
@@ -100,11 +113,18 @@ MapEditor.prototype.renderAll = function(tryGeoloc){
 
    //--------------------------//
    // init slider lib
-   
+
+   var mapEditor = this;
    $('.slider-button').toggle(function(){
       $(this).addClass('on');
+      var element = $(this).context.id.replace("toggle","");
+      $("#"+mapEditor.config[element].type+element).removeClass("hide");
    },function(){
       $(this).removeClass('on');
+      var element = $(this).context.id.replace("toggle","");
+      $("#"+mapEditor.config[element].type+element).addClass("hide");
+      if(mapEditor.config[element].type == "trigger")
+         $("#panel"+element).hide("fast");
    });
 
    // screen is ready
@@ -156,13 +176,14 @@ MapEditor.prototype.hideTriggers = function(){
 
    $('.trigger').unbind('click');
 
-   $("#commonTriggers").addClass("hide");
-   $("#styleEditorTriggers").addClass("hide");
+   this.hideAllTriggers();
+   
    $("#styleEditorManagement").addClass("hide");
-   $("#colorbarEditorTriggers").addClass("hide");
    $("#colorbarEditorManagement").addClass("hide");
 
 }
+
+//------------------------------------------------//
 
 MapEditor.prototype.renderTriggers = function(){
 
@@ -279,43 +300,54 @@ MapEditor.prototype.renderTriggers = function(){
       
    });
 
-   this.refreshFromConfig();
 }
 
+//------------------------------------------------//
 
-MapEditor.prototype.refreshFromConfig = function(){
+MapEditor.prototype.changeConfig = function(config){
+   console.log("change config");
+   console.log(config);
    this.hideAllTriggers();
+   this.config = config;
    this.showTriggers();   
 }
 
+//------------------------------------------------//
 
 MapEditor.prototype.hideAllTriggers = function(){
-   
-   //$(".panel").hide("fast");
-   
-   $("#panelLatLon").addClass("hide");
-   $("#panelGeoloc").addClass("hide");
-   
-   $("#triggerDetailsMenu").addClass("hide");
-   $("#triggerQuickEdit").addClass("hide");
-   $("#triggerZooms").addClass("hide");
-   $("#triggerMagnifier").addClass("hide");
-   
-   $("#triggerColorBar").addClass("hide");
+   for (element in this.config) {
+      if(!this.config.hasOwnProperty(element))
+         continue;
 
+      $("#"+this.config[element].type + element).addClass("hide");
+      $("#toggle"+element).removeClass('on');
+      
+      if(this.config[element].type == "trigger")
+         $("panel"+element).hide("fast");
+   }
+   
    // hidden by default to appear after the whole loading
    $("#triggerMapEditorSettings").removeClass("hide");
+   
 }
 
+//------------------------------------------------//
+
 MapEditor.prototype.showTriggers = function(){
-   for (div in this.config) {
-      if(!this.config.hasOwnProperty(div))
+   
+   for (element in this.config) {
+      if(!this.config.hasOwnProperty(element))
          continue;
       
-      console.log("show " + div);
-      $("#"+div).removeClass("hide");
+      if(this.config[element].show == true){
+         $("#"+this.config[element].type + element).removeClass("hide");
+         $("#toggle"+element).addClass("on");
+      }
    }
+   
 }
+
+//------------------------------------------------//
 
 MapEditor.prototype.putOnTop = function(name){
    $(".trigger").css({ zIndex : 101 });

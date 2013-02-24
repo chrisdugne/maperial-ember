@@ -38,7 +38,7 @@ a#triggerDetailsMenu {
 	top: 360px;
 	left: 0;
 	width: 356px;
-	overflow-y: auto;
+	overflow-y: scroll;
 	overflow-x: hidden;
 	height: 437px;
 }

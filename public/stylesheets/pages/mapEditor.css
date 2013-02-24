@@ -101,14 +101,39 @@ a#triggerStyleManager {
 	
 #panelMapEditorSettings {
 	left: 0px;
-	top: 650px;
-	width:300px;
-	height:300px;
+	bottom: 100px;
+	width:200px;
+	height:360px;
+	color: #eee;
 }
 
 a#triggerMapEditorSettings {
 	left: 0px;
-	top: 650px;
+	bottom: 100px;
+	height: 16px;
+}
+
+/*-------------------------*/
+
+#panelGeoloc {
+	top: 67px;
+	left: 42%; 
+	height: 30px;
+	width: 245px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#panelLatLon {
+	bottom: 100px;
+	left: 0; 
+	height: 20px;
+	width: 290px;
+	padding-left: 7px;
+}
+
+#latlondiv {
+	color: #eee;
 }
 
 /*-------------------------*/
@@ -139,29 +164,6 @@ a#triggerMapEditorSettings {
 
 div.active.buttonMode {
 	padding: 6px 13px 6px 13px;
-}
-
-/*-------------------------*/
-
-#panelGeoloc {
-	top: 67px;
-	left: 42%; 
-	height: 30px;
-	width: 245px;
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-#panelLatLon {
-	bottom: 100px;
-	left: 0; 
-	height: 20px;
-	width: 290px;
-	padding-left: 7px;
-}
-
-#latlondiv {
-	color: #eee;
 }
 
 /*-------------------------*/

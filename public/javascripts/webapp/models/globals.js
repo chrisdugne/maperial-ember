@@ -29,7 +29,7 @@
 
       //-------------------------------------------//
       // peut etre creer un modele commun pour le mapEditor et ses donnees
-      currentMapEditor: "",
+      // lat/lon pour le panelLatLon du mapEditor
       latitude: "",
       longitude: "",
 
@@ -43,6 +43,7 @@
    //------------------------------------------------------//
 
    App.Globals = Globals.create();
+   App.mapEditor = new MapEditor();
    App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
 
    //------------------------------------------------------//

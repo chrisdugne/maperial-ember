@@ -36,18 +36,16 @@
    
    MapCreationController.renderStyleAndColorbarUI = function()
    {
-      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
-         App.stylesData.set("selectedStyle", App.publicData.styles[0]);
-         MapCreationController.currentStyle = App.stylesData.selectedStyle;
-         MapCreationController.openStyleSelection();
-      });
+      App.stylesData.set("selectedStyle", App.publicData.styles[0]);
+      MapCreationController.currentStyle = App.stylesData.selectedStyle;
+      MapCreationController.openStyleSelection();
       
       App.resizeWindow();
    }
    
    MapCreationController.cleanStyleAndColorbarUI = function()
    {
-      MapCreationController.mapEditor.cleanUI();
+      App.mapEditor.cleanUI();
       MapCreationController.styleAndColorbarUIReady = false;
    }
    
@@ -116,9 +114,7 @@
                var lon = (App.datasetsData.selectedRaster.lonMin + App.datasetsData.selectedRaster.lonMax)/2; 
             }
             
-            MapCreationController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, MapCreationController.getConfigStyleAndColorbar(), lat, lon);
-            MapCreationController.mapEditor.renderUI();
-            App.Globals.set("currentMapEditor", MapCreationController.mapEditor);
+            App.mapEditor.reset(App.stylesData.selectedStyle, null, MapCreationController.getConfigStyleAndColorbar(), lat, lon)
             
             MapCreationController.styleAndColorbarUIReady = true;
          }
@@ -126,13 +122,38 @@
    }
 
    MapCreationController.getConfigStyleAndColorbar = function(){
+
       var config = {
             // mapCreation.styleAndColorbar
-            "panelStyleManager"   : "1",
+            "StyleManager" : {show : true, type : "panel"},
 
-            // mapEditor
-            "panelGeoloc"        : "1",
-            "triggerMagnifier"   : "1"
+            // mapEditor tools
+            "LatLon"       : {show : false, type : "panel"},
+            "Geoloc"       : {show : true,  type : "panel"},
+            "DetailsMenu"  : {show : false, type : "trigger"},
+            "QuickEdit"    : {show : false, type : "trigger"},
+            "Zooms"        : {show : false, type : "trigger"},
+            "Magnifier"    : {show : false, type : "trigger"},
+            "ColorBar"     : {show : false, type : "trigger"}
+      };
+      
+      return config;
+   }  
+   
+   MapCreationController.getConfigSettings = function(){
+      
+      var config = {
+            // mapCreation.mapSettings
+            "MapSettings" : {show : true, type : "panel"},
+            
+            // mapEditor tools
+            "LatLon"       : {show : false, type : "panel"},
+            "Geoloc"       : {show : true,  type : "panel"},
+            "DetailsMenu"  : {show : false, type : "trigger"},
+            "QuickEdit"    : {show : false, type : "trigger"},
+            "Zooms"        : {show : false, type : "trigger"},
+            "Magnifier"    : {show : false, type : "trigger"},
+            "ColorBar"     : {show : false, type : "trigger"}
       };
       
       return config;
@@ -144,8 +165,8 @@
       StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
 
          // rendering after reception
-         MapCreationController.mapEditor.map.GetParams().SetStyle(App.stylesData.selectedStyle); 
-         MapCreationController.mapEditor.map.DrawScene(false, true);
+         App.mapEditor.map.GetParams().SetStyle(App.stylesData.selectedStyle); 
+         App.mapEditor.map.DrawScene(false, true);
 
          // screen is ready
          App.user.set("waiting", false);
@@ -155,7 +176,7 @@
    MapCreationController.backToStyleAndColorbar = function(){
       MapCreationController.closeSettings();
       MapCreationController.wizardSetView("styleAndColorbar");
-      MapCreationController.mapEditor.renderTriggers();
+      App.mapEditor.changeConfig(this.getConfigStyleAndColorbar());
       App.resizeWindow();
    }
       
@@ -165,9 +186,10 @@
    MapCreationController.openSettings = function(){
       
       MapCreationController.wizardSetView("settings");
-      MapCreationController.mapEditor.hideTriggers();
-      MapCreationController.mapEditor.showBoundingBox();
-      MapCreationController.mapEditor.deactivateBoundingBoxDrawing();
+
+      App.mapEditor.changeConfig(this.getConfigSettings());
+      App.mapEditor.showBoundingBox();
+      App.mapEditor.deactivateBoundingBoxDrawing();
 
       $("#settings").removeClass("hide");
       $("#buttonMapMode").addClass("active");
@@ -184,7 +206,7 @@
          $("#buttonDrawMode").removeClass("active");
          $("#buttonCenter").removeClass("hide");
          $("#buttonReset").addClass("hide");
-         MapCreationController.mapEditor.deactivateBoundingBoxDrawing();
+         App.mapEditor.deactivateBoundingBoxDrawing();
          return false;
       });
 
@@ -193,23 +215,23 @@
          $("#buttonMapMode").removeClass("active");
          $("#buttonCenter").addClass("hide");
          $("#buttonReset").removeClass("hide");
-         MapCreationController.mapEditor.activateBoundingBoxDrawing();
+         App.mapEditor.activateBoundingBoxDrawing();
          return false;
       });
       
       $("#buttonCenter").click(function(){
-         MapCreationController.mapEditor.boundingBoxDrawer.center();
+         App.mapEditor.boundingBoxDrawer.center();
          return false;
       });
       
       $("#buttonReset").click(function(){
-         MapCreationController.mapEditor.boundingBoxDrawer.cancelEdition();
+         App.mapEditor.boundingBoxDrawer.cancelEdition();
          return false;
       });
    }
 
    MapCreationController.closeSettings = function(){
-      MapCreationController.mapEditor.hideBoundingBox();
+      App.mapEditor.hideBoundingBox();
       $("#settings").addClass("hide");
       
       $("#triggerSettings").unbind("click");

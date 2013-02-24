@@ -50,8 +50,8 @@
 }
 .slider-frame .slider-button.on {
   margin-left: 40px;
-  background: #4EAB0F;
-  border: 1px solid #4E5B0F;
+  background: #491;
+  border: 1px solid #491;
 }
 .slider-frame .slider-button:before {
   position: absolute;

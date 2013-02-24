@@ -1,0 +1,10 @@
+@import views.html.templates.components.mapEditorSettings;
+
+@mapEditorSetting("Geoloc", "Location")
+@mapEditorSetting("Magnifier", "Magnifier")
+@mapEditorSetting("Zooms", "Zooms")
+@mapEditorSetting("LatLon", "Lat/Lon")
+{{configEnabled QuickEdit template='@mapEditorSetting("QuickEdit", "Quick Style Edit")'}}
+{{configEnabled QuickEdit template='@mapEditorSetting("QuickEdit", "Style Details")'}}
+{{configEnabled Colorbar template='@mapEditorSetting("Colorbar", "Colorbar")'}}
+
