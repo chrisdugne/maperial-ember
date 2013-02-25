@@ -43,9 +43,6 @@
          $("#mapEditorContent").css("min-height", webAppHeight );
       }catch(e){}
 
-      console.log("webAppHeight : " + webAppHeight);
-      console.log("mapheight : " + ($(window).height() - App.Globals.FOOTER_HEIGHT));
-      
       App.homeScroller.resizeWindow($("#webappDiv").width());
    }
 

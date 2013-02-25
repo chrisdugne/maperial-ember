@@ -1,5 +1,3 @@
-@import views.html.templates.components.mapEditorSettings;
-
 <div id="mapEditorContent">
 
 	<canvas id="map"></canvas>
@@ -7,9 +5,9 @@
 
 	<!-- common triggers -->
 
-	<a class="trigger snapper hide" id="triggerMapEditorSettings" href="#"><i class="icon-cog icon-white"></i></a>
+	<a class="trigger snapper hide" id="triggerMapEditorSettings" href="#"><i id="iconMapEditorSettings" class="icon-cog icon-white"></i></a>
 	<div class="panel snapper hide" id="panelMapEditorSettings">
-		@mapEditorSettings()
+		<div id="mapEditorSettings"></div>
 	</div>
 
 	<div class="panel snapper hide" id="panelLatLon">

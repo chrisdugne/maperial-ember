@@ -80,36 +80,37 @@
 	left: 0; 
 }
 
-a#triggerColorbarManager {
-	top : 67px;
-	left: 0;
-}
-
-/*-------------------------*/
 
 #panelStyleManager {
 	top: 67px;
 	left: 0; 
 }
 
-a#triggerStyleManager {
-	left: 0;
-	top : 67px;
+#panelMapSettings {
+	top: 67px;
+	left: 0; 
+	width: 160px;
+	height: 30px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 /*-------------------------*/
 	
 #panelMapEditorSettings {
 	left: 0px;
-	bottom: 100px;
+	top: 103px; /* 67 + 36 */
 	width:200px;
-	height:360px;
 	color: #eee;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
 a#triggerMapEditorSettings {
 	left: 0px;
-	bottom: 100px;
+	top: 103px; /* 67 + 36 */
 	height: 16px;
 }
 
@@ -153,8 +154,7 @@ a#triggerMapEditorSettings {
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	z-index: 9999;
-	filter: alpha(opacity =   85);
-	
+	filter: alpha(opacity = 85);
 }
 
 .buttonMode:hover {
@@ -170,7 +170,6 @@ div.active.buttonMode {
 
 #map {
 	margin-bottom: -5px;
-	position: absolute;
 }
 
 #magnifier {

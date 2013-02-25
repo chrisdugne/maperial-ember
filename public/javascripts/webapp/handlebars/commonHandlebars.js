@@ -81,20 +81,6 @@ Ember.Handlebars.registerBoundHelper('bound_equals',
 );
 
 //---------------------------------------------------------------------------------------//
-/**
- * Used by MapEditor
- * to display a setting only if the config is not disabled
- */
-Ember.Handlebars.registerHelper('configEnabled', 
-   function(element, options) 
-   {
-      if(App.mapEditor.config && App.mapEditor.config[element] != "disabled"){
-         return new Handlebars.SafeString(options.hash.template);
-      }
-   }
-);
-
-//---------------------------------------------------------------------------------------//
 
 Ember.Handlebars.registerBoundHelper('textInput', 
 	function(defaultValue, options) 

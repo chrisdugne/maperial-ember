@@ -125,16 +125,16 @@
 
       var config = {
             // mapCreation.styleAndColorbar
-            "StyleManager" : {show : true, type : "panel"},
+            "StyleManager" : {show : true, type : "panel", visibility : "mandatory" },
 
             // mapEditor tools
-            "LatLon"       : {show : false, type : "panel"},
-            "Geoloc"       : {show : true,  type : "panel"},
-            "DetailsMenu"  : {show : false, type : "trigger"},
-            "QuickEdit"    : {show : false, type : "trigger"},
-            "Zooms"        : {show : false, type : "trigger"},
-            "Magnifier"    : {show : false, type : "trigger"},
-            "ColorBar"     : {show : false, type : "trigger"}
+            "LatLon"       : {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" },
+            "Geoloc"       : {show : true,  type : "panel",    visibility : "option", label : "Location" },
+            "DetailsMenu"  : {show : false, type : "trigger",  visibility : "option", label : "Style Details" },
+            "QuickEdit"    : {show : false, type : "trigger",  visibility : "option", label : "Quick Style Edit" },
+            "Zooms"        : {show : false, type : "trigger",  visibility : "option", label : "Zooms" },
+            "Magnifier"    : {show : false, type : "trigger",  visibility : "option", label : "Magnifier" },
+            "ColorBar"     : {show : false, type : "trigger",  visibility : "option", label : "ColorBar" }
       };
       
       return config;
@@ -144,16 +144,16 @@
       
       var config = {
             // mapCreation.mapSettings
-            "MapSettings" : {show : true, type : "panel"},
+            "MapSettings" : {show : true, type : "panel", visibility : "mandatory" },
             
             // mapEditor tools
-            "LatLon"       : {show : false, type : "panel"},
-            "Geoloc"       : {show : true,  type : "panel"},
-            "DetailsMenu"  : {show : false, type : "trigger"},
-            "QuickEdit"    : {show : false, type : "trigger"},
-            "Zooms"        : {show : false, type : "trigger"},
-            "Magnifier"    : {show : false, type : "trigger"},
-            "ColorBar"     : {show : false, type : "trigger"}
+            "LatLon"       : {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" },
+            "Geoloc"       : {show : true,  type : "panel",    visibility : "option", label : "Location" },
+            "DetailsMenu"  : "disabled",
+            "QuickEdit"    : "disabled",
+            "Zooms"        : {show : false, type : "trigger",  visibility : "option", label : "Zooms" },
+            "Magnifier"    : {show : false, type : "trigger",  visibility : "option", label : "Magnifier" },
+            "ColorBar"     : "disabled"
       };
       
       return config;

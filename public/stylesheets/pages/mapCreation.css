@@ -44,23 +44,23 @@ a#triggerSettings {
 /* SETTINGS*/
 
 #buttonReset {
-	right: 160px;
-	top: 67px;
+	right: 100px;
+	top: 36px;
 }
 
 #buttonDrawMode {
-	right: 200px;
-	top: 67px;
+	right: 20px;
+	top: 36px;
 }
 
 #buttonMapMode {
-	right: 240px;
-	top: 67px;
+	right: 60px;
+	top: 36px;
 }
 
 #buttonCenter {
-	right: 300px;
-	top: 67px;
+	right: 100px;
+	top: 36px;
 }
 
 

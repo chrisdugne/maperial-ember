@@ -76,8 +76,9 @@ BoundingBoxDrawer.prototype.tryToRefresh = function(){
 /**
  * Init Fabric on the canvas + set mouse listeners
  */
-BoundingBoxDrawer.prototype.init = function(boardName){
-
+BoundingBoxDrawer.prototype.init = function(){
+   
+   console.log("BoundingBoxDrawer.init");
    this.zoomToFit = null;
    
    //------- if this is still the same drawBoard, just draw again and do not add listeners !!
@@ -87,15 +88,18 @@ BoundingBoxDrawer.prototype.init = function(boardName){
 
    //------- init Fabric
 
-   this.drawBoard = new fabric.Canvas(boardName);
+   console.log("init Fabric");
+   this.drawBoard = new fabric.Canvas("drawBoard");
    this.drawBoard.setHeight(this.map.height);
    this.drawBoard.setWidth(this.map.width);
 
    //------- startBox
 
+   console.log("newStartBox");
    this.newStartBox();
 
    //------- placing mouse listeners on this = drawer
+   console.log("mouse listeners");
 
    var drawer = this;
    this.map.mover.addDrawer(drawer);

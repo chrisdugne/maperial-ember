@@ -12,6 +12,9 @@ function MapEditor(){
 }
 
 MapEditor.prototype.reset = function(style, colorbar, config, boundingBoxStartLat, boundingBoxStartLon){
+
+   console.log("reset mapeditor");
+   
    this.style = style;
    this.colorbar = colorbar;
    
@@ -20,13 +23,14 @@ MapEditor.prototype.reset = function(style, colorbar, config, boundingBoxStartLa
    
    this.changeConfig(config);
    
-   this.renderUI();
+   this.build();
 }
 
 //==================================================================//
 
-MapEditor.prototype.renderUI = function() {
+MapEditor.prototype.build = function() {
 
+   console.log("mapEditor.build");
    App.user.set("waiting", true);
    var tryGeoloc = this.boundingBoxStartLat == undefined;
    
@@ -93,10 +97,12 @@ MapEditor.prototype.renderUI = function() {
 
 MapEditor.prototype.renderAll = function(tryGeoloc){
 
+   console.log("renderAll");
+   
    //--------------------------//
 
    this.renderMap();
-   this.renderStyle();
+   this.renderStyleMenu();
    this.renderTriggers();
 
    if(this.colorbar){
@@ -110,22 +116,6 @@ MapEditor.prototype.renderAll = function(tryGeoloc){
    //--------------------------//
 
    $("#footer").css({ position : "fixed" });
-
-   //--------------------------//
-   // init slider lib
-
-   var mapEditor = this;
-   $('.slider-button').toggle(function(){
-      $(this).addClass('on');
-      var element = $(this).context.id.replace("toggle","");
-      $("#"+mapEditor.config[element].type+element).removeClass("hide");
-   },function(){
-      $(this).removeClass('on');
-      var element = $(this).context.id.replace("toggle","");
-      $("#"+mapEditor.config[element].type+element).addClass("hide");
-      if(mapEditor.config[element].type == "trigger")
-         $("#panel"+element).hide("fast");
-   });
 
    // screen is ready
    App.user.set("waiting", false);
@@ -143,6 +133,7 @@ MapEditor.prototype.cleanUI = function(){
 
 MapEditor.prototype.renderMap = function(){
 
+   console.log("renderMap");
    var cbData = [];
    cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );
    for (var i = 1 ; i < 256 ; i = i + 1) {
@@ -154,6 +145,7 @@ MapEditor.prototype.renderMap = function(){
    this.map.GetParams().SetColorBar(cbData)
    this.map.Start(); 
    
+   // note : init si config seulement
    this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
    
    if(this.boundingBoxStartLat){
@@ -187,6 +179,8 @@ MapEditor.prototype.hideTriggers = function(){
 
 MapEditor.prototype.renderTriggers = function(){
 
+   console.log("renderTriggers");
+   
    //--------------------------------------------------------//
 
    var mapEditor = this;
@@ -216,6 +210,7 @@ MapEditor.prototype.renderTriggers = function(){
             $(this).draggable("disable");
          }
 
+         $("#icon"+name).toggle("fast");
          $("#panel"+name).toggle("fast");
          $(this).toggleClass("active");
       }
@@ -309,12 +304,74 @@ MapEditor.prototype.changeConfig = function(config){
    console.log(config);
    this.hideAllTriggers();
    this.config = config;
-   this.showTriggers();   
+   this.showTriggers();
+   this.buildMapEditorSettings();
+}
+
+//------------------------------------------------//
+
+MapEditor.prototype.buildMapEditorSettings = function() {
+
+   console.log("buildMapEditorSettings");
+   $("#mapEditorSettings").empty(); 
+   var panelHeight = 0;
+   var mapEditor = this;
+
+   
+   for (element in this.config) {
+
+      // ----- testing option in config
+      if(!this.config.hasOwnProperty(element))
+         continue;
+      
+      if(this.config[element] == "disabled")
+         continue;
+
+      if(this.config[element].visibility != "option")
+         continue;
+         
+      // ----- appending div
+      var div = "<div class=\"row-fluid\">" +
+      		      "<div class=\"span5 offset1\">" + this.config[element].label + "</div>" +
+      		      "<div class=\"slider-frame offset6\">" +
+      		      "   <span class=\"slider-button\" id=\"toggle"+element+"\"></span>" +
+      		      "</div>" +
+      		      "</div>";
+      
+      $("#mapEditorSettings").append(div); 
+      panelHeight += 50;
+
+      // ----- toggle listeners
+
+      $('#toggle'+element).click(function(){
+         if($(this).hasClass('on')){
+            $(this).removeClass('on');
+            var thisElement = $(this).context.id.replace("toggle","");
+            $("#"+mapEditor.config[thisElement].type+thisElement).addClass("hide");
+            if(mapEditor.config[thisElement].type == "trigger")
+               $("#panel"+thisElement).hide("fast");
+         }
+         else{
+            $(this).addClass('on');
+            var thisElement = $(this).context.id.replace("toggle","");
+            $("#"+mapEditor.config[thisElement].type+thisElement).removeClass("hide");
+         }
+      });
+
+      if(this.config[element].show){
+         $("#toggle"+element).addClass("on");
+      }
+   }
+
+   $("#panelMapEditorSettings").css("height", panelHeight+"px");
+
+
 }
 
 //------------------------------------------------//
 
 MapEditor.prototype.hideAllTriggers = function(){
+   console.log("hideAllTriggers");
    for (element in this.config) {
       if(!this.config.hasOwnProperty(element))
          continue;
@@ -334,6 +391,7 @@ MapEditor.prototype.hideAllTriggers = function(){
 //------------------------------------------------//
 
 MapEditor.prototype.showTriggers = function(){
+   console.log("showTriggers");
    
    for (element in this.config) {
       if(!this.config.hasOwnProperty(element))
@@ -341,7 +399,6 @@ MapEditor.prototype.showTriggers = function(){
       
       if(this.config[element].show == true){
          $("#"+this.config[element].type + element).removeClass("hide");
-         $("#toggle"+element).addClass("on");
       }
    }
    
@@ -358,7 +415,7 @@ MapEditor.prototype.putOnTop = function(name){
 
 //------------------------------------------------//
 
-MapEditor.prototype.renderStyle = function(){
+MapEditor.prototype.renderStyleMenu = function(){
    StyleMenu.init($("#detailsMenu") , $("#quickEdit") , $("#zooms") , false , this.map , this.style.content);
 }
 
@@ -380,7 +437,7 @@ MapEditor.prototype.cleanColorbar = function(){
 
 MapEditor.prototype.showBoundingBox = function(){
 
-   this.boundingBoxDrawer.init("drawBoard");
+   this.boundingBoxDrawer.init();
 
    if(App.datasetsData.selectedRaster){
       this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
