@@ -20,18 +20,14 @@ public class Map extends Model{
 	@Expose
 	private String name;
 	
+	@Expose
+	private String config;
+	
+	@Expose
+	private Long creationTime;
 
 	@Expose
-	@ManyToOne
-	private Style style;
-
-	@Expose
-	@ManyToOne
-	private Colorbar colorbar;
-
-	@Expose
-	@ManyToOne
-	private Dataset dataset;
+	private Long lastModifiedTime;
 
 	// -----------------------------------------------------------------------------------------------//
 
@@ -61,30 +57,30 @@ public class Map extends Model{
 		this.name = name;
 	}
 	
-	public Style getStyle() {
-		return style;
+	public String getConfig() {
+		return config;
 	}
 
-	public void setStyle(Style style) {
-		this.style = style;
+	public void setConfig(String config) {
+		this.config = config;
 	}
 
-	public Colorbar getColorbar() {
-		return colorbar;
+	public Long getCreationTime() {
+		return creationTime;
 	}
 
-	public void setColorbar(Colorbar colorbar) {
-		this.colorbar = colorbar;
+	public void setCreationTime(Long creationTime) {
+		this.creationTime = creationTime;
 	}
 
-	public Dataset getDataset() {
-		return dataset;
+	public Long getLastModifiedTime() {
+		return lastModifiedTime;
 	}
 
-	public void setDataset(Dataset dataset) {
-		this.dataset = dataset;
+	public void setLastModifiedTime(Long lastModifiedTime) {
+		this.lastModifiedTime = lastModifiedTime;
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}

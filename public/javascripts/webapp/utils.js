@@ -208,3 +208,22 @@ Utils.thumbURL = function(uid, type)
 }
 
 //----------------------------------------------------------------------------------------//
+
+Utils.bindObjFunc = function (toObject, methodName){
+   return function(){toObject[methodName]()}
+}
+
+Utils.bindObjFuncEvent = function (toObject, methodName){
+   return function(mEvent){toObject[methodName](mEvent)}
+}
+
+Utils.bindObjFuncEvent2 = function (toObject, methodName){
+   return function(mEvent,mDelta){toObject[methodName](mEvent,mDelta)}
+}
+
+Utils.getPoint = function (event) {
+   var x = event.clientX - $(event.target).offset().left;
+   var y = event.clientY - $(event.target).offset().top;
+
+   return new Point(x,y);
+}

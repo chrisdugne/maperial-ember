@@ -43,7 +43,9 @@
    //------------------------------------------------------//
 
    App.Globals = Globals.create();
-   App.mapEditor = new MapEditor();
+   App.mapnify = new Mapnify();
+   App.mapManager = new MapManager();
+   
    App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
 
    //------------------------------------------------------//

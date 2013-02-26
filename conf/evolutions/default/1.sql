@@ -48,9 +48,9 @@ create table icon (
 create table map (
   uid                       varchar(255) not null,
   name                      varchar(255),
-  style_uid                 varchar(255),
-  colorbar_uid              varchar(255),
-  dataset_uid               varchar(255),
+  config                    varchar(255),
+  creation_time             bigint,
+  last_modified_time        bigint,
   account_uid               varchar(255),
   constraint pk_map primary key (uid))
 ;
@@ -95,18 +95,12 @@ alter table font add constraint fk_font_account_3 foreign key (account_uid) refe
 create index ix_font_account_3 on font (account_uid);
 alter table icon add constraint fk_icon_account_4 foreign key (account_uid) references account (uid);
 create index ix_icon_account_4 on icon (account_uid);
-alter table map add constraint fk_map_style_5 foreign key (style_uid) references style (uid);
-create index ix_map_style_5 on map (style_uid);
-alter table map add constraint fk_map_colorbar_6 foreign key (colorbar_uid) references colorbar (uid);
-create index ix_map_colorbar_6 on map (colorbar_uid);
-alter table map add constraint fk_map_dataset_7 foreign key (dataset_uid) references dataset (uid);
-create index ix_map_dataset_7 on map (dataset_uid);
-alter table map add constraint fk_map_account_8 foreign key (account_uid) references account (uid);
-create index ix_map_account_8 on map (account_uid);
-alter table raster add constraint fk_raster_dataset_9 foreign key (dataset_uid) references dataset (uid);
-create index ix_raster_dataset_9 on raster (dataset_uid);
-alter table style add constraint fk_style_account_10 foreign key (account_uid) references account (uid);
-create index ix_style_account_10 on style (account_uid);
+alter table map add constraint fk_map_account_5 foreign key (account_uid) references account (uid);
+create index ix_map_account_5 on map (account_uid);
+alter table raster add constraint fk_raster_dataset_6 foreign key (dataset_uid) references dataset (uid);
+create index ix_raster_dataset_6 on raster (dataset_uid);
+alter table style add constraint fk_style_account_7 foreign key (account_uid) references account (uid);
+create index ix_style_account_7 on style (account_uid);
 
 
 

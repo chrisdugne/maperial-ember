@@ -19,6 +19,11 @@ POST /getPublicData					controllers.AccountService.getPublicData()
 POST /getAccount					controllers.AccountService.getAccount()
 
 #---------------------------------------------------------------------------
+#   MapService 
+
+POST /createMap						controllers.MapService.createMap()
+
+#---------------------------------------------------------------------------
 #   DatasetService 
 
 POST /addDataset					controllers.DatasetService.addDataset()

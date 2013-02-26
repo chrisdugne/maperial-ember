@@ -18,7 +18,18 @@
 
 	//==================================================================//
 	// Controls
+	
+	DashboardController.createMap = function()
+	{
+	   var map = {};
+	   map.styles = [];
+	   map.styles[0] = App.publicData.styles[0];
+	   
+	   App.mapManager.createMap(map);
+	}
 
+	//----------------------//
+	
 	App.DashboardController = DashboardController;
 
 	//==================================================================//
@@ -35,8 +46,12 @@
 		
 		//------------------------------------------//
 		// actions
+
+		//Ember.Route.transitionTo('mapCreation.datasetSelection')
 		
-		newMap: Ember.Route.transitionTo('mapCreation.datasetSelection'),
+		createMap: function(){
+		   DashboardController.createMap();
+      },
 		styles: Ember.Route.transitionTo('styles'),
 		colorbars: Ember.Route.transitionTo('colorbars'),
 		datasets: Ember.Route.transitionTo('datasets'),

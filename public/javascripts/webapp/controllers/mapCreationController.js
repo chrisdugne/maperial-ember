@@ -102,6 +102,30 @@
          // if the user dismissed : cancel
          // if he's validated : refreshMap has refreshed MapCreationController.currentStyle
          App.stylesData.set("selectedStyle", MapCreationController.currentStyle);
+         
+         /*
+          * 
+          *  //-----------------------------
+            // retrieve the content from the tileServer
+            StyleManager.getStyle(mapEditor.style.uid, function(){
+      
+               if(mapEditor.colorbar){
+                  //-----------------------------
+                  // retrieve the colorbar content from the tileServer
+                  ColorbarManager.getColorbar(mapEditor.colorbar.uid, function(){
+      
+                     // rendering after reception
+                     mapEditor.renderAll(tryGeoloc);
+                  });
+      
+               }
+               else{
+                  // rendering after reception
+                  mapEditor.renderAll(tryGeoloc);
+               }
+            });
+          * 
+          */
 
          if(MapCreationController.styleAndColorbarUIReady){
             MapCreationController.refreshMap();
@@ -121,44 +145,48 @@
       })
    }
 
+   //--------------------------------------------------------//
+   
    MapCreationController.getConfigStyleAndColorbar = function(){
-
-      var config = {
-            // mapCreation.styleAndColorbar
-            "StyleManager" : {show : true, type : "panel", visibility : "mandatory" },
-
-            // mapEditor tools
-            "LatLon"       : {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" },
-            "Geoloc"       : {show : true,  type : "panel",    visibility : "option", label : "Location" },
-            "DetailsMenu"  : {show : false, type : "trigger",  visibility : "option", label : "Style Details" },
-            "QuickEdit"    : {show : false, type : "trigger",  visibility : "option", label : "Quick Style Edit" },
-            "Zooms"        : {show : false, type : "trigger",  visibility : "option", label : "Zooms" },
-            "Magnifier"    : {show : false, type : "trigger",  visibility : "option", label : "Magnifier" },
-            "ColorBar"     : {show : false, type : "trigger",  visibility : "option", label : "ColorBar" }
-      };
+      var config = {};
       
+      // mapCreation.styleAndColorbar
+      config["StyleManager"] = {show : true, type : "panel", visibility : "mandatory" };
+
+      // mapEditor tools
+      config[MapParameters.LATLON]        = {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" };
+      config[MapParameters.GEOLOC]        = {show : true,  type : "panel",    visibility : "option", label : "Location" };
+      config[MapParameters.DETAILS_MENU]  = {show : false, type : "trigger",  visibility : "option", label : "Style Details" };
+      config[MapParameters.QUICK_EDIT]    = {show : false, type : "trigger",  visibility : "option", label : "Quick Style Edit" };
+      config[MapParameters.ZOOMS]         = {show : false, type : "trigger",  visibility : "option", label : "Zooms" };
+      config[MapParameters.MAGNIFIER]     = {show : false, type : "trigger",  visibility : "option", label : "Magnifier" };
+      config[MapParameters.COLOR_BAR]     = {show : false, type : "trigger",  visibility : "option", label : "ColorBar" };
+            
       return config;
    }  
+
+   //--------------------------------------------------------//
    
    MapCreationController.getConfigSettings = function(){
+      var config = {};
       
-      var config = {
-            // mapCreation.mapSettings
-            "MapSettings" : {show : true, type : "panel", visibility : "mandatory" },
-            
-            // mapEditor tools
-            "LatLon"       : {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" },
-            "Geoloc"       : {show : true,  type : "panel",    visibility : "option", label : "Location" },
-            "DetailsMenu"  : "disabled",
-            "QuickEdit"    : "disabled",
-            "Zooms"        : {show : false, type : "trigger",  visibility : "option", label : "Zooms" },
-            "Magnifier"    : {show : false, type : "trigger",  visibility : "option", label : "Magnifier" },
-            "ColorBar"     : "disabled"
-      };
+      // mapCreation.mapSettings
+      config["MapSettings"] = {show : true, type : "panel", visibility : "mandatory" };
+
+      // mapEditor tools
+      config[MapParameters.LATLON]        = {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" };
+      config[MapParameters.GEOLOC]        = {show : true,  type : "panel",    visibility : "option", label : "Location" };
+      config[MapParameters.DETAILS_MENU]  = "disabled";
+      config[MapParameters.QUICK_EDIT]    = "disabled";
+      config[MapParameters.ZOOMS]         = {show : false, type : "trigger",  visibility : "option", label : "Zooms" };
+      config[MapParameters.MAGNIFIER]     = {show : false, type : "trigger",  visibility : "option", label : "Magnifier" };
+      config[MapParameters.COLOR_BAR]     = "disabled";
       
       return config;
    }  
 
+   //--------------------------------------------------------//
+   
    MapCreationController.refreshMap = function()  
    {
       // retrieve the content from the tileServer
