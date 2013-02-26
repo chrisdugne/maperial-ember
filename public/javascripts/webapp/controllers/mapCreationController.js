@@ -114,7 +114,7 @@
                var lon = (App.datasetsData.selectedRaster.lonMin + App.datasetsData.selectedRaster.lonMax)/2; 
             }
             
-            App.mapEditor.reset(App.stylesData.selectedStyle, null, MapCreationController.getConfigStyleAndColorbar(), lat, lon)
+            App.mapEditor.reset(App.stylesData.selectedStyle, null, MapCreationController.getConfigStyleAndColorbar(), lat, lon);
             
             MapCreationController.styleAndColorbarUIReady = true;
          }

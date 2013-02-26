@@ -25,8 +25,8 @@
             App.stylesData.set("selectedStyle", newStyle);
          }
 
-         StyleEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, null, true, false);
-         StyleEditorController.mapEditor.renderUI();
+         App.mapEditor.reset(App.stylesData.selectedStyle, null, StyleEditorController.getMapEditorConfig());
+         
          App.Globals.set("currentMapEditor", StyleEditorController.mapEditor);
       });
 
@@ -35,8 +35,29 @@
 
    StyleEditorController.cleanUI = function()
    {
-      StyleEditorController.mapEditor.cleanUI();
+      
    }
+
+   //-----------------------------------------------------------------//s
+   
+   StyleEditorController.getMapEditorConfig = function(){
+
+      var config = {
+            // mapCreation.styleAndColorbar
+            "StyleEditorMenu" : {show : true, type : "panel", visibility : "mandatory" },
+
+            // mapEditor tools
+            "LatLon"       : {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" },
+            "Geoloc"       : {show : true,  type : "panel",    visibility : "option", label : "Location" },
+            "DetailsMenu"  : {show : false, type : "trigger",  visibility : "option", label : "Style Details" },
+            "QuickEdit"    : {show : true,  type : "trigger",  visibility : "option", label : "Quick Style Edit" },
+            "Zooms"        : {show : false, type : "trigger",  visibility : "option", label : "Zooms" },
+            "Magnifier"    : {show : true,  type : "trigger",  visibility : "option", label : "Magnifier" },
+            "ColorBar"     : {show : false, type : "trigger",  visibility : "option", label : "ColorBar" }
+      };
+      
+      return config;
+   }  
 
    //==================================================================//
    // Controls

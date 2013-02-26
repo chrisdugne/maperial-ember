@@ -4,19 +4,19 @@
 
 @mapEditorContent()
 
-<div id="styleEditorManagement" class="hide">
-	<a class="trigger" id="triggerStyleManager"  href="#">Menu</a>
-	<div class="panel" id="panelStyleManager">
-		{{#if user.waiting}}
-			<div class="row">
-				<div id="waitingDiv">WAITING</div>
+<!-- Custom for StyleAndColorbar  -->
+<div class="panel snapper hide" id="panelStyleEditorMenu">
+	{{#if user.waiting}}
+		<div class="row-fluid">
+			<div class="span1 offset10">
+				<img src="@routes.Assets.at("images/mapediting/spin.white.gif")" width="25px"/>
 			</div>
-		{{else}}
-			<div class="row">
-				<div class="span2">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
-				<div onclick="App.StyleEditorController.saveStyle()" class="span1 btn-small btn-primary" id="saveStyleButton">Save</div>
-			</div>
-		{{/if}}
-	</div>
+		</div>
+	{{else}}
+		<div class="row-fluid">
+			<div class="span1">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
+			<div class="span3 offset8 btn-small btn-primary" onclick="App.StyleEditorController.saveStyle()">Save</div>
+		</div>
+	{{/if}}
 </div>
 

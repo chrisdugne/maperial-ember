@@ -9,6 +9,8 @@ function MapEditor(){
    
    this.boundingBoxStartLat;
    this.boundingBoxStartLon;
+   
+   this.scriptPath = "assets/javascripts/extensions/";
 }
 
 MapEditor.prototype.reset = function(style, colorbar, config, boundingBoxStartLat, boundingBoxStartLon){
@@ -39,34 +41,34 @@ MapEditor.prototype.build = function() {
    ScriptLoader.getScripts([
              // map rendering
              "assets/javascripts/libs/gl-matrix-min.js",
-             "assets/javascripts/extensions/maprendering/coordinate-system.js",
-             "assets/javascripts/extensions/maprendering/gl-map-parameters.js",
-             "assets/javascripts/extensions/maprendering/gl-tools.js",
-             "assets/javascripts/extensions/maprendering/gl-rasterlayer.js",
-             "assets/javascripts/extensions/maprendering/gl-tile.js",
-             "assets/javascripts/extensions/maprendering/gl-vectoriallayer.js",
-             "assets/javascripts/extensions/maprendering/render-line.js",
-             "assets/javascripts/extensions/maprendering/render-text.js",
-             "assets/javascripts/extensions/maprendering/tile-renderer.js",
-             "assets/javascripts/extensions/maprendering/map-mover.js",
-             "assets/javascripts/extensions/maprendering/geoloc.js",
-             "assets/javascripts/extensions/maprendering/gl-map.js",
+             this.scriptPath + "/maprendering/coordinate-system.js",
+             this.scriptPath + "/maprendering/gl-map-parameters.js",
+             this.scriptPath + "/maprendering/gl-tools.js",
+             this.scriptPath + "/maprendering/gl-rasterlayer.js",
+             this.scriptPath + "/maprendering/gl-tile.js",
+             this.scriptPath + "/maprendering/gl-vectoriallayer.js",
+             this.scriptPath + "/maprendering/render-line.js",
+             this.scriptPath + "/maprendering/render-text.js",
+             this.scriptPath + "/maprendering/tile-renderer.js",
+             this.scriptPath + "/maprendering/map-mover.js",
+             this.scriptPath + "/maprendering/geoloc.js",
+             this.scriptPath + "/maprendering/gl-map.js",
 
              // map editing
-             "assets/javascripts/extensions/mapeditortools/fabric.all.1.0.6.js",
-             "assets/javascripts/extensions/mapeditortools/boundingbox-drawer.js",
-             "assets/javascripts/extensions/mapeditortools/v_colortool.js",
-             "assets/javascripts/extensions/mapeditortools/v_symbolizer.js",
-             "assets/javascripts/extensions/mapeditortools/colorpicker.js",
-             "assets/javascripts/extensions/mapeditortools/RGBColor.js",
-             "assets/javascripts/extensions/mapeditortools/map.js",
-             "assets/javascripts/extensions/mapeditortools/canvasutilities.js",
+             this.scriptPath + "/mapeditortools/fabric.all.1.0.6.js",
+             this.scriptPath + "/mapeditortools/boundingbox-drawer.js",
+             this.scriptPath + "/mapeditortools/v_colortool.js",
+             this.scriptPath + "/mapeditortools/v_symbolizer.js",
+             this.scriptPath + "/mapeditortools/colorpicker.js",
+             this.scriptPath + "/mapeditortools/RGBColor.js",
+             this.scriptPath + "/mapeditortools/map.js",
+             this.scriptPath + "/mapeditortools/canvasutilities.js",
 
              // style
-             "assets/javascripts/extensions/style/styleMenu.js",
+             this.scriptPath + "/style/styleMenu.js",
 
              // colorbar
-             "assets/javascripts/extensions/colorbar/colorBar.js",
+             this.scriptPath + "/colorbar/colorBar.js",
              "assets/javascripts/extensions/colorbar/main.js"],
        function()
        {

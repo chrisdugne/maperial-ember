@@ -43,21 +43,6 @@
 }
 
 /*-------------------------*/
-#styleNameInput {
-	width: 143px;
-	margin-top: -2px;
-}
-
-#style {
-	z-index: 3 !important;
-}
-
-#saveStyleButton {
-	margin-left: 24px;
-	width: 29px;
-}
-
-/*-------------------------*/
 
 #colorbarNameInput {
 	width: 143px;
@@ -123,6 +108,10 @@ a#triggerMapEditorSettings {
 	width: 245px;
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+.pac-container:after {
+	content:""
 }
 
 #panelLatLon {
