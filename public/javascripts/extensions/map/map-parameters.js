@@ -57,14 +57,14 @@ MapParameters.MulBlend               = "MulBlend";
 
 function MapParameters () {
 
-   this.rasterUid = null;
-   this.contrast  = 0.0;
-   this.luminosity= 0.0;
-   this.bwMethod  = 1.0;
-   this.editMode  = true;
-   this.obs       = [];
-   this.colorbars = {};
-   this.style     = {};
+   this.rasterUid    = null;
+   this.contrast     = 0.0;
+   this.luminosity   = 0.0;
+   this.bwMethod     = 1.0;
+   this.editModeOn   = true;
+   this.obs          = [];
+   this.colorbars    = {};
+   this.style        = {};
 
    this.LayerOrder             = [  MapParameters.LayerBack    , MapParameters.LayerRaster         , MapParameters.LayerFront  ];
    this.LayerType              = [  MapParameters.Vector       , MapParameters.Raster              , MapParameters.Vector      ];
@@ -200,12 +200,12 @@ MapParameters.prototype.GetBWMethod = function ( ) {
    return this.bwMethod;
 }
 
-MapParameters.prototype.SetEditMode = function ( em ) {
-   this.editMode = em
+MapParameters.prototype.SetEditModeOn = function ( em ) {
+   this.editModeOn = em
 }
 
-MapParameters.prototype.GetEditMode = function ( ) {
-   return this.editMode
+MapParameters.prototype.isEditModeOn = function ( ) {
+   return this.editModeOn
 }
 
 

@@ -8,7 +8,7 @@
 	 
 	DatasetsController.renderUI = function()
 	{
-      App.resizeWindow();
+      App.refreshSizes();
 	   ScriptLoader.getScripts([
                       //-- extension.upload
                       "assets/javascripts/extensions/upload/jquery.fileupload.js",

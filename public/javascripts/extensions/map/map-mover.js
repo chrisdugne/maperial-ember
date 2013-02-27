@@ -1,14 +1,15 @@
 //==================================================================//
 
-function MapMover(config){
+function MapMover(mapnify){
 
-   this.config = config;
+   this.config = mapnify.config;
+   this.context = mapnify.context;
+
    this.lastMouseX   = null;
    this.lastMouseY   = null;
-   this.autoMoving   = false;
    this.mouseData    = [];
    this.drawers      = [];
-   
+
    this.initListeners();
 }
 
@@ -16,20 +17,18 @@ function MapMover(config){
 
 MapMover.prototype.initListeners = function (event) {
 
-   this.config.mapCanvas.on(MapEvents.OnMouseDown, function(event, x, y){
-      this.reset(x,y);
+   var mover = this;
+
+   this.context.mapCanvas.on(MapEvents.MouseDown, function(event, x, y){
+      mover.reset(x,y);
    });
 
-   this.config.mapCanvas.on(MapEvents.OnMouseUp, function(){
-      this.autoMove();
-//      if(!this.mover.autoMoving){
-//         if(this.config.renderParameters.GetEditMode() )
-//            this.OpenStyle(event);      
-//      }
+   this.context.mapCanvas.on(MapEvents.MouseUp, function(){
+      mover.autoMove();
    });
 
-   this.config.mapCanvas.on(MapEvents.OnMouseDown, function(event, x, y){
-      this.drag(x, y);
+   this.context.mapCanvas.on(MapEvents.DraggingMap, function(event, x, y){
+      mover.drag(x, y);
    });
 }
 
@@ -37,59 +36,11 @@ MapMover.prototype.initListeners = function (event) {
 
 MapMover.prototype.reset = function (x, y) {
 
-   this.autoMoving   = false;
    this.mouseData    = [];
    this.lastMouseX   = x;
    this.lastMouseY   = y;
+   this.context.autoMoving = false;
 
-}
-
-//==================================================================//
-
-MapMover.prototype.addDrawer = function (drawer) {
-   this.drawers.push(drawer);
-}
-
-MapMover.prototype.removeDrawer = function (drawer) {
-
-   for(var i = 0; i < this.drawers.length; i++){
-      if(this.drawers[i] === drawer){
-         break;
-      }
-   }
-
-   this.drawers.splice(i,1);
-}
-
-
-MapMover.prototype.resizeDrawers = function () {
-
-   for(var i = 0; i < this.drawers.length; i++){
-      this.drawers[i].resize(this.config.width, this.config.height);
-   }
-   
-}
-
-//==================================================================//
-
-MapMover.prototype.moveMap = function (dx, dy) {
-   var r = this.config.tools.coordS.Resolution ( this.config.map.zoom );
-   this.config.map.centerM.x -= dx * r;
-   this.config.map.centerM.y += dy * r;   
-}
-
-MapMover.prototype.moveDrawers = function (dx, dy) {
-   for(var i = 0; i < this.drawers.length; i++){
-      var drawer = this.drawers[i]
-
-      for(var j = 0; j < drawer.pointsToMove.length; j++){
-         var point = drawer.pointsToMove[j];
-         point.x += dx;
-         point.y += dy;
-      }
-      
-      drawer.draw();
-   }
 }
 
 //==================================================================//
@@ -107,6 +58,14 @@ MapMover.prototype.drag = function (x, y) {
 
    this.moveMap(deltaX, deltaY);
    this.moveDrawers(deltaX, deltaY);  
+}
+
+//==================================================================//
+
+MapMover.prototype.moveMap = function (dx, dy) {
+   var r = this.context.coordS.Resolution ( this.context.zoom );
+   this.context.centerM.x -= dx * r;
+   this.context.centerM.y += dy * r;
 }
 
 //==================================================================//
@@ -136,18 +95,18 @@ MapMover.prototype.autoMove = function () {
    var deltaTime = endPoint.time - startPoint.time;
    var distance = Math.sqrt( deltaX*deltaX + deltaY*deltaY );
 
-   var speed = (distance*1000/deltaTime)/MapParameter.refreshRate;
+   var speed = (distance*1000/deltaTime)/MapParameters.refreshRate;
 
-   var speedX = (speed*deltaX/distance)*MapParameter.autoMoveSpeedRate;
-   var speedY = (speed*deltaY/distance)*MapParameter.autoMoveSpeedRate;
+   var speedX = (speed*deltaX/distance)*MapParameters.autoMoveSpeedRate;
+   var speedY = (speed*deltaY/distance)*MapParameters.autoMoveSpeedRate;
 
-   this.autoMoving = true;
-   this.moveScene(MapParameter.autoMoveMillis, speedX, speedY, 0);
+   this.context.autoMoving = true;
+   this.moveScene(MapParameters.autoMoveMillis, speedX, speedY, 0);
 }
 
 MapMover.prototype.moveScene = function (timeRemaining, speedX, speedY, nbAutoMove) {
 
-   if(timeRemaining < 0 || !this.autoMoving)
+   if(timeRemaining < 0 || !this.context.autoMoving)
       return;
 
    if(isNaN(speedX)){
@@ -157,16 +116,16 @@ MapMover.prototype.moveScene = function (timeRemaining, speedX, speedY, nbAutoMo
    this.moveMap(speedX, speedY);
    this.moveDrawers(speedX, speedY);
 
-   var me = this;
-   var rate = 0.99 - nbAutoMove* MapParameter.autoMoveDeceleration;
+   var rate = 0.99 - nbAutoMove* MapParameters.autoMoveDeceleration;
 
-   setTimeout(function() {me.moveScene(timeRemaining - MapParameter.refreshRate, speedX*rate, speedY*rate, nbAutoMove+1)}, MapParameter.refreshRate );
+   var mover = this;
+   setTimeout(function() {mover.moveScene(timeRemaining - MapParameters.refreshRate, speedX*rate, speedY*rate, nbAutoMove+1)}, MapParameters.refreshRate );
 }
 
 
 MapMover.prototype.registerMouseData = function (x, y) {
 
-   if(this.mouseData.length >= MapParameter.autoMoveAnalyseSize)
+   if(this.mouseData.length >= MapParameters.autoMoveAnalyseSize)
       this.mouseData.shift();
 
    var data = new Object();
@@ -178,6 +137,45 @@ MapMover.prototype.registerMouseData = function (x, y) {
 
 }
 
+//==================================================================//
+//Drawers To Move
+
+MapMover.prototype.addDrawer = function (drawer) {
+   this.drawers.push(drawer);
+}
+
+MapMover.prototype.removeDrawer = function (drawer) {
+
+   for(var i = 0; i < this.drawers.length; i++){
+      if(this.drawers[i] === drawer){
+         break;
+      }
+   }
+
+   this.drawers.splice(i,1);
+}
+
+
+MapMover.prototype.resizeDrawers = function () {
+
+   for(var i = 0; i < this.drawers.length; i++){
+      this.drawers[i].resize(this.config.width, this.config.height);
+   }
+
+}
 
 
 
+MapMover.prototype.moveDrawers = function (dx, dy) {
+   for(var i = 0; i < this.drawers.length; i++){
+      var drawer = this.drawers[i]
+
+      for(var j = 0; j < drawer.pointsToMove.length; j++){
+         var point = drawer.pointsToMove[j];
+         point.x += dx;
+         point.y += dy;
+      }
+
+      drawer.draw();
+   }
+}

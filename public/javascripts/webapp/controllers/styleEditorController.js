@@ -10,8 +10,8 @@
 
    StyleEditorController.renderUI = function()
    {
-      App.resizeWindow();
       App.user.set("waiting", true);
+      App.refreshSizes();
 
       //-----------------------------
       // if creating a new style : copy the selected style as a new style
@@ -33,9 +33,9 @@
          var config = StyleEditorController.getMapEditorConfig();
          config.styles = [];
          config.styles[0] = App.stylesData.selectedStyle;
-         
+
+         App.user.set("waiting", false)
          App.mapnify.apply(config);
-         App.user.set("waiting", false);
       });
    }
 
@@ -62,8 +62,7 @@
       config.hud[MapParameters.MAGNIFIER]     = {show : true,  type : "trigger",  visibility : "option", label : "Magnifier" };
       config.hud[MapParameters.COLOR_BAR]     = {show : false, type : "trigger",  visibility : "option", label : "ColorBar" };
 
-      config.map.width = $("#webappDiv").width();
-      config.map.height = $("#webappDiv").height();
+      config.map.resizable = true;
             
       return config;
    }  

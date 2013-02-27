@@ -2,9 +2,18 @@
 
 function Mapnify(){
    this.config;
+   this.context;
    this.mapRenderer;
    this.mapMover;
+   this.mapMouse;
+   this.mapHUD;
+   
+   this.isBuilt;
 }
+
+Mapnify.Loading = "Mapnify.Loading";
+Mapnify.Free = "Mapnify.Free";
+Mapnify.RefreshSizes = "Mapnify.RefreshSizes";
 
 //==================================================================//
 
@@ -19,10 +28,13 @@ Mapnify.prototype.apply = function(config){
    console.log("Mapnify apply config");
    console.log(config);
 
-   this.changeConfig(config);
-   this.load();
-
-   //this.mover = new MapMover(this.map);
+   if(this.isBuilt){
+      this.changeConfig(config);
+   }
+   else{
+      this.config = config;
+      this.load();
+   }
 }
 
 //==================================================================//
@@ -30,18 +42,18 @@ Mapnify.prototype.apply = function(config){
 Mapnify.prototype.changeConfig = function(config){
    console.log("change config");
 
-   //this.hud.hideAllTriggers();
+   this.mapHUD.reset();
    this.config = config;
-   //this.hud.showTriggers();
-   //this.hud.buildMapEditorSettings();
+   this.mapHUD.display();
 }
 
 //==================================================================//
 
 Mapnify.prototype.load = function() {
 
+   $(window).trigger(Mapnify.Loading);
    console.log("Mapnify.build");
-
+   
    var mapnify = this; // to have access to 'this' in the callBack
    ScriptLoader.getScripts([
              // libs
@@ -66,7 +78,8 @@ Mapnify.prototype.load = function() {
              // modules
              MapParameters.scriptsPath + "/map/map-events.js",
              MapParameters.scriptsPath + "/map/map-mover.js",
-             MapParameters.scriptsPath + "/map/map-listener.js",
+             MapParameters.scriptsPath + "/map/map-mouse.js",
+             MapParameters.scriptsPath + "/map/map-hud.js",
              MapParameters.scriptsPath + "/map/map-renderer.js",
 
              // edition
@@ -91,13 +104,13 @@ Mapnify.prototype.build = function() {
 
    //--------------------------//
    
+   this.createContext();
    this.enhanceConfig();
-   this.buildMap();
-   this.resizeComponents();
 
-// this.renderMap();
-// this.renderStyleMenu();
-// this.renderTriggers();
+   this.buildMap();
+   this.buildHUD();
+
+   this.buildStyleMenu();
 
 // if(this.colorbar){
 // this.renderColorbar();
@@ -110,12 +123,25 @@ Mapnify.prototype.build = function() {
 
    //--------------------------//
 
-   // screen is ready
-   // dispatchEvent (work no more in progress) 
-// $("#footer").css({ position : "fixed" });
-// App.user.set("waiting", false);
+   $(window).trigger(Mapnify.Free);
+   this.isBuilt = true;
 }
 
+
+//==================================================================//
+
+Mapnify.prototype.createContext = function() {
+
+   this.context = {};
+   this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
+   this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
+   this.context.centerM    = this.context.coordS.LatLonToMeters( 45.7 , 3.12 );
+   this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
+   this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
+   this.context.zoom       = 14;
+   this.context.autoMoving = false;
+
+}
 
 //==================================================================//
 
@@ -123,26 +149,24 @@ Mapnify.prototype.enhanceConfig = function() {
    
    this.config.renderParameters = new MapParameters();
    this.config.renderParameters.SetStyle("default", this.config.styles[0].content);
-   this.config.mapCanvas = $("#"+MapParameters.mapCanvasName);
-
-   this.config.coordS = new CoordinateSystem ( MapParameters.tileSize );
-   this.config.map.centerM = this.config.coordS.LatLonToMeters( 45.7 , 3.12 );
-   this.config.map.zoom = 14;
 
    if(this.config.hud[MapParameters.MAGNIFIER]){
       this.config.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
    }
+   
 }
 
 //==================================================================//
 
 Mapnify.prototype.buildMap = function() {
 
-   this.mapRenderer = new MapRenderer( this.config );
-   this.mapMover = new MapMover( this.config );
-   this.mapListener = new MapListener( this.config );
+   this.mapRenderer = new MapRenderer( this );
+   this.mapMover = new MapMover( this );
+   this.mapMouse = new MapMouse( this );
 
-
+   this.refreshScreen();
+   this.mapRenderer.Start();
+   
    // note : init si config seulement
 // this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
 
@@ -154,13 +178,51 @@ Mapnify.prototype.buildMap = function() {
 
 }
 
+//-----------------------------------------------//
+
+Mapnify.prototype.refreshScreen = function() {
+ this.mapRenderer.fitToSize();
+ this.mapMover.resizeDrawers();   
+}
 
 //==================================================================//
 
-Mapnify.prototype.resizeComponents = function() {
-   this.mapRenderer.resize();
-   this.mapMover.resizeDrawers();   
+Mapnify.prototype.buildStyleMenu = function() {
+   StyleMenu.init($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
 }
 
+//==================================================================//
 
+Mapnify.prototype.buildHUD = function() {
+   this.mapHUD = new MapHUD( this );
+}
+
+//==================================================================//
+
+Mapnify.prototype.SetCenter=function(lat,lon){
+   this.context.centerM = this.context.coordS.LatLonToMeters( lat , lon );
+   this.mapRenderer.DrawScene();
+}
+
+Mapnify.prototype.SetZoom = function(z){
+   if ( z > -1 && z < 19 ){
+      this.context.zoom = z;
+   }
+}
+
+Mapnify.prototype.GetZoom = function(){
+   return this.context.zoom;
+}
+
+Mapnify.prototype.ZoomIn = function(){
+   if ( this.context.zoom < 18 ){
+      this.SetZoom(this.context.zoom + 1 );
+   }
+}
+
+Mapnify.prototype.ZoomOut = function(){
+   if ( this.context.zoom > 0 ){
+      this.SetZoom(this.context.zoom - 1 );
+   }
+}
 

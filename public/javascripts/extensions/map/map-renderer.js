@@ -1,91 +1,72 @@
 
 //=====================================================================================//
 
-function MapRenderer(config) {
+function MapRenderer(mapnify) {
    
    console.log("building a new mapRenderer");
 
-   this.config             = config,
-   this.tileCache          = {};
-   this.dataCache          = {};
+   this.config = mapnify.config;
+   this.context = mapnify.context;
+   
+   this.tileCache = {};
+   this.dataCache = {};
    
    this.initListeners();
-   this.Start(); 
 }
 
 //----------------------------------------------------------------------//
 
 MapRenderer.prototype.initListeners = function () {
 
-   this.config.mapCanvas.on(MapEvents.OnMouseDown, function(event, x, y){
-      this.DrawMagnifier();
+   var renderer = this;
+   
+   this.context.mapCanvas.on(MapEvents.OnMouseDown, function(event, x, y){
+      renderer.DrawMagnifier();
    });
-   
-}
 
-
-//----------------------------------------------------------------------//
-MapRenderer.prototype.resize = function () {
    
-   console.log("resize : " + this.config.map.width + " | " + this.config.map.height);
-   
-   this.config.mapCanvas.css("width", this.config.map.width );
-   this.config.mapCanvas.css("height", this.config.map.height );
+   this.context.mapCanvas.on(MapEvents.RequiringLayerId, function(event, x, y){
+      console.log("MapRenderer RequiringLayerId");
+      if(!renderer.context.autoMoving && renderer.config.renderParameters.isEditModeOn() ){
+         renderer.FindLayerId(x, y);
+      }
+   });
 }
 
 //----------------------------------------------------------------------//
-
-MapRenderer.prototype.SetCenter=function(lat,lon){
-   this.config.map.centerM = this.config.coordS.LatLonToMeters( lat , lon );
-   this.DrawScene();
-}
-
-MapRenderer.prototype.SetZoom = function(z){
-   if ( z > -1 && z < 19 ){
-      this.config.map.zoom = z;
-   }
-}
-
-MapRenderer.prototype.GetZoom = function(){
-   return this.config.map.zoom;
-}
-
-MapRenderer.prototype.ZoomIn = function(){
-   if ( this.config.map.zoom < 18 ){
-      this.SetZoom(this.config.map.zoom + 1 );
-   }
-}
-
-MapRenderer.prototype.ZoomOut = function(){
-   if ( this.config.map.zoom > 0 ){
-      this.SetZoom(this.config.map.zoom - 1 );
-   }
-}
-
-//----------------------------------------------------------------------//
+// a Plug dans le initListeners
 
 MapRenderer.prototype.OnParamsChange = function (event) {
-   if (event == MapParameters.StyleChanged) {
-      this.DrawScene (true,true)
-   }
-   else if (event == MapParameters.ColorBarChanged) {
-      //
-      this.BuildColorBar();
-   }
-   else if (event == MapParameters.ContrastChanged) {
-      //
-   }
-   else if (event == MapParameters.LuminosityChanged) {
-      //
-   }
-   else if (event == MapParameters.BWMethodChanged) {
-      //
-   }
-   else if (event == MapParameters.dataSrcChanged) {
-      //Reload ALL ???? and Redraw ??
-      //this.DrawScene (true)
-   }
+ if (event == MapParameters.StyleChanged) {
+    this.DrawScene (true,true)
+ }
+ else if (event == MapParameters.ColorBarChanged) {
+    //
+    this.BuildColorBar();
+ }
+ else if (event == MapParameters.ContrastChanged) {
+    //
+ }
+ else if (event == MapParameters.LuminosityChanged) {
+    //
+ }
+ else if (event == MapParameters.BWMethodChanged) {
+    //
+ }
+ else if (event == MapParameters.dataSrcChanged) {
+    //Reload ALL ???? and Redraw ??
+    //this.DrawScene (true)
+ }
 
+}
+
+//----------------------------------------------------------------------//
+
+MapRenderer.prototype.fitToSize = function () {
+   if(this.gl){
+      this.gl.viewportWidth  = this.context.mapCanvas.width();
+      this.gl.viewportHeight = this.context.mapCanvas.height();
+   }
 }
 
 //----------------------------------------------------------------------//
@@ -185,9 +166,8 @@ MapRenderer.prototype.BuildColorBar = function () {
 
 MapRenderer.prototype.Start = function () {
    try {
-      this.gl = this.config.mapCanvas[0].getContext("experimental-webgl");
-      this.gl.viewportWidth = canvas.width;
-      this.gl.viewportHeight = canvas.height;
+      this.gl = this.context.mapCanvas[0].getContext("experimental-webgl");
+      this.fitToSize();
    } catch (e) { }
    if (!this.gl) {
       console.log("Could not initialise WebGL")
@@ -202,9 +182,11 @@ MapRenderer.prototype.Start = function () {
       return false
    }
 
-   $(window).resize(Utils.bindObjFuncEvent ( this , "OnResize" ) );
+   $(window).resize(Utils.bindObjFuncEvent ( this , "fitToSize" ) );
    
+   // a virer
    this.config.renderParameters.OnChange ( Utils.bindObjFuncEvent ( this, "OnParamsChange" ) );
+   
    this.DrawScene();
    setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
    return true
@@ -262,6 +244,10 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
 
 //----------------------------------------------------------------------//
 
+//MapRenderer.prototype.OnResize = function (event) {
+//   this.fitToSize();
+//}
+
 MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
 
    if(typeof(forceGlobalRedraw)==='undefined' )
@@ -269,29 +255,23 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
    if(typeof(forceTileRedraw)==='undefined' )
       forceTileRedraw = false;
 
-   var w = this.config.map.width;
-   var h = this.config.map.height;
-
-   if (w != this.gl.viewportWidth || h != this.gl.viewportHeight) {
-      console.log("reset gl viewport " + w + " | " + h);
-      this.gl.viewportWidth  = w;
-      this.gl.viewportHeight = h;
-   }
+   var w = this.context.mapCanvas.width();
+   var h = this.context.mapCanvas.height();
 
    var w2 = Math.floor ( w / 2 );
    var h2 = Math.floor ( h / 2 );
 
-   var r       = this.config.coordS.Resolution ( this.config.map.zoom );
-   var originM = new Point( this.config.map.centerM.x - w2 * r , this.config.map.centerM.y + h2 * r );
-   var tileC   = this.config.coordS.MetersToTile ( originM.x, originM.y , this.config.map.zoom );
+   var r       = this.context.coordS.Resolution ( this.context.zoom );
+   var originM = new Point( this.context.centerM.x - w2 * r , this.context.centerM.y + h2 * r );
+   var tileC   = this.context.coordS.MetersToTile ( originM.x, originM.y , this.context.zoom );
 
-   var originP = this.config.coordS.MetersToPixels ( originM.x, originM.y, this.config.map.zoom );
+   var originP = this.context.coordS.MetersToPixels ( originM.x, originM.y, this.context.zoom );
    var shift   = new Point ( Math.floor ( tileC.x * MapParameters.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * MapParameters.tileSize - originP.y ) ) );
 
    var nbTileX = Math.floor ( w  / MapParameters.tileSize +1 );
    var nbTileY = Math.floor ( h  / MapParameters.tileSize  +1 ) ; 
    
-   if ( this.UpdateTileCache ( this.config.map.zoom , tileC.x , tileC.x + nbTileX , tileC.y - nbTileY , tileC.y , forceTileRedraw ) || forceGlobalRedraw) {
+   if ( this.UpdateTileCache ( this.context.zoom , tileC.x , tileC.x + nbTileX , tileC.y - nbTileY , tileC.y , forceTileRedraw ) || forceGlobalRedraw) {
       mvMatrix      = mat4.create();
       pMatrix       = mat4.create();
       mat4.identity    ( pMatrix );
@@ -303,7 +283,7 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
          for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+ MapParameters.tileSize , ty = ty - 1) {
             mat4.identity (mvMatrix);
             mat4.translate(mvMatrix, [wx, wy , 0]);
-            var key  = tx + "," + ty + "," + this.config.map.zoom;
+            var key  = tx + "," + ty + "," + this.context.zoom;
             var tile = this.tileCache[key]
             tile.Render (pMatrix, mvMatrix);
          }
@@ -322,12 +302,12 @@ MapRenderer.prototype.DrawMagnifier = function () {
    var h = this.magnifierCanvas.height;
    var left = (w/2)/scale;
    var top = (h/2)/scale;
-   var r = this.config.coordS.Resolution ( this.config.map.zoom );
+   var r = this.context.coordS.Resolution ( this.context.zoom );
 
-   var originM = new Point( this.mouseM.x - left * r , this.mouseM.y + top * r );
-   var tileC   = this.config.coordS.MetersToTile ( originM.x, originM.y , this.config.map.zoom );
+   var originM = new Point( this.context.mouseM.x - left * r , this.context.mouseM.y + top * r );
+   var tileC   = this.context.coordS.MetersToTile ( originM.x, originM.y , this.context.zoom );
 
-   var originP = this.config.coordS.MetersToPixels ( originM.x, originM.y, this.config.map.zoom );
+   var originP = this.context.coordS.MetersToPixels ( originM.x, originM.y, this.context.zoom );
    var shift   = new Point ( Math.floor ( tileC.x * MapParameters.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * MapParameters.tileSize - originP.y ) ) );
 
    var ctxMagnifier = this.magnifierCanvas.getContext("2d");
@@ -338,7 +318,7 @@ MapRenderer.prototype.DrawMagnifier = function () {
    // wx/wy (pixels) in canvas mark ( coord ) !!
    for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + MapParameters.tileSize , tx = tx + 1) {
       for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+MapParameters.tileSize , ty = ty - 1) {
-         var key  = tx + "," + ty + "," + this.config.map.zoom;
+         var key  = tx + "," + ty + "," + this.context.zoom;
          var tile = this.tileCache[key] 
          TileRenderer.DrawImages(tile, ctxMagnifier, wx, wy);
       }
@@ -351,11 +331,16 @@ MapRenderer.prototype.DrawMagnifier = function () {
 
 //----------------------------------------------------------------------//
 
-MapRenderer.prototype.OpenStyle = function (event) {
+/**
+ * FindLayerId is still part of MapRenderer since there actually is a rendering here ! 
+ */
+MapRenderer.prototype.FindLayerId = function () {
 
+   console.log("FindLayerId");
+   
    // retrieve the tile clicked
-   var tileCoord = this.config.coordS.MetersToTile ( this.mouseM.x, this.mouseM.y , this.config.map.zoom );
-   var key = tileCoord.x + "," + tileCoord.y + "," + this.config.map.zoom;
+   var tileCoord = this.context.coordS.MetersToTile ( this.context.mouseM.x, this.context.mouseM.y , this.context.zoom );
+   var key = tileCoord.x + "," + tileCoord.y + "," + this.context.zoom;
 
    var tile = this.tileCache[key];
 
@@ -364,10 +349,10 @@ MapRenderer.prototype.OpenStyle = function (event) {
 
    // find the click coordinates inside invisibleCanvas
    // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
-   var clickP = this.config.coordS.MetersToPixels ( this.mouseM.x, this.mouseM.y, this.config.map.zoom );
+   var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
 
-   var layerId = tile.LayerLookup( tileClickCoord , this.config.map.zoom, this.config.renderParameters.GetStyle() ) ;
+   var layerId = tile.LayerLookup( tileClickCoord , this.context.zoom, this.config.renderParameters.GetStyle() ) ;
 
    StyleMenu.OpenStyle(layerId);
 }

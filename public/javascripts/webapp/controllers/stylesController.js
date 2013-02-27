@@ -8,7 +8,7 @@
 
 	StylesController.renderUI = function()
 	{
-      App.resizeWindow();
+      App.refreshSizes();
 	}
 
 	StylesController.cleanUI = function()

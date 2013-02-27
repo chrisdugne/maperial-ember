@@ -8,7 +8,7 @@
 
 	FontsController.renderUI = function()
 	{
-      App.resizeWindow();
+      App.refreshSizes();
 	}
 
 	FontsController.cleanUI = function()

@@ -12,7 +12,7 @@
       App.user.set("isCreatingANewMap", true);
       MapCreationController.wizardSetView("datasetSelection");
       MapCreationController.renderDatasetSelectionUI();
-      App.resizeWindow();
+      App.refreshSizes();
    }
 
    MapCreationController.terminate = function ()
@@ -40,7 +40,7 @@
       MapCreationController.currentStyle = App.stylesData.selectedStyle;
       MapCreationController.openStyleSelection();
       
-      App.resizeWindow();
+      App.refreshSizes();
    }
    
    MapCreationController.cleanStyleAndColorbarUI = function()
@@ -205,7 +205,7 @@
       MapCreationController.closeSettings();
       MapCreationController.wizardSetView("styleAndColorbar");
       App.mapEditor.changeConfig(this.getConfigStyleAndColorbar());
-      App.resizeWindow();
+      App.refreshSizes();
    }
       
    // --------------------- 
