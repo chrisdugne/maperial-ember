@@ -7,19 +7,7 @@ function ColorBar () {
 }
 
 //---------------------------------------------------------------------------//
-// HUD names
 
-MapParameters.MAGNIFIER              = "Magnifier";
-MapParameters.COLOR_BAR              = "ColorBar";
-MapParameters.LATLON                 = "LatLon";
-MapParameters.GEOLOC                 = "Geoloc";
-MapParameters.DETAILS_MENU           = "DetailsMenu";
-MapParameters.QUICK_EDIT             = "QuickEdit";
-MapParameters.ZOOMS                  = "Zooms";
-
-//---------------------------------------------------------------------------//
-
-MapParameters.scriptsPath            = "assets/javascripts/extensions";
 MapParameters.shadersPath            = "assets/shaders";
 
 MapParameters.mapCanvasName          = "map";
@@ -33,13 +21,6 @@ MapParameters.autoMoveSpeedRate      = 0.2;
 MapParameters.autoMoveMillis         = 700;
 MapParameters.autoMoveDeceleration   = 0.005;
 MapParameters.autoMoveAnalyseSize    = 10;
-
-MapParameters.StyleChanged           = 1;
-MapParameters.ColorBarChanged        = 2;
-MapParameters.ContrastChanged        = 3;
-MapParameters.LuminosityChanged      = 4;
-MapParameters.BWMethodChanged        = 5;
-MapParameters.dataSrcChanged         = 6;
 
 MapParameters.LayerBack              = "back";
 MapParameters.LayerRaster            = "raster";
@@ -61,10 +42,9 @@ function MapParameters () {
    this.contrast     = 0.0;
    this.luminosity   = 0.0;
    this.bwMethod     = 1.0;
-   this.editModeOn   = true;
    this.obs          = [];
    this.colorbars    = {};
-   this.style        = {};
+   this.styles        = {};
 
    this.LayerOrder             = [  MapParameters.LayerBack    , MapParameters.LayerRaster         , MapParameters.LayerFront  ];
    this.LayerType              = [  MapParameters.Vector       , MapParameters.Raster              , MapParameters.Vector      ];
@@ -77,21 +57,7 @@ function MapParameters () {
 
 //---------------------------------------------------------------------------//
 
-MapParameters.prototype.Invalidate = function (changeEvent) {
-   this._Change (changeEvent) 
-}
-
-MapParameters.prototype._Change = function (changeEvent) {   // private 
-   for (var i = 0 ; i < this.obs.length ; i++ ) {
-      this.obs[i](changeEvent);
-   }
-}
-
-MapParameters.prototype.OnChange = function (callback) {
-   this.obs.push(callback);
-}
-
-MapParameters.prototype.SetStyle = function(name,style){
+MapParameters.prototype.AddOrRefreshStyle = function(name,style){
    if (style.constructor === String) {
       var me = this
       me.style[name] = null;
@@ -105,18 +71,20 @@ MapParameters.prototype.SetStyle = function(name,style){
       });
    }
    else {
-      this.style[name] = style;
+      this.styles[name] = style;
    }
-   this._Change(MapParameters.StyleChanged)
+   
+   $(window).trigger(MapEvents.STYLE_CHANGED);
 }
 
 MapParameters.prototype.GetStyle = function(name){
-   if (name in this.style)
-      return this.style[name];
-   return null;
+   if (name in this.styles)
+      return this.styles[name];
+   
+   return this.styles["default"]
 }
 
-MapParameters.prototype.SetColorBar = function(name,colorbar){
+MapParameters.prototype.AddOrRefreshColorbar = function(name,colorbar){
 
    if ( this.colorbars[name] )
       delete this.colorbars[name]
@@ -136,7 +104,8 @@ MapParameters.prototype.SetColorBar = function(name,colorbar){
    else {
       this.colorbars[name].data = new Uint8Array(colorbar);
    }
-   this._Change(MapParameters.ColorBarChanged)
+
+   $(window).trigger(MapEvents.COLORBAR_CHANGED);
 }
 
 MapParameters.prototype.GetColorBars = function(){
@@ -170,12 +139,14 @@ MapParameters.prototype.GetRasterURL = function (tx,ty,z) {
 
 MapParameters.prototype.SetRasterUid = function ( inUid ) {
    this.rasterUid  = inUid
-   this._Change(MapParameters.dataSrcChanged)
+
+   $(window).trigger(MapEvents.DATA_SOURCE_CHANGED);
 }
 
 MapParameters.prototype.SetContrast = function ( v ) {
    this.contrast      = v;
-   this._Change(MapParameters.ContrastChanged)
+
+   $(window).trigger(MapEvents.CONTRAST_CHANGED);
 }
 
 MapParameters.prototype.GetContrast = function ( ) {
@@ -184,7 +155,7 @@ MapParameters.prototype.GetContrast = function ( ) {
 
 MapParameters.prototype.SetLuminosity = function ( v ) {
    this.luminosity    = v;
-   this._Change(MapParameters.LuminosityChanged)
+   $(window).trigger(MapEvents.LUMINOSITY_CHANGED);
 }
 
 MapParameters.prototype.GetLuminosity = function ( ) {
@@ -193,26 +164,18 @@ MapParameters.prototype.GetLuminosity = function ( ) {
 
 MapParameters.prototype.SetBWMethod = function ( m ) {
    this.bwMethod      =  Math.max ( 0, Math.min ( 4 , Math.round ( m ) ) );
-   this._Change(MapParameters.BWMethodChanged)
+   $(window).trigger(MapEvents.BW_METHOD_CHANGED);
 }
 
 MapParameters.prototype.GetBWMethod = function ( ) {
    return this.bwMethod;
 }
 
-MapParameters.prototype.SetEditModeOn = function ( em ) {
-   this.editModeOn = em
-}
-
-MapParameters.prototype.isEditModeOn = function ( ) {
-   return this.editModeOn
-}
-
-
 //-----------------------------------------
 //quand est ce quon vire ca ??
 MapParameters.prototype.SetDefaultColorBar = function (){
 
+   console.log("SetDefaultColorBar");
    var cbData = [];   
    cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );
    for ( i = 1 ; i < 256 ; i = i + 1) {
@@ -225,6 +188,6 @@ MapParameters.prototype.SetDefaultColorBar = function (){
       }
    }
    
-   this.SetColorBar("default", cbData);
+   this.AddOrRefreshColorbar("default", cbData);
 }
 //---

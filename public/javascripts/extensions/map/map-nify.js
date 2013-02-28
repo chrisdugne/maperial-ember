@@ -9,11 +9,37 @@ function Mapnify(){
    this.mapHUD;
    
    this.isBuilt;
+
+   this.scriptsPath = "assets/javascripts/extensions";
 }
 
-Mapnify.Loading = "Mapnify.Loading";
-Mapnify.Free = "Mapnify.Free";
-Mapnify.RefreshSizes = "Mapnify.RefreshSizes";
+//==================================================================//
+// Global Events
+
+function MapnifyEvent(){}
+
+MapnifyEvent.LOADING          = "Mapnify.LOADING";
+MapnifyEvent.FREE             = "Mapnify.FREE";
+MapnifyEvent.REFRESH_SIZES    = "Mapnify.REFRESH_SIZES";
+
+//---------------------------------------------------------------------------//
+
+function HUD(){}
+
+HUD.DISABLED               = "Mapnify.DISABLED";
+HUD.REQUIRED               = "Mapnify.REQUIRED";
+HUD.OPTION                 = "Mapnify.OPTION";
+
+HUD.TRIGGER                = "trigger";
+HUD.PANEL                  = "panel";
+
+HUD.MAGNIFIER              = "Magnifier";
+HUD.COLOR_BAR              = "ColorBar";
+HUD.LATLON                 = "LatLon";
+HUD.GEOLOC                 = "Geoloc";
+HUD.DETAILS_MENU           = "DetailsMenu";
+HUD.QUICK_EDIT             = "QuickEdit";
+HUD.ZOOMS                  = "Zooms";
 
 //==================================================================//
 
@@ -51,43 +77,44 @@ Mapnify.prototype.changeConfig = function(config){
 
 Mapnify.prototype.load = function() {
 
-   $(window).trigger(Mapnify.Loading);
+   $(window).trigger(MapnifyEvent.LOADING);
    console.log("Mapnify.build");
    
    var mapnify = this; // to have access to 'this' in the callBack
    ScriptLoader.getScripts([
              // libs
-             MapParameters.scriptsPath + "/map/libs/gl-matrix-min.js",
-             MapParameters.scriptsPath + "/map/libs/coordinate-system.js",
-             MapParameters.scriptsPath + "/map/libs/geoloc.js",
-             MapParameters.scriptsPath + "/map/libs/fabric.all.1.0.6.js",
-             MapParameters.scriptsPath + "/map/libs/colorpicker.js",
-             MapParameters.scriptsPath + "/map/libs/RGBColor.js",
-             MapParameters.scriptsPath + "/map/libs/hashmap.js",
-             MapParameters.scriptsPath + "/map/libs/canvasutilities.js",
+             this.scriptsPath + "/map/libs/gl-matrix-min.js",
+             this.scriptsPath + "/map/libs/coordinate-system.js",
+             this.scriptsPath + "/map/libs/geoloc.js",
+             this.scriptsPath + "/map/libs/fabric.all.1.0.6.js",
+             this.scriptsPath + "/map/libs/colorpicker.js",
+             this.scriptsPath + "/map/libs/RGBColor.js",
+             this.scriptsPath + "/map/libs/hashmap.js",
+             this.scriptsPath + "/map/libs/canvasutilities.js",
 
              // rendering
-             MapParameters.scriptsPath + "/map/rendering/gl-tools.js",
-             MapParameters.scriptsPath + "/map/rendering/gl-rasterlayer.js",
-             MapParameters.scriptsPath + "/map/rendering/gl-tile.js",
-             MapParameters.scriptsPath + "/map/rendering/gl-vectoriallayer.js",
-             MapParameters.scriptsPath + "/map/rendering/render-line.js",
-             MapParameters.scriptsPath + "/map/rendering/render-text.js",
-             MapParameters.scriptsPath + "/map/rendering/tile-renderer.js",
+             this.scriptsPath + "/map/rendering/gl-tools.js",
+             this.scriptsPath + "/map/rendering/gl-rasterlayer.js",
+             this.scriptsPath + "/map/rendering/gl-tile.js",
+             this.scriptsPath + "/map/rendering/gl-vectoriallayer.js",
+             this.scriptsPath + "/map/rendering/render-line.js",
+             this.scriptsPath + "/map/rendering/render-text.js",
+             this.scriptsPath + "/map/rendering/tile-renderer.js",
 
              // modules
-             MapParameters.scriptsPath + "/map/map-events.js",
-             MapParameters.scriptsPath + "/map/map-mover.js",
-             MapParameters.scriptsPath + "/map/map-mouse.js",
-             MapParameters.scriptsPath + "/map/map-hud.js",
-             MapParameters.scriptsPath + "/map/map-renderer.js",
+             this.scriptsPath + "/map/map-events.js",
+             this.scriptsPath + "/map/map-parameters.js",
+             this.scriptsPath + "/map/map-mouse.js",
+             this.scriptsPath + "/map/map-hud.js",
+             this.scriptsPath + "/map/map-renderer.js",
+             this.scriptsPath + "/map/map-mover.js",
 
              // edition
-             MapParameters.scriptsPath + "/map/edition/boundingbox-drawer.js",
-             MapParameters.scriptsPath + "/map/edition/colortool.js",
-             MapParameters.scriptsPath + "/map/edition/symbolizer.js",
-             MapParameters.scriptsPath + "/map/edition/style-menu.js",
-             MapParameters.scriptsPath + "/map/edition/colorbar-renderer.js"
+             this.scriptsPath + "/map/edition/boundingbox-drawer.js",
+             this.scriptsPath + "/map/edition/colortool.js",
+             this.scriptsPath + "/map/edition/symbolizer.js",
+             this.scriptsPath + "/map/edition/style-menu.js",
+             this.scriptsPath + "/map/edition/colorbar-renderer.js"
 
              ],
       function(){
@@ -123,7 +150,7 @@ Mapnify.prototype.build = function() {
 
    //--------------------------//
 
-   $(window).trigger(Mapnify.Free);
+   $(window).trigger(MapnifyEvent.FREE);
    this.isBuilt = true;
 }
 
@@ -141,6 +168,11 @@ Mapnify.prototype.createContext = function() {
    this.context.zoom       = 14;
    this.context.autoMoving = false;
 
+   if(this.config.hud[HUD.MAGNIFIER]){
+      console.log("Magnifier On");
+      this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
+   }
+
 }
 
 //==================================================================//
@@ -148,11 +180,7 @@ Mapnify.prototype.createContext = function() {
 Mapnify.prototype.enhanceConfig = function() {
    
    this.config.renderParameters = new MapParameters();
-   this.config.renderParameters.SetStyle("default", this.config.styles[0].content);
-
-   if(this.config.hud[MapParameters.MAGNIFIER]){
-      this.config.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
-   }
+   this.config.renderParameters.AddOrRefreshStyle("default", this.config.styles[0].content);
    
 }
 

@@ -84,12 +84,12 @@ StyleMenu.EventProxy.NewEvent = function(){
    var curTime = new Date().getTime(); // ms
    if ( StyleMenu.EventProxy.lastEvt == null){
       StyleMenu.EventProxy.lastEvt = curTime;
-      StyleMenu.mapnify.config.renderParameters.SetStyle("default", StyleMenu.__style); 
+      StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
       return;
    }
    if ( curTime - StyleMenu.EventProxy.lastEvt > StyleMenu.EventProxy.eventRate){
       StyleMenu.EventProxy.lastEvt = curTime;
-      StyleMenu.mapnify.config.renderParameters.SetStyle("default", StyleMenu.__style);
+      StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
       return;
    }
    StyleMenu.EventProxy.queuedEvt = curTime;
@@ -103,7 +103,7 @@ window.setInterval(
             return;
          }
          if ( curTime - StyleMenu.EventProxy.queuedEvt > StyleMenu.EventProxy.eventRate){ // if last event is "old"
-            StyleMenu.mapnify.config.renderParameters.SetStyle("default", StyleMenu.__style);
+            StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
             StyleMenu.EventProxy.queuedEvt = null;
          }
       },
@@ -1003,7 +1003,7 @@ StyleMenu.LoadStyle = function(){
       StyleMenu.__LoadStyle();
    }
    
-   StyleMenu.mapnify.config.renderParameters.SetStyle("default", StyleMenu.__style); 
+   StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
 }
 
 
@@ -1052,7 +1052,7 @@ StyleMenu.init = function(container,container2,container3,mapnify,isMovable){
 
 StyleMenu.initListeners = function (event) {
 
-   $(window).on(MapEvents.OpenStyle, function(event, layerId){
+   $(window).on(MapEvents.OPEN_STYLE, function(event, layerId){
       StyleMenu.OpenStyle(layerId)
    });
 

@@ -59,17 +59,17 @@
 
    //------------------------------------------------------//
 
-   $(window).on(Mapnify.RefreshSizes, function(){
+   $(window).on(MapnifyEvent.REFRESH_SIZES, function(){
       console.log("mapnify asks to refresh sizes");
       App.refreshSizes();
    });
    
-   $(window).on(Mapnify.Loading, function(){
+   $(window).on(MapnifyEvent.LOADING, function(){
       console.log("mapnify is  LOADING");
       App.user.set("waiting", true);
    });
    
-   $(window).on(Mapnify.Free, function(){
+   $(window).on(MapnifyEvent.FREE, function(){
       $("#footer").css({ position : "fixed" });
       App.user.set("waiting", false);
       console.log("mapnify is  FREE");

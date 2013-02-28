@@ -150,17 +150,18 @@
    MapCreationController.getConfigStyleAndColorbar = function(){
       var config = {};
       
+      // custom
       // mapCreation.styleAndColorbar
-      config["StyleManager"] = {show : true, type : "panel", visibility : "mandatory" };
+      config["StyleManager"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
-      // mapEditor tools
-      config[MapParameters.LATLON]        = {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" };
-      config[MapParameters.GEOLOC]        = {show : true,  type : "panel",    visibility : "option", label : "Location" };
-      config[MapParameters.DETAILS_MENU]  = {show : false, type : "trigger",  visibility : "option", label : "Style Details" };
-      config[MapParameters.QUICK_EDIT]    = {show : false, type : "trigger",  visibility : "option", label : "Quick Style Edit" };
-      config[MapParameters.ZOOMS]         = {show : false, type : "trigger",  visibility : "option", label : "Zooms" };
-      config[MapParameters.MAGNIFIER]     = {show : false, type : "trigger",  visibility : "option", label : "Magnifier" };
-      config[MapParameters.COLOR_BAR]     = {show : false, type : "trigger",  visibility : "option", label : "ColorBar" };
+      // mapnify hud
+      config[HUD.LATLON]        = {show : false, type : HUD.PANEL,    visibility : HUD.OPTION, label : "Lat/Lon" };
+      config[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    visibility : HUD.OPTION, label : "Location" };
+      config[HUD.DETAILS_MENU]  = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Style Details" };
+      config[HUD.QUICK_EDIT]    = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Quick Style Edit" };
+      config[HUD.ZOOMS]         = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Zooms" };
+      config[HUD.MAGNIFIER]     = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Magnifier" };
+      config[HUD.COLOR_BAR]     = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "ColorBar" };
             
       return config;
    }  
@@ -170,17 +171,18 @@
    MapCreationController.getConfigSettings = function(){
       var config = {};
       
+      // custom
       // mapCreation.mapSettings
-      config["MapSettings"] = {show : true, type : "panel", visibility : "mandatory" };
+      config["MapSettings"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
-      // mapEditor tools
-      config[MapParameters.LATLON]        = {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" };
-      config[MapParameters.GEOLOC]        = {show : true,  type : "panel",    visibility : "option", label : "Location" };
-      config[MapParameters.DETAILS_MENU]  = "disabled";
-      config[MapParameters.QUICK_EDIT]    = "disabled";
-      config[MapParameters.ZOOMS]         = {show : false, type : "trigger",  visibility : "option", label : "Zooms" };
-      config[MapParameters.MAGNIFIER]     = {show : false, type : "trigger",  visibility : "option", label : "Magnifier" };
-      config[MapParameters.COLOR_BAR]     = "disabled";
+      // mapnify hud
+      config[HUD.LATLON]        = {show : false, type : HUD.PANEL,    visibility : HUD.OPTION, label : "Lat/Lon" };
+      config[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    visibility : HUD.OPTION, label : "Location" };
+      config[HUD.DETAILS_MENU]  = HUD.DISABLED;
+      config[HUD.QUICK_EDIT]    = HUD.DISABLED;
+      config[HUD.ZOOMS]         = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Zooms" };
+      config[HUD.MAGNIFIER]     = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Magnifier" };
+      config[HUD.COLOR_BAR]     = HUD.DISABLED;
       
       return config;
    }  

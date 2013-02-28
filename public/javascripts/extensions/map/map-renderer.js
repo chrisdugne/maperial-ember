@@ -3,8 +3,6 @@
 
 function MapRenderer(mapnify) {
    
-   console.log("building a new mapRenderer");
-
    this.config = mapnify.config;
    this.context = mapnify.context;
    
@@ -20,44 +18,40 @@ MapRenderer.prototype.initListeners = function () {
 
    var renderer = this;
    
-   this.context.mapCanvas.on(MapEvents.OnMouseDown, function(event, x, y){
+   this.context.mapCanvas.on(MapEvents.MOUSE_MOVE, function(){
       renderer.DrawMagnifier();
    });
-
    
-   this.context.mapCanvas.on(MapEvents.RequiringLayerId, function(event, x, y){
-      console.log("MapRenderer RequiringLayerId");
-      if(!renderer.context.autoMoving && renderer.config.renderParameters.isEditModeOn() ){
-         renderer.FindLayerId(x, y);
+   $(window).on(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE, function(){
+      if(renderer.config.edition != HUD.DISABLED ){
+         renderer.FindLayerId();
       }
    });
-}
 
-//----------------------------------------------------------------------//
-// a Plug dans le initListeners
-
-MapRenderer.prototype.OnParamsChange = function (event) {
- if (event == MapParameters.StyleChanged) {
-    this.DrawScene (true,true)
- }
- else if (event == MapParameters.ColorBarChanged) {
-    //
-    this.BuildColorBar();
- }
- else if (event == MapParameters.ContrastChanged) {
-    //
- }
- else if (event == MapParameters.LuminosityChanged) {
-    //
- }
- else if (event == MapParameters.BWMethodChanged) {
-    //
- }
- else if (event == MapParameters.dataSrcChanged) {
-    //Reload ALL ???? and Redraw ??
-    //this.DrawScene (true)
- }
-
+   $(window).on(MapEvents.STYLE_CHANGED, function(){
+      renderer.DrawScene (true,true);
+   });
+   
+   $(window).on(MapEvents.COLORBAR_CHANGED, function(){
+      renderer.BuildColorBar();
+   });
+   
+   $(window).on(MapEvents.CONTRAST_CHANGED, function(){
+      //
+   });
+   
+   $(window).on(MapEvents.LUMINOSITY_CHANGED, function(){
+      //
+   });
+   
+   $(window).on(MapEvents.BW_METHOD_CHANGED, function(){
+      //
+   });
+   
+   $(window).on(MapEvents.DATA_SOURCE_CHANGED, function(){
+      //Reload ALL ???? and Redraw ??
+      //renderer.DrawScene (true) 
+   });
 }
 
 //----------------------------------------------------------------------//
@@ -158,7 +152,7 @@ MapRenderer.prototype.BuildColorBar = function () {
          this.gl.deleteTexture ( cbs[ k ].tex );
          delete cbs[ k ].tex;
          cbs[ k ].tex = null;
-         console.log ( "Error in colorbar building : " + k )
+         console.log ( "Error in colorbar building : " + k );
       }
    }
    return true;
@@ -179,17 +173,14 @@ MapRenderer.prototype.Start = function () {
 
    if ( !this.BuildColorBar() ) {
       console.log("Can't build colorbar")
-      return false
+      return false;
    }
 
    $(window).resize(Utils.bindObjFuncEvent ( this , "fitToSize" ) );
    
-   // a virer
-   this.config.renderParameters.OnChange ( Utils.bindObjFuncEvent ( this, "OnParamsChange" ) );
-   
    this.DrawScene();
    setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
-   return true
+   return true;
 } 
 
 //----------------------------------------------------------------------//
@@ -244,10 +235,6 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
 
 //----------------------------------------------------------------------//
 
-//MapRenderer.prototype.OnResize = function (event) {
-//   this.fitToSize();
-//}
-
 MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
 
    if(typeof(forceGlobalRedraw)==='undefined' )
@@ -293,24 +280,50 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
 
 //----------------------------------------------------------------------//
 
-MapRenderer.prototype.DrawMagnifier = function () {
-   if (! this.magnifierCanvas )
+/**
+ * FindLayerId is still part of MapRenderer since there actually is a rendering here ! 
+ */
+MapRenderer.prototype.FindLayerId = function () {
+
+   // retrieve the tile clicked
+   var tileCoord = this.context.coordS.MetersToTile ( this.context.mouseM.x, this.context.mouseM.y , this.context.zoom );
+   var key = tileCoord.x + "," + tileCoord.y + "," + this.context.zoom;
+
+   var tile = this.tileCache[key];
+
+   if(!tile.IsLoad())
       return;
 
+   // find the click coordinates inside invisibleCanvas
+   // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
+   var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
+   var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
+
+   var layerId = tile.LayerLookup( tileClickCoord , this.context.zoom, this.config.renderParameters.GetStyle() ) ;
+
+   $(window).trigger(MapEvents.OPEN_STYLE, [layerId]);
+}
+
+//----------------------------------------------------------------------//
+
+MapRenderer.prototype.DrawMagnifier = function () {
+   if (this.config.hud[HUD.MAGNIFIER] == HUD.DISABLED)
+      return;
+   
    var scale = 3;
-   var w = this.magnifierCanvas.width;
-   var h = this.magnifierCanvas.height;
+   var w = this.context.magnifierCanvas.width();
+   var h = this.context.magnifierCanvas.height();
    var left = (w/2)/scale;
    var top = (h/2)/scale;
    var r = this.context.coordS.Resolution ( this.context.zoom );
-
+   
    var originM = new Point( this.context.mouseM.x - left * r , this.context.mouseM.y + top * r );
    var tileC   = this.context.coordS.MetersToTile ( originM.x, originM.y , this.context.zoom );
 
    var originP = this.context.coordS.MetersToPixels ( originM.x, originM.y, this.context.zoom );
    var shift   = new Point ( Math.floor ( tileC.x * MapParameters.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * MapParameters.tileSize - originP.y ) ) );
 
-   var ctxMagnifier = this.magnifierCanvas.getContext("2d");
+   var ctxMagnifier = this.context.magnifierCanvas[0].getContext("2d");
    ctxMagnifier.save();
    ctxMagnifier.globalCompositeOperation="source-over";
    ctxMagnifier.scale(scale, scale);
@@ -331,39 +344,11 @@ MapRenderer.prototype.DrawMagnifier = function () {
 
 //----------------------------------------------------------------------//
 
-/**
- * FindLayerId is still part of MapRenderer since there actually is a rendering here ! 
- */
-MapRenderer.prototype.FindLayerId = function () {
-
-   console.log("FindLayerId");
-   
-   // retrieve the tile clicked
-   var tileCoord = this.context.coordS.MetersToTile ( this.context.mouseM.x, this.context.mouseM.y , this.context.zoom );
-   var key = tileCoord.x + "," + tileCoord.y + "," + this.context.zoom;
-
-   var tile = this.tileCache[key];
-
-   if(!tile.IsLoad())
-      return;
-
-   // find the click coordinates inside invisibleCanvas
-   // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
-   var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
-   var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
-
-   var layerId = tile.LayerLookup( tileClickCoord , this.context.zoom, this.config.renderParameters.GetStyle() ) ;
-
-   StyleMenu.OpenStyle(layerId);
-}
-
-//----------------------------------------------------------------------//
-
 //viseur counterStrike pour le zoom yeah
 MapRenderer.prototype.DrawMagnifierSight = function (ctxMagnifier) {
 
-   var w = this.magnifierCanvas.width;
-   var h = this.magnifierCanvas.height;
+   var w = this.context.magnifierCanvas.width();
+   var h = this.context.magnifierCanvas.height();
 
    ctxMagnifier.beginPath();
    ctxMagnifier.moveTo(w/2-20, h/2);

@@ -7,6 +7,7 @@ function MapMover(mapnify){
 
    this.lastMouseX   = null;
    this.lastMouseY   = null;
+   this.autoMoving   = false;
    this.mouseData    = [];
    this.drawers      = [];
 
@@ -19,36 +20,36 @@ MapMover.prototype.initListeners = function (event) {
 
    var mover = this;
 
-   this.context.mapCanvas.on(MapEvents.MouseDown, function(event, x, y){
-      mover.reset(x,y);
+   this.context.mapCanvas.on(MapEvents.MOUSE_DOWN, function(){
+      mover.reset();
    });
 
-   this.context.mapCanvas.on(MapEvents.MouseUp, function(){
-      mover.autoMove();
+   this.context.mapCanvas.on(MapEvents.MOUSE_UP, function(){
+      mover.receivedMouseUp();
    });
 
-   this.context.mapCanvas.on(MapEvents.DraggingMap, function(event, x, y){
-      mover.drag(x, y);
+   this.context.mapCanvas.on(MapEvents.DRAGGING_MAP, function(){
+      mover.drag();
    });
 }
 
 //==================================================================//
 
-MapMover.prototype.reset = function (x, y) {
+MapMover.prototype.reset = function () {
 
    this.mouseData    = [];
-   this.lastMouseX   = x;
-   this.lastMouseY   = y;
-   this.context.autoMoving = false;
+   this.lastMouseX   = this.context.mouseP.x;
+   this.lastMouseY   = this.context.mouseP.y;
+   this.autoMoving = false;
 
 }
 
 //==================================================================//
 
-MapMover.prototype.drag = function (x, y) {
+MapMover.prototype.drag = function () {
 
-   var newX = x;
-   var newY = y;
+   var newX = this.context.mouseP.x;
+   var newY = this.context.mouseP.y;
    var deltaX = newX - this.lastMouseX;
    var deltaY = newY - this.lastMouseY;
    this.lastMouseX = newX
@@ -71,11 +72,21 @@ MapMover.prototype.moveMap = function (dx, dy) {
 //==================================================================//
 //Auto Move workflow
 
-MapMover.prototype.autoMove = function () {
+MapMover.prototype.receivedMouseUp = function () {
 
+   if(this.requireAutoMove()){
+      this.prepareAutoMove()
+   }
+   else
+      $(window).trigger(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+}
+
+//---------------------------------------------------------------------------//
+
+MapMover.prototype.requireAutoMove = function () {
    // on arrive dans des cas chelous qui petent tout parfois..
    if(this.mouseData.length < 3)
-      return;
+      return false;
 
    // recup des derniers moves de la souris
    var startPoint = this.mouseData[0];
@@ -84,29 +95,36 @@ MapMover.prototype.autoMove = function () {
    // verif si la souris n'a pas été statique a la fin = no automove
    var now = new Date().getTime();
    if(now - endPoint.time > 120)
-      return;
+      return false;
+   
+   return true;
+}
 
+MapMover.prototype.prepareAutoMove = function () {
    var startPoint = this.mouseData[0];
    var endPoint = this.mouseData.pop();
-
+   
    var deltaX = endPoint.x - startPoint.x;
    var deltaY = endPoint.y - startPoint.y;
-
+   
    var deltaTime = endPoint.time - startPoint.time;
    var distance = Math.sqrt( deltaX*deltaX + deltaY*deltaY );
-
+   
    var speed = (distance*1000/deltaTime)/MapParameters.refreshRate;
-
+   
    var speedX = (speed*deltaX/distance)*MapParameters.autoMoveSpeedRate;
    var speedY = (speed*deltaY/distance)*MapParameters.autoMoveSpeedRate;
-
-   this.context.autoMoving = true;
+   
+   this.autoMoving = true;
+   
    this.moveScene(MapParameters.autoMoveMillis, speedX, speedY, 0);
 }
 
+//---------------------------------------------------------------------------//
+
 MapMover.prototype.moveScene = function (timeRemaining, speedX, speedY, nbAutoMove) {
 
-   if(timeRemaining < 0 || !this.context.autoMoving)
+   if(timeRemaining < 0 || !this.autoMoving)
       return;
 
    if(isNaN(speedX)){

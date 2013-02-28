@@ -83,8 +83,8 @@
 /*-------------------------*/
 	
 #panelHUDSettings {
-	left: 0px;
-	top: 103px; /* 67 + 36 */
+	right: 0px;
+	top: 67px;
 	width:200px;
 	color: #eee;
 	padding-top: 15px;
@@ -94,8 +94,8 @@
 }
 
 a#triggerHUDSettings {
-	left: 0px;
-	top: 103px; /* 67 + 36 */
+	right: 0px;
+	top: 67px;
 	height: 16px;
 }
 

@@ -51,18 +51,19 @@
       var config = {hud:[], map:{}};
       
       // mapCreation.styleAndColorbar
-      config.hud["StyleManager"] = {show : true, type : "panel", visibility : "mandatory" };
+      config.hud["StyleManager"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
       // mapEditor tools
-      config.hud[MapParameters.LATLON]        = {show : false, type : "panel",    visibility : "option", label : "Lat/Lon" };
-      config.hud[MapParameters.GEOLOC]        = {show : true,  type : "panel",    visibility : "option", label : "Location" };
-      config.hud[MapParameters.DETAILS_MENU]  = {show : false, type : "trigger",  visibility : "option", label : "Style Details" };
-      config.hud[MapParameters.QUICK_EDIT]    = {show : true,  type : "trigger",  visibility : "option", label : "Quick Style Edit" };
-      config.hud[MapParameters.ZOOMS]         = {show : false, type : "trigger",  visibility : "option", label : "Zooms" };
-      config.hud[MapParameters.MAGNIFIER]     = {show : true,  type : "trigger",  visibility : "option", label : "Magnifier" };
-      config.hud[MapParameters.COLOR_BAR]     = {show : false, type : "trigger",  visibility : "option", label : "ColorBar" };
+      config.hud[HUD.LATLON]        = {show : false, type : HUD.PANEL,    visibility : HUD.OPTION, label : "Lat/Lon" };
+      config.hud[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    visibility : HUD.OPTION, label : "Location" };
+      config.hud[HUD.DETAILS_MENU]  = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Style Details" };
+      config.hud[HUD.QUICK_EDIT]    = {show : true,  type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Quick Style Edit" };
+      config.hud[HUD.ZOOMS]         = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Zooms" };
+      config.hud[HUD.MAGNIFIER]     = {show : true,  type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Magnifier" };
+      config.hud[HUD.COLOR_BAR]     = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "ColorBar" };
 
       config.map.resizable = true;
+      config.edition = HUD.REQUIRED;
             
       return config;
    }  

@@ -3,13 +3,25 @@
 
 function MapHUD(mapnify){
 
-   console.log("building a new HUD");
-   
    this.config = mapnify.config;
    this.context = mapnify.context;
 
    this.renderTriggers();
    this.display();
+
+   this.initListeners();
+}
+
+//----------------------------------------------------------------------//
+
+MapHUD.prototype.initListeners = function () {
+
+   var hud = this;
+   
+   this.context.mapCanvas.on(MapEvents.UPDATE_LATLON, function(event, x, y){
+      hud.updateLatLon();
+   });
+   
 }
 
 //==================================================================//
@@ -19,7 +31,6 @@ MapHUD.prototype.reset = function(){
 }
 
 MapHUD.prototype.display = function(){
-   console.log("display hud");
    this.showTriggers();
    this.refreshSettings();   
 }
@@ -27,8 +38,6 @@ MapHUD.prototype.display = function(){
 //==================================================================//
 
 MapHUD.prototype.renderTriggers = function(){
-
-   console.log("renderTriggers");
 
    //--------------------------------------------------------//
 
@@ -43,27 +52,7 @@ MapHUD.prototype.renderTriggers = function(){
    });
 
    $(".trigger").click(function(){
-
-      var name = $(this).context.id.replace("trigger","");
-      hud.putOnTop(name);
-
-      if ($(this).hasClass('noclick')) {
-         $(this).removeClass('noclick');
-      }
-      else {
-
-         if ($(this).hasClass('active')) {
-            $(this).draggable("enable");
-         }
-         else{
-            $(this).draggable("disable");
-         }
-
-         $("#icon"+name).toggle("fast");
-         $("#panel"+name).toggle("fast");
-         $(this).toggleClass("active");
-      }
-
+      hud.clickOnTrigger($(this));
       return false;
    });
 
@@ -126,6 +115,8 @@ MapHUD.prototype.renderTriggers = function(){
 
    $( ".trigger" ).bind('dragstart',function( event ){
       $(this).addClass('noclick');
+      $(this).css('right', 'auto');
+      $(this).css('bottom', 'auto');
 
       var name = $(this).context.id.replace("trigger","");
       hud.putOnTop(name);
@@ -148,28 +139,56 @@ MapHUD.prototype.renderTriggers = function(){
 
 //------------------------------------------------//
 
+MapHUD.prototype.clickOnTrigger = function(trigger){
+   console.log(trigger);
+   var name = trigger[0].id.replace("trigger","");
+   this.putOnTop(name);
+
+   if (trigger.hasClass('noclick')) {
+      trigger.removeClass('noclick');
+   }
+   else {
+
+      if (trigger.hasClass('active')) {
+         trigger.draggable("enable");
+      }
+      else{
+         trigger.draggable("disable");
+      }
+
+      $("#icon"+name).toggle("fast");
+      $("#panel"+name).toggle("fast");
+      trigger.toggleClass("active");
+   }
+}
+
+//------------------------------------------------//
+
 MapHUD.prototype.refreshSettings = function() {
 
-   console.log("hud.refreshSettings");
    $("#HUDSettings").empty(); 
    var panelHeight = 0;
+   var configHUD = this.config.hud;
    var hud = this;
 
-   for (element in this.config.hud) {
+   for (element in configHUD) {
 
       // ----- testing option in config
-      if(!this.config.hud.hasOwnProperty(element))
+      if(!configHUD.hasOwnProperty(element)){
          continue;
+      }  
 
-      if(this.config.hud[element] == "disabled")
+      if(configHUD[element] == HUD.DISABLED){ 
          continue;
+      }  
 
-      if(this.config.hud[element].visibility != "option")
+      if(configHUD[element].visibility != HUD.OPTION){ 
          continue;
+      }  
 
       // ----- appending div
       var div = "<div class=\"row-fluid\">" +
-      "<div class=\"span5 offset1\">" + this.config.hud[element].label + "</div>" +
+      "<div class=\"span5 offset1\">" + configHUD[element].label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
       "   <span class=\"slider-button\" id=\"toggle"+element+"\"></span>" +
       "</div>" +
@@ -184,31 +203,29 @@ MapHUD.prototype.refreshSettings = function() {
          if($(this).hasClass('on')){
             $(this).removeClass('on');
             var thisElement = $(this).context.id.replace("toggle","");
-            $("#"+hud.config[thisElement].type+thisElement).addClass("hide");
-            if(hud.config[thisElement].type == "trigger")
-               $("#panel"+thisElement).hide("fast");
+            $("#"+configHUD[thisElement].type+thisElement).addClass("hide");
+            
+            if(configHUD[thisElement].type == HUD.TRIGGER)
+               hud.clickOnTrigger($("#trigger"+thisElement));
          }
          else{
             $(this).addClass('on');
             var thisElement = $(this).context.id.replace("toggle","");
-            $("#"+hud.config[thisElement].type+thisElement).removeClass("hide");
+            $("#"+configHUD[thisElement].type+thisElement).removeClass("hide");
          }
       });
 
-      if(this.config.hud[element].show){
+      if(configHUD[element].show){
          $("#toggle"+element).addClass("on");
       }
    }
 
    $("#panelHUDSettings").css("height", panelHeight+"px");
-
-
 }
 
 //------------------------------------------------//
 
 MapHUD.prototype.hideAllTriggers = function(){
-   console.log("hideAllTriggers");
    for (element in this.config.hud) {
       if(!this.config.hud.hasOwnProperty(element))
          continue;
@@ -216,15 +233,14 @@ MapHUD.prototype.hideAllTriggers = function(){
       $("#"+this.config.hud[element].type + element).addClass("hide");
       $("#toggle"+element).removeClass('on');
 
-      if(this.config.hud[element].type == "trigger")
-         $("panel"+element).hide("fast");
+      if(this.config.hud[element].type == HUD.TRIGGER)
+         this.clickOnTrigger($("#trigger"+thisElement));
    }
 }
 
 //------------------------------------------------//
 
 MapHUD.prototype.showTriggers = function(){
-   console.log("showTriggers");
 
    for (element in this.config.hud) {
       if(!this.config.hud.hasOwnProperty(element))
@@ -237,7 +253,6 @@ MapHUD.prototype.showTriggers = function(){
 
    $("#triggerHUDSettings").removeClass("hide");
    
-   console.log("/showTriggers");
 }
 
 //------------------------------------------------//
@@ -248,3 +263,16 @@ MapHUD.prototype.putOnTop = function(name){
    $("#trigger"+name).css({ zIndex : 201 });
    $("#panel"+name).css({ zIndex : 200 });  
 }
+
+//==================================================================//
+
+MapHUD.prototype.updateLatLon = function(){
+   var mouseLatLon = this.context.coordS.MetersToLatLon(this.context.mouseM.x, this.context.mouseM.y); 
+   try {
+      App.Globals.set("longitude", mouseLatLon.x);
+      App.Globals.set("latitude", mouseLatLon.y);
+   }
+   catch(e){}         
+   return;
+}
+

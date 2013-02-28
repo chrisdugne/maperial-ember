@@ -15,24 +15,20 @@ function MapMouse(mapnify){
 
 MapMouse.prototype.initListeners = function (event) {
 
-   this.context.mapCanvas.mousedown( 
-         Utils.bindObjFuncEvent ( this , "down" ) 
-   ).mouseup (
-         Utils.bindObjFuncEvent ( this , "up" ) 
-   ).mousemove (
-         Utils.bindObjFuncEvent ( this , "move" )
-   ).mouseleave (
-         Utils.bindObjFuncEvent ( this , "leave" ) 
-   ).bind('mousewheel', Utils.bindObjFuncEvent2 ( this , "wheel") );   
+   this.context.mapCanvas
+   .mousedown( Utils.bindObjFuncEvent ( this , "down" ))
+   .mouseup ( Utils.bindObjFuncEvent ( this , "up" ))
+   .mousemove ( Utils.bindObjFuncEvent ( this , "move" ))
+   .mouseleave (Utils.bindObjFuncEvent ( this , "leave" ))
+   .bind('mousewheel', Utils.bindObjFuncEvent2 ( this , "wheel"));   
 
 }
 
 //==================================================================//
 
 MapMouse.prototype.down = function (event) {
-   console.log(MapEvents.MouseDown);
    this.mouseDown = true;
-   this.context.mapCanvas.trigger(MapEvents.MouseDown, [event.clientX, event.clientY]);
+   this.context.mapCanvas.trigger(MapEvents.MOUSE_DOWN);
 }
 
 MapMouse.prototype.leave = function (event) {
@@ -41,9 +37,8 @@ MapMouse.prototype.leave = function (event) {
 }
 
 MapMouse.prototype.up = function (event) {
-   console.log(MapEvents.MouseUp);
    this.mouseDown = false; 
-   this.context.mapCanvas.trigger(MapEvents.MouseUp, [event.clientX, event.clientY]);
+   this.context.mapCanvas.trigger(MapEvents.MOUSE_UP);
 }
 
 MapMouse.prototype.move = function (event) {
@@ -52,19 +47,15 @@ MapMouse.prototype.move = function (event) {
    this.context.mouseP = Utils.getPoint(event);
    this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
 
-   if (!this.mouseDown){
-      var mouseLatLon = this.context.coordS.MetersToLatLon(this.context.mouseM.x, this.context.mouseM.y); 
-      try {
-         App.Globals.set("longitude", mouseLatLon.x);
-         App.Globals.set("latitude", mouseLatLon.y);
-      }
-      catch(e){}         
-      return;
+   this.context.mapCanvas.trigger(MapEvents.MOUSE_MOVE);
 
+   if (!this.mouseDown){
+      this.context.mapCanvas.trigger(MapEvents.UPDATE_LATLON);
+   }
+   else{
+      this.context.mapCanvas.trigger(MapEvents.DRAGGING_MAP);
    }
 
-   // dragging
-   this.context.mapCanvas.trigger(MapEvents.DraggingMap, [event.clientX, event.clientY]);
 }
 
 MapMouse.prototype.wheel = function (event, delta) {
