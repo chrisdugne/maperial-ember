@@ -31,8 +31,6 @@
       StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
 
          var config = StyleEditorController.getMapEditorConfig();
-         config.styles = [];
-         config.styles[0] = App.stylesData.selectedStyle;
 
          App.user.set("waiting", false)
          App.mapnify.apply(config);
@@ -64,7 +62,10 @@
 
       config.map.resizable = true;
       config.edition = HUD.REQUIRED;
-            
+
+      config.styles = [];
+      config.styles[0] = App.stylesData.selectedStyle;
+      
       return config;
    }  
 

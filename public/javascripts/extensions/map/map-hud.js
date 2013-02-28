@@ -269,8 +269,10 @@ MapHUD.prototype.putOnTop = function(name){
 MapHUD.prototype.updateLatLon = function(){
    var mouseLatLon = this.context.coordS.MetersToLatLon(this.context.mouseM.x, this.context.mouseM.y); 
    try {
-      App.Globals.set("longitude", mouseLatLon.x);
-      App.Globals.set("latitude", mouseLatLon.y);
+      $("#longitudeDiv").empty();
+      $("#latitudeDiv").empty();
+      $("#longitudeDiv").append(mouseLatLon.x);
+      $("#latitudeDiv").append(mouseLatLon.y);
    }
    catch(e){}         
    return;

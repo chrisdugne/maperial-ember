@@ -166,7 +166,6 @@ Mapnify.prototype.createContext = function() {
    this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
    this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
    this.context.zoom       = 14;
-   this.context.autoMoving = false;
 
    if(this.config.hud[HUD.MAGNIFIER]){
       console.log("Magnifier On");

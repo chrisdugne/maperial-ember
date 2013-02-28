@@ -28,12 +28,6 @@
       separators: [",", ";", "|", "\t"],
 
       //-------------------------------------------//
-      // peut etre creer un modele commun pour le mapEditor et ses donnees
-      // lat/lon pour le panelLatLon du mapEditor
-      latitude: "",
-      longitude: "",
-
-      //-------------------------------------------//
       // mapcreation - wizardStepper in header
       isViewDatasetSelection: false,
       isViewStyleAndColorbar: false,
