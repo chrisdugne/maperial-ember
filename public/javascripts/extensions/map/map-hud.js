@@ -219,10 +219,6 @@ MapHUD.prototype.hideAllTriggers = function(){
       if(this.config.hud[element].type == "trigger")
          $("panel"+element).hide("fast");
    }
-
-   // hidden by default to appear after the whole loading
-   $("#triggerMapHUDSettings").removeClass("hide");
-
 }
 
 //------------------------------------------------//
@@ -239,6 +235,8 @@ MapHUD.prototype.showTriggers = function(){
       }
    }
 
+   $("#triggerHUDSettings").removeClass("hide");
+   
    console.log("/showTriggers");
 }
 

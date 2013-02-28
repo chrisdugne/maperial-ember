@@ -82,7 +82,7 @@
 
 /*-------------------------*/
 	
-#panelMapEditorSettings {
+#panelHUDSettings {
 	left: 0px;
 	top: 103px; /* 67 + 36 */
 	width:200px;
@@ -93,7 +93,7 @@
 	padding-left: 10px;
 }
 
-a#triggerMapEditorSettings {
+a#triggerHUDSettings {
 	left: 0px;
 	top: 103px; /* 67 + 36 */
 	height: 16px;
