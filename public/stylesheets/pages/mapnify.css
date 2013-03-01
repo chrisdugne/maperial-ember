@@ -1,4 +1,129 @@
+
 /*-------------------------*/
+
+#map {
+	margin-bottom: -5px;
+}
+
+#magnifier {
+	margin-bottom: -4px;
+	
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+}
+
+/*************************/
+
+.panel {
+	position: fixed;
+	background: #000000; //
+	background-image: url(IMAGE_URL); /* fallback */
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#444444),
+		to(#000000) ); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #444444, #000000);
+	/* Chrome 10+, Saf5.1+ */
+	background-image: -moz-linear-gradient(top, #444444, #000000);
+	/* FF3.6+ */
+	background-image: -ms-linear-gradient(top, #444444, #000000);
+	/* IE10 */
+	background-image: -o-linear-gradient(top, #444444, #000000);
+	/* Opera 11.10+ */
+	background-image: linear-gradient(top, #444444, #000000);
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	padding: 4px 4px 4px 4px;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+	z-index: 101;
+}
+
+a.trigger {
+	background: #111;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	position: fixed;
+	text-decoration: none;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 5px 12px 5px 10px;
+	font-weight: 700;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-webkit-border-top-left-radius: 20px;
+	z-index: 102;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+}
+
+a.trigger:hover {
+	color: #fff;
+	padding: 5px 14px 5px 12px;
+	background: #222;
+	text-decoration: none;
+}
+
+a.active.trigger {
+	background: #111 url(../../images/mapediting/minus.png) 85% 55%
+		no-repeat;
+	width: 19px;
+	padding: 1px 1px 1px 1px;
+	font-size: 0;
+}
+
+/*************************/
+
+.buttonMode {
+	position: absolute;
+	text-decoration: none;
+	font-size: 16px;
+	letter-spacing: -1px;
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #cdd;
+	padding: 4px 13px 4px 13px;
+	font-weight: 700;
+	background: #000;
+	-moz-border-radius-bottomright: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	z-index: 9999;
+	filter: alpha(opacity = 85);
+}
+
+.buttonMode:hover {
+	padding: 6px 13px 6px 13px;
+	color: #cdd;
+}
+
+div.active.buttonMode {
+	padding: 6px 13px 6px 13px;
+}
+
+
+/*************************/
+
 .styleList {
 	overflow: auto;
 	height: 290px;
@@ -58,33 +183,10 @@
 	width: 29px;
 }
 
-/*-------------------------*/
-
-#panelColorbarManager {
-	top: 67px;
-	left: 0; 
-}
-
-
-#panelStyleManager {
-	top: 67px;
-	left: 0; 
-}
-
-#panelMapSettings {
-	top: 67px;
-	left: 0; 
-	width: 160px;
-	height: 30px;
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
-/*-------------------------*/
+/**********************************/
+/* Panel and Triggers*/
 	
 #panelHUDSettings {
-	right: 0px;
-	top: 67px;
 	width:200px;
 	color: #eee;
 	padding-top: 15px;
@@ -94,16 +196,12 @@
 }
 
 a#triggerHUDSettings {
-	right: 0px;
-	top: 67px;
 	height: 16px;
 }
 
 /*-------------------------*/
 
 #panelGeoloc {
-	top: 67px;
-	left: 42%; 
 	height: 30px;
 	width: 245px;
 	padding-left: 20px;
@@ -114,9 +212,9 @@ a#triggerHUDSettings {
 	content:""
 }
 
+/*-------------------------*/
+
 #panelLatLon {
-	bottom: 100px;
-	left: 0; 
 	height: 20px;
 	width: 290px;
 	padding-left: 7px;
@@ -128,49 +226,199 @@ a#triggerHUDSettings {
 
 /*-------------------------*/
 
-.buttonMode {
-	position: absolute;
-	text-decoration: none;
-	font-size: 16px;
-	letter-spacing: -1px;
-	font-family: verdana, helvetica, arial, sans-serif;
-	color: #cdd;
-	padding: 4px 13px 4px 13px;
-	font-weight: 700;
-	background: #000;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
-	z-index: 9999;
-	filter: alpha(opacity = 85);
+a#triggerDetailsMenu {
 }
 
-.buttonMode:hover {
-	padding: 6px 13px 6px 13px;
-	color: #cdd;
+#panelDetailsMenu {
+	width: 356px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 437px;
 }
 
-div.active.buttonMode {
-	padding: 6px 13px 6px 13px;
+/* main menu div*/
+#styleMenu_menu_maindiv {
+	float: left;
+	font-size: 60%;
+	width: 350px;
+	padding: 3px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #000;
+	background-color: #000;
+	color: #fff;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
 }
 
 /*-------------------------*/
 
-#map {
-	margin-bottom: -5px;
+a#triggerQuickEdit {
 }
 
-#magnifier {
-	margin-bottom: -4px;
-	
-	-moz-border-radius-topleft: 20px;
-	-webkit-border-top-left-radius: 20px;
-	-moz-border-radius-bottomleft: 20px;
-	-webkit-border-bottom-left-radius: 20px;
+#panelQuickEdit {
+	width: 256px;
+	height: auto;
+}
 
-	-moz-border-radius-topright: 20px;
-	-webkit-border-top-right-radius: 20px;
-	-moz-border-radius-bottomright: 20px;
-	-webkit-border-bottom-right-radius: 20px;
+/* main widget div*/
+.styleMenu_menu_widgetDiv {
+	float: left;
+	font-size: 70%;
+	width: 250px;
+	padding: 3px;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #000;
+	background-color: #000;
+	color: #fff;
+	filter: alpha(opacity =   85);
+	opacity: .85;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+}
+
+/*-------------------------*/
+
+a#triggerMagnifier {
+}
+
+#panelMagnifier {
+	height: 200px;
+	opacity: 1;
+}
+
+/*-------------------------*/
+
+a#triggerZooms {
+}
+
+#panelZooms {
+	width: 820px;
+	height: auto;
+	text-align: center;
+}
+
+/*-------------------------*/
+
+a#triggerColorBar {
+}
+
+#panelColorBar {
+	width: 370px;
+	height: auto;
+	text-align: center;
+}
+
+/*************************/
+/* StyleMenu */
+
+
+/* zoom h2 */
+.styleMenu_menu_par_title_z {
+	display: none;
+}
+
+/*zoom select buttons*/
+#styleMenu_menu_zoom_selector {
+	align: center;
+	width: 100%;
+	padding: 10 0;
+}
+
+/*zoom slider*/
+#styleMenu_menu_sliderrangez {
+	align: center;
+	width: 100%;
+	padding: 0 0;
+}
+
+/* Widget slider*/
+.styleMenu_menu_slider {
+	width: 100px !important;
+	display: inline-block !important;
+}
+
+/* header of main section */
+.styleMenu_menu_par_title {
+	color: #fff;
+}
+
+
+
+/****************************/
+/* colorbar */
+
+.mapnifyColorBarDiv {
+  float : left;
+  border-style : solid;
+  border-width: 1px;
+  padding: 10px;
+  margin: 0px;
+  background-color: #fff;
+}
+
+.cb_canvas {
+  float : left;
+  border-style : solid;
+  border-width: 1px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 0;
+  margin: 20px;
+  background-color: rgb(255,255,255);
+}
+
+.cb_color {
+  float : left;
+  border-style : solid;
+  border-width: 0px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 0;
+  margin: 20px;
+}  
+
+.cb_colorpicker {
+  /*float : left;*/
+  border-style : solid;
+  border-width: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  padding: 0;
+  margin: 20px;
+}
+
+.cb_colorpickerWrap {
+  font-size : 100%;
+  float : left;
+  clear : both;
+  border-style : solid;
+  border-width: 1px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 0;
+  margin: 20px;
+  background-color: rgb(255,255,255);
+}
+
+.cb_pikerLegend {
+  /*float : left;
+  border-style : solid;
+  border-width: 0px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;*/
+  padding: 0;
+  margin: 20px;
+}
+
+.cb_Interp, .cb_Hsl, .cb_Clear{
+  margin: 5px;
 }

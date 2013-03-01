@@ -20,3 +20,11 @@
 	z-index: 3 !important;
 }
 
+
+/*-------------------------*/
+
+#panelColorbarManager {
+	top: 67px;
+	left: 0; 
+}
+

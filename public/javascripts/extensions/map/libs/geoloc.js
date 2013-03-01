@@ -1,10 +1,10 @@
 this.GeoLoc = {};
 
-GeoLoc.init = function(inputId, goButton, map, tryGeoloc){
+GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
 
      var geocoder;
 
-     var theMap = map;
+     var maperial = _maperial;
 
      goButton.bind("click", function(){ codeAddress(); } );
 
@@ -13,7 +13,7 @@ GeoLoc.init = function(inputId, goButton, map, tryGeoloc){
          if (status == google.maps.GeocoderStatus.OK) {
             var lat = results[0].geometry.location.lat();    
             var lon = results[0].geometry.location.lng();   
-            theMap.SetCenter(lat,lon);
+            maperial.SetCenter(lat,lon);
          }
          else {
             console.log("Geocode failed: " + status);
@@ -45,7 +45,7 @@ GeoLoc.init = function(inputId, goButton, map, tryGeoloc){
          var lat = position.coords.latitude;
          var lon = position.coords.longitude;
          var zoom = 13;
-         theMap.SetCenter(lat,lon);
+         maperial.SetCenter(lat,lon);
          initialize2();
      }  
 

@@ -60,11 +60,14 @@
       config.hud[HUD.MAGNIFIER]     = {show : true,  type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Magnifier" };
       config.hud[HUD.COLOR_BAR]     = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "ColorBar" };
 
+      config.hud["margin-top"] = App.Globals.HEADER_HEIGHT;
+      config.hud["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+      
       config.map.resizable = true;
       config.edition = HUD.REQUIRED;
 
       config.styles = [];
-      config.styles[0] = App.stylesData.selectedStyle;
+      config.styles[0] = App.stylesData.selectedStyle.content;
       
       return config;
    }  

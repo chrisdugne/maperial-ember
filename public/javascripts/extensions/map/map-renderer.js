@@ -175,8 +175,6 @@ MapRenderer.prototype.Start = function () {
       console.log("Can't build colorbar")
       return false;
    }
-
-   $(window).resize(Utils.bindObjFuncEvent ( this , "fitToSize" ) );
    
    this.DrawScene();
    setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );

@@ -12,6 +12,16 @@ function MapHUD(mapnify){
    this.initListeners();
 }
 
+
+MapHUD.SETTINGS_DEFAULT_POSITION      = { right : "0",    top    : "0"   };
+MapHUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
+MapHUD.COLORBAR_DEFAULT_POSITION      = { left  : "0",    top    : "180" };
+MapHUD.LATLON_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
+MapHUD.GEOLOC_DEFAULT_POSITION        = { left  : "50%",  top    : "0"   };
+MapHUD.DETAILS_MENU_DEFAULT_POSITION  = { left  : "0",    top    : "360" };
+MapHUD.QUICK_EDIT_DEFAULT_POSITION    = { left  : "0",    top    : "280" };
+MapHUD.ZOOMS_DEFAULT_POSITION         = { right : "25%",  top    : "0"   };
+
 //----------------------------------------------------------------------//
 
 MapHUD.prototype.initListeners = function () {
@@ -22,6 +32,66 @@ MapHUD.prototype.initListeners = function () {
       hud.updateLatLon();
    });
    
+}
+
+MapHUD.prototype.getMargin = function (property) {
+   if(!this.config.hud["margin-"+property])
+      return 0;
+   else
+      return this.config.hud["margin-"+property];
+}
+
+MapHUD.prototype.placeHUD = function () {
+
+   for (defaultPosition in MapHUD) {
+
+      if(!MapHUD.hasOwnProperty(defaultPosition))
+         continue;
+
+      var element = HUD[defaultPosition.split("_DEFAULT_POSITION")[0]];
+      
+      for (property in MapHUD[defaultPosition]) {
+
+         if(!MapHUD[defaultPosition].hasOwnProperty(property))
+            continue;
+
+         var value = MapHUD[defaultPosition][property];
+         
+         if(MapHUD[defaultPosition][property].indexOf("%") == -1){
+            value = parseInt(value) + this.getMargin(property);
+            $("#panel"+element).css(property, value+"px");
+            $("#trigger"+element).css(property, value+"px");
+            continue;
+         }
+
+         var percentage = MapHUD[defaultPosition][property].split("%")[0];
+         var triggerWidth = $("#trigger"+element).width();
+         var triggerHeight = $("#trigger"+element).height();
+         var panelWidth = $("#panel"+element).width();
+         var panelHeight = $("#panel"+element).height();
+
+         switch(property){
+            case "top":
+            case "bottom":
+               switch(this.config.hud[element].type){
+                  case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].height) - panelHeight/2; break;
+                  case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].height) - triggerHeight/2; break;
+               }
+               break;
+            case "left":
+            case "right":
+               switch(this.config.hud[element].type){
+                  case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].width) - panelWidth/2; break;
+                  case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].width) - triggerWidth/2; break;
+               }
+               break;
+         }
+
+         value += this.getMargin(property);
+         $("#panel"+element).css(property, value+"px");
+         $("#trigger"+element).css(property, value+"px");
+      }
+   }
 }
 
 //==================================================================//

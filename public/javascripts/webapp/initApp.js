@@ -43,16 +43,6 @@
       }catch(e){}
 
       //------------------------------------------
-      // updating map canvas + html sizes
-
-      if($("#map")[0]){
-         $("#map").css("width", "100%");
-         $("#map").css("height", $(window).height());
-         $("#map")[0].width =   $("#map").width();
-         $("#map")[0].height =  $("#map").height();
-      }
-
-      //------------------------------------------
       
       App.homeScroller.resizeWindow($("#webappDiv").width());
    }

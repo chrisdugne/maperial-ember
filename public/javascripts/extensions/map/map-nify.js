@@ -7,14 +7,14 @@ function Mapnify(){
    this.mapMover;
    this.mapMouse;
    this.mapHUD;
-   
+
    this.isBuilt;
 
    this.scriptsPath = "assets/javascripts/extensions";
 }
 
 //==================================================================//
-// Global Events
+//Global Events
 
 function MapnifyEvent(){}
 
@@ -33,8 +33,9 @@ HUD.OPTION                 = "Mapnify.OPTION";
 HUD.TRIGGER                = "trigger";
 HUD.PANEL                  = "panel";
 
+HUD.SETTINGS               = "HUDSettings";
 HUD.MAGNIFIER              = "Magnifier";
-HUD.COLOR_BAR              = "ColorBar";
+HUD.COLORBAR               = "ColorBar";
 HUD.LATLON                 = "LatLon";
 HUD.GEOLOC                 = "Geoloc";
 HUD.DETAILS_MENU           = "DetailsMenu";
@@ -79,47 +80,47 @@ Mapnify.prototype.load = function() {
 
    $(window).trigger(MapnifyEvent.LOADING);
    console.log("Mapnify.build");
-   
+
    var mapnify = this; // to have access to 'this' in the callBack
    ScriptLoader.getScripts([
-             // libs
-             this.scriptsPath + "/map/libs/gl-matrix-min.js",
-             this.scriptsPath + "/map/libs/coordinate-system.js",
-             this.scriptsPath + "/map/libs/geoloc.js",
-             this.scriptsPath + "/map/libs/fabric.all.1.0.6.js",
-             this.scriptsPath + "/map/libs/colorpicker.js",
-             this.scriptsPath + "/map/libs/RGBColor.js",
-             this.scriptsPath + "/map/libs/hashmap.js",
-             this.scriptsPath + "/map/libs/canvasutilities.js",
+                            // libs
+                            this.scriptsPath + "/map/libs/gl-matrix-min.js",
+                            this.scriptsPath + "/map/libs/coordinate-system.js",
+                            this.scriptsPath + "/map/libs/geoloc.js",
+                            this.scriptsPath + "/map/libs/fabric.all.1.0.6.js",
+                            this.scriptsPath + "/map/libs/colorpicker.js",
+                            this.scriptsPath + "/map/libs/RGBColor.js",
+                            this.scriptsPath + "/map/libs/hashmap.js",
+                            this.scriptsPath + "/map/libs/canvasutilities.js",
 
-             // rendering
-             this.scriptsPath + "/map/rendering/gl-tools.js",
-             this.scriptsPath + "/map/rendering/gl-rasterlayer.js",
-             this.scriptsPath + "/map/rendering/gl-tile.js",
-             this.scriptsPath + "/map/rendering/gl-vectoriallayer.js",
-             this.scriptsPath + "/map/rendering/render-line.js",
-             this.scriptsPath + "/map/rendering/render-text.js",
-             this.scriptsPath + "/map/rendering/tile-renderer.js",
+                            // rendering
+                            this.scriptsPath + "/map/rendering/gl-tools.js",
+                            this.scriptsPath + "/map/rendering/gl-rasterlayer.js",
+                            this.scriptsPath + "/map/rendering/gl-tile.js",
+                            this.scriptsPath + "/map/rendering/gl-vectoriallayer.js",
+                            this.scriptsPath + "/map/rendering/render-line.js",
+                            this.scriptsPath + "/map/rendering/render-text.js",
+                            this.scriptsPath + "/map/rendering/tile-renderer.js",
 
-             // modules
-             this.scriptsPath + "/map/map-events.js",
-             this.scriptsPath + "/map/map-parameters.js",
-             this.scriptsPath + "/map/map-mouse.js",
-             this.scriptsPath + "/map/map-hud.js",
-             this.scriptsPath + "/map/map-renderer.js",
-             this.scriptsPath + "/map/map-mover.js",
+                            // modules
+                            this.scriptsPath + "/map/map-events.js",
+                            this.scriptsPath + "/map/map-parameters.js",
+                            this.scriptsPath + "/map/map-mouse.js",
+                            this.scriptsPath + "/map/map-hud.js",
+                            this.scriptsPath + "/map/map-renderer.js",
+                            this.scriptsPath + "/map/map-mover.js",
 
-             // edition
-             this.scriptsPath + "/map/edition/boundingbox-drawer.js",
-             this.scriptsPath + "/map/edition/colortool.js",
-             this.scriptsPath + "/map/edition/symbolizer.js",
-             this.scriptsPath + "/map/edition/style-menu.js",
-             this.scriptsPath + "/map/edition/colorbar-renderer.js"
+                            // edition
+                            this.scriptsPath + "/map/edition/boundingbox-drawer.js",
+                            this.scriptsPath + "/map/edition/colortool.js",
+                            this.scriptsPath + "/map/edition/symbolizer.js",
+                            this.scriptsPath + "/map/edition/style-menu.js",
+                            this.scriptsPath + "/map/edition/colorbar-renderer.js"
 
-             ],
-      function(){
-         mapnify.build();
-      });                    
+                            ],
+                            function(){
+      mapnify.build();
+   });                    
 
 }
 
@@ -130,7 +131,7 @@ Mapnify.prototype.build = function() {
    console.log("Mapnify.build");
 
    //--------------------------//
-   
+
    this.createContext();
    this.enhanceConfig();
 
@@ -145,12 +146,18 @@ Mapnify.prototype.build = function() {
 
    //--------------------------//
 
+   this.refreshScreen();
+   
+   //--------------------------//
+
    var tryGeoloc = false;
-   GeoLoc.init("GeoLoc",$("#GeoLocGo"), this.map, tryGeoloc);
+   GeoLoc.init("GeoLoc", $("#GeoLocGo"), this, tryGeoloc);
 
    //--------------------------//
 
    $(window).trigger(MapnifyEvent.FREE);
+   $(window).resize(Utils.bindObjFuncEvent ( this , "refreshScreen" ) );
+   
    this.isBuilt = true;
 }
 
@@ -177,10 +184,10 @@ Mapnify.prototype.createContext = function() {
 //==================================================================//
 
 Mapnify.prototype.enhanceConfig = function() {
-   
+
    this.config.renderParameters = new MapParameters();
-   this.config.renderParameters.AddOrRefreshStyle("default", this.config.styles[0].content);
-   
+   this.config.renderParameters.AddOrRefreshStyle("default", this.config.styles[0]);
+
 }
 
 //==================================================================//
@@ -190,10 +197,8 @@ Mapnify.prototype.buildMap = function() {
    this.mapRenderer = new MapRenderer( this );
    this.mapMover = new MapMover( this );
    this.mapMouse = new MapMouse( this );
-
-   this.refreshScreen();
    this.mapRenderer.Start();
-   
+
    // note : init si config seulement
 // this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
 
@@ -208,8 +213,27 @@ Mapnify.prototype.buildMap = function() {
 //-----------------------------------------------//
 
 Mapnify.prototype.refreshScreen = function() {
- this.mapRenderer.fitToSize();
- this.mapMover.resizeDrawers();   
+   
+   var w = $(window).width(); 
+   var h = $(window).height();
+   
+   if(this.config.map.width)
+      w = this.config.map.width;
+
+   if(this.config.map.height)
+      h = this.config.map.height;
+      
+   
+   if(this.context.mapCanvas[0]){
+      this.context.mapCanvas.css("width", w);
+      this.context.mapCanvas.css("height", h);
+      this.context.mapCanvas[0].width = w;
+      this.context.mapCanvas[0].height = h;
+   }
+
+   this.mapRenderer.fitToSize();
+   this.mapMover.resizeDrawers();
+   this.mapHUD.placeHUD();
 }
 
 //==================================================================//
