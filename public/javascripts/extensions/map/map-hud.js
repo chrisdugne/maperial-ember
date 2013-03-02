@@ -97,11 +97,11 @@ MapHUD.prototype.placeHUD = function () {
 //==================================================================//
 
 MapHUD.prototype.reset = function(){
-   this.hideAllTriggers();
+   this.hideAllHUD();
 }
 
 MapHUD.prototype.display = function(){
-   this.showTriggers();
+   this.showAllHUD();
    this.refreshSettings();   
 }
 
@@ -184,7 +184,7 @@ MapHUD.prototype.renderTriggers = function(){
    // triggers
 
    $( ".trigger" ).bind('dragstart',function( event ){
-      $(this).addClass('noclick');
+      $(this).addClass('beingdragging');
       $(this).css('right', 'auto');
       $(this).css('bottom', 'auto');
 
@@ -209,13 +209,27 @@ MapHUD.prototype.renderTriggers = function(){
 
 //------------------------------------------------//
 
+MapHUD.prototype.showTrigger = function(name){
+   $("#icon"+name).show("fast");
+   $("#trigger"+name).removeClass("active");
+}
+
+//------------------------------------------------//
+
+MapHUD.prototype.hideTrigger = function(name){
+   $("#icon"+name).hide("fast");
+   $("#panel"+name).hide("fast");
+   $("#trigger"+name).addClass("active");
+}
+
+//------------------------------------------------//
+
 MapHUD.prototype.clickOnTrigger = function(trigger){
-   console.log(trigger);
    var name = trigger[0].id.replace("trigger","");
    this.putOnTop(name);
 
-   if (trigger.hasClass('noclick')) {
-      trigger.removeClass('noclick');
+   if (trigger.hasClass('beingdragging')) {
+      trigger.removeClass('beingdragging');
    }
    else {
 
@@ -252,7 +266,7 @@ MapHUD.prototype.refreshSettings = function() {
          continue;
       }  
 
-      if(configHUD[element].visibility != HUD.OPTION){ 
+      if(!configHUD[element].isOption){ 
          continue;
       }  
 
@@ -276,12 +290,13 @@ MapHUD.prototype.refreshSettings = function() {
             $("#"+configHUD[thisElement].type+thisElement).addClass("hide");
             
             if(configHUD[thisElement].type == HUD.TRIGGER)
-               hud.clickOnTrigger($("#trigger"+thisElement));
+               hud.hideTrigger(thisElement);
          }
          else{
             $(this).addClass('on');
             var thisElement = $(this).context.id.replace("toggle","");
             $("#"+configHUD[thisElement].type+thisElement).removeClass("hide");
+            hud.showTrigger(thisElement);
          }
       });
 
@@ -295,7 +310,7 @@ MapHUD.prototype.refreshSettings = function() {
 
 //------------------------------------------------//
 
-MapHUD.prototype.hideAllTriggers = function(){
+MapHUD.prototype.hideAllHUD = function(){
    for (element in this.config.hud) {
       if(!this.config.hud.hasOwnProperty(element))
          continue;
@@ -304,14 +319,13 @@ MapHUD.prototype.hideAllTriggers = function(){
       $("#toggle"+element).removeClass('on');
 
       if(this.config.hud[element].type == HUD.TRIGGER)
-         this.clickOnTrigger($("#trigger"+thisElement));
+         this.hideTrigger(element);
    }
 }
 
 //------------------------------------------------//
 
-MapHUD.prototype.showTriggers = function(){
-
+MapHUD.prototype.showAllHUD = function(){
    for (element in this.config.hud) {
       if(!this.config.hud.hasOwnProperty(element))
          continue;
@@ -321,8 +335,6 @@ MapHUD.prototype.showTriggers = function(){
       }
    }
 
-   $("#triggerHUDSettings").removeClass("hide");
-   
 }
 
 //------------------------------------------------//

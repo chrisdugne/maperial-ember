@@ -8,8 +8,6 @@ function Maperial(){
    this.mapMouse;
    this.mapHUD;
 
-   this.isBuilt;
-
    this.scriptsPath = "assets/javascripts/extensions";
 }
 
@@ -27,8 +25,6 @@ MaperialEvent.REFRESH_SIZES    = "Maperial.REFRESH_SIZES";
 function HUD(){}
 
 HUD.DISABLED               = "Maperial.DISABLED";
-HUD.REQUIRED               = "Maperial.REQUIRED";
-HUD.OPTION                 = "Maperial.OPTION";
 
 HUD.TRIGGER                = "trigger";
 HUD.PANEL                  = "panel";
@@ -51,27 +47,16 @@ HUD.ZOOMS                  = "Zooms";
 //this.boundingBoxStartLon = boundingBoxStartLon;
 
 Maperial.prototype.apply = function(config){
-
-   console.log("Maperial apply config");
-   console.log(config);
-
-   if(this.isBuilt){
-      this.changeConfig(config);
-   }
-   else{
-      this.config = config;
-      this.load();
-   }
+   this.config = config;
+   this.reset();
+   this.load();
 }
 
 //==================================================================//
 
-Maperial.prototype.changeConfig = function(config){
-   console.log("change config");
-
-   this.mapHUD.reset();
-   this.config = config;
-   this.mapHUD.display();
+Maperial.prototype.reset = function(){
+   var me = this;
+   me = new Maperial();
 }
 
 //==================================================================//
@@ -79,48 +64,47 @@ Maperial.prototype.changeConfig = function(config){
 Maperial.prototype.load = function() {
 
    $(window).trigger(MaperialEvent.LOADING);
-   console.log("Maperial.build");
 
    var maperial = this; // to have access to 'this' in the callBack
    ScriptLoader.getScripts([
-                            // libs
-                            this.scriptsPath + "/map/libs/gl-matrix-min.js",
-                            this.scriptsPath + "/map/libs/coordinate-system.js",
-                            this.scriptsPath + "/map/libs/geoloc.js",
-                            this.scriptsPath + "/map/libs/fabric.all.1.0.6.js",
-                            this.scriptsPath + "/map/libs/colorpicker.js",
-                            this.scriptsPath + "/map/libs/RGBColor.js",
-                            this.scriptsPath + "/map/libs/hashmap.js",
-                            this.scriptsPath + "/map/libs/canvasutilities.js",
+                // libs
+                this.scriptsPath + "/map/libs/gl-matrix-min.js",
+                this.scriptsPath + "/map/libs/coordinate-system.js",
+                this.scriptsPath + "/map/libs/geoloc.js",
+                this.scriptsPath + "/map/libs/fabric.all.1.0.6.js",
+                this.scriptsPath + "/map/libs/colorpicker.js",
+                this.scriptsPath + "/map/libs/RGBColor.js",
+                this.scriptsPath + "/map/libs/hashmap.js",
+                this.scriptsPath + "/map/libs/canvasutilities.js",
 
-                            // rendering
-                            this.scriptsPath + "/map/rendering/gl-tools.js",
-                            this.scriptsPath + "/map/rendering/gl-rasterlayer.js",
-                            this.scriptsPath + "/map/rendering/gl-tile.js",
-                            this.scriptsPath + "/map/rendering/gl-vectoriallayer.js",
-                            this.scriptsPath + "/map/rendering/render-line.js",
-                            this.scriptsPath + "/map/rendering/render-text.js",
-                            this.scriptsPath + "/map/rendering/tile-renderer.js",
+                // rendering
+                this.scriptsPath + "/map/rendering/gl-tools.js",
+                this.scriptsPath + "/map/rendering/gl-rasterlayer.js",
+                this.scriptsPath + "/map/rendering/gl-tile.js",
+                this.scriptsPath + "/map/rendering/gl-vectoriallayer.js",
+                this.scriptsPath + "/map/rendering/render-line.js",
+                this.scriptsPath + "/map/rendering/render-text.js",
+                this.scriptsPath + "/map/rendering/tile-renderer.js",
 
-                            // modules
-                            this.scriptsPath + "/map/map-events.js",
-                            this.scriptsPath + "/map/map-parameters.js",
-                            this.scriptsPath + "/map/map-mouse.js",
-                            this.scriptsPath + "/map/map-hud.js",
-                            this.scriptsPath + "/map/map-renderer.js",
-                            this.scriptsPath + "/map/map-mover.js",
+                // modules
+                this.scriptsPath + "/map/map-events.js",
+                this.scriptsPath + "/map/map-parameters.js",
+                this.scriptsPath + "/map/map-mouse.js",
+                this.scriptsPath + "/map/map-hud.js",
+                this.scriptsPath + "/map/map-renderer.js",
+                this.scriptsPath + "/map/map-mover.js",
 
-                            // edition
-                            this.scriptsPath + "/map/edition/boundingbox-drawer.js",
-                            this.scriptsPath + "/map/edition/colortool.js",
-                            this.scriptsPath + "/map/edition/symbolizer.js",
-                            this.scriptsPath + "/map/edition/style-menu.js",
-                            this.scriptsPath + "/map/edition/colorbar-renderer.js"
+                // edition
+                this.scriptsPath + "/map/edition/boundingbox-drawer.js",
+                this.scriptsPath + "/map/edition/colortool.js",
+                this.scriptsPath + "/map/edition/symbolizer.js",
+                this.scriptsPath + "/map/edition/style-menu.js",
+                this.scriptsPath + "/map/edition/colorbar-renderer.js"
 
-                            ],
-                            function(){
-      maperial.build();
-   });                    
+                ],
+          function(){
+             maperial.build();
+          });                    
 
 }
 

@@ -23,7 +23,7 @@ MapRenderer.prototype.initListeners = function () {
    });
    
    $(window).on(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE, function(){
-      if(renderer.config.edition != HUD.DISABLED ){
+      if(renderer.config.edition){
          renderer.FindLayerId();
       }
    });
