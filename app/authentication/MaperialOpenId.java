@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import controllers.Application;
 
-public class MapnifyOpenId extends Application {
+public class MaperialOpenId extends Application {
 
 	public static String CLIENT_ID = "FI4ZNGH5843JD3F";
 	public static String SECRET = "P#RJ!!42FVJ@TZE&52?5345VDFGk";

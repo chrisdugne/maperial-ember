@@ -310,12 +310,12 @@ ColorBarRenderer.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInt
   
     _mainDiv.css('width',canvasW + 20);
   
-    // add an inner div of class mapnifyColorBarDiv (allow css tuning)
-    var mapnifyColorBarDiv = $("<div class=\"mapnifyColorBarDiv\"></div>");
-    mapnifyColorBarDiv.appendTo(_mainDiv);
+    // add an inner div of class maperialColorBarDiv (allow css tuning)
+    var maperialColorBarDiv = $("<div class=\"maperialColorBarDiv\"></div>");
+    maperialColorBarDiv.appendTo(_mainDiv);
      
     //add the canvas for colorBar
-    $("<canvas class=\"cb_canvas\" id=\"" + canvasId + "\" width=\"" + canvasW +"\" height=\"" + canvasH + "\"></canvas>").appendTo(mapnifyColorBarDiv);
+    $("<canvas class=\"cb_canvas\" id=\"" + canvasId + "\" width=\"" + canvasW +"\" height=\"" + canvasH + "\"></canvas>").appendTo(maperialColorBarDiv);
 
     //get the canvas context
     context = document.getElementById(canvasId).getContext("2d");
@@ -335,7 +335,7 @@ ColorBarRenderer.Bar = function(_width,_height,_mainDiv,_offsetX,_offsetY,_doInt
         '  </form>'                                                                       +
         '</div>'                                                                          +
         '';
-    $(tmp).appendTo(mapnifyColorBarDiv);
+    $(tmp).appendTo(maperialColorBarDiv);
   
     // register the button callbacks 
     $('#cb_Interp_'+ globalUID).click(function()    {self.toggleInterp();});

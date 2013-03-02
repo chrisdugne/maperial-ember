@@ -1,10 +1,10 @@
 
 //=====================================================================================//
 
-function MapRenderer(mapnify) {
+function MapRenderer(maperial) {
    
-   this.config = mapnify.config;
-   this.context = mapnify.context;
+   this.config = maperial.config;
+   this.context = maperial.context;
    
    this.tileCache = {};
    this.dataCache = {};

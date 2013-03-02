@@ -1,6 +1,6 @@
 //==================================================================//
 
-function Mapnify(){
+function Maperial(){
    this.config;
    this.context;
    this.mapRenderer;
@@ -16,19 +16,19 @@ function Mapnify(){
 //==================================================================//
 //Global Events
 
-function MapnifyEvent(){}
+function MaperialEvent(){}
 
-MapnifyEvent.LOADING          = "Mapnify.LOADING";
-MapnifyEvent.FREE             = "Mapnify.FREE";
-MapnifyEvent.REFRESH_SIZES    = "Mapnify.REFRESH_SIZES";
+MaperialEvent.LOADING          = "Maperial.LOADING";
+MaperialEvent.FREE             = "Maperial.FREE";
+MaperialEvent.REFRESH_SIZES    = "Maperial.REFRESH_SIZES";
 
 //---------------------------------------------------------------------------//
 
 function HUD(){}
 
-HUD.DISABLED               = "Mapnify.DISABLED";
-HUD.REQUIRED               = "Mapnify.REQUIRED";
-HUD.OPTION                 = "Mapnify.OPTION";
+HUD.DISABLED               = "Maperial.DISABLED";
+HUD.REQUIRED               = "Maperial.REQUIRED";
+HUD.OPTION                 = "Maperial.OPTION";
 
 HUD.TRIGGER                = "trigger";
 HUD.PANEL                  = "panel";
@@ -50,9 +50,9 @@ HUD.ZOOMS                  = "Zooms";
 //this.boundingBoxStartLat = boundingBoxStartLat;
 //this.boundingBoxStartLon = boundingBoxStartLon;
 
-Mapnify.prototype.apply = function(config){
+Maperial.prototype.apply = function(config){
 
-   console.log("Mapnify apply config");
+   console.log("Maperial apply config");
    console.log(config);
 
    if(this.isBuilt){
@@ -66,7 +66,7 @@ Mapnify.prototype.apply = function(config){
 
 //==================================================================//
 
-Mapnify.prototype.changeConfig = function(config){
+Maperial.prototype.changeConfig = function(config){
    console.log("change config");
 
    this.mapHUD.reset();
@@ -76,12 +76,12 @@ Mapnify.prototype.changeConfig = function(config){
 
 //==================================================================//
 
-Mapnify.prototype.load = function() {
+Maperial.prototype.load = function() {
 
-   $(window).trigger(MapnifyEvent.LOADING);
-   console.log("Mapnify.build");
+   $(window).trigger(MaperialEvent.LOADING);
+   console.log("Maperial.build");
 
-   var mapnify = this; // to have access to 'this' in the callBack
+   var maperial = this; // to have access to 'this' in the callBack
    ScriptLoader.getScripts([
                             // libs
                             this.scriptsPath + "/map/libs/gl-matrix-min.js",
@@ -119,16 +119,16 @@ Mapnify.prototype.load = function() {
 
                             ],
                             function(){
-      mapnify.build();
+      maperial.build();
    });                    
 
 }
 
 //==================================================================//
 
-Mapnify.prototype.build = function() {
+Maperial.prototype.build = function() {
 
-   console.log("Mapnify.build");
+   console.log("Maperial.build");
 
    //--------------------------//
 
@@ -155,7 +155,7 @@ Mapnify.prototype.build = function() {
 
    //--------------------------//
 
-   $(window).trigger(MapnifyEvent.FREE);
+   $(window).trigger(MaperialEvent.FREE);
    $(window).resize(Utils.bindObjFuncEvent ( this , "refreshScreen" ) );
    
    this.isBuilt = true;
@@ -164,7 +164,7 @@ Mapnify.prototype.build = function() {
 
 //==================================================================//
 
-Mapnify.prototype.createContext = function() {
+Maperial.prototype.createContext = function() {
 
    this.context = {};
    this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
@@ -183,7 +183,7 @@ Mapnify.prototype.createContext = function() {
 
 //==================================================================//
 
-Mapnify.prototype.enhanceConfig = function() {
+Maperial.prototype.enhanceConfig = function() {
 
    this.config.renderParameters = new MapParameters();
    this.config.renderParameters.AddOrRefreshStyle("default", this.config.styles[0]);
@@ -192,7 +192,7 @@ Mapnify.prototype.enhanceConfig = function() {
 
 //==================================================================//
 
-Mapnify.prototype.buildMap = function() {
+Maperial.prototype.buildMap = function() {
 
    this.mapRenderer = new MapRenderer( this );
    this.mapMover = new MapMover( this );
@@ -212,7 +212,7 @@ Mapnify.prototype.buildMap = function() {
 
 //-----------------------------------------------//
 
-Mapnify.prototype.refreshScreen = function() {
+Maperial.prototype.refreshScreen = function() {
    
    var w = $(window).width(); 
    var h = $(window).height();
@@ -238,40 +238,40 @@ Mapnify.prototype.refreshScreen = function() {
 
 //==================================================================//
 
-Mapnify.prototype.buildStyleMenu = function() {
+Maperial.prototype.buildStyleMenu = function() {
    StyleMenu.init($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
 }
 
 //==================================================================//
 
-Mapnify.prototype.buildHUD = function() {
+Maperial.prototype.buildHUD = function() {
    this.mapHUD = new MapHUD( this );
 }
 
 //==================================================================//
 
-Mapnify.prototype.SetCenter=function(lat,lon){
+Maperial.prototype.SetCenter=function(lat,lon){
    this.context.centerM = this.context.coordS.LatLonToMeters( lat , lon );
    this.mapRenderer.DrawScene();
 }
 
-Mapnify.prototype.SetZoom = function(z){
+Maperial.prototype.SetZoom = function(z){
    if ( z > -1 && z < 19 ){
       this.context.zoom = z;
    }
 }
 
-Mapnify.prototype.GetZoom = function(){
+Maperial.prototype.GetZoom = function(){
    return this.context.zoom;
 }
 
-Mapnify.prototype.ZoomIn = function(){
+Maperial.prototype.ZoomIn = function(){
    if ( this.context.zoom < 18 ){
       this.SetZoom(this.context.zoom + 1 );
    }
 }
 
-Mapnify.prototype.ZoomOut = function(){
+Maperial.prototype.ZoomOut = function(){
    if ( this.context.zoom > 0 ){
       this.SetZoom(this.context.zoom - 1 );
    }

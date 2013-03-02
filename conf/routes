@@ -47,6 +47,6 @@ POST /editColorbar					controllers.ColorbarService.editColorbar()
 POST /removeColorbar				controllers.ColorbarService.removeColorbar()
 
 #---------------------------------------------------------------------------
-#   MapnifyAuth
+#   MaperialAuth
  
-GET  /mapnifyAuthToken				authentication.MapnifyOpenId.receivedToken()
+GET  /maperialAuthToken				authentication.MaperialOpenId.receivedToken()

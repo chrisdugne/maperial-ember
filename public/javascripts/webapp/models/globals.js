@@ -19,8 +19,8 @@
       apiKey: 'AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8',
       scopes: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
       googleClientId : window.location.hostname == "localhost" ? '643408271777.apps.googleusercontent.com' : '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com',
-      APP_URL : window.location.hostname == "localhost" ? 'http://localhost:9000' : 'http://mapnify.herokuApp.com',
-      mapnifyEmail: "",
+      APP_URL : window.location.hostname == "localhost" ? 'http://localhost:9000' : 'http://maperial.herokuApp.com',
+      maperialEmail: "",
       currentView: "",
       parentView: "",
       currentPage: "",
@@ -37,7 +37,7 @@
    //------------------------------------------------------//
 
    App.Globals = Globals.create();
-   App.mapnify = new Mapnify();
+   App.maperial = new Maperial();
    App.mapManager = new MapManager();
    
    App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
@@ -52,7 +52,7 @@
       email += String.fromCharCode(6^guymal_enc.charCodeAt(i));
    }
 
-   App.Globals.set("mapnifyEmail", email);
+   App.Globals.set("maperialEmail", email);
 
    //------------------------------------------------------//
    // gather epsg list

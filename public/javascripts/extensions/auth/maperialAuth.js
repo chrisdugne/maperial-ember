@@ -1,49 +1,49 @@
 // -------------------------------------------//
-//	 	Mapnify Login Lib
+//	 	Maperial Login Lib
 // -------------------------------------------//
 
-this.MapnifyAuth = {};
+this.MaperialAuth = {};
 
 // -------------------------------------------//
 
-MapnifyAuth.authorize = function() 
+MaperialAuth.authorize = function() 
 {
 	var authorizeURL = "http://map.x-ray.fr/user/auth"
-		+ "?redirect=" + App.Globals.APP_URL + "/mapnifyAuthToken";
+		+ "?redirect=" + App.Globals.APP_URL + "/maperialAuthToken";
 
 	Utils.popup(authorizeURL, 'signin', 400, 150);
 }
 
-MapnifyAuth.badtoken = function () 
+MaperialAuth.badtoken = function () 
 {
 	console.log("badtoken !!!");
 }
 
-MapnifyAuth.tokenGranted = function (token, email) 
+MaperialAuth.tokenGranted = function (token, email) 
 {
 	App.user.set("email", email);
-	App.user.set("mapnifyToken", token);
+	App.user.set("maperialToken", token);
 	App.user.set("loggedIn", true);
 	
 	UserManager.getAccount();
 	
-	MapnifyAuth.checkPresence();
+	MaperialAuth.checkPresence();
 }
 
 //-------------------------------------------//
 
-MapnifyAuth.checkIfIsLoggedIn = function()
+MaperialAuth.checkIfIsLoggedIn = function()
 {
 	setTimeout(function(){
 		$.ajax({
 			type: "POST",  
 			url: "http://map.x-ray.fr/user/islogin",
-			data: {token : App.user.mapnifyToken},
+			data: {token : App.user.maperialToken},
 			success: function (data, textStatus, jqXHR)
 			{
 				if(data.login)
 				{
-					MapnifyAuth.checkIfIsLoggedIn();
+					MaperialAuth.checkIfIsLoggedIn();
 				}
 				else{
 					alert("logged out !");
@@ -57,10 +57,10 @@ MapnifyAuth.checkIfIsLoggedIn = function()
 
 // -------------------------------------------//
 
-MapnifyAuth.dummy = function()
+MaperialAuth.dummy = function()
 {
 	App.user.set("name", "Bob Le Bobby");
-	App.user.set("email", "dummy@mapnify.fr");
+	App.user.set("email", "dummy@maperial.fr");
 	App.user.set("loggedIn", true);
 	
 	UserManager.getAccount();

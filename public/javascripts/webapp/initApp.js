@@ -49,20 +49,20 @@
 
    //------------------------------------------------------//
 
-   $(window).on(MapnifyEvent.REFRESH_SIZES, function(){
-      console.log("mapnify asks to refresh sizes");
+   $(window).on(MaperialEvent.REFRESH_SIZES, function(){
+      console.log("maperial asks to refresh sizes");
       App.refreshSizes();
    });
    
-   $(window).on(MapnifyEvent.LOADING, function(){
-      console.log("mapnify is  LOADING");
+   $(window).on(MaperialEvent.LOADING, function(){
+      console.log("maperial is  LOADING");
       App.user.set("waiting", true);
    });
    
-   $(window).on(MapnifyEvent.FREE, function(){
+   $(window).on(MaperialEvent.FREE, function(){
       $("#footer").css({ position : "fixed" });
       App.user.set("waiting", false);
-      console.log("mapnify is  FREE");
+      console.log("maperial is  FREE");
    });
 
 })( this );

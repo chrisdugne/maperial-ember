@@ -154,7 +154,7 @@
       // mapCreation.styleAndColorbar
       config["StyleManager"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
-      // mapnify hud
+      // maperial hud
       config[HUD.LATLON]        = {show : false, type : HUD.PANEL,    visibility : HUD.OPTION, label : "Lat/Lon" };
       config[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    visibility : HUD.OPTION, label : "Location" };
       config[HUD.DETAILS_MENU]  = {show : false, type : HUD.TRIGGER,  visibility : HUD.OPTION, label : "Style Details" };
@@ -175,7 +175,7 @@
       // mapCreation.mapSettings
       config["MapSettings"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
-      // mapnify hud
+      // maperial hud
       config[HUD.LATLON]        = {show : false, type : HUD.PANEL,    visibility : HUD.OPTION, label : "Lat/Lon" };
       config[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    visibility : HUD.OPTION, label : "Location" };
       config[HUD.DETAILS_MENU]  = HUD.DISABLED;

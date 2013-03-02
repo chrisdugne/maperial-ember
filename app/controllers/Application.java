@@ -9,7 +9,7 @@ import views.html.main;
 
 public class Application extends Controller
 {
-	private static final String NETWORK_NAME = "Mapnify";
+	private static final String NETWORK_NAME = "Maperial";
 	private static final String PROTECTED_RESOURCE_URL = "http://google.com";
 
 	protected static Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();

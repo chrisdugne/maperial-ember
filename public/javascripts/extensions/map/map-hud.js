@@ -1,10 +1,10 @@
 
 //==================================================================//
 
-function MapHUD(mapnify){
+function MapHUD(maperial){
 
-   this.config = mapnify.config;
-   this.context = mapnify.context;
+   this.config = maperial.config;
+   this.context = maperial.context;
 
    this.renderTriggers();
    this.display();

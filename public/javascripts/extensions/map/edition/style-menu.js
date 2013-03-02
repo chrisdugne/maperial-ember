@@ -84,12 +84,12 @@ StyleMenu.EventProxy.NewEvent = function(){
    var curTime = new Date().getTime(); // ms
    if ( StyleMenu.EventProxy.lastEvt == null){
       StyleMenu.EventProxy.lastEvt = curTime;
-      StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
+      StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
       return;
    }
    if ( curTime - StyleMenu.EventProxy.lastEvt > StyleMenu.EventProxy.eventRate){
       StyleMenu.EventProxy.lastEvt = curTime;
-      StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
+      StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
       return;
    }
    StyleMenu.EventProxy.queuedEvt = curTime;
@@ -103,7 +103,7 @@ window.setInterval(
             return;
          }
          if ( curTime - StyleMenu.EventProxy.queuedEvt > StyleMenu.EventProxy.eventRate){ // if last event is "old"
-            StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
+            StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
             StyleMenu.EventProxy.queuedEvt = null;
          }
       },
@@ -382,7 +382,7 @@ StyleMenu.__LoadStyle = function(){
 StyleMenu.UpdateActivZoom = function(){
    StyleMenu.activZooms = [];
    for ( var z = 1 ; z < 19 ; ++z){
-      if ( z == StyleMenu.mapnify.GetZoom() ){
+      if ( z == StyleMenu.maperial.GetZoom() ){
          if(StyleMenu.debug)console.log("map zoom is " + z);
          $("#styleMenu_menu_zcheck"+z).button( "option", "label", "Z" + z + "*");
       }
@@ -402,13 +402,13 @@ StyleMenu.UpdateActivZoom = function(){
 
 
 StyleMenu.ZoomOut = function(){
-   StyleMenu.mapnify.ZoomOut();
+   StyleMenu.maperial.ZoomOut();
    StyleMenu.UpdateActivZoom();
    StyleMenu.__BuildWidget(StyleMenu.currentGroup,StyleMenu.currentName,StyleMenu.currentUid);
 }
 
 StyleMenu.ZoomIn = function(){
-   StyleMenu.mapnify.ZoomIn();
+   StyleMenu.maperial.ZoomIn();
    StyleMenu.UpdateActivZoom();
    StyleMenu.__BuildWidget(StyleMenu.currentGroup,StyleMenu.currentName,StyleMenu.currentUid);
 }
@@ -694,10 +694,10 @@ StyleMenu.FillWidget = function(uid){
       return;
    }
 
-   if(StyleMenu.debug)console.log("Current zoom is " , StyleMenu.mapnify.GetZoom() , uid, def , rule); 
+   if(StyleMenu.debug)console.log("Current zoom is " , StyleMenu.maperial.GetZoom() , uid, def , rule); 
 
    //var def = 0; // first def is always the good one :-)
-   var rd = StyleMenu.DefRuleIdFromZoom(uid,StyleMenu.mapnify.GetZoom());
+   var rd = StyleMenu.DefRuleIdFromZoom(uid,StyleMenu.maperial.GetZoom());
    var def = rd.def;
    var ruleId = rd.ruleId;
    var rule = rd.rule;
@@ -705,17 +705,17 @@ StyleMenu.FillWidget = function(uid){
    if(StyleMenu.debug)console.log("Fill widget for",def,ruleId,rule);
 
    if ( ruleId < 0 ){
-      if(StyleMenu.debug)console.log("Cannot find ruleId for zoom " + StyleMenu.mapnify.GetZoom());
+      if(StyleMenu.debug)console.log("Cannot find ruleId for zoom " + StyleMenu.maperial.GetZoom());
       return;
    }
 
    if ( rule < 0 ){
-      if(StyleMenu.debug)console.log("Cannot find rule for zoom " + StyleMenu.mapnify.GetZoom());
+      if(StyleMenu.debug)console.log("Cannot find rule for zoom " + StyleMenu.maperial.GetZoom());
       return;
    }
 
    if ( def < 0 ){
-      if(StyleMenu.debug)console.log("Cannot find def for zoom " + StyleMenu.mapnify.GetZoom());
+      if(StyleMenu.debug)console.log("Cannot find def for zoom " + StyleMenu.maperial.GetZoom());
       return;
    }
 
@@ -1003,7 +1003,7 @@ StyleMenu.LoadStyle = function(){
       StyleMenu.__LoadStyle();
    }
    
-   StyleMenu.mapnify.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
+   StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
 }
 
 
@@ -1025,15 +1025,15 @@ StyleMenu.OpenStyle = function (layerId) {
 
 //init !
 
-StyleMenu.init = function(container,container2,container3,mapnify,isMovable){
+StyleMenu.init = function(container,container2,container3,maperial,isMovable){
    
-   StyleMenu.mapnify = mapnify;
+   StyleMenu.maperial = maperial;
    
    StyleMenu.styleMenuParentEl = container;
    StyleMenu.styleMenuParentEl2 = container2;
    StyleMenu.styleMenuParentEl3 = container3;
    
-   StyleMenu.__style = StyleMenu.mapnify.config.styles[0].content;
+   StyleMenu.__style = StyleMenu.maperial.config.styles[0].content;
    
    StyleMenu.Load(); // will call LoadMapping and then LoadStyle ...
    if ( isMovable){

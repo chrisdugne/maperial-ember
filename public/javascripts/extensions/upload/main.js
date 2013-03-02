@@ -12,7 +12,7 @@
  * 
  * ----------------------------------------------
  * 
- * Modified to be a mapnify extension
+ * Modified to be a maperial extension
  * 
  */
 

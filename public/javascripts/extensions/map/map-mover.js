@@ -1,9 +1,9 @@
 //==================================================================//
 
-function MapMover(mapnify){
+function MapMover(maperial){
 
-   this.config = mapnify.config;
-   this.context = mapnify.context;
+   this.config = maperial.config;
+   this.context = maperial.context;
 
    this.lastMouseX   = null;
    this.lastMouseY   = null;

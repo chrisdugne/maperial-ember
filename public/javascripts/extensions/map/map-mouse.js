@@ -1,9 +1,9 @@
 //==================================================================//
 
-function MapMouse(mapnify){
+function MapMouse(maperial){
 
-   this.config = mapnify.config;
-   this.context = mapnify.context;
+   this.config = maperial.config;
+   this.context = maperial.context;
    
    this.mouseDown          = false;
    this.lastWheelMillis    = new Date().getTime();

@@ -33,7 +33,7 @@
          var config = StyleEditorController.getMapEditorConfig();
 
          App.user.set("waiting", false)
-         App.mapnify.apply(config);
+         App.maperial.apply(config);
       });
    }
 
