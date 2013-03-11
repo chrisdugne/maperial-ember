@@ -177,7 +177,7 @@ MapRenderer.prototype.Start = function () {
    }
    
    this.DrawScene();
-   setInterval( Utils.bindObjFunc ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
+   setInterval( Utils.apply ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
    return true;
 } 
 

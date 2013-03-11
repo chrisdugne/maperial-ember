@@ -209,16 +209,8 @@ Utils.thumbURL = function(uid, type)
 
 //----------------------------------------------------------------------------------------//
 
-Utils.bindObjFunc = function (toObject, methodName){
-   return function(){toObject[methodName]()}
-}
-
-Utils.bindObjFuncEvent = function (toObject, methodName){
-   return function(mEvent){toObject[methodName](mEvent)}
-}
-
-Utils.bindObjFuncEvent2 = function (toObject, methodName){
-   return function(mEvent,mDelta){toObject[methodName](mEvent,mDelta)}
+Utils.apply = function (toObject, methodName){
+   return function(param1, param2, param3, param4, param5, param6){toObject[methodName](param1, param2, param3, param4, param5, param6)}
 }
 
 Utils.getPoint = function (event) {

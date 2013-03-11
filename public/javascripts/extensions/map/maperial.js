@@ -140,7 +140,7 @@ Maperial.prototype.build = function() {
    //--------------------------//
 
    $(window).trigger(MaperialEvent.FREE);
-   $(window).resize(Utils.bindObjFuncEvent ( this , "refreshScreen" ) );
+   $(window).resize(Utils.apply ( this , "refreshScreen" ) );
    
    this.isBuilt = true;
 }

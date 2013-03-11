@@ -18,11 +18,11 @@ MapMouse.prototype.initListeners = function () {
    var mouse = this;
    
    this.context.mapCanvas
-   .mousedown( function(event){ mouse.down(event) })
-   .mouseup ( function(event){ mouse.up(event) })
-   .mousemove ( function(event){ mouse.move(event) })
-   .mouseleave ( function(event){ mouse.leave(event) })
-   .bind('mousewheel',  function(event, delta){ mouse.wheel(event, delta) });   
+   .mousedown( Utils.apply ( this , "down" ))
+   .mouseup ( Utils.apply ( this , "up" ))
+   .mousemove ( Utils.apply ( this , "move" ))
+   .mouseleave (Utils.apply ( this , "leave" ))
+   .bind('mousewheel', Utils.apply ( this , "wheel"));   
 
 }
 
@@ -61,7 +61,7 @@ MapMouse.prototype.move = function (event) {
 }
 
 MapMouse.prototype.wheel = function (event, delta) {
-   
+   console.log("wheel " + delta + " | ");
    event.preventDefault();
    
    if(this.hasJustWheeled())
