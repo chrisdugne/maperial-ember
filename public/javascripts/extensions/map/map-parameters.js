@@ -59,14 +59,14 @@ function MapParameters () {
 
 MapParameters.prototype.AddOrRefreshStyle = function(name,style){
    if (style.constructor === String) {
-      var me = this
-      me.style[name] = null;
+      var me = this;
+      me.styles[name] = null;
       $.ajax({
          url         : style ,
          async       : false,
          dataType    : 'json',
          success     : function (data) {
-            me.style[name] = data;
+            me.styles[name] = data;
          }
       });
    }
