@@ -344,6 +344,8 @@ a#triggerColorBar {
 /* header of main section */
 .styleMenu_menu_par_title {
 	color: #fff;
+	font-size: 17px;
+	padding-left: 10px;
 }
 
 
