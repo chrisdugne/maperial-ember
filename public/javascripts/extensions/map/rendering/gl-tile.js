@@ -78,6 +78,8 @@ Tile.prototype.Reset = function ( ) {
       for (kl in this.layers) {      
          this.layers [ kl ].Reset ( );
       }
+
+      this.tex = null;
    }
 }
 
@@ -87,10 +89,8 @@ Tile.prototype.IsLoad = function ( ) {
    return ( this.vLoad && this.rLoad );
 }
 
-
 Tile.prototype.IsUpToDate = function ( ) {
-   if( !this.tex )   return false;
-   return true;
+   return this.tex;
 }
 
 //----------------------------------------------------------------------------------------------------------------------//

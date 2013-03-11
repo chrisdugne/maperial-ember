@@ -13,14 +13,16 @@ function MapMouse(maperial){
 
 //==================================================================//
 
-MapMouse.prototype.initListeners = function (event) {
+MapMouse.prototype.initListeners = function () {
 
+   var mouse = this;
+   
    this.context.mapCanvas
-   .mousedown( Utils.bindObjFuncEvent ( this , "down" ))
-   .mouseup ( Utils.bindObjFuncEvent ( this , "up" ))
-   .mousemove ( Utils.bindObjFuncEvent ( this , "move" ))
-   .mouseleave (Utils.bindObjFuncEvent ( this , "leave" ))
-   .bind('mousewheel', Utils.bindObjFuncEvent2 ( this , "wheel"));   
+   .mousedown( function(event){ mouse.down(event) })
+   .mouseup ( function(event){ mouse.up(event) })
+   .mousemove ( function(event){ mouse.move(event) })
+   .mouseleave ( function(event){ mouse.leave(event) })
+   .bind('mousewheel',  function(event, delta){ mouse.wheel(event, delta) });   
 
 }
 

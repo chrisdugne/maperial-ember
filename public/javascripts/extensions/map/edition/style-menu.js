@@ -72,43 +72,46 @@ StyleMenu.currentName = null;
 
 ///@todo define a xsmall small standard large xlarge size for each element and each zoom level
 
+//
+//StyleMenu.EventProxy = {};
+//
+//StyleMenu.EventProxy.lastEvt = null;    //last event treated
+//StyleMenu.EventProxy.queuedEvt = null;  //last event requested
+//StyleMenu.EventProxy.eventRate = 1000;
+//StyleMenu.EventProxy.refreshRate = 100;
 
-StyleMenu.EventProxy = {};
+//StyleMenu.EventProxy.NewEvent = function(){
+//   var curTime = new Date().getTime(); // ms
+//   if ( StyleMenu.EventProxy.lastEvt == null){
+//      StyleMenu.EventProxy.lastEvt = curTime;
+//      StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
+//      return;
+//   }
+//   if ( curTime - StyleMenu.EventProxy.lastEvt > StyleMenu.EventProxy.eventRate){
+//      StyleMenu.EventProxy.lastEvt = curTime;
+//      StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
+//      return;
+//   }
+//   StyleMenu.EventProxy.queuedEvt = curTime;
+//}
 
-StyleMenu.EventProxy.lastEvt = null;    //last event treated
-StyleMenu.EventProxy.queuedEvt = null;  //last event requested
-StyleMenu.EventProxy.eventRate = 1000;
-StyleMenu.EventProxy.refreshRate = 100;
+//window.setInterval(
+//      function(){
+//         var curTime = new Date().getTime(); // ms
+//         if (StyleMenu.EventProxy.queuedEvt == null){
+//            // no event in queue
+//            return;
+//         }
+//         if ( curTime - StyleMenu.EventProxy.queuedEvt > StyleMenu.EventProxy.eventRate){ // if last event is "old"
+//            StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
+//            StyleMenu.EventProxy.queuedEvt = null;
+//         }
+//      },
+//      StyleMenu.EventProxy.refreshRate);
 
-StyleMenu.EventProxy.NewEvent = function(){
-   var curTime = new Date().getTime(); // ms
-   if ( StyleMenu.EventProxy.lastEvt == null){
-      StyleMenu.EventProxy.lastEvt = curTime;
-      StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style); 
-      return;
-   }
-   if ( curTime - StyleMenu.EventProxy.lastEvt > StyleMenu.EventProxy.eventRate){
-      StyleMenu.EventProxy.lastEvt = curTime;
-      StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
-      return;
-   }
-   StyleMenu.EventProxy.queuedEvt = curTime;
+StyleMenu.Refresh = function(){
+   StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
 }
-
-window.setInterval(
-      function(){
-         var curTime = new Date().getTime(); // ms
-         if (StyleMenu.EventProxy.queuedEvt == null){
-            // no event in queue
-            return;
-         }
-         if ( curTime - StyleMenu.EventProxy.queuedEvt > StyleMenu.EventProxy.eventRate){ // if last event is "old"
-            StyleMenu.maperial.config.renderParameters.AddOrRefreshStyle("default", StyleMenu.__style);
-            StyleMenu.EventProxy.queuedEvt = null;
-         }
-      },
-      StyleMenu.EventProxy.refreshRate);
-
 
 StyleMenu.DefFromRule = function(luid,rule){
    // CARE DEPRECATED this one is not usefull anymore and will/should return 0
@@ -179,7 +182,9 @@ StyleMenu.SetParam = function(luid,rule,def,param,value){
       //if(StyleMenu.debug)console.log(" not found , adding!" , luid , rule, def , param);
       StyleMenu.__style[luid]["s"][rule]["s"][def][param] = value;
    }
-   StyleMenu.EventProxy.NewEvent();
+   
+   StyleMenu.Refresh();
+   //StyleMenu.EventProxy.NewEvent();
    return ok;
 }
 
@@ -196,13 +201,18 @@ StyleMenu.SetParamId = function(luid,ruid,param,value){
                var paramName = Symbolizer.getParamName(StyleMenu.__style[luid]["s"][rule]["s"][d]["rt"],p);
                if ( paramName == param ){
                   StyleMenu.__style[luid]["s"][rule]["s"][d][paramName] = value;
-                  StyleMenu.EventProxy.NewEvent();
+                  
+
+                  StyleMenu.Refresh();
+//                StyleMenu.EventProxy.NewEvent();
                   return true;
                }
             }
             //if(StyleMenu.debug)console.log(" not found , adding!" , luid , ruid , param);
             StyleMenu.__style[luid]["s"][rule]["s"][d][param] = value;
-            StyleMenu.EventProxy.NewEvent();
+            
+            StyleMenu.Refresh();
+//          StyleMenu.EventProxy.NewEvent();
             return true;
          }
       }
@@ -499,9 +509,14 @@ StyleMenu.__InsertZoomEdition2 = function(){
 
 
 //Closure for colorpicker callback
-StyleMenu.GetColorPickerCallBack = function(_uid,_ruleId,pName){
+StyleMenu.ColorPickerChange = function(_uid,_ruleId,pName){
    return function (hsb, hex, rgb) {
       $("#styleMenu_menu_colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
+   }
+}
+
+StyleMenu.ColorPickerSubmit = function(_uid,_ruleId,pName){
+   return function (hsb, hex, rgb) {
       StyleMenu.SetParamIdZNew(_uid,pName,ColorTools.HexToRGBA(hex));
    }
 }
@@ -565,7 +580,8 @@ StyleMenu.GetCheckBoxCallBack = function(_uid){
          }
       } 
 
-      StyleMenu.EventProxy.NewEvent();     
+      StyleMenu.Refresh();
+//      StyleMenu.EventProxy.NewEvent();     
       //if(StyleMenu.debug)console.log( _uid, "visible",  vis );
    }
 }; 
@@ -586,7 +602,8 @@ StyleMenu.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleId,_contain
          $(colpkr).fadeOut(500);
          return false;
       },
-      onChange: StyleMenu.GetColorPickerCallBack(_uid,_ruleId,_paramName)
+      onChange: StyleMenu.ColorPickerChange(_uid,_ruleId,_paramName),
+      onSubmit: StyleMenu.ColorPickerSubmit(_uid,_ruleId,_paramName),
    });
 }
 
@@ -621,7 +638,6 @@ StyleMenu.AddSlider = function(_paramName,_paramValue,_uid,_ruleId,_container,_s
       step: _step,
       value: _paramValue,
       change: StyleMenu.GetSliderCallBack(_uid,_ruleId,_paramName),
-      slide:  StyleMenu.GetSliderCallBack(_uid,_ruleId,_paramName)
    });
 
    // set initial value

@@ -240,6 +240,7 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
    if(typeof(forceTileRedraw)==='undefined' )
       forceTileRedraw = false;
 
+
    var w = this.context.mapCanvas.width();
    var h = this.context.mapCanvas.height();
 

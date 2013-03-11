@@ -68,6 +68,13 @@
 					change.apply(this);
 				}
 			},
+			mouseup = function (event) {
+			   var cal = $(this);
+            var col = cal.data('colorpicker').color;
+            cal.data('colorpicker').origColor = col;
+            setCurrentColor(col, cal.get(0));
+            cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el);
+			},
 			change = function (ev) {
 				var cal = $(this).parent().parent(), col;
 				if (this.parentNode.className.indexOf('_hex') > 0) {
@@ -396,6 +403,7 @@
 							cal.appendTo(document.body);
 						}
 						options.fields = cal
+               						.mouseup(mouseup)
 											.find('input')
 												.bind('keyup', keyDown)
 												.bind('change', change)
