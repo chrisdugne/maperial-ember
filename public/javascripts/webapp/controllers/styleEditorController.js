@@ -32,7 +32,7 @@
 
          var config = StyleEditorController.getMapEditorConfig();
 
-         App.user.set("waiting", false)
+         App.user.set("waiting", false);
          App.maperial.apply(config);
       });
    }
@@ -54,6 +54,8 @@
       // mapEditor tools
       config.hud[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
       config.hud[HUD.LATLON]        = {show : false, type : HUD.PANEL,    isOption : true, label : "Lat/Lon" };
+      config.hud[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    isOption : true, label : "Scale" };
+      config.hud[HUD.MAPKEY]        = {show : false, type : HUD.PANEL,    isOption : true, label : "Map Key" };
       config.hud[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    isOption : true, label : "Location" };
       config.hud[HUD.DETAILS_MENU]  = {show : false, type : HUD.TRIGGER,  isOption : true, label : "Style Details" };
       config.hud[HUD.QUICK_EDIT]    = {show : true,  type : HUD.TRIGGER,  isOption : true, label : "Quick Style Edit" };
@@ -64,6 +66,7 @@
       config.hud["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
       
+      config.edition = true;
       config.map.resizable = true;
 
       config.styles = [];

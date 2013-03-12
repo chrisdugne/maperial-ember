@@ -226,6 +226,26 @@ a#triggerHUDSettings {
 
 /*-------------------------*/
 
+#panelScale {
+	height: 40px;
+	width: 190px;
+	padding-left: 7px;
+}
+
+#scalediv {
+	color: #eee;
+}
+
+/*-------------------------*/
+
+#panelMapKey {
+	height: 320px;
+	width: 150px;
+	padding-left: 7px;
+}
+
+/*-------------------------*/
+
 a#triggerDetailsMenu {
 }
 

@@ -67,6 +67,8 @@ MapMover.prototype.moveMap = function (dx, dy) {
    var r = this.context.coordS.Resolution ( this.context.zoom );
    this.context.centerM.x -= dx * r;
    this.context.centerM.y += dy * r;
+
+   $(window).trigger(MapEvents.MAP_MOVING);
 }
 
 //==================================================================//
@@ -75,10 +77,11 @@ MapMover.prototype.moveMap = function (dx, dy) {
 MapMover.prototype.receivedMouseUp = function () {
 
    if(this.requireAutoMove()){
-      this.prepareAutoMove()
+      this.prepareAutoMove();
    }
-   else
+   else{
       $(window).trigger(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+   }
 }
 
 //---------------------------------------------------------------------------//

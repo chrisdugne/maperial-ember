@@ -13,10 +13,12 @@ function MapHUD(maperial){
 }
 
 
-MapHUD.SETTINGS_DEFAULT_POSITION      = { right : "0",    top    : "0"   };
+MapHUD.SETTINGS_DEFAULT_POSITION      = { left  : "0",    top    : "0"   };
 MapHUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
 MapHUD.COLORBAR_DEFAULT_POSITION      = { left  : "0",    top    : "180" };
-MapHUD.LATLON_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
+MapHUD.SCALE_DEFAULT_POSITION         = { left  : "20%",  bottom : "0"   };
+MapHUD.MAPKEY_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
+MapHUD.LATLON_DEFAULT_POSITION        = { left  : "50%",  bottom : "0"   };
 MapHUD.GEOLOC_DEFAULT_POSITION        = { left  : "50%",  top    : "0"   };
 MapHUD.DETAILS_MENU_DEFAULT_POSITION  = { left  : "0",    top    : "360" };
 MapHUD.QUICK_EDIT_DEFAULT_POSITION    = { left  : "0",    top    : "280" };
@@ -30,6 +32,10 @@ MapHUD.prototype.initListeners = function () {
    
    this.context.mapCanvas.on(MapEvents.UPDATE_LATLON, function(event, x, y){
       hud.updateLatLon();
+   });
+
+   $(window).on(MapEvents.MAP_MOVING, function(event, x, y){
+      hud.updateScale();
    });
    
 }
@@ -134,7 +140,11 @@ MapHUD.prototype.renderTriggers = function(){
 
    $( ".panel" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
    $( ".trigger" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
-
+   
+   // all but settings
+   $( "#panel"+HUD.SETTINGS ).draggable( 'disable' );
+   $( "#trigger"+HUD.SETTINGS ).draggable( 'disable' );
+   
    //---------------
    // panels
 
@@ -184,7 +194,7 @@ MapHUD.prototype.renderTriggers = function(){
    // triggers
 
    $( ".trigger" ).bind('dragstart',function( event ){
-      $(this).addClass('beingdragging');
+      $(this).addClass('beingdrag');
       $(this).css('right', 'auto');
       $(this).css('bottom', 'auto');
 
@@ -228,12 +238,12 @@ MapHUD.prototype.clickOnTrigger = function(trigger){
    var name = trigger[0].id.replace("trigger","");
    this.putOnTop(name);
 
-   if (trigger.hasClass('beingdragging')) {
-      trigger.removeClass('beingdragging');
+   if (trigger.hasClass('beingdrag')) {
+      trigger.removeClass('beingdrag');
    }
    else {
 
-      if (trigger.hasClass('active')) {
+      if (trigger.hasClass('active') && name != HUD.SETTINGS) {
          trigger.draggable("enable");
       }
       else{
@@ -359,4 +369,32 @@ MapHUD.prototype.updateLatLon = function(){
    catch(e){}         
    return;
 }
+
+//==================================================================//
+
+MapHUD.prototype.updateScale = function(){
+   var centerP = this.context.coordS.MetersToPixels(this.context.centerM.x, this.context.centerM.y, this.context.zoom); 
+   var pointM = this.context.coordS.PixelsToMeters(centerP.x + 100 , centerP.y, this.context.zoom); 
+
+   var nbM = pointM.x - this.context.centerM.x;
+   
+   try {
+      $("#centerMxDiv").empty();
+      $("#centerMyDiv").empty();
+      $("#centerMxDiv").append(pointM.x + " | " + nbM);
+      $("#centerMyDiv").append(pointM.y);
+   }
+   catch(e){}         
+   return;
+   
+}
+
+
+
+
+
+
+
+
+
 
