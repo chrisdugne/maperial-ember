@@ -10,30 +10,9 @@ function MapHUD(maperial){
    this.display();
 
    this.initListeners();
+   this.updateScale();
+
 }
-
-//----------------------------------------------------------------------//
-
-MapHUD.ZOOM_SCALE = { 
-      "1" : "15500000",
-      "2" : "4000000",
-      "3" : "2000000",
-      "4" : "1000000",
-      "5" : "500000",
-      "6" : "250000",
-      "7" : "125000",
-      "8" : "60000",
-      "9" : "30000",
-      "10" : "15000",
-      "11" : "8000",
-      "12" : "4000",
-      "13" : "2000",
-      "14" : "1000",
-      "15" : "500",
-      "16" : "250",
-      "17" : "100",
-      "18" : "50"
-};
 
 //----------------------------------------------------------------------//
 
@@ -61,7 +40,10 @@ MapHUD.prototype.initListeners = function () {
    $(window).on(MapEvents.MAP_MOVING, function(event, x, y){
       hud.updateScale();
    });
-   
+
+   $(window).on(MapEvents.ZOOM_CHANGED, function(event, x, y){
+      hud.updateScale();
+   });
 }
 
 //----------------------------------------------------------------------//
@@ -69,6 +51,7 @@ MapHUD.prototype.initListeners = function () {
 MapHUD.prototype.removeListeners = function () {
    this.context.mapCanvas.off(MapEvents.UPDATE_LATLON);
    $(window).off(MapEvents.MAP_MOVING);
+   $(window).off(MapEvents.ZOOM_CHANGED);
 }
 
 //----------------------------------------------------------------------//
@@ -402,34 +385,56 @@ MapHUD.prototype.updateLatLon = function(){
       $("#latitudeDiv").append(mouseLatLon.y);
    }
    catch(e){}         
-   return;
 }
 
 //==================================================================//
 
-MapHUD.prototype.updateScale = function(){
-   var centerP = this.context.coordS.MetersToPixels(this.context.centerM.x, this.context.centerM.y, this.context.zoom); 
-   var pointM = this.context.coordS.PixelsToMeters(centerP.x + 100 , centerP.y, this.context.zoom); 
+MapHUD.ZOOM_METERS = { 
+    "1" : "15500000",
+    "2" : "4000000",
+    "3" : "2000000",
+    "4" : "1000000",
+    "5" : "500000",
+    "6" : "250000",
+    "7" : "125000",
+    "8" : "60000",
+    "9" : "30000",
+    "10" : "15000",
+    "11" : "8000",
+    "12" : "4000",
+    "13" : "2000",
+    "14" : "1000",
+    "15" : "500",
+    "16" : "250",
+    "17" : "100",
+    "18" : "50"
+};
 
-   var nbM = pointM.x - this.context.centerM.x;
+MapHUD.prototype.updateScale = function(){
+
+   var pointM = new Point(this.context.centerM.x + parseInt(MapHUD.ZOOM_METERS[this.context.zoom]) , this.context.centerM.y ); 
+   var centerP = this.context.coordS.MetersToPixels(this.context.centerM.x, this.context.centerM.y, this.context.zoom); 
+   var pointP = this.context.coordS.MetersToPixels(pointM.x, pointM.y, this.context.zoom); 
+
+   var nbPixelsForMeters = pointP.x - centerP.x;
+   var nbPixelsForMiles = nbPixelsForMeters * 0.62137;
+
+   // ft = m * 3.2808
+   // mi = km * 0.62137
+   
+   var meters = MapHUD.ZOOM_METERS[this.context.zoom];
+   var miles = MapHUD.ZOOM_METERS[this.context.zoom] * 0.00062137;
    
    try {
-      $("#centerMxDiv").empty();
-      $("#centerMyDiv").empty();
-      $("#centerMxDiv").append(pointM.x + " | " + nbM);
-      $("#centerMyDiv").append(pointM.y);
+      $("#metersContainer").empty();
+      $("#milesContainer").empty();
+      
+      $("#metersContainer").append(meters + "m");  
+      $("#milesContainer").append(miles + "mi");  
+
+      $("#metersContainer").width(nbPixelsForMeters+"px");  
+      $("#milesContainer").width(nbPixelsForMiles+"px");  
    }
-   catch(e){}         
-   return;
+   catch(e){}
    
 }
-
-
-
-
-
-
-
-
-
-

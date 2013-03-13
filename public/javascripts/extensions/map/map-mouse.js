@@ -71,7 +71,7 @@ MapMouse.prototype.move = function (event) {
 }
 
 MapMouse.prototype.wheel = function (event, delta) {
-   console.log("wheel " + delta + " | ");
+
    event.preventDefault();
    
    if(this.hasJustWheeled())
@@ -96,6 +96,8 @@ MapMouse.prototype.wheel = function (event, delta) {
    // refresh mouse
    this.context.mouseP = Utils.getPoint(event);
    this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
+
+   $(window).trigger(MapEvents.ZOOM_CHANGED);
 }
 
 //----------------------------------------------------------------------//

@@ -8,8 +8,10 @@ this.MapEvents = {}
 MapEvents.MOUSE_DOWN           = "MapEvents.MOUSE_DOWN";
 MapEvents.MOUSE_UP             = "MapEvents.MOUSE_UP";
 MapEvents.MOUSE_MOVE           = "MapEvents.MOUSE_MOVE";
+
 MapEvents.DRAGGING_MAP         = "MapEvents.DRAGGING_MAP";
 MapEvents.MAP_MOVING           = "MapEvents.MAP_MOVING";
+MapEvents.ZOOM_CHANGED         = "MapEvents.ZOOM_CHANGED";
 
 MapEvents.UPDATE_LATLON        = "MapEvents.UPDATE_LATLON";
 MapEvents.OPEN_STYLE           = "MapEvents.OPEN_STYLE";

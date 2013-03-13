@@ -230,10 +230,25 @@ a#triggerHUDSettings {
 	height: 40px;
 	width: 190px;
 	padding-left: 7px;
+	background: transparent;
 }
 
 #scalediv {
 	color: #eee;
+}
+
+.scaleContainer {
+	color: #000;
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	font-size: 11px;
+	text-shadow: 1px 1px 1px #fff;
+	background-color: rgba(255,255,255,0.5);
+	box-shadow: 0 -1px 5px rgba(0,0,0,0.2);
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 /*-------------------------*/
