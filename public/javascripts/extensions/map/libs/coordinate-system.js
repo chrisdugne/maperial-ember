@@ -87,6 +87,7 @@ CoordinateSystem.prototype.TileLatLonBounds = function ( tx, ty, zoom ):
   return ( minLat, minLon, maxLat, maxLon )
 */
 //  "Resolution (meters/pixel) for given zoom level (measured at Equator)"  
+
 CoordinateSystem.prototype.Resolution = function ( zoom ) {
   return this.initialResolution / Math.pow ( 2 , zoom);
 }
@@ -95,6 +96,7 @@ CoordinateSystem.prototype.ResolutionByLat = function ( zoom, lat ) {
    var R = 6378 * Math.cos((lat/180)*Math.PI);
    return (2 * Math.PI * R*1000 / this.tileSize) / Math.pow ( 2 , zoom);
 }
+
 /*  
 CoordinateSystem.prototype.ZoomForPixelSize = function ( pixelSize ):
   "Maximal scaledown zoom of the pyramid closest to the pixelSize."

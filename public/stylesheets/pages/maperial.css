@@ -1,18 +1,14 @@
-
 /*-------------------------*/
-
 #map {
 	margin-bottom: -5px;
 }
 
 #magnifier {
 	margin-bottom: -4px;
-	
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
-
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
@@ -20,7 +16,6 @@
 }
 
 /*************************/
-
 .panel {
 	position: fixed;
 	background: #000000; //
@@ -45,7 +40,7 @@
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	padding: 4px 4px 4px 4px;
-	filter: alpha(opacity =   85);
+	filter: alpha(opacity =     85);
 	opacity: .85;
 	z-index: 101;
 }
@@ -73,7 +68,7 @@ a.trigger {
 	-moz-border-radius-topleft: 20px;
 	-webkit-border-top-left-radius: 20px;
 	z-index: 102;
-	filter: alpha(opacity =   85);
+	filter: alpha(opacity =     85);
 	opacity: .85;
 }
 
@@ -93,7 +88,6 @@ a.active.trigger {
 }
 
 /*************************/
-
 .buttonMode {
 	position: absolute;
 	text-decoration: none;
@@ -109,7 +103,7 @@ a.active.trigger {
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	z-index: 9999;
-	filter: alpha(opacity = 85);
+	filter: alpha(opacity =   85);
 }
 
 .buttonMode:hover {
@@ -121,9 +115,7 @@ div.active.buttonMode {
 	padding: 6px 13px 6px 13px;
 }
 
-
 /*************************/
-
 .styleList {
 	overflow: auto;
 	height: 290px;
@@ -168,7 +160,6 @@ div.active.buttonMode {
 }
 
 /*-------------------------*/
-
 #colorbarNameInput {
 	width: 143px;
 	margin-top: -2px;
@@ -185,9 +176,8 @@ div.active.buttonMode {
 
 /**********************************/
 /* Panel and Triggers*/
-	
 #panelHUDSettings {
-	width:200px;
+	width: 200px;
 	color: #eee;
 	padding-top: 15px;
 	padding-bottom: 15px;
@@ -200,7 +190,6 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
-
 #panelGeoloc {
 	height: 30px;
 	width: 245px;
@@ -209,11 +198,10 @@ a#triggerHUDSettings {
 }
 
 .pac-container:after {
-	content:""
+	content: ""
 }
 
 /*-------------------------*/
-
 #panelLatLon {
 	height: 20px;
 	width: 290px;
@@ -225,7 +213,6 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
-
 #panelScale {
 	height: 40px;
 	width: 190px;
@@ -245,23 +232,22 @@ a#triggerHUDSettings {
 	padding: 2px 5px 1px;
 	font-size: 11px;
 	text-shadow: 1px 1px 1px #fff;
-	background-color: rgba(255,255,255,0.5);
-	box-shadow: 0 -1px 5px rgba(0,0,0,0.2);
+	background-color: rgba(255, 255, 255, 0.5);
+	box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
 	white-space: nowrap;
 	overflow: hidden;
 }
 
 /*-------------------------*/
-
 #panelMapKey {
-	height: 320px;
-	width: 150px;
+	height: 310px;
+	width: 206px;
 	padding-left: 7px;
 }
 
 /*-------------------------*/
-
 a#triggerDetailsMenu {
+	
 }
 
 #panelDetailsMenu {
@@ -282,15 +268,15 @@ a#triggerDetailsMenu {
 	border-color: #000;
 	background-color: #000;
 	color: #fff;
-	filter: alpha(opacity =   85);
+	filter: alpha(opacity =     85);
 	opacity: .85;
 	-moz-border-radius: 20px;
 	-webkit-border-radius: 20px;
 }
 
 /*-------------------------*/
-
 a#triggerQuickEdit {
+	
 }
 
 #panelQuickEdit {
@@ -309,15 +295,15 @@ a#triggerQuickEdit {
 	border-color: #000;
 	background-color: #000;
 	color: #fff;
-	filter: alpha(opacity =   85);
+	filter: alpha(opacity =     85);
 	opacity: .85;
 	-moz-border-radius: 20px;
 	-webkit-border-radius: 20px;
 }
 
 /*-------------------------*/
-
 a#triggerMagnifier {
+	
 }
 
 #panelMagnifier {
@@ -326,8 +312,8 @@ a#triggerMagnifier {
 }
 
 /*-------------------------*/
-
 a#triggerZooms {
+	
 }
 
 #panelZooms {
@@ -337,8 +323,8 @@ a#triggerZooms {
 }
 
 /*-------------------------*/
-
 a#triggerColorBar {
+	
 }
 
 #panelColorBar {
@@ -349,7 +335,6 @@ a#triggerColorBar {
 
 /*************************/
 /* StyleMenu */
-
 
 /* zoom h2 */
 .styleMenu_menu_par_title_z {
@@ -383,79 +368,74 @@ a#triggerColorBar {
 	padding-left: 10px;
 }
 
-
-
 /****************************/
 /* colorbar */
-
 .maperialColorBarDiv {
-  float : left;
-  border-style : solid;
-  border-width: 1px;
-  padding: 10px;
-  margin: 0px;
-  background-color: #fff;
+	float: left;
+	border-style: solid;
+	border-width: 1px;
+	padding: 10px;
+	margin: 0px;
+	background-color: #fff;
 }
 
 .cb_canvas {
-  float : left;
-  border-style : solid;
-  border-width: 1px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  padding: 0;
-  margin: 20px;
-  background-color: rgb(255,255,255);
+	float: left;
+	border-style: solid;
+	border-width: 1px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 0;
+	margin: 20px;
+	background-color: rgb(255, 255, 255);
 }
 
 .cb_color {
-  float : left;
-  border-style : solid;
-  border-width: 0px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  padding: 0;
-  margin: 20px;
-}  
+	float: left;
+	border-style: solid;
+	border-width: 0px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 0;
+	margin: 20px;
+}
 
-.cb_colorpicker {
-  /*float : left;*/
-  border-style : solid;
-  border-width: 0px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  padding: 0;
-  margin: 20px;
+.cb_colorpicker { /*float : left;*/
+	border-style: solid;
+	border-width: 0px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	padding: 0;
+	margin: 20px;
 }
 
 .cb_colorpickerWrap {
-  font-size : 100%;
-  float : left;
-  clear : both;
-  border-style : solid;
-  border-width: 1px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  padding: 0;
-  margin: 20px;
-  background-color: rgb(255,255,255);
+	font-size: 100%;
+	float: left;
+	clear: both;
+	border-style: solid;
+	border-width: 1px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 0;
+	margin: 20px;
+	background-color: rgb(255, 255, 255);
 }
 
-.cb_pikerLegend {
-  /*float : left;
+.cb_pikerLegend { /*float : left;
   border-style : solid;
   border-width: 0px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;*/
-  padding: 0;
-  margin: 20px;
+	padding: 0;
+	margin: 20px;
 }
 
-.cb_Interp, .cb_Hsl, .cb_Clear{
-  margin: 5px;
+.cb_Interp,.cb_Hsl,.cb_Clear {
+	margin: 5px;
 }
