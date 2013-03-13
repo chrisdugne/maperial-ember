@@ -41,6 +41,16 @@ CoordinateSystem.prototype.MetersToPixels = function ( mx, my, zoom) {
   return new Point ( px, py );
 }
 
+CoordinateSystem.prototype.MetersToPixelsAccurate = function ( mx, my, zoom ) {
+
+   var lat = this.MetersToLatLon(mx, my).y;
+   res = this.ResolutionByLat( zoom, lat );
+   
+   px = (mx + this.originShift) / res;
+   py = (my + this.originShift) / res;
+   return new Point ( px, py );
+}
+
 //"Returns a tile covering region in given pixel coordinates"
 CoordinateSystem.prototype.PixelsToTile = function ( px, py) {
   tx = Math.floor( Math.ceil( px / this.tileSize ) - 1 );
@@ -79,6 +89,11 @@ CoordinateSystem.prototype.TileLatLonBounds = function ( tx, ty, zoom ):
 //  "Resolution (meters/pixel) for given zoom level (measured at Equator)"  
 CoordinateSystem.prototype.Resolution = function ( zoom ) {
   return this.initialResolution / Math.pow ( 2 , zoom);
+}
+
+CoordinateSystem.prototype.ResolutionByLat = function ( zoom, lat ) {
+   var R = 6378 * Math.cos((lat/180)*Math.PI);
+   return (2 * Math.PI * R*1000 / this.tileSize) / Math.pow ( 2 , zoom);
 }
 /*  
 CoordinateSystem.prototype.ZoomForPixelSize = function ( pixelSize ):

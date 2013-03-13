@@ -413,14 +413,15 @@ MapHUD.ZOOM_METERS = {
 MapHUD.prototype.updateScale = function(){
 
    var pointM = new Point(this.context.centerM.x + parseInt(MapHUD.ZOOM_METERS[this.context.zoom]) , this.context.centerM.y ); 
-   var centerP = this.context.coordS.MetersToPixels(this.context.centerM.x, this.context.centerM.y, this.context.zoom); 
-   var pointP = this.context.coordS.MetersToPixels(pointM.x, pointM.y, this.context.zoom); 
+   var centerP = this.context.coordS.MetersToPixelsAccurate(this.context.centerM.x, this.context.centerM.y, this.context.zoom); 
+   var pointP = this.context.coordS.MetersToPixelsAccurate(pointM.x, pointM.y, this.context.zoom); 
 
    var nbPixelsForMeters = pointP.x - centerP.x;
    var nbPixelsForMiles = nbPixelsForMeters * 0.62137;
 
    // ft = m * 3.2808
    // mi = km * 0.62137
+   // For miles, divide km by 1.609344
    
    var meters = MapHUD.ZOOM_METERS[this.context.zoom];
    var miles = MapHUD.ZOOM_METERS[this.context.zoom] * 0.00062137;
