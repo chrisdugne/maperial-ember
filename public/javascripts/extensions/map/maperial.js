@@ -8,6 +8,8 @@ function Maperial(){
    this.mapMouse;
    this.mapHUD;
 
+   this.styleMenu;
+
    this.scriptsPath = "assets/javascripts/extensions";
 }
 
@@ -57,6 +59,15 @@ Maperial.prototype.apply = function(config){
 //==================================================================//
 
 Maperial.prototype.reset = function(){
+   
+   try{
+      this.mapRenderer.removeListeners();
+      this.mapMover.removeListeners();
+      this.mapMouse.removeListeners();
+      this.mapHUD.removeListeners();
+      this.styleMenu.removeListeners();
+   }catch(e){}
+   
    var me = this;
    me = new Maperial();
 }
@@ -225,7 +236,7 @@ Maperial.prototype.refreshScreen = function() {
 //==================================================================//
 
 Maperial.prototype.buildStyleMenu = function() {
-   StyleMenu.init($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
+   this.styleMenu = new StyleMenu($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
 }
 
 //==================================================================//

@@ -33,6 +33,14 @@ MapMover.prototype.initListeners = function (event) {
    });
 }
 
+//----------------------------------------------------------------------//
+
+MapMover.prototype.removeListeners = function () {
+   this.context.mapCanvas.off(MapEvents.MOUSE_DOWN);
+   this.context.mapCanvas.off(MapEvents.MOUSE_UP);
+   this.context.mapCanvas.off(MapEvents.DRAGGING_MAP);
+}
+
 //==================================================================//
 
 MapMover.prototype.reset = function () {

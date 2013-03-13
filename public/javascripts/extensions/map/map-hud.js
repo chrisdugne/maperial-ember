@@ -12,6 +12,30 @@ function MapHUD(maperial){
    this.initListeners();
 }
 
+//----------------------------------------------------------------------//
+
+MapHUD.ZOOM_SCALE = { 
+      "1" : "15500000",
+      "2" : "4000000",
+      "3" : "2000000",
+      "4" : "1000000",
+      "5" : "500000",
+      "6" : "250000",
+      "7" : "125000",
+      "8" : "60000",
+      "9" : "30000",
+      "10" : "15000",
+      "11" : "8000",
+      "12" : "4000",
+      "13" : "2000",
+      "14" : "1000",
+      "15" : "500",
+      "16" : "250",
+      "17" : "100",
+      "18" : "50"
+};
+
+//----------------------------------------------------------------------//
 
 MapHUD.SETTINGS_DEFAULT_POSITION      = { left  : "0",    top    : "0"   };
 MapHUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
@@ -40,12 +64,23 @@ MapHUD.prototype.initListeners = function () {
    
 }
 
+//----------------------------------------------------------------------//
+
+MapHUD.prototype.removeListeners = function () {
+   this.context.mapCanvas.off(MapEvents.UPDATE_LATLON);
+   $(window).off(MapEvents.MAP_MOVING);
+}
+
+//----------------------------------------------------------------------//
+
 MapHUD.prototype.getMargin = function (property) {
    if(!this.config.hud["margin-"+property])
       return 0;
    else
       return this.config.hud["margin-"+property];
 }
+
+//----------------------------------------------------------------------//
 
 MapHUD.prototype.placeHUD = function () {
 

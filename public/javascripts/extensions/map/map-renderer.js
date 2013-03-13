@@ -56,6 +56,21 @@ MapRenderer.prototype.initListeners = function () {
 
 //----------------------------------------------------------------------//
 
+MapRenderer.prototype.removeListeners = function () {
+
+   this.context.mapCanvas.off(MapEvents.MOUSE_MOVE);
+   $(window).off(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+   $(window).off(MapEvents.STYLE_CHANGED);
+   $(window).off(MapEvents.COLORBAR_CHANGED);
+   $(window).off(MapEvents.CONTRAST_CHANGED);
+   $(window).off(MapEvents.LUMINOSITY_CHANGED);
+   $(window).off(MapEvents.BW_METHOD_CHANGED);
+   $(window).off(MapEvents.DATA_SOURCE_CHANGED);
+   
+}
+
+//----------------------------------------------------------------------//
+
 MapRenderer.prototype.fitToSize = function () {
    if(this.gl){
       this.gl.viewportWidth  = this.context.mapCanvas.width();

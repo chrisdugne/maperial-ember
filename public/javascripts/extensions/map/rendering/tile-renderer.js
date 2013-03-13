@@ -53,6 +53,9 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , layerTy
 TileRenderer.maxRenderTime = 0
 TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , begin  ) {
    
+   if(!data)
+      return;
+   
    var beginAt;
    var limitTime = false;
 

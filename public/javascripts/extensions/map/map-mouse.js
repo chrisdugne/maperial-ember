@@ -26,6 +26,16 @@ MapMouse.prototype.initListeners = function () {
 
 }
 
+//----------------------------------------------------------------------//
+
+MapMouse.prototype.removeListeners = function () {
+   this.context.mapCanvas.off("mousedown");
+   this.context.mapCanvas.off("mouseup");
+   this.context.mapCanvas.off("mousemove");
+   this.context.mapCanvas.off("mouseleave");
+   this.context.mapCanvas.unbind('mousewheel');  
+}
+
 //==================================================================//
 
 MapMouse.prototype.down = function (event) {
