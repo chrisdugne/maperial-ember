@@ -71,8 +71,11 @@ MapHUD.prototype.placeHUD = function () {
 
       if(!MapHUD.hasOwnProperty(defaultPosition))
          continue;
-
+      
       var element = HUD[defaultPosition.split("_DEFAULT_POSITION")[0]];
+
+      if(!this.config.hud[element])
+         continue;
       
       for (property in MapHUD[defaultPosition]) {
 

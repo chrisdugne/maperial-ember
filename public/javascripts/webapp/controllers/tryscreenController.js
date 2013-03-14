@@ -8,127 +8,53 @@
 
 	TryscreenController.renderUI = function()
 	{
-		ScriptLoader.getScripts(["http://map.x-ray.fr/js/gl-matrix-min.js",
-		                         "http://map.x-ray.fr/js/gl-tools.js",
-		                         "http://map.x-ray.fr/js/coordinate-system.js",
-		                         "http://map.x-ray.fr/js/jquery.mousewheel.min.js",
-		                         "http://map.x-ray.fr/js/render-line.js",
-		                         "http://map.x-ray.fr/js/render-text.js",
-		                         "http://map.x-ray.fr/js/tileRenderer.js",
-		                         "http://map.x-ray.fr/js/maps.js"],
-                 function()
-                 {
-					TryscreenController.renderColorBar();
-					TryscreenController.renderStyle();
-					TryscreenController.initColorPicker();
-      				
-					TryscreenController.renderMap();
-      				$(".popup").dialogr().parents('.ui-dialog').draggable('option', 'snap', true);
-                 }
-      	);
-	}
+	   App.user.set("waiting", true);
+      
+      App.stylesData.set("selectedStyle", App.publicData.styles[0]);
+	   
+      //-----------------------------
+      // retrieve the content from the tileServer
+      StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
 
+         var config = TryscreenController.getMapEditorConfig();
+         App.user.set("waiting", false);
+         App.maperial.apply(config);
+      });
+	}
+	
 	TryscreenController.cleanUI = function()
-	{
-		TryscreenController.cleanColorBar();
-		TryscreenController.cleanStyle();
-		TryscreenController.cleanColorPicker();
-		TryscreenController.cleanMap();
+   {
+	   
+   }
+	
+   //-----------------------------------------------------------------//
+
+	TryscreenController.getMapEditorConfig = function(){
+
+      var config = {hud:[], map:{}};
+      
+      // mapEditor tools
+      config.hud[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
+      config.hud[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    isOption : true, label : "Scale" };
+      config.hud[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    isOption : true, label : "Location" };
+      config.hud[HUD.QUICK_EDIT]    = {show : true,  type : HUD.TRIGGER,  isOption : true, label : "Quick Style Edit" };
+      config.hud[HUD.MAGNIFIER]     = {show : true,  type : HUD.TRIGGER,  isOption : true, label : "Magnifier" };
+
+      config.hud["margin-top"] = App.Globals.HEADER_HEIGHT;
+      config.hud["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+      
+      config.edition = true;
+      config.map.resizable = true;
+
+      config.styles = [];
+      config.styles[0] = App.stylesData.selectedStyle.content;
+      
+      return config;
 	}
 
 	//==================================================================//
 	// Controls
 
-	TryscreenController.renderColorBar = function()
-	{
-		$("#colorbar").dialogr({
-			position : [80,110],
-			closeOnEscape: false,
-			dialogClass: 'no-close'
-		});
-		
-	}
-
-	TryscreenController.cleanColorBar = function()
-	{
-		$("#colorbar").remove();
-	}
-	
-	//------------------------------------------------//
-
-
-	TryscreenController.initColorPicker = function()
-	{
-		$("#colorpicker").dialogr({
-			position : [380,210],
-			closeOnEscape: false,
-			dialogClass: 'no-close',
-			autoOpen: false,
-			show: {effect: 'fade', duration: 250},
-			hide: {effect: 'fade', duration: 250}
-		});
-	}
-
-	TryscreenController.cleanColorPicker = function()
-	{
-		$("#colorpicker").remove();
-	}
-
-
-	TryscreenController.openColorPicker = function(div)
-	{
-		var position = $("#"+div.id).offset();
-		var left = position.left;
-		var top = position.top;
-
-		$("#colorpicker").html("<div id=\"picker\"></div>")
-						 .dialogr('option', 'title', 'Color')
-						 .dialogr('option', 'width', 300)
-						 .dialogr('option', 'height', 380)
-						 .dialogr('option', 'position', [left, top])
-						 .dialogr("open");
-
-		$("#picker").colorpicker({color:rgb2hex(div.style.backgroundColor)})
-		.on('change.color', function(evt, color){
-			$('#'+div.id).attr('style','background-color:'+color);
-			$("#colorpicker").dialogr("close");
-		});
-	}
-	
-	//------------------------------------------------//
-
-	TryscreenController.renderMap = function()
-	{
-		var maps = new GLMap ( "map" );
-		maps.Start();
-
-		$("#map").css("height", $("#webappDiv").height() );
-		$("#map").css("width", $("#webappDiv").width() );
-	}
-
-	TryscreenController.cleanMap = function()
-	{
-		$("#map").remove();
-	}
-	
-	//------------------------------------------------//
-
-	TryscreenController.renderStyle = function()
-	{
-		$("#style").dialogr({
-			position : [80,410],
-			closeOnEscape: false,
-			dialogClass: 'no-close'
-		});
-	}
-
-	TryscreenController.cleanStyle = function()
-	{
-		$("#style").remove();
-	}
-	
-	//------------------------------------------------//
-	
 	App.TryscreenController = TryscreenController;
 
 	//==================================================================//

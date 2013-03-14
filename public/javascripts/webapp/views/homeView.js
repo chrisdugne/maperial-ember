@@ -5,6 +5,7 @@
 		templateName: 'home',
 		didInsertElement: function(){
 			App.HomeController.renderUI();
+         App.placeFooter();
 		},
 		willDestroyElement: function(){
 			App.HomeController.cleanUI();

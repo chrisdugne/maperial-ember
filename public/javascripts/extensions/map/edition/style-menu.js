@@ -63,7 +63,6 @@ function StyleMenu(container, container2, container3, maperial, isMovable){
    this.currentGroup = null;
    this.currentName = null;
 
-
    this.debug = false;
 
    this.init(container, container2, container3, maperial, isMovable);
@@ -188,7 +187,6 @@ StyleMenu.prototype.SetParam = function(luid,rule,def,param,value){
    }
 
    this.Refresh();
-   //this.EventProxy.NewEvent();
    return ok;
 }
 
@@ -206,9 +204,7 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
                if ( paramName == param ){
                   this.__style[luid]["s"][rule]["s"][d][paramName] = value;
 
-
                   this.Refresh();
-//                this.EventProxy.NewEvent();
                   return true;
                }
             }
@@ -216,7 +212,6 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
             this.__style[luid]["s"][rule]["s"][d][param] = value;
 
             this.Refresh();
-//          this.EventProxy.NewEvent();
             return true;
          }
       }
@@ -594,7 +589,6 @@ StyleMenu.prototype.GetCheckBoxCallBack = function(_uid){
       } 
 
       me.Refresh();
-//    me.EventProxy.NewEvent();     
       //if(me.debug)console.log( _uid, "visible",  vis );
    }
 }; 
@@ -640,6 +634,8 @@ StyleMenu.prototype.AddSpinner = function(_paramName,_paramValue,_uid,_ruleId,_c
 
 
 StyleMenu.prototype.AddSlider = function(_paramName,_paramValue,_uid,_ruleId,_container,_step,_min,_max){
+   
+   var me = this;
    // add to view
    $( "<li>" + _paramName + " : " +"<div class=\"styleMenu_menu_slider\" id=\"styleMenu_menu_slider_" + _paramName + "_" + _ruleId + "\"></li>").appendTo(_container);
 
@@ -650,7 +646,7 @@ StyleMenu.prototype.AddSlider = function(_paramName,_paramValue,_uid,_ruleId,_co
       max: _max,
       step: _step,
       value: _paramValue,
-      change: this.GetSliderCallBack(_uid,_ruleId,_paramName),
+      change: function(){me.GetSliderCallBack(_uid,_ruleId,_paramName)},
    });
 
    // set initial value
@@ -701,7 +697,7 @@ StyleMenu.prototype.GetFilterAlias = function(group,name,uid){
       for ( var al in this.groups[group][name]["alias"] ){
          var fal = this.groups[group][name]["alias"][al];
          if ( this.mappingArray[uid].filter.indexOf(fal) >= 0 ){
-            console.log( fal + " is in " + this.mappingArray[uid].filter );
+            if(this.debug)console.log( fal + " is in " + this.mappingArray[uid].filter );
             return al;
          }
       }
@@ -1035,7 +1031,7 @@ StyleMenu.prototype.LoadStyle = function(){
       this.__LoadStyle();
    }
 
-   this.maperial.config.renderParameters.AddOrRefreshStyle("default", this.__style); 
+   this.Refresh();
 }
 
 

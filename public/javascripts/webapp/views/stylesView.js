@@ -5,6 +5,7 @@
 		templateName: 'styles',
 		didInsertElement: function(){
 			App.StylesController.renderUI();
+         App.placeFooter();
 		},
 		willDestroyElement: function(){
 			App.StylesController.cleanUI();

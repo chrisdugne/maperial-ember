@@ -11,7 +11,6 @@
    StyleEditorController.renderUI = function()
    {
       App.user.set("waiting", true);
-      App.refreshSizes();
 
       //-----------------------------
       // if creating a new style : copy the selected style as a new style

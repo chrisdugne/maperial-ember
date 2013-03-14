@@ -172,7 +172,6 @@ Maperial.prototype.createContext = function() {
    this.context.zoom       = 14;
 
    if(this.config.hud[HUD.MAGNIFIER]){
-      console.log("Magnifier On");
       this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
    }
 

@@ -17,41 +17,36 @@
    App.initWindowSize = function()
    {
       App.homeScroller = new HomeScroller();
-      App.refreshSizes();
+      App.resize();
 
       $(window).resize(function() {
-         App.refreshSizes();
+         App.resize();
       });
    }
 
    //------------------------------------------------------//
    
-   App.refreshSizes = function()
+   App.placeFooter = function(forceFix)
    {
-      //------------------------------------------
-      
-      var webAppHeight = $(window).height() - App.Globals.FOOTER_HEIGHT ;
+      if($("#webappDiv").height() < $(window).height() || forceFix){
+         $("#footer").css({ position : "fixed" });
+      }
+      else{
+         $("#footer").css({ position : "relative" });
+      }
+   }
 
-      try{
-         webAppHeight -= $(".webappContent").css("margin-top").split("px")[0] ;
-         $(".webappContent").css("min-height", webAppHeight );
-      }catch(e){}
-      
-      try{
-         webAppHeight -= $("#mapEditorContent").css("margin-top").split("px")[0] ;
-         $("#mapEditorContent").css("min-height", webAppHeight );
-      }catch(e){}
-
-      //------------------------------------------
-      
-      App.homeScroller.resizeWindow($("#webappDiv").width());
+   App.resize = function()
+   {
+      App.homeScroller.resizeWindow();
    }
 
    //------------------------------------------------------//
 
    $(window).on(MaperialEvent.REFRESH_SIZES, function(){
       console.log("maperial asks to refresh sizes");
-      App.refreshSizes();
+      App.resize();
+      App.placeFooter(true);
    });
    
    $(window).on(MaperialEvent.LOADING, function(){
@@ -60,7 +55,7 @@
    });
    
    $(window).on(MaperialEvent.FREE, function(){
-      $("#footer").css({ position : "fixed" });
+      App.placeFooter(true);
       App.user.set("waiting", false);
       console.log("maperial is  FREE");
    });

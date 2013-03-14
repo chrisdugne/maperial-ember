@@ -5,6 +5,7 @@
 		templateName: 'datasets',
 		didInsertElement: function(){
 			App.DatasetsController.renderUI();
+         App.placeFooter();
 		},
 		willDestroyElement: function(){
 			App.DatasetsController.cleanUI();

@@ -5,6 +5,7 @@
 		templateName: 'colorbars',
 		didInsertElement: function(){
 			App.ColorbarsController.renderUI();
+         App.placeFooter();
 		},
 		willDestroyElement: function(){
 			App.ColorbarsController.cleanUI();

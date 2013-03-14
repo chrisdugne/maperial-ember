@@ -5,6 +5,7 @@
 		templateName: 'fonts',
 		didInsertElement: function(){
 			App.FontsController.renderUI();
+         App.placeFooter();
 		},
 		willDestroyElement: function(){
 			App.FontsController.cleanUI();

@@ -1,25 +1,5 @@
+@import views.html.popups.loginWindow; 
+@import views.html.templates.components.maperial;
 
-@import views.html.popups.loginWindow;
-
-{{#if user.loggedIn}}
-	<div {{action openDashboard}} class="btn-large btn-primary headerButton">Dashboard</div>
-	<div id="userDisplay" class="googleUser">{{user.email}}</div>
-{{else}}
-	<div {{action openHome}} class="btn-large btn-primary headerButton">Home</div>
-	<div id="signinButton" {{action openLoginWindow}} class="btn-large btn-primary">Sign in</div>
-{{/if}}
-
-
-<canvas id="map" style="border: none;"></canvas>
-
-<div id="colorbar" title="Color Bar" class="popup">
-	<div id="colorbartestcolor" class="square" onclick="openColorPicker(this)"></div>
-</div>
-
-<div id="style" title="Style" class="popup">
-	<div id="styletestcolor" class="square" onclick="openColorPicker(this)"></div>
-</div>
-
-<div id="colorpicker" class="popup"></div>
-
+@maperial()
 @loginWindow()

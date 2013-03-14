@@ -8,7 +8,6 @@
 
    ColorbarEditorController.renderUI = function() {
 
-      App.refreshSizes();
       ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
          //-----------------------------
          // if creating a new colorbar : copy the selected colorbar as a new colorbar

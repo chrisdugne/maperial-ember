@@ -6,11 +6,11 @@ function HomeScroller() {
 
 // ----------------------------//
 
-HomeScroller.prototype.resizeWindow = function(width) {
-   var imgWidth = Math.max(1450, width);
+HomeScroller.prototype.resizeWindow = function() {
+   var imgWidth = Math.max(1450, $(window).width());
    
    var leftOffset = 0;
-   var offset = 1450 - width;
+   var offset = 1450 - $(window).width();
    if(offset > 0)
       leftOffset = offset/2;
    

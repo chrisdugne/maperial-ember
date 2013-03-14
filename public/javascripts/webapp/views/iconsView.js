@@ -5,6 +5,7 @@
 		templateName: 'icons',
 		didInsertElement: function(){
 			App.IconsController.renderUI();
+         App.placeFooter();
 		},
 		willDestroyElement: function(){
 			App.IconsController.cleanUI();
