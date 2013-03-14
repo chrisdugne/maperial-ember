@@ -23,6 +23,23 @@
 	{
 		$('#loginWindow').modal();
 	}
+	
+	HomeController.openVideoWindow = function() 
+	{
+
+	   $("#videoWindow").modal();
+      $('#videoWindow').off("hide");
+      $('#videoWindow').off("show");
+      
+      $('#videoWindow').on("hide", function(){
+         App.youtubeManager.stop();
+      });
+
+      App.youtubeManager.load();
+
+//      $("#videoWindow").css("left", $(window).width() - $("#videoWindow").width() );
+	   $("#videoWindow").css("left", "40%" );
+	}
 
 	//----------------------------------------------------//
 
@@ -42,7 +59,8 @@
 		// actions
 		
 		openTryscreen: Ember.Route.transitionTo('tryscreen'),
-		openLoginWindow: function(){App.HomeController.openLoginWindow()}
+		openLoginWindow: function(){App.HomeController.openLoginWindow()},
+		showVideo: function(){App.HomeController.openVideoWindow()}
 	});
 
 	//==================================================================//

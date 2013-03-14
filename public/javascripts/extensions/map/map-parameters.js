@@ -121,7 +121,8 @@ MapParameters.prototype.GetColorBar = function(name){
 MapParameters.prototype.GetMapURL = function (tx,ty,z) {
    //var url = "http://map.x-ray.fr:8180/api/tile?x="+tx+"&y="+ty+"&z="+z
 //   var url = "http://map.x-ray.fr:8081/api/tile?x="+tx+"&y="+ty+"&z="+z
-   var url = "http://map.x-ray.fr/api/tile?x="+tx+"&y="+ty+"&z="+z
+//   var url = "http://map.x-ray.fr/api/tile?x="+tx+"&y="+ty+"&z="+z
+   var url = "http://www.maperial.com/api/tile?x="+tx+"&y="+ty+"&z="+z;
    return url
    //Utils.altURL = ["mapsa","mapsb","mapsc","mapsc"];
    // var rd  = Math.floor( (Math.random()*4) );

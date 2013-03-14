@@ -27,6 +27,15 @@
 		
 		<!-- ---------------   Libs   ------------------>
 		
+		<!-- Google api for geoloc -->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATwlkawyHykpfJF24jcPgL_b8kK8zO2Bc&sensor=false&libraries=places,panoramio"></script>
+
+		<!-- Youtube -->
+		<script type="text/javascript" src="http://www.youtube.com/player_api"> </script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/webapp/youtubeManager.js")"> </script>
+
+		<!-- --------------------------------------------->
+        
 		<!-- Utils --->
 	    <script src="@routes.Assets.at("javascripts/libs/jquery.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/libs/jquery.mousewheel.min.js")" type="text/javascript"></script>
@@ -107,14 +116,11 @@
 	    <script src="@routes.Assets.at("javascripts/webapp/views/components/styleList.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/webapp/views/components/colorbarList.js")" type="text/javascript"></script>
 	    <script src="@routes.Assets.at("javascripts/webapp/views/components/mapCreationWizardViews.js")" type="text/javascript"></script>
-
+		
 	    <script src="@routes.Assets.at("javascripts/webapp/router.js")" type="text/javascript"></script>
 
 		<!-- --------------------------------------------->
-
-		<!-- Google api for geoloc -->
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATwlkawyHykpfJF24jcPgL_b8kK8zO2Bc&sensor=false&libraries=places,panoramio"></script>
-		 
+		
 		<!-- Analytics 
 	    <script type="text/javascript">
 	      var _gaq = _gaq || [];

@@ -1,10 +1,11 @@
 @import views.html.popups.loginWindow;
+@import views.html.popups.videoWindow;
 
 <div id="imageBackContainer1" class="imageBackContainer">
-	<img src="@routes.Assets.at("images/home/back3.png")" class="imageBack"></img>
+	<img src="@routes.Assets.at("images/home/back2.png")" class="imageBack"></img>
 </div>
 <div id="imageBackContainer2" class="imageBackContainer">
-	<img src="@routes.Assets.at("images/home/back2.png")" class="imageBack"></img>
+	<img src="@routes.Assets.at("images/home/back3.png")" class="imageBack"></img>
 </div>
 <div id="imageBackContainer3" class="imageBackContainer">
 	<img src="@routes.Assets.at("images/home/back4.png")" class="imageBack"></img>
@@ -18,16 +19,12 @@
 
 	<div class="marketing">
 		
+		<img id="homeImage" src="@routes.Assets.at("images/home/worldmap.jpg")"></img>
+		<img id="playImage" {{action showVideo}} src="@routes.Assets.at("images/home/play.png")"></img>
+
 		<div class="row-fluid homePart" id="part1">
-			<h1>Introducing Maperial.</h1>
-			<p class="marketing-byline">Need reasons to love Maperial? Look no
-				further.</p>
-			<h1>Introducing Maperial.</h1>
-			<p class="marketing-byline">Need reasons to love Maperial? Look no
-				further.</p>
-			<h1>Introducing Maperial.</h1>
-			<p class="marketing-byline">Need reasons to love Maperial? Look no
-				further.</p>
+			<h1>Maperial</h1>
+			<p class="marketing-byline">Beautiful maps.</p>
 		</div>
 
 		<div class="row-fluid homePart" id="part2">
@@ -125,3 +122,4 @@
 
 
 @loginWindow()
+@videoWindow()

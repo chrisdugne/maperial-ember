@@ -19,6 +19,7 @@
       App.homeScroller = new HomeScroller();
       App.resize();
 
+      
       $(window).resize(function() {
          App.resize();
       });
