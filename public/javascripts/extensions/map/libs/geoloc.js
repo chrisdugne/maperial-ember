@@ -30,7 +30,7 @@ GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
      function initialize2(){
          var input = document.getElementById(inputId);
          var options = {
-             componentRestrictions: {country: 'fr'},
+             //componentRestrictions: {country: 'fr'},
              types: ['geocode']
          };
          var autocomplete = new google.maps.places.Autocomplete(input,options);
