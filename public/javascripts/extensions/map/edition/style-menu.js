@@ -92,7 +92,7 @@ StyleMenu.prototype.init = function(container, container2, container3, maperial,
    // style edition default 
    this.OpenStyle("001");
 
-}// end class this.init
+}
 
 //==================================================================//
 
