@@ -110,7 +110,7 @@ TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , b
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, layerType ) {
+TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, group ) {
 
    ctx.scale(1,1);
    var i;
@@ -122,7 +122,7 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, layerType
       
       var subLayer = style [ subLayerId ]
       
-      if(subLayer.layer != layerType)
+      if(subLayer.layer != group)
          continue;
 
       // clear

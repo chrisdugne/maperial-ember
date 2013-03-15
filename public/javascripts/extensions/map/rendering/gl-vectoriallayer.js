@@ -89,10 +89,9 @@ VectorialLayer.prototype.IsUpToDate = function ( ) {
    return this.lcnt == null;
 }
 
-VectorialLayer.prototype.Update = function ( inId ) {
-   var p          = this.params.LayerParams[inId]
-   var attr       = p["layerAttribute"];
-   var styleName  = p["style"];
+VectorialLayer.prototype.Update = function ( params ) {
+   var group      = params.group;
+   var styleName  = params.style;
    var style      = this.params.GetStyle(styleName);
    if ( ! style ) {
       console.log ( "Invalid style")

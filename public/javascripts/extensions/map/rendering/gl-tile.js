@@ -78,20 +78,14 @@ Tile.prototype.Init = function (tx, ty, z) {
       switch(source.type){
       
          case Source.MaperialOSM:
-            this._LoadVectorial  ( source.getURL() );
+            this._LoadVectorial ( source );
             break;
          
          case Source.MaperialRaster:
-            this._LoadRaster  ( source.getURL() );
+            this._LoadRaster ( source );
             break;
             
       }
-      
-//    if (this.vReq || this.rReq)
-//    return false;
-//    this._LoadVectorial  ( inVecUrl     );
-//    this._LoadRaster     ( inRasterUrl  );
-   } 
 }
 
 Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
@@ -136,29 +130,29 @@ Tile.prototype.IsUpToDate = function ( ) {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
-Tile.prototype._LoadVectorial = function ( inVecUrl ) {
+Tile.prototype._LoadVectorial = function ( source ) {
    var me = this;
-   this.vReq    = $.ajax({
+   this.req[source.type] = $.ajax({
       type     : "GET",
-      url      : inVecUrl,
+      url      : source.getURL(),
       dataType : "json",  
       timeout  : MapParameters.tileDLTimeOut,
       success  : function(data, textStatus, jqXHR) {
          if ( ! data ) {
-            me.vError   = true;
+            me.error[source.type] = true;
          }
          else {
-            me.vdata = data;
+            me.data[source.type] = data;
          }
          for ( var kl in me.layers ) {
             if ( me.layers [ kl ].GetType() == MapParameters.Vector )
                me.layers [ kl ].Init( data );
          }
-         me.vLoad = true;
+         me.load[source.type] = true;
       },
       error : function(jqXHR, textStatus, errorThrown) {
-         me.vError   = true;
-         me.vLoad    = true;
+         me.error[source.type]   = true;
+         me.load[source.type]    = true;
          for ( var kl in me.layers ) {
             if ( me.layers [ kl ].GetType() == MapParameters.Vector )
                me.layers [ kl ].Init( null );
@@ -169,42 +163,43 @@ Tile.prototype._LoadVectorial = function ( inVecUrl ) {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
-Tile.prototype._LoadRaster = function ( inRasterUrl ) {
-   if ( ! inRasterUrl ) {
-      this.rError   = true;
-      this.rLoad    = true;
+Tile.prototype._LoadRaster = function ( source ) {
+   if ( ! source.getURL() ) {
+      this.error[source.type] = true;
+      this.load[source.type] = true;
       return ;
    }
+   
    // https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data
    // JQuery can not use XMLHttpRequest V2 (binary data)
-   var me         = this;   
-   this.rReq      = new XMLHttpRequest();
-   this.rReq.open ("GET", inRasterUrl, true);
-   this.rReq.responseType = "arraybuffer";
+   var me = this;   
+   this.req[source.type] = new XMLHttpRequest();
+   this.req[source.type].open ("GET", source.getURL(), true);
+   this.req[source.type].responseType = "arraybuffer";
 
-   this.rReq.onload = function (oEvent) {      
-      var arrayBuffer = me.rReq.response;                    // Note: not this.rReq.responseText
-      if (arrayBuffer && ( me.rReq.status != 200 || arrayBuffer.byteLength <= 0 )) {
+   this.req[source.type].onload = function (oEvent) {      
+      var arrayBuffer = me.req[source.type].response;  // Note: not this.req[source.type].responseText
+      if (arrayBuffer && ( me.req[source.type].status != 200 || arrayBuffer.byteLength <= 0 )) {
          arrayBuffer = null;
       }
       for ( var kl in me.layers ) {
          if ( me.layers [ kl ].GetType() == MapParameters.Raster )
             me.layers [ kl ].Init( arrayBuffer );
       }
-      me.rError   = arrayBuffer != null;
-      me.rLoad    = true;
+      me.error[source.type]   = arrayBuffer != null;
+      me.load[source.type]    = true;
    };
-   this.rReq.onerror = function (oEvent) {
-      me.rLoad    = true;
-      me.rError   = true;
+   this.req[source.type].onerror = function (oEvent) {
+      me.load[source.type]    = true;
+      me.error[source.type]   = true;
       for ( var kl in me.layers ) {
          if ( me.layers [ kl ].GetType() == MapParameters.Raster )
             me.layers [ kl ].Init( null );
       }
    }
-   function ajaxTimeout() { me.rReq.abort(); }
+   function ajaxTimeout() { me.req[source.type].abort(); }
    var tm = setTimeout(ajaxTimeout,MapParameters.tileDLTimeOut);
-   this.rReq.send(null);
+   this.req[source.type].send(null);
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
@@ -233,12 +228,24 @@ Tile.prototype.LayerLookup = function ( tileClickCoord, zoom, style ) {
 
    ctx.translate(-tileClickCoord.x, -tileClickCoord.y);
 
-   for (var i = this.params.LayerOrder.length-1 ; i >= 0 ; --i) {
-      var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.vdata , zoom, style, this.params.LayerOrder[i] );
-
+   for(var i = this.layersConfig.length -1 ; i>=0 ; --i){
+      
+      // a ameliorer pour pouvoir PICK sur une source CUSTOM
+      if(this.layersConfig[i].source.type != Source.MaperialOSM)
+         continue;
+      
+      var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.layersConfig[i].params.group );
+      
       if(layerResult)
          return layerResult;
    }
+   
+//   for (var i = this.params.LayerOrder.length-1 ; i >= 0 ; --i) {
+//      var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.params.LayerOrder[i] );
+//
+//      if(layerResult)
+//         return layerResult;
+//   }
 
 }
 
@@ -253,18 +260,26 @@ Tile.prototype.Update = function ( maxTime ) {
 
    var timeRemaining = maxTime;
 
-   for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {   
-      var kl = this.params.LayerOrder[i]
-      if (! this.layers [ kl ].IsUpToDate ( ) ) {
-         timeRemaining -= this.layers[kl].Update( i );
+   for(var i = 0; i< this.layersConfig.length; i++){
+      if (! this.layers[i].IsUpToDate ( ) ) {
+         timeRemaining -= this.layers[i].Update( this.layersConfig[i].params );
          if ( timeRemaining <= 0 )
             break;
       }
    }
+   
+//   for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {   
+//      var kl = this.params.LayerOrder[i]
+//      if (! this.layers [ kl ].IsUpToDate ( ) ) {
+//         timeRemaining -= this.layers[kl].Update( i );
+//         if ( timeRemaining <= 0 )
+//            break;
+//      }
+//   }
 
    var isFinish = true;
-   for (var kl in this.layers) {
-      if (! this.layers [ kl ].IsUpToDate ( ) )
+   for (var i in this.layers) {
+      if (! this.layers [i].IsUpToDate ( ) )
          isFinish = false
    }
 
@@ -363,7 +378,7 @@ Tile.prototype.Copy = function ( backTex , destFB ) {
 }
 
 Tile.prototype.Compose = function (  ) {
-   var backTex = this.layers      [ this.params.LayerOrder[0] ].tex
+   var backTex = this.layers[0].tex
    var destFb  = this.frameBufferL[ 0 ]
    var tmpI    = 0;
    if ( this.params.LayerOrder.length > 1 ) {
