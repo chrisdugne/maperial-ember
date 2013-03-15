@@ -204,20 +204,6 @@ Maperial.prototype.useDefaultLayers = function() {
           }
        },
        { 
-          type: MapParameters.Raster, 
-          source: {
-             type: Source.MaperialRaster,
-             params: { uid : "rasterUID" }
-          },
-          params: {
-             colorbar: MapParameters.DEFAULT, 
-          },
-          composition: {
-             shader : MapParameters.MulBlend,
-             params : { uParams : [ -0.5, -0.5, 1.0 ]}
-          }
-       },
-       { 
           type: MapParameters.Vector, 
           source: {
              type: Source.MaperialOSM
@@ -233,6 +219,52 @@ Maperial.prototype.useDefaultLayers = function() {
    ];
 
 }
+//
+//Maperial.prototype.useDefaultLayers = function() {
+//   
+//   console.log("using default layers...");
+//   
+//   this.config.layers = [
+//                         { 
+//                            type: MapParameters.Vector, 
+//                            source: {
+//                               type: Source.MaperialOSM
+//                            },
+//                            params: {
+//                               group : VectorialLayer.BACK, 
+//                               style: MapParameters.DEFAULT, 
+//                            }
+//                         },
+//                         { 
+//                            type: MapParameters.Raster, 
+//                            source: {
+//                               type: Source.MaperialRaster,
+//                               params: { uid : "rasterUID" }
+//                            },
+//                            params: {
+//                               colorbar: MapParameters.DEFAULT, 
+//                            },
+//                            composition: {
+//                               shader : MapParameters.MulBlend,
+//                               params : { uParams : [ -0.5, -0.5, 1.0 ]}
+//                            }
+//                         },
+//                         { 
+//                            type: MapParameters.Vector, 
+//                            source: {
+//                               type: Source.MaperialOSM
+//                            },
+//                            params: {
+//                               group : VectorialLayer.FRONT, 
+//                               style: MapParameters.DEFAULT, 
+//                            },
+//                            composition: {
+//                               shader : MapParameters.AlphaBlend
+//                            }
+//                         }
+//                         ];
+//   
+//}
 
 //==================================================================//
 

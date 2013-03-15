@@ -1,8 +1,10 @@
 
-function Tile (layersConfig, params , tx, ty, z) {
+function Tile (layersConfig, params , x, y, z) {
 
    //----------------------------------------------------------------------------------------------------------------------//
 
+   this.x         = x;
+   this.y         = y;
    this.z         = z;
    this.params    = params;
    this.assets    = params.assets;
@@ -19,30 +21,30 @@ function Tile (layersConfig, params , tx, ty, z) {
    //----------------------------------------------------------------------------------------------------------------------//
 
    for(var i = 0; i< this.layersConfig.length; i++){
-      
+
       switch(this.layersConfig[i].type){
-      
-         case MapParameters.Vector:
-            this.layers.push ( new VectorialLayer( this.params , this.z));
-            break;
-         
-         case MapParameters.Raster:
-            this.layers.push ( new RasterLayer( this.params , this.z));
-            break;
+
+      case MapParameters.Vector:
+         this.layers.push ( new VectorialLayer( this.params , this.z));
+         break;
+
+      case MapParameters.Raster:
+         this.layers.push ( new RasterLayer( this.params , this.z));
+         break;
       }
-      
+
    }
 
-//   for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {
-//      var lt = this.params.LayerType [i];
-//      var lo = this.params.LayerOrder[i];
-//      if ( lt == MapParameters.Vector ) {
-//         this.layers [ lo ] = new VectorialLayer( this.params , this.z);
-//      }
-//      else if ( lt == MapParameters.Raster ) { 
-//         this.layers [ lo ] = new RasterLayer   ( this.params , this.z);
-//      }
-//   }
+// for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {
+// var lt = this.params.LayerType [i];
+// var lo = this.params.LayerOrder[i];
+// if ( lt == MapParameters.Vector ) {
+// this.layers [ lo ] = new VectorialLayer( this.params , this.z);
+// }
+// else if ( lt == MapParameters.Raster ) { 
+// this.layers [ lo ] = new RasterLayer   ( this.params , this.z);
+// }
+// }
 
    // prepare double buffering for render to texture !
    this.frameBufferL       = []
@@ -71,21 +73,22 @@ Tile.prototype.Init = function (tx, ty, z) {
 
       var source = this.params.sources[i];
       console.log(source);
-      
+
       if (this.req[source.type])
          return false;
-      
+
       switch(source.type){
-      
-         case Source.MaperialOSM:
-            this._LoadVectorial ( source );
-            break;
-         
-         case Source.MaperialRaster:
-            this._LoadRaster ( source );
-            break;
-            
+
+      case Source.MaperialOSM:
+         this._LoadVectorial ( source );
+         break;
+
+      case Source.MaperialRaster:
+         this._LoadRaster ( source );
+         break;
+
       }
+   }
 }
 
 Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
@@ -134,7 +137,7 @@ Tile.prototype._LoadVectorial = function ( source ) {
    var me = this;
    this.req[source.type] = $.ajax({
       type     : "GET",
-      url      : source.getURL(),
+      url      : source.getURL(this.x, this.y, this.z),
       dataType : "json",  
       timeout  : MapParameters.tileDLTimeOut,
       success  : function(data, textStatus, jqXHR) {
@@ -164,17 +167,17 @@ Tile.prototype._LoadVectorial = function ( source ) {
 //----------------------------------------------------------------------------------------------------------------------//
 
 Tile.prototype._LoadRaster = function ( source ) {
-   if ( ! source.getURL() ) {
+   if ( ! source.getURL(this.x, this.y, this.z) ) {
       this.error[source.type] = true;
       this.load[source.type] = true;
       return ;
    }
-   
+
    // https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data
    // JQuery can not use XMLHttpRequest V2 (binary data)
    var me = this;   
    this.req[source.type] = new XMLHttpRequest();
-   this.req[source.type].open ("GET", source.getURL(), true);
+   this.req[source.type].open ("GET", source.getURL(this.x, this.y, this.z), true);
    this.req[source.type].responseType = "arraybuffer";
 
    this.req[source.type].onload = function (oEvent) {      
@@ -229,23 +232,23 @@ Tile.prototype.LayerLookup = function ( tileClickCoord, zoom, style ) {
    ctx.translate(-tileClickCoord.x, -tileClickCoord.y);
 
    for(var i = this.layersConfig.length -1 ; i>=0 ; --i){
-      
+
       // a ameliorer pour pouvoir PICK sur une source CUSTOM
       if(this.layersConfig[i].source.type != Source.MaperialOSM)
          continue;
-      
+
       var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.layersConfig[i].params.group );
-      
+
       if(layerResult)
          return layerResult;
    }
-   
-//   for (var i = this.params.LayerOrder.length-1 ; i >= 0 ; --i) {
-//      var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.params.LayerOrder[i] );
-//
-//      if(layerResult)
-//         return layerResult;
-//   }
+
+// for (var i = this.params.LayerOrder.length-1 ; i >= 0 ; --i) {
+// var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.params.LayerOrder[i] );
+
+// if(layerResult)
+// return layerResult;
+// }
 
 }
 
@@ -267,15 +270,15 @@ Tile.prototype.Update = function ( maxTime ) {
             break;
       }
    }
-   
-//   for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {   
-//      var kl = this.params.LayerOrder[i]
-//      if (! this.layers [ kl ].IsUpToDate ( ) ) {
-//         timeRemaining -= this.layers[kl].Update( i );
-//         if ( timeRemaining <= 0 )
-//            break;
-//      }
-//   }
+
+// for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {   
+// var kl = this.params.LayerOrder[i]
+// if (! this.layers [ kl ].IsUpToDate ( ) ) {
+// timeRemaining -= this.layers[kl].Update( i );
+// if ( timeRemaining <= 0 )
+// break;
+// }
+// }
 
    var isFinish = true;
    for (var i in this.layers) {
@@ -381,11 +384,12 @@ Tile.prototype.Compose = function (  ) {
    var backTex = this.layers[0].tex
    var destFb  = this.frameBufferL[ 0 ]
    var tmpI    = 0;
-   if ( this.params.LayerOrder.length > 1 ) {
-      for( var i = 1 ; i < this.params.LayerOrder.length ; i++ ) {
-         var frontTex   = this.layers [ this.params.LayerOrder[i] ].tex
+
+   if ( this.layers.length > 1 ) {
+      for( var i = 1 ; i < this.layers.length ; i++ ) {
+         var frontTex   = this.layers[i].tex;
          if (frontTex) {
-            if (this.params.LayerOrder[i] == "front") {
+            if (this.layersConfig[i].params.group == VectorialLayer.FRONT) {
                var ttt = 4;
             }
             var prog       = this.assets.prog[ this.params.ComposeShader[i] ]
