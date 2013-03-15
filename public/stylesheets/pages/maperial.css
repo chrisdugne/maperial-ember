@@ -262,7 +262,7 @@ a#triggerHUDSettings {
 #control-zoom {
 	height: 166px;
 	top: 60px;
-	left: 12PX;
+	left: 10px;
 }
 
 /*-------------------------*/
@@ -401,15 +401,12 @@ a#triggerColorBar {
 
 /*zoom select buttons*/
 #styleMenu_menu_zoom_selector {
-	align: center;
 	width: 100%;
-	padding: 10 0;
 }
 
 /*zoom slider*/
 #styleMenu_menu_sliderrangez {
 	width: 92%;
-	padding: 0 0;
 	margin-left: 4%;
 }
 
