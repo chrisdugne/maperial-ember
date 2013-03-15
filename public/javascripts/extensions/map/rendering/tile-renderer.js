@@ -3,23 +3,23 @@ var TileRenderer = {};
 
 //----------------------------------------------------------------------------------------------//
 /*
- * layerId + zoom = ruleId = unique
+ * subLayerId + zoom = ruleId = unique
  */
 
 TileRenderer.layerDummyColors = [];
-TileRenderer.ApplyStyle = function ( ctx , line , attr, layerId , zoom , layerType , style ) {
+TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , layerType , style ) {
 
    try {
-      var curLayer = style [ layerId ] // on a 1 seul symbolizer par layer
-      if ( /*layerId == "02d" ||*/ layerId == "02e") {
-         curLayer.layer = "front";
+      var subLayer = style [ subLayerId ] // on a 1 seul symbolizer par layer
+      if ( /*subLayerId == "02d" ||*/ subLayerId == "02e") {
+         subLayer.layer = VectorialLayer.FRONT;
       }
       
-      if ( !curLayer.visible ) return;
-      if ( curLayer.layer != layerType) return;
+      if ( !subLayer.visible ) return;
+      if ( subLayer.layer != layerType) return;
 
-      for (var _s = 0 ; _s < curLayer.s.length ; _s++ ) {
-         var curStyle = curLayer.s[_s];
+      for (var _s = 0 ; _s < subLayer.s.length ; _s++ ) {
+         var curStyle = subLayer.s[_s];
 
          if ( zoom >= curStyle.zmax && zoom <= curStyle.zmin ) {
             for (var _ss = 0 ; _ss < curStyle.s.length ; _ss++){ 
@@ -118,11 +118,11 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, layerType
       
       // render the symbolizers
       var layer = data["l"][i]; // layerGroup
-      var layerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
+      var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
-      var curLayer = style [ layerId ]
+      var subLayer = style [ subLayerId ]
       
-      if(curLayer.layer != layerType)
+      if(subLayer.layer != layerType)
          continue;
 
       // clear
@@ -141,7 +141,7 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, layerType
          if (al) attr = al[l] // attributlist
          for ( var li = 0 ; li < lines.length ; ++li ) 
          {
-            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , layerId , zoom, style);
+            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , subLayerId , zoom, style);
          }
       }
 
@@ -153,20 +153,20 @@ TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, layerType
       var color = ("000000" + Utils.rgbToHex(pixel[0], pixel[1], pixel[2])).slice(-6);
       
       if(color != "ffffff")
-         return layerId;
+         return subLayerId;
    }
    
    return false;
 }
 
-TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, layerId , zoom, style  ) {
+TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, subLayerId , zoom, style  ) {
    try {
-      var curLayer = style [ layerId ] 
+      var subLayer = style [ subLayerId ] 
 
-      if ( !curLayer.visible ) return;
+      if ( !subLayer.visible ) return;
 
-      for (var _s = 0 ; _s < curLayer.s.length ; _s++ ) {
-         var curStyle = curLayer.s[_s];
+      for (var _s = 0 ; _s < subLayer.s.length ; _s++ ) {
+         var curStyle = subLayer.s[_s];
 
          if ( zoom >= curStyle.zmax && zoom <= curStyle.zmin ) {
             for (var _ss = 0 ; _ss < curStyle.s.length ; _ss++){ 

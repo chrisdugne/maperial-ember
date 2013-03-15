@@ -29,6 +29,9 @@ Object.size = function(obj) {
 //==================================================================//
 
 function StyleMenu(container, container2, container3, maperial, isMovable){
+
+   console.log("building style menu...");
+   
 // this.serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";         // local
    this.serverRootDirV = "http://serv.x-ray.fr/project/mycarto/wwwClient/";       // not local ...
    this.serverRootDirD = "http://map.x-ray.fr/";

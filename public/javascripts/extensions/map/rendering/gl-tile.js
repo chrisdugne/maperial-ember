@@ -1,57 +1,97 @@
 
-function Tile (params , z) {
+function Tile (layersConfig, params , tx, ty, z) {
 
    //----------------------------------------------------------------------------------------------------------------------//
-    
-   this.z      = z;
-   this.params = params;
-   this.assets = params.assets;
-   this.gl     = params.assets.ctx;
-   this.layers = {}
-   this.vdata  = null;
-   this.rdata  = null;
-   this.vReq   = null;
-   this.rReq   = null;
-   this.vLoad  = false;
-   this.rLoad  = false;
-   this.vError = false;
-   this.rError = false;
-   this.error  = false;
+
+   this.z         = z;
+   this.params    = params;
+   this.assets    = params.assets;
+   this.gl        = params.assets.ctx;
+   this.error     = false;
+   this.layers    = [];
+
+   this.layersConfig     = layersConfig;
+   this.data      = [];
+   this.req       = [];
+   this.load      = [];
+   this.errors    = [];
 
    //----------------------------------------------------------------------------------------------------------------------//
-   
-   for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {
-      var lt = this.params.LayerType [i];
-      var lo = this.params.LayerOrder[i];
-      if ( lt == MapParameters.Vector ) {
-         this.layers [ lo ] = new VectorialLayer( this.params , this.z);
+
+   for(var i = 0; i< this.layersConfig.length; i++){
+      
+      switch(this.layersConfig[i].type){
+      
+         case MapParameters.Vector:
+            this.layers.push ( new VectorialLayer( this.params , this.z));
+            break;
+         
+         case MapParameters.Raster:
+            this.layers.push ( new RasterLayer( this.params , this.z));
+            break;
       }
-      else if ( lt == MapParameters.Raster ) { 
-         this.layers [ lo ] = new RasterLayer   ( this.params , this.z);
-      }
+      
    }
+
+//   for( var i = 0 ; i < this.params.LayerOrder.length ; i++ ) {
+//      var lt = this.params.LayerType [i];
+//      var lo = this.params.LayerOrder[i];
+//      if ( lt == MapParameters.Vector ) {
+//         this.layers [ lo ] = new VectorialLayer( this.params , this.z);
+//      }
+//      else if ( lt == MapParameters.Raster ) { 
+//         this.layers [ lo ] = new RasterLayer   ( this.params , this.z);
+//      }
+//   }
 
    // prepare double buffering for render to texture !
    this.frameBufferL       = []
    this.texL               = []
    this.tex                = null;
-   
+
    var gltools = new GLTools ()
    for ( var i = 0 ; i < 2 ; i = i + 1 ) {
-      var fbtx = gltools.CreateFrameBufferTex(this.gl,MapParameters.tileSize,MapParameters.tileSize)
+      var fbtx = gltools.CreateFrameBufferTex(this.gl, MapParameters.tileSize, MapParameters.tileSize);
       this.frameBufferL.push        ( fbtx[0] );
       this.texL.push                ( fbtx[1] );
    }
+
+   //------------------------------------------------------------------------------------//
+
+   this.Init(tx, ty, z);
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
- 
-Tile.prototype.Init = function ( inVecUrl, inRasterUrl ) {
-   if (this.vReq || this.rReq)
-      return false;
-   this._LoadVectorial  ( inVecUrl     );
-   this._LoadRaster     ( inRasterUrl  );
-   return true;
+
+Tile.prototype.Init = function (tx, ty, z) {
+
+   console.log(this.params.sources);
+
+   for(var i = 0; i< this.params.sources.length; i++){
+
+      var source = this.params.sources[i];
+      console.log(source);
+      
+      if (this.req[source.type])
+         return false;
+      
+      switch(source.type){
+      
+         case Source.MaperialOSM:
+            this._LoadVectorial  ( source.getURL() );
+            break;
+         
+         case Source.MaperialRaster:
+            this._LoadRaster  ( source.getURL() );
+            break;
+            
+      }
+      
+//    if (this.vReq || this.rReq)
+//    return false;
+//    this._LoadVectorial  ( inVecUrl     );
+//    this._LoadRaster     ( inRasterUrl  );
+   } 
 }
 
 Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
@@ -62,10 +102,11 @@ Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
    for (kl in this.layers) {      
       this.layers [ kl ].Release ( );
    }
+
    delete this.vdata;
    delete this.rdata;
-   
-   var gl                           = this.gl;
+
+   var gl = this.gl;
    for ( var i = 0 ; i < 2 ; i = i + 1 ) {
       gl.deleteFramebuffer ( this.frameBufferL[i] );
       gl.deleteTexture     ( this.texL[i] );
@@ -84,7 +125,7 @@ Tile.prototype.Reset = function ( ) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
- 
+
 Tile.prototype.IsLoad = function ( ) {
    return ( this.vLoad && this.rLoad );
 }
@@ -94,7 +135,7 @@ Tile.prototype.IsUpToDate = function ( ) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
- 
+
 Tile.prototype._LoadVectorial = function ( inVecUrl ) {
    var me = this;
    this.vReq    = $.ajax({
@@ -127,7 +168,7 @@ Tile.prototype._LoadVectorial = function ( inVecUrl ) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
- 
+
 Tile.prototype._LoadRaster = function ( inRasterUrl ) {
    if ( ! inRasterUrl ) {
       this.rError   = true;
@@ -194,7 +235,7 @@ Tile.prototype.LayerLookup = function ( tileClickCoord, zoom, style ) {
 
    for (var i = this.params.LayerOrder.length-1 ; i >= 0 ; --i) {
       var layerResult = TileRenderer.LayerLookup(tileClickCoord , ctx , this.vdata , zoom, style, this.params.LayerOrder[i] );
-      
+
       if(layerResult)
          return layerResult;
    }
@@ -226,23 +267,23 @@ Tile.prototype.Update = function ( maxTime ) {
       if (! this.layers [ kl ].IsUpToDate ( ) )
          isFinish = false
    }
-   
+
    if ( isFinish )
       // Get elapsed time !!
       this.Compose()
 
-   return timeRemaining 
+      return timeRemaining 
 }
 
 Tile.prototype.Fuse = function ( backTex,frontTex,destFB, prog, params ) {
    var gl                           = this.gl;
    gl.bindFramebuffer               ( gl.FRAMEBUFFER, destFB );
-               
+
    this.gl.clearColor               ( 1.0, 1.0, 1.0, 1.0  );
    this.gl.disable                  ( this.gl.DEPTH_TEST  );
    gl.viewport                      ( 0, 0, destFB.width, destFB.height);
    gl.clear                         ( gl.COLOR_BUFFER_BIT );
-      
+
    mvMatrix                         = mat4.create();
    pMatrix                          = mat4.create();
    mat4.identity                    ( pMatrix );
@@ -255,11 +296,11 @@ Tile.prototype.Fuse = function ( backTex,frontTex,destFB, prog, params ) {
    this.gl.bindBuffer               (this.gl.ARRAY_BUFFER, this.assets.squareVertexPositionBuffer);
    this.gl.enableVertexAttribArray  (prog.attr.vertexPositionAttribute);
    this.gl.vertexAttribPointer      (prog.attr.vertexPositionAttribute, this.assets.squareVertexPositionBuffer.itemSize, this.gl.FLOAT, false, 0, 0);
-   
+
    this.gl.bindBuffer               (this.gl.ARRAY_BUFFER, this.assets.squareVertexTextureBuffer);
    this.gl.enableVertexAttribArray  (prog.attr.textureCoordAttribute);
    this.gl.vertexAttribPointer      (prog.attr.textureCoordAttribute, this.assets.squareVertexTextureBuffer.itemSize, this.gl.FLOAT, false, 0, 0);
-   
+
    this.gl.activeTexture            (this.gl.TEXTURE0);
    this.gl.bindTexture              (this.gl.TEXTURE_2D, backTex );
    this.gl.uniform1i                (prog.params.uSamplerTex1, 0);
@@ -267,12 +308,12 @@ Tile.prototype.Fuse = function ( backTex,frontTex,destFB, prog, params ) {
    this.gl.activeTexture            (this.gl.TEXTURE1);
    this.gl.bindTexture              (this.gl.TEXTURE_2D, frontTex );
    this.gl.uniform1i                (prog.params.uSamplerTex2, 1);
-   
+
    this.gl.drawArrays               (this.gl.TRIANGLE_STRIP, 0, this.assets.squareVertexPositionBuffer.numItems);
 
    for (var k in params) {
       // WRONG !!!!! always  uniform3fv ???
-     this.gl.uniform3fv             (prog.params[k] , params[k] ); 
+      this.gl.uniform3fv             (prog.params[k] , params[k] ); 
    }
 
    gl.bindFramebuffer               ( gl.FRAMEBUFFER, null );
@@ -284,9 +325,9 @@ Tile.prototype.Fuse = function ( backTex,frontTex,destFB, prog, params ) {
 
 Tile.prototype.Copy = function ( backTex , destFB ) {
    var gl                           = this.gl;
-  
+
    gl.bindFramebuffer               ( gl.FRAMEBUFFER, destFB );
-               
+
    this.gl.clearColor               ( 1.0, 1.0, 1.0, 1.0  );
    this.gl.disable                  ( this.gl.DEPTH_TEST  );
    gl.viewport                      ( 0, 0, destFB.width, destFB.height);
@@ -299,18 +340,18 @@ Tile.prototype.Copy = function ( backTex , destFB ) {
    mat4.ortho                       ( 0, destFB.width , 0, destFB.height, 0, 1, pMatrix ); // Y swap !
 
    var prog = this.assets.prog["Tex"];
-   
+
    this.gl.useProgram               (prog);
    this.gl.uniformMatrix4fv         (prog.params.pMatrixUniform , false, pMatrix);
    this.gl.uniformMatrix4fv         (prog.params.mvMatrixUniform, false, mvMatrix);
    this.gl.bindBuffer               (this.gl.ARRAY_BUFFER, this.assets.squareVertexPositionBuffer);
    this.gl.enableVertexAttribArray  (prog.attr.vertexPositionAttribute);
    this.gl.vertexAttribPointer      (prog.attr.vertexPositionAttribute, this.assets.squareVertexPositionBuffer.itemSize, this.gl.FLOAT, false, 0, 0);
-   
+
    this.gl.bindBuffer               (this.gl.ARRAY_BUFFER, this.assets.squareVertexTextureBuffer);
    this.gl.enableVertexAttribArray  (prog.attr.textureCoordAttribute);
    this.gl.vertexAttribPointer      (prog.attr.textureCoordAttribute, this.assets.squareVertexTextureBuffer.itemSize, this.gl.FLOAT, false, 0, 0);
-   
+
    this.gl.activeTexture            (this.gl.TEXTURE0);
    this.gl.bindTexture              (this.gl.TEXTURE_2D, backTex );
    this.gl.uniform1i                (prog.params.uSamplerTex1, 0);
@@ -352,7 +393,7 @@ Tile.prototype.Compose = function (  ) {
 }
 
 Tile.prototype.Render = function (pMatrix, mvMatrix) {
-   
+
    if ( this.tex ) {
       var prog                         = this.assets.prog["Tex"];
 
@@ -362,21 +403,21 @@ Tile.prototype.Render = function (pMatrix, mvMatrix) {
       this.gl.bindBuffer               (this.gl.ARRAY_BUFFER, this.assets.squareVertexPositionBuffer);
       this.gl.enableVertexAttribArray  (prog.attr.vertexPositionAttribute);
       this.gl.vertexAttribPointer      (prog.attr.vertexPositionAttribute, this.assets.squareVertexPositionBuffer.itemSize, this.gl.FLOAT, false, 0, 0);
-      
+
       this.gl.bindBuffer               (this.gl.ARRAY_BUFFER, this.assets.squareVertexTextureBuffer);
       this.gl.enableVertexAttribArray  (prog.attr.textureCoordAttribute);
       this.gl.vertexAttribPointer      (prog.attr.textureCoordAttribute, this.assets.squareVertexTextureBuffer.itemSize, this.gl.FLOAT, false, 0, 0);
-      
+
       this.gl.activeTexture            (this.gl.TEXTURE0);
       this.gl.bindTexture              (this.gl.TEXTURE_2D, this.tex );
-      
+
       var err = this.gl.getError();
       if ( err != 0 )
          console.log ( err );
-         
+
       this.gl.uniform1i                (prog.params.uSamplerTex1, 0);
       this.gl.drawArrays               (this.gl.TRIANGLE_STRIP, 0, this.assets.squareVertexPositionBuffer.numItems);
-      
+
       this.gl.activeTexture            (this.gl.TEXTURE0);
       this.gl.bindTexture              (this.gl.TEXTURE_2D, null );
    }

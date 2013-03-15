@@ -3,6 +3,8 @@
 
 function MapHUD(maperial){
 
+   console.log("building HUD...");
+   
    this.config = maperial.config;
    this.context = maperial.context;
 

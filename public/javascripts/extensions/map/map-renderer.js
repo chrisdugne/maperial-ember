@@ -2,6 +2,8 @@
 //=====================================================================================//
 
 function MapRenderer(maperial) {
+
+   console.log("building renderer...");
    
    this.config = maperial.config;
    this.context = maperial.context;
@@ -84,7 +86,7 @@ MapRenderer.prototype.InitGL = function () {
 
    this.glAsset                           = new Object();
    this.glAsset.ctx                       = this.gl;
-   this.config.renderParameters.assets    = this.glAsset;
+   this.context.parameters.assets         = this.glAsset;
    this.glAsset.shaderData                = null;
    this.glAsset.shaderError               = false;
    var me                                 = this.glAsset;
@@ -136,7 +138,7 @@ MapRenderer.prototype.InitGL = function () {
 }
 
 MapRenderer.prototype.BuildColorBar = function () {
-   cbs = this.config.renderParameters.GetColorBars ();
+   cbs = this.context.parameters.GetColorBars ();
    
    this.gl.flush ()
    this.gl.finish()
@@ -174,6 +176,9 @@ MapRenderer.prototype.BuildColorBar = function () {
 }
 
 MapRenderer.prototype.Start = function () {
+
+   console.log("Starting renderer...");
+   
    try {
       this.gl = this.context.mapCanvas[0].getContext("experimental-webgl");
       this.fitToSize();
@@ -182,7 +187,7 @@ MapRenderer.prototype.Start = function () {
       console.log("Could not initialise WebGL")
       return false;
    }
-
+   
    this.gltools = new GLTools ()
    this.InitGL()
 
@@ -201,15 +206,14 @@ MapRenderer.prototype.Start = function () {
 MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, forceTileRedraw) {
    var keyList = [];
 
+   console.log("UpdateTileCache");
+   
    for ( tx = txB ; tx <= txE ; tx = tx + 1) {
       for ( ty = tyB ; ty <= tyE ; ty = ty + 1) {
          var key = tx + "," + ty + "," + zoom;
          keyList.push(key) 
          if ( this.tileCache[key] == null ) {
-            var vurl             = this.config.renderParameters.GetMapURL    ( tx, ty, zoom );
-            var rurl             = this.config.renderParameters.GetRasterURL ( tx, ty, zoom );
-            this.tileCache[key]  = new Tile ( this.config.renderParameters , zoom);
-            this.tileCache[key].Init ( vurl , rurl );
+            this.tileCache[key]  = new Tile ( this.config.layers, this.context.parameters, tx, ty, zoom);
          }
       }
    }
@@ -279,7 +283,7 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
       mat4.ortho       ( 0, w , h, 0 , 0, 1, pMatrix ); // Y swap !
       this.gl.viewport ( 0, 0, w , h);
       this.gl.clear    ( this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT );
-      var layerDataParams = [this.config.renderParameters.GetContrast(),this.config.renderParameters.GetLuminosity(),this.config.renderParameters.GetBWMethod()]
+      var layerDataParams = [this.context.parameters.GetContrast(),this.context.parameters.GetLuminosity(),this.context.parameters.GetBWMethod()]
       for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + MapParameters.tileSize , tx = tx + 1) {
          for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+ MapParameters.tileSize , ty = ty - 1) {
             mat4.identity (mvMatrix);
@@ -313,7 +317,7 @@ MapRenderer.prototype.FindLayerId = function () {
    var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
 
-   var layerId = tile.LayerLookup( tileClickCoord , this.context.zoom, this.config.renderParameters.GetStyle() ) ;
+   var layerId = tile.LayerLookup( tileClickCoord , this.context.zoom, this.context.parameters.GetStyle() ) ;
 
    $(window).trigger(MapEvents.OPEN_STYLE, [layerId]);
 }

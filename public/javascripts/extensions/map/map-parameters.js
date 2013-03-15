@@ -1,11 +1,3 @@
-
-//---------------------------------------------------------------------------//
-
-function ColorBar () {
-   this.data = []
-   this.tex  = null;
-}
-
 //---------------------------------------------------------------------------//
 
 MapParameters.shadersPath            = "assets/shaders";
@@ -22,10 +14,7 @@ MapParameters.autoMoveMillis         = 700;
 MapParameters.autoMoveDeceleration   = 0.005;
 MapParameters.autoMoveAnalyseSize    = 10;
 
-MapParameters.LayerBack              = "back";
-MapParameters.LayerRaster            = "raster";
-MapParameters.LayerFront             = "front";
-MapParameters.LayerSelect            = "select";
+MapParameters.DEFAULT                = "MapParameters.DEFAULT";
 
 MapParameters.Vector                 = "vector";
 MapParameters.Raster                 = "raster";
@@ -36,7 +25,9 @@ MapParameters.MulBlend               = "MulBlend";
 
 //-----------------------------------------------------------------------------------//
 
-function MapParameters () {
+function MapParameters (layers) {
+   
+   console.log("gathering parameters...");
 
    this.rasterUid    = null;
    this.contrast     = 0.0;
@@ -44,15 +35,35 @@ function MapParameters () {
    this.bwMethod     = 1.0;
    this.obs          = [];
    this.colorbars    = {};
-   this.styles        = {};
+   this.styles       = {};
+   this.sources      = {};
+   
+   this.buildSources(layers);
 
-   this.LayerOrder             = [  MapParameters.LayerBack    , MapParameters.LayerRaster         , MapParameters.LayerFront  ];
-   this.LayerType              = [  MapParameters.Vector       , MapParameters.Raster              , MapParameters.Vector      ];
-   this.LayerParams            = [  {"style"    : "default"   , "layerAttribute" : "back" } , 
-                                    {"colorbar" : "default" } ,
-                                    {"style"    : "default"   , "layerAttribute" : "front"}                                 ];
-   this.ComposeShader          = [   null                     , MapParameters.MulBlend            , MapParameters.AlphaBlend   ];
-   this.ComposeParams          = [   {}                       , {"uParams" : [ -0.5, -0.5, 1.0 ] } , {}                     ];
+// this.LayerOrder             = [  MapParameters.LayerBack    , MapParameters.LayerRaster         , MapParameters.LayerFront  ];
+// this.LayerType              = [  MapParameters.Vector       , MapParameters.Raster              , MapParameters.Vector      ];
+
+// this.LayerParams            = [  {"style"    : MapParameters.DEFAULT    , "source" : {"type"    : Source.MaperialOSM     , "params" : {} }, "layerAttribute" : "back" } , 
+// {"colorbar" : MapParameters.DEFAULT    , "source" : {"type"    : Source.MaperialRaster  , "params" : {"uid" : "mescouilles"} } } ,
+// {"style"    : MapParameters.DEFAULT    , "source" : {"type"    : Source.MaperialOSM     , "params" : {} }, "layerAttribute" : "front"}                                 ];
+
+// this.ComposeShader          = [   null                     , MapParameters.MulBlend            , MapParameters.AlphaBlend   ];
+// this.ComposeParams          = [   {}                       , {"uParams" : [ -0.5, -0.5, 1.0 ] } , {}                     ];
+}
+
+//---------------------------------------------------------------------------//
+
+MapParameters.prototype.buildSources = function(layers){
+   
+   console.log("fecthing sources...");
+
+   for(var i = 0; i < layers.length; i++){
+      console.log(layers[i].type);
+   }
+
+   // todo : build this.sources from layers.sources
+   
+   this.sources = [ new Source(Source.MaperialOSM), new Source(Source.MaperialRaster) ];
 }
 
 //---------------------------------------------------------------------------//
@@ -73,15 +84,15 @@ MapParameters.prototype.AddOrRefreshStyle = function(name,style){
    else {
       this.styles[name] = style;
    }
-   
+
    $(window).trigger(MapEvents.STYLE_CHANGED);
 }
 
 MapParameters.prototype.GetStyle = function(name){
    if (name in this.styles)
       return this.styles[name];
-   
-   return this.styles["default"]
+
+   return this.styles[MapParameters.DEFAULT]
 }
 
 MapParameters.prototype.AddOrRefreshColorbar = function(name,colorbar){
@@ -118,26 +129,6 @@ MapParameters.prototype.GetColorBar = function(name){
    return null;
 }
 
-MapParameters.prototype.GetMapURL = function (tx,ty,z) {
-   //var url = "http://map.x-ray.fr:8180/api/tile?x="+tx+"&y="+ty+"&z="+z
-//   var url = "http://map.x-ray.fr:8081/api/tile?x="+tx+"&y="+ty+"&z="+z
-//   var url = "http://map.x-ray.fr/api/tile?x="+tx+"&y="+ty+"&z="+z
-   var url = "http://www.maperial.com/api/tile?x="+tx+"&y="+ty+"&z="+z;
-   return url
-   //Utils.altURL = ["mapsa","mapsb","mapsc","mapsc"];
-   // var rd  = Math.floor( (Math.random()*4) );
-   // var url = "/"+Utils.altURL[rd]+"/";
-   // return url
-}
-
-MapParameters.prototype.GetRasterURL = function (tx,ty,z) {
-   var url = null
-   if (this.rasterUid) 
-      //url = "http://map.x-ray.fr/api/tile/"+this.rasterUid+"?x="+tx+"&y="+ty+"&z="+z
-      url = "http://map.x-ray.fr:8081/api/tile/"+this.rasterUid+"?x="+tx+"&y="+ty+"&z="+z
-      return url
-}
-
 MapParameters.prototype.SetRasterUid = function ( inUid ) {
    this.rasterUid  = inUid
 
@@ -172,8 +163,17 @@ MapParameters.prototype.GetBWMethod = function ( ) {
    return this.bwMethod;
 }
 
-//-----------------------------------------
+//---------------------------------------------------------------------------//
 //quand est ce quon vire ca ??
+//-----------------------------------------//
+
+function ColorBar () {
+   this.data = []
+   this.tex  = null;
+}
+
+//-----------------------------------------//
+
 MapParameters.prototype.SetDefaultColorBar = function (){
 
    console.log("SetDefaultColorBar");
@@ -188,7 +188,6 @@ MapParameters.prototype.SetDefaultColorBar = function (){
          cbData.push ( 0 ) ;cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 255 );
       }
    }
-   
-   this.AddOrRefreshColorbar("default", cbData);
+
+   this.AddOrRefreshColorbar(MapParameters.DEFAULT, cbData);
 }
-//---

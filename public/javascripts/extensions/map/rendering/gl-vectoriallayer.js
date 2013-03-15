@@ -1,3 +1,9 @@
+//=============================================================//
+
+VectorialLayer.BACK   = "back";
+VectorialLayer.FRONT  = "front";
+
+//=============================================================//
 
 function VectorialLayer ( params, inZoom ) {
    this.params = params;

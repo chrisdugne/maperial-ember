@@ -102,6 +102,7 @@ Maperial.prototype.load = function() {
 
                 // modules
                 this.scriptsPath + "/map/map-events.js",
+                this.scriptsPath + "/map/map-source.js",
                 this.scriptsPath + "/map/map-parameters.js",
                 this.scriptsPath + "/map/map-mouse.js",
                 this.scriptsPath + "/map/map-hud.js",
@@ -126,12 +127,14 @@ Maperial.prototype.load = function() {
 
 Maperial.prototype.build = function() {
 
-   console.log("Maperial.build");
+   console.log("Launching maperialJS...");
 
    //--------------------------//
 
+   if(!this.config.layers)
+      this.useDefaultLayers();
+   
    this.createContext();
-   this.enhanceConfig();
 
    this.buildMap();
    this.buildHUD();
@@ -164,6 +167,8 @@ Maperial.prototype.build = function() {
 
 Maperial.prototype.createContext = function() {
 
+   console.log("creating context...");
+   
    this.context = {};
    this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
    this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
@@ -172,6 +177,9 @@ Maperial.prototype.createContext = function() {
    this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
    this.context.zoom       = 14;
 
+   this.context.parameters = new MapParameters(this.config.layers);
+   this.context.parameters.AddOrRefreshStyle(MapParameters.DEFAULT, this.config.styles[0]);
+   
    if(this.config.hud[HUD.MAGNIFIER]){
       this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
    }
@@ -180,10 +188,49 @@ Maperial.prototype.createContext = function() {
 
 //==================================================================//
 
-Maperial.prototype.enhanceConfig = function() {
+Maperial.prototype.useDefaultLayers = function() {
 
-   this.config.renderParameters = new MapParameters();
-   this.config.renderParameters.AddOrRefreshStyle("default", this.config.styles[0]);
+   console.log("using default layers...");
+   
+   this.config.layers = [
+       { 
+          type: MapParameters.Vector, 
+          source: {
+             type: Source.MaperialOSM
+          },
+          params: {
+             group : VectorialLayer.BACK, 
+             style: MapParameters.DEFAULT, 
+          }
+       },
+       { 
+          type: MapParameters.Raster, 
+          source: {
+             type: Source.MaperialRaster,
+             params: { uid : "rasterUID" }
+          },
+          params: {
+             colorbar: MapParameters.DEFAULT, 
+          },
+          composition: {
+             shader : MapParameters.MulBlend,
+             params : { uParams : [ -0.5, -0.5, 1.0 ]}
+          }
+       },
+       { 
+          type: MapParameters.Vector, 
+          source: {
+             type: Source.MaperialOSM
+          },
+          params: {
+             group : VectorialLayer.FRONT, 
+             style: MapParameters.DEFAULT, 
+          },
+          composition: {
+             shader : MapParameters.AlphaBlend
+          }
+       }
+   ];
 
 }
 
@@ -191,6 +238,8 @@ Maperial.prototype.enhanceConfig = function() {
 
 Maperial.prototype.buildMap = function() {
 
+   console.log("building map...");
+   
    this.mapRenderer = new MapRenderer( this );
    this.mapMover = new MapMover( this );
    this.mapMouse = new MapMouse( this );
@@ -207,32 +256,6 @@ Maperial.prototype.buildMap = function() {
 
 }
 
-//-----------------------------------------------//
-
-Maperial.prototype.refreshScreen = function() {
-   
-   var w = $(window).width(); 
-   var h = $(window).height();
-   
-   if(this.config.map.width)
-      w = this.config.map.width;
-
-   if(this.config.map.height)
-      h = this.config.map.height;
-      
-   
-   if(this.context.mapCanvas[0]){
-      this.context.mapCanvas.css("width", w);
-      this.context.mapCanvas.css("height", h);
-      this.context.mapCanvas[0].width = w;
-      this.context.mapCanvas[0].height = h;
-   }
-
-   this.mapRenderer.fitToSize();
-   this.mapMover.resizeDrawers();
-   this.mapHUD.placeHUD();
-}
-
 //==================================================================//
 
 Maperial.prototype.buildStyleMenu = function() {
@@ -243,6 +266,34 @@ Maperial.prototype.buildStyleMenu = function() {
 
 Maperial.prototype.buildHUD = function() {
    this.mapHUD = new MapHUD( this );
+}
+
+//==================================================================//
+
+Maperial.prototype.refreshScreen = function() {
+
+ console.log("refreshing screen...");
+
+ var w = $(window).width(); 
+ var h = $(window).height();
+ 
+ if(this.config.map.width)
+    w = this.config.map.width;
+
+ if(this.config.map.height)
+    h = this.config.map.height;
+    
+ 
+ if(this.context.mapCanvas[0]){
+    this.context.mapCanvas.css("width", w);
+    this.context.mapCanvas.css("height", h);
+    this.context.mapCanvas[0].width = w;
+    this.context.mapCanvas[0].height = h;
+ }
+
+ this.mapRenderer.fitToSize();
+ this.mapMover.resizeDrawers();
+ this.mapHUD.placeHUD();
 }
 
 //==================================================================//

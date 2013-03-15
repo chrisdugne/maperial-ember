@@ -2,6 +2,8 @@
 
 function MapMouse(maperial){
 
+   console.log("listening mouse...");
+   
    this.config = maperial.config;
    this.context = maperial.context;
    
