@@ -9,6 +9,11 @@ MapEvents.MOUSE_DOWN           = "MapEvents.MOUSE_DOWN";
 MapEvents.MOUSE_UP             = "MapEvents.MOUSE_UP";
 MapEvents.MOUSE_MOVE           = "MapEvents.MOUSE_MOVE";
 
+MapEvents.CONTROL_UP           = "MapEvents.CONTROL_UP";
+MapEvents.CONTROL_DOWN         = "MapEvents.CONTROL_DOWN";
+MapEvents.CONTROL_LEFT         = "MapEvents.CONTROL_LEFT";
+MapEvents.CONTROL_RIGHT        = "MapEvents.CONTROL_RIGHT";
+
 MapEvents.DRAGGING_MAP         = "MapEvents.DRAGGING_MAP";
 MapEvents.MAP_MOVING           = "MapEvents.MAP_MOVING";
 MapEvents.ZOOM_CHANGED         = "MapEvents.ZOOM_CHANGED";
@@ -28,8 +33,10 @@ MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE  = "MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE";
 //==================================================================//
 
 MapEvents.removeAllListeners = function (){
+   
    $(window).off(MapEvents.UPDATE_LATLON);
    $(window).off(MapEvents.OPEN_STYLE);
+   
    $(window).off(MapEvents.STYLE_CHANGED);
    $(window).off(MapEvents.COLORBAR_CHANGED);
    $(window).off(MapEvents.CONTRAST_CHANGED);
@@ -37,4 +44,9 @@ MapEvents.removeAllListeners = function (){
    $(window).off(MapEvents.BW_METHOD_CHANGED);
    $(window).off(MapEvents.DATA_SOURCE_CHANGED);
    $(window).off(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+
+   $(window).off(MapEvents.CONTROL_UP);
+   $(window).off(MapEvents.CONTROL_DOWN);
+   $(window).off(MapEvents.CONTROL_LEFT);
+   $(window).off(MapEvents.CONTROL_RIGHT);
 }

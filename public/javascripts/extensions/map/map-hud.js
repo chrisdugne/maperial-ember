@@ -6,7 +6,8 @@ function MapHUD(maperial){
    this.config = maperial.config;
    this.context = maperial.context;
 
-   this.renderTriggers();
+   this.buildTriggers();
+   this.buildControls();
    this.display();
 
    this.initListeners();
@@ -21,6 +22,7 @@ MapHUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
 MapHUD.COLORBAR_DEFAULT_POSITION      = { left  : "0",    top    : "180" };
 MapHUD.SCALE_DEFAULT_POSITION         = { left  : "20%",  bottom : "0"   };
 MapHUD.MAPKEY_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
+MapHUD.CONTROLS_DEFAULT_POSITION      = { left  : "15",   top    : "40"   };
 MapHUD.LATLON_DEFAULT_POSITION        = { left  : "50%",  bottom : "0"   };
 MapHUD.GEOLOC_DEFAULT_POSITION        = { left  : "50%",  top    : "0"   };
 MapHUD.DETAILS_MENU_DEFAULT_POSITION  = { left  : "0",    top    : "360" };
@@ -134,12 +136,48 @@ MapHUD.prototype.display = function(){
 
 //==================================================================//
 
-MapHUD.prototype.renderTriggers = function(){
+MapHUD.prototype.buildControls = function(){
+
+   var me = this;
+   
+   $( "#control-zoom" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 18,
+      value: 14,
+      slide: function( event, ui ) {
+        // todo zoomGL
+      },
+      change: function( event, ui ) {
+         me.context.zoom = parseInt(ui.value); 
+         $(window).trigger(MapEvents.ZOOM_CHANGED);
+      }
+    });
+
+   $( "#control-up" ).click(function(){
+      $(window).trigger(MapEvents.CONTROL_UP);
+   });
+   
+   $( "#control-down" ).click(function(){
+      $(window).trigger(MapEvents.CONTROL_DOWN);
+   });
+   
+   $( "#control-left" ).click(function(){
+      $(window).trigger(MapEvents.CONTROL_LEFT);
+   });
+   
+   $( "#control-right" ).click(function(){
+      $(window).trigger(MapEvents.CONTROL_RIGHT);
+   });
+}
+
+MapHUD.prototype.buildTriggers = function(){
 
    //--------------------------------------------------------//
 
    var hud = this;
-
+   
    //--------------------------------------------------------//
    // Init Triggers
 

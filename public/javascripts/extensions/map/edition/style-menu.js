@@ -428,10 +428,9 @@ StyleMenu.prototype.ZoomIn = function(){
 
 StyleMenu.prototype.__InsertZoomEdition = function(){
 
-   $('<button onclick="StyleMenu.ReLoad()"  class="styleMenu_menu_rlbutton" id="styleMenu_menu_rlbutton"  > Reload </button>').appendTo(this.zoomDiv).hide();
-
-   $('<button onclick="StyleMenu.ZoomOut()" class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonminus" > - </button>').appendTo(this.zoomDiv);
-   $('<button onclick="StyleMenu.ZoomIn()"  class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonplus"  > + </button>').appendTo(this.zoomDiv);
+//   $('<button onclick="StyleMenu.ReLoad()"  class="styleMenu_menu_rlbutton" id="styleMenu_menu_rlbutton"  > Reload </button>').appendTo(this.zoomDiv).hide();
+//   $('<button onclick="StyleMenu.ZoomOut()" class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonminus" > - </button>').appendTo(this.zoomDiv);
+//   $('<button onclick="StyleMenu.ZoomIn()"  class="styleMenu_menu_zbutton" id="styleMenu_menu_zbuttonplus"  > + </button>').appendTo(this.zoomDiv);
 
    $("#styleMenu_menu_rlbutton").button();
    $("#styleMenu_menu_zbuttonminus").button();
@@ -445,7 +444,7 @@ StyleMenu.prototype.__InsertZoomEdition2 = function(){
    var me = this;
    var tmpcb = '';
    for ( var z = 1 ; z < 19 ; ++z){
-      tmpcb += '  <input type="checkbox" class="styleMenu_menu_checkboxz" id="styleMenu_menu_zcheck' + z + '"/><label for="styleMenu_menu_zcheck' + z + '">Z' + z + '</label>';
+      tmpcb += '  <input type="checkbox" class="styleMenu_menu_checkboxz" id="styleMenu_menu_zcheck' + z + '"/><label class="zoom-button" for="styleMenu_menu_zcheck' + z + '">Z' + z + '</label>';
    }    
 
    $('<h2 class="styleMenu_menu_par_title_z"> Edit some zoom</h2><div id="styleMenu_menu_zoom_selector">' +  tmpcb + '</div>' ).appendTo(this.zoomDiv);//.hide();

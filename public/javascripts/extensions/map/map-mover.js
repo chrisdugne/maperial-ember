@@ -10,6 +10,9 @@ function MapMover(maperial){
    this.autoMoving   = false;
    this.mouseData    = [];
    this.drawers      = [];
+   
+   this.defaultMoveDistance = 300;
+   this.defaultMoveMillis   = 150;
 
    this.initListeners();
 }
@@ -31,14 +34,36 @@ MapMover.prototype.initListeners = function (event) {
    this.context.mapCanvas.on(MapEvents.DRAGGING_MAP, function(){
       mover.drag();
    });
+
+   $(window).on(MapEvents.CONTROL_UP, function(){
+      mover.moveUp();
+   });
+
+   $(window).on(MapEvents.CONTROL_DOWN, function(){
+      mover.moveDown();
+   });
+
+   $(window).on(MapEvents.CONTROL_RIGHT, function(){
+      mover.moveRight();
+   });
+
+   $(window).on(MapEvents.CONTROL_LEFT, function(){
+      mover.moveLeft();
+   });
 }
 
 //----------------------------------------------------------------------//
 
 MapMover.prototype.removeListeners = function () {
+
    this.context.mapCanvas.off(MapEvents.MOUSE_DOWN);
    this.context.mapCanvas.off(MapEvents.MOUSE_UP);
    this.context.mapCanvas.off(MapEvents.DRAGGING_MAP);
+
+   $(window).off(MapEvents.CONTROL_UP);
+   $(window).off(MapEvents.CONTROL_DOWN);
+   $(window).off(MapEvents.CONTROL_RIGHT);
+   $(window).off(MapEvents.CONTROL_LEFT);
 }
 
 //==================================================================//
@@ -107,31 +132,58 @@ MapMover.prototype.requireAutoMove = function () {
    var now = new Date().getTime();
    if(now - endPoint.time > 120)
       return false;
-   
+
    return true;
 }
 
 MapMover.prototype.prepareAutoMove = function () {
    var startPoint = this.mouseData[0];
    var endPoint = this.mouseData.pop();
-   
+
    var deltaX = endPoint.x - startPoint.x;
    var deltaY = endPoint.y - startPoint.y;
-   
+
    var deltaTime = endPoint.time - startPoint.time;
+   
+   this.move(deltaX, deltaY, deltaTime);
+}
+
+//==================================================================//
+
+MapMover.prototype.move = function (deltaX, deltaY, deltaTime) {
+
    var distance = Math.sqrt( deltaX*deltaX + deltaY*deltaY );
-   
+
    var speed = (distance*1000/deltaTime)/MapParameters.refreshRate;
-   
+
    var speedX = (speed*deltaX/distance)*MapParameters.autoMoveSpeedRate;
    var speedY = (speed*deltaY/distance)*MapParameters.autoMoveSpeedRate;
-   
+
    this.autoMoving = true;
-   
+
    this.moveScene(MapParameters.autoMoveMillis, speedX, speedY, 0);
 }
 
-//---------------------------------------------------------------------------//
+//==================================================================//
+//Controls
+
+MapMover.prototype.moveUp = function () {
+   this.move(0, this.defaultMoveDistance, this.defaultMoveMillis);
+}
+
+MapMover.prototype.moveDown = function () {
+   this.move(0, -this.defaultMoveDistance, this.defaultMoveMillis);
+}
+
+MapMover.prototype.moveRight = function () {
+   this.move(-this.defaultMoveDistance, 0, this.defaultMoveMillis);
+}
+
+MapMover.prototype.moveLeft = function () {
+   this.move(this.defaultMoveDistance, 0, this.defaultMoveMillis);
+}
+
+//==================================================================//
 
 MapMover.prototype.moveScene = function (timeRemaining, speedX, speedY, nbAutoMove) {
 

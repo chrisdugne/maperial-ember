@@ -108,7 +108,18 @@
 }
 
 .ui-widget-header {
-	background: #444;	
+	background: #fff;	
+}
+
+.ui-widget-content{
+	background: #fff url('');	
+	border: 1px solid #aaa;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	background: #eee url('');
+	font-size: 14px;
+	border: 1px solid #aaa;
 }
 
 /*--------------------------------------------------*/

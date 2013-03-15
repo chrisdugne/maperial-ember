@@ -37,6 +37,7 @@ HUD.COLORBAR               = "ColorBar";
 HUD.LATLON                 = "LatLon";
 HUD.SCALE                  = "Scale";
 HUD.MAPKEY                 = "MapKey";
+HUD.CONTROLS               = "Controls";
 HUD.GEOLOC                 = "Geoloc";
 HUD.DETAILS_MENU           = "DetailsMenu";
 HUD.QUICK_EDIT             = "QuickEdit";
