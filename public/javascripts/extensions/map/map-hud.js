@@ -1,7 +1,7 @@
 
 //==================================================================//
 
-function MapHUD(maperial){
+function HUD(maperial){
 
    console.log("building HUD...");
    
@@ -19,48 +19,67 @@ function MapHUD(maperial){
 
 //----------------------------------------------------------------------//
 
-MapHUD.SETTINGS_DEFAULT_POSITION      = { left  : "0",    top    : "0"   };
-MapHUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
-MapHUD.COLORBAR_DEFAULT_POSITION      = { left  : "0",    top    : "180" };
-MapHUD.SCALE_DEFAULT_POSITION         = { left  : "20%",  bottom : "0"   };
-MapHUD.MAPKEY_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
-MapHUD.CONTROLS_DEFAULT_POSITION      = { left  : "15",   top    : "40"   };
-MapHUD.LATLON_DEFAULT_POSITION        = { left  : "50%",  bottom : "0"   };
-MapHUD.GEOLOC_DEFAULT_POSITION        = { left  : "50%",  top    : "0"   };
-MapHUD.DETAILS_MENU_DEFAULT_POSITION  = { left  : "0",    top    : "360" };
-MapHUD.QUICK_EDIT_DEFAULT_POSITION    = { left  : "0",    top    : "280" };
-MapHUD.ZOOMS_DEFAULT_POSITION         = { right : "25%",  top    : "0"   };
+HUD.DISABLED               = "Maperial.DISABLED";
+
+HUD.TRIGGER                = "trigger";
+HUD.PANEL                  = "panel";
+
+HUD.SETTINGS               = "HUDSettings";
+HUD.MAGNIFIER              = "Magnifier";
+HUD.COLORBAR               = "ColorBar";
+HUD.LATLON                 = "LatLon";
+HUD.SCALE                  = "Scale";
+HUD.MAPKEY                 = "MapKey";
+HUD.CONTROLS               = "Controls";
+HUD.GEOLOC                 = "Geoloc";
+HUD.DETAILS_MENU           = "DetailsMenu";
+HUD.QUICK_EDIT             = "QuickEdit";
+HUD.ZOOMS                  = "Zooms";
 
 //----------------------------------------------------------------------//
 
-MapHUD.prototype.initListeners = function () {
+HUD.SETTINGS_DEFAULT_POSITION      = { left  : "0",    top    : "0"   };
+HUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
+HUD.COLORBAR_DEFAULT_POSITION      = { left  : "0",    top    : "180" };
+HUD.SCALE_DEFAULT_POSITION         = { left  : "20%",  bottom : "0"   };
+HUD.MAPKEY_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
+HUD.CONTROLS_DEFAULT_POSITION      = { left  : "15",   top    : "40"   };
+HUD.LATLON_DEFAULT_POSITION        = { left  : "50%",  bottom : "0"   };
+HUD.GEOLOC_DEFAULT_POSITION        = { left  : "50%",  top    : "0"   };
+HUD.DETAILS_MENU_DEFAULT_POSITION  = { left  : "0",    top    : "360" };
+HUD.QUICK_EDIT_DEFAULT_POSITION    = { left  : "0",    top    : "280" };
+HUD.ZOOMS_DEFAULT_POSITION         = { right : "25%",  top    : "0"   };
+
+//----------------------------------------------------------------------//
+
+HUD.prototype.initListeners = function () {
 
    var hud = this;
    
-   this.context.mapCanvas.on(MapEvents.UPDATE_LATLON, function(event, x, y){
+   this.context.mapCanvas.on(MaperialEvents.UPDATE_LATLON, function(event, x, y){
       hud.updateLatLon();
    });
 
-   $(window).on(MapEvents.MAP_MOVING, function(event, x, y){
+   $(window).on(MaperialEvents.MAP_MOVING, function(event, x, y){
       hud.updateScale();
    });
 
-   $(window).on(MapEvents.ZOOM_CHANGED, function(event, x, y){
+   $(window).on(MaperialEvents.ZOOM_CHANGED, function(event, x, y){
       hud.updateScale();
    });
 }
 
 //----------------------------------------------------------------------//
 
-MapHUD.prototype.removeListeners = function () {
-   this.context.mapCanvas.off(MapEvents.UPDATE_LATLON);
-   $(window).off(MapEvents.MAP_MOVING);
-   $(window).off(MapEvents.ZOOM_CHANGED);
+HUD.prototype.removeListeners = function () {
+   this.context.mapCanvas.off(MaperialEvents.UPDATE_LATLON);
+   $(window).off(MaperialEvents.MAP_MOVING);
+   $(window).off(MaperialEvents.ZOOM_CHANGED);
 }
 
 //----------------------------------------------------------------------//
 
-MapHUD.prototype.getMargin = function (property) {
+HUD.prototype.getMargin = function (property) {
    if(!this.config.hud["margin-"+property])
       return 0;
    else
@@ -69,11 +88,11 @@ MapHUD.prototype.getMargin = function (property) {
 
 //----------------------------------------------------------------------//
 
-MapHUD.prototype.placeHUD = function () {
+HUD.prototype.placeElements = function () {
 
-   for (defaultPosition in MapHUD) {
+   for (defaultPosition in HUD) {
 
-      if(!MapHUD.hasOwnProperty(defaultPosition))
+      if(!HUD.hasOwnProperty(defaultPosition))
          continue;
       
       var element = HUD[defaultPosition.split("_DEFAULT_POSITION")[0]];
@@ -81,21 +100,21 @@ MapHUD.prototype.placeHUD = function () {
       if(!this.config.hud[element])
          continue;
       
-      for (property in MapHUD[defaultPosition]) {
+      for (property in HUD[defaultPosition]) {
 
-         if(!MapHUD[defaultPosition].hasOwnProperty(property))
+         if(!HUD[defaultPosition].hasOwnProperty(property))
             continue;
 
-         var value = MapHUD[defaultPosition][property];
+         var value = HUD[defaultPosition][property];
          
-         if(MapHUD[defaultPosition][property].indexOf("%") == -1){
+         if(HUD[defaultPosition][property].indexOf("%") == -1){
             value = parseInt(value) + this.getMargin(property);
             $("#panel"+element).css(property, value+"px");
             $("#trigger"+element).css(property, value+"px");
             continue;
          }
 
-         var percentage = MapHUD[defaultPosition][property].split("%")[0];
+         var percentage = HUD[defaultPosition][property].split("%")[0];
          var triggerWidth = $("#trigger"+element).width();
          var triggerHeight = $("#trigger"+element).height();
          var panelWidth = $("#panel"+element).width();
@@ -127,18 +146,18 @@ MapHUD.prototype.placeHUD = function () {
 
 //==================================================================//
 
-MapHUD.prototype.reset = function(){
+HUD.prototype.reset = function(){
    this.hideAllHUD();
 }
 
-MapHUD.prototype.display = function(){
+HUD.prototype.display = function(){
    this.showAllHUD();
    this.refreshSettings();   
 }
 
 //==================================================================//
 
-MapHUD.prototype.buildControls = function(){
+HUD.prototype.buildControls = function(){
 
    var me = this;
    
@@ -153,28 +172,28 @@ MapHUD.prototype.buildControls = function(){
       },
       change: function( event, ui ) {
          me.context.zoom = parseInt(ui.value); 
-         $(window).trigger(MapEvents.ZOOM_CHANGED);
+         $(window).trigger(MaperialEvents.ZOOM_CHANGED);
       }
     });
 
    $( "#control-up" ).click(function(){
-      $(window).trigger(MapEvents.CONTROL_UP);
+      $(window).trigger(MaperialEvents.CONTROL_UP);
    });
    
    $( "#control-down" ).click(function(){
-      $(window).trigger(MapEvents.CONTROL_DOWN);
+      $(window).trigger(MaperialEvents.CONTROL_DOWN);
    });
    
    $( "#control-left" ).click(function(){
-      $(window).trigger(MapEvents.CONTROL_LEFT);
+      $(window).trigger(MaperialEvents.CONTROL_LEFT);
    });
    
    $( "#control-right" ).click(function(){
-      $(window).trigger(MapEvents.CONTROL_RIGHT);
+      $(window).trigger(MaperialEvents.CONTROL_RIGHT);
    });
 }
 
-MapHUD.prototype.buildTriggers = function(){
+HUD.prototype.buildTriggers = function(){
 
    //--------------------------------------------------------//
 
@@ -280,14 +299,14 @@ MapHUD.prototype.buildTriggers = function(){
 
 //------------------------------------------------//
 
-MapHUD.prototype.showTrigger = function(name){
+HUD.prototype.showTrigger = function(name){
    $("#icon"+name).show("fast");
    $("#trigger"+name).removeClass("active");
 }
 
 //------------------------------------------------//
 
-MapHUD.prototype.hideTrigger = function(name){
+HUD.prototype.hideTrigger = function(name){
    $("#icon"+name).hide("fast");
    $("#panel"+name).hide("fast");
    $("#trigger"+name).addClass("active");
@@ -295,7 +314,7 @@ MapHUD.prototype.hideTrigger = function(name){
 
 //------------------------------------------------//
 
-MapHUD.prototype.clickOnTrigger = function(trigger){
+HUD.prototype.clickOnTrigger = function(trigger){
    var name = trigger[0].id.replace("trigger","");
    this.putOnTop(name);
 
@@ -319,7 +338,7 @@ MapHUD.prototype.clickOnTrigger = function(trigger){
 
 //------------------------------------------------//
 
-MapHUD.prototype.refreshSettings = function() {
+HUD.prototype.refreshSettings = function() {
 
    $("#HUDSettings").empty(); 
    var panelHeight = 0;
@@ -381,7 +400,7 @@ MapHUD.prototype.refreshSettings = function() {
 
 //------------------------------------------------//
 
-MapHUD.prototype.hideAllHUD = function(){
+HUD.prototype.hideAllHUD = function(){
    for (element in this.config.hud) {
       if(!this.config.hud.hasOwnProperty(element))
          continue;
@@ -396,7 +415,7 @@ MapHUD.prototype.hideAllHUD = function(){
 
 //------------------------------------------------//
 
-MapHUD.prototype.showAllHUD = function(){
+HUD.prototype.showAllHUD = function(){
    for (element in this.config.hud) {
       if(!this.config.hud.hasOwnProperty(element))
          continue;
@@ -410,7 +429,7 @@ MapHUD.prototype.showAllHUD = function(){
 
 //------------------------------------------------//
 
-MapHUD.prototype.putOnTop = function(name){
+HUD.prototype.putOnTop = function(name){
    $(".trigger").css({ zIndex : 101 });
    $(".panel").css({ zIndex : 100 });
    $("#trigger"+name).css({ zIndex : 201 });
@@ -419,7 +438,7 @@ MapHUD.prototype.putOnTop = function(name){
 
 //==================================================================//
 
-MapHUD.prototype.updateLatLon = function(){
+HUD.prototype.updateLatLon = function(){
    var mouseLatLon = this.context.coordS.MetersToLatLon(this.context.mouseM.x, this.context.mouseM.y); 
    try {
       $("#longitudeDiv").empty();
@@ -432,7 +451,7 @@ MapHUD.prototype.updateLatLon = function(){
 
 //==================================================================//
 
-MapHUD.ZOOM_METERS = { 
+HUD.ZOOM_METERS = { 
     "1" : "15500000",
     "2" : "4000000",
     "3" : "2000000",
@@ -453,9 +472,9 @@ MapHUD.ZOOM_METERS = {
     "18" : "50"
 };
 
-MapHUD.prototype.updateScale = function(){
+HUD.prototype.updateScale = function(){
 
-   var pointM = new Point(this.context.centerM.x + parseInt(MapHUD.ZOOM_METERS[this.context.zoom]) , this.context.centerM.y ); 
+   var pointM = new Point(this.context.centerM.x + parseInt(HUD.ZOOM_METERS[this.context.zoom]) , this.context.centerM.y ); 
    var centerP = this.context.coordS.MetersToPixelsAccurate(this.context.centerM.x, this.context.centerM.y, this.context.zoom); 
    var pointP = this.context.coordS.MetersToPixelsAccurate(pointM.x, pointM.y, this.context.zoom); 
 
@@ -466,8 +485,8 @@ MapHUD.prototype.updateScale = function(){
    // mi = km * 0.62137
    // For miles, divide km by 1.609344
    
-   var meters = MapHUD.ZOOM_METERS[this.context.zoom];
-   var miles = MapHUD.ZOOM_METERS[this.context.zoom] * 0.00062137;
+   var meters = HUD.ZOOM_METERS[this.context.zoom];
+   var miles = HUD.ZOOM_METERS[this.context.zoom] * 0.00062137;
    
    try {
       $("#metersContainer").empty();

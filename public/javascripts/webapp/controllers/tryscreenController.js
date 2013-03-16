@@ -8,18 +8,8 @@
 
 	TryscreenController.renderUI = function()
 	{
-	   App.user.set("waiting", true);
-      
       App.stylesData.set("selectedStyle", App.publicData.styles[0]);
-	   
-      //-----------------------------
-      // retrieve the content from the tileServer
-      StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
-
-         var config = TryscreenController.getMapEditorConfig();
-         App.user.set("waiting", false);
-         App.maperial.apply(config);
-      });
+      App.maperial.apply(TryscreenController.maperialConfig());
 	}
 	
 	TryscreenController.cleanUI = function()
@@ -29,9 +19,23 @@
 	
    //-----------------------------------------------------------------//
 
-	TryscreenController.getMapEditorConfig = function(){
+	TryscreenController.maperialConfig = function(){
 
-      var config = {hud:[], map:{}};
+	   var config = {hud:[], map:{}};
+
+      config.layers = [
+          { 
+             type: MapParameters.Vector, 
+             source: {
+                type: Source.MaperialOSM
+             },
+             params: {
+                group : VectorialLayer.BACK, 
+                styles: [App.stylesData.selectedStyle.uid],
+                selectedStyle: 0
+             }
+          }
+      ];
       
       // mapEditor tools
       config.hud[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
@@ -47,9 +51,6 @@
       config.edition = true;
       config.map.resizable = true;
 
-      config.styles = [];
-      config.styles[0] = App.stylesData.selectedStyle.content;
-      
       return config;
 	}
 

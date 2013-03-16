@@ -14,7 +14,7 @@ MapParameters.autoMoveMillis         = 700;
 MapParameters.autoMoveDeceleration   = 0.005;
 MapParameters.autoMoveAnalyseSize    = 10;
 
-MapParameters.DEFAULT                = "MapParameters.DEFAULT";
+MapParameters.DEFAULT                = "MapParameters.DEFAULT_UID_TO_DEFINE";
 
 MapParameters.Vector                 = "vector";
 MapParameters.Raster                 = "raster";
@@ -25,76 +25,52 @@ MapParameters.MulBlend               = "MulBlend";
 
 //-----------------------------------------------------------------------------------//
 
-function MapParameters (layers) {
+function MapParameters (maperial) {
    
-   console.log("gathering parameters...");
+   console.log("creating parameters...");
 
+   this.maperial     = maperial;
+   
    this.rasterUid    = null;
    this.contrast     = 0.0;
    this.luminosity   = 0.0;
    this.bwMethod     = 1.0;
    this.obs          = [];
+   
    this.colorbars    = {};
-   this.styles       = {};
    this.sources      = {};
    
-   this.buildSources(layers);
-
-// this.LayerOrder             = [  MapParameters.LayerBack    , MapParameters.LayerRaster         , MapParameters.LayerFront  ];
-// this.LayerType              = [  MapParameters.Vector       , MapParameters.Raster              , MapParameters.Vector      ];
-
-// this.LayerParams            = [  {"style"    : MapParameters.DEFAULT    , "source" : {"type"    : Source.MaperialOSM     , "params" : {} }, "layerAttribute" : "back" } , 
-// {"colorbar" : MapParameters.DEFAULT    , "source" : {"type"    : Source.MaperialRaster  , "params" : {"uid" : "mescouilles"} } } ,
-// {"style"    : MapParameters.DEFAULT    , "source" : {"type"    : Source.MaperialOSM     , "params" : {} }, "layerAttribute" : "front"}                                 ];
-
-// this.ComposeShader          = [   null                     , MapParameters.MulBlend            , MapParameters.AlphaBlend   ];
-// this.ComposeParams          = [   {}                       , {"uParams" : [ -0.5, -0.5, 1.0 ] } , {}                     ];
+   this.buildSources(this.maperial.config.layers);
 }
 
 //---------------------------------------------------------------------------//
 
 MapParameters.prototype.buildSources = function(layers){
    
-   console.log("fecthing sources...TODO");
+   console.log("fetching sources...");
 
-   for(var i = 0; i < layers.length; i++){
-      
-   }
+//   for(var i = 0; i < layers.length; i++){
+//      
+//   }
 
-   // todo : build this.sources from layers.sources
+   console.log("---> TODO");
    
-//   this.sources = [ new Source(Source.MaperialOSM), new Source(Source.MaperialRaster) ];
+   // todo : build this.sources from layers.sources
+   //   this.sources = [ new Source(Source.MaperialOSM), new Source(Source.MaperialRaster) ];
    this.sources = [ new Source(Source.MaperialOSM) ];
 }
 
 //---------------------------------------------------------------------------//
 
-MapParameters.prototype.AddOrRefreshStyle = function(name,style){
-   if (style.constructor === String) {
-      var me = this;
-      me.styles[name] = null;
-      $.ajax({
-         url         : style ,
-         async       : false,
-         dataType    : 'json',
-         success     : function (data) {
-            me.styles[name] = data;
-         }
-      });
-   }
-   else {
-      this.styles[name] = style;
-   }
-
-   $(window).trigger(MapEvents.STYLE_CHANGED);
+MapParameters.prototype.GetStyle = function(uid){
+   return this.maperial.stylesManager.styles[uid];
 }
 
-MapParameters.prototype.GetStyle = function(name){
-   if (name in this.styles)
-      return this.styles[name];
-
-   return this.styles[MapParameters.DEFAULT]
+MapParameters.prototype.GetEditedStyle = function(){
+   return this.maperial.stylesManager.styles[this.maperial.editedStyleUID];
 }
+
+//---------------------------------------------------------------------------//
 
 MapParameters.prototype.AddOrRefreshColorbar = function(name,colorbar){
 
@@ -117,7 +93,7 @@ MapParameters.prototype.AddOrRefreshColorbar = function(name,colorbar){
       this.colorbars[name].data = new Uint8Array(colorbar);
    }
 
-   $(window).trigger(MapEvents.COLORBAR_CHANGED);
+   $(window).trigger(MaperialEvents.COLORBAR_CHANGED);
 }
 
 MapParameters.prototype.GetColorBars = function(){
@@ -133,13 +109,13 @@ MapParameters.prototype.GetColorBar = function(name){
 MapParameters.prototype.SetRasterUid = function ( inUid ) {
    this.rasterUid  = inUid
 
-   $(window).trigger(MapEvents.DATA_SOURCE_CHANGED);
+   $(window).trigger(MaperialEvents.DATA_SOURCE_CHANGED);
 }
 
 MapParameters.prototype.SetContrast = function ( v ) {
    this.contrast      = v;
 
-   $(window).trigger(MapEvents.CONTRAST_CHANGED);
+   $(window).trigger(MaperialEvents.CONTRAST_CHANGED);
 }
 
 MapParameters.prototype.GetContrast = function ( ) {
@@ -148,7 +124,7 @@ MapParameters.prototype.GetContrast = function ( ) {
 
 MapParameters.prototype.SetLuminosity = function ( v ) {
    this.luminosity    = v;
-   $(window).trigger(MapEvents.LUMINOSITY_CHANGED);
+   $(window).trigger(MaperialEvents.LUMINOSITY_CHANGED);
 }
 
 MapParameters.prototype.GetLuminosity = function ( ) {
@@ -157,7 +133,7 @@ MapParameters.prototype.GetLuminosity = function ( ) {
 
 MapParameters.prototype.SetBWMethod = function ( m ) {
    this.bwMethod      =  Math.max ( 0, Math.min ( 4 , Math.round ( m ) ) );
-   $(window).trigger(MapEvents.BW_METHOD_CHANGED);
+   $(window).trigger(MaperialEvents.BW_METHOD_CHANGED);
 }
 
 MapParameters.prototype.GetBWMethod = function ( ) {

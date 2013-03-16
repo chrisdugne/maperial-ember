@@ -1,5 +1,5 @@
 
-function Tile (layersConfig, params , x, y, z) {
+function Tile (layersConfig, parameters , x, y, z) {
 
    //--------------------------------//
 
@@ -9,10 +9,10 @@ function Tile (layersConfig, params , x, y, z) {
    this.y         = y;
    this.z         = z;
 
-   this.params    = params;
-   this.assets    = params.assets;
-   this.gl        = params.assets.ctx;
-   this.error     = false;
+   this.parameters   = parameters;
+   this.assets       = parameters.assets;
+   this.gl           = parameters.assets.ctx;
+   this.error        = false;
 
    this.layers    = {};
    this.data      = {};
@@ -47,11 +47,11 @@ Tile.prototype.initLayers = function () {
       switch(this.layersConfig[i].type){
 
       case MapParameters.Vector:
-         this.layers[i] = new VectorialLayer( this.params , this.z);
+         this.layers[i] = new VectorialLayer( this.parameters , this.z);
          break;
 
       case MapParameters.Raster:
-         this.layers[i] = new RasterLayer( this.params , this.z);
+         this.layers[i] = new RasterLayer( this.parameters , this.z);
          break;
       }
 
@@ -62,9 +62,9 @@ Tile.prototype.initLayers = function () {
 
 Tile.prototype.loadSources = function () {
 
- for(var i = 0; i< this.params.sources.length; i++){
+ for(var i = 0; i< this.parameters.sources.length; i++){
 
-    var source = this.params.sources[i];
+    var source = this.parameters.sources[i];
 
     if (this.requests[source.type])
        return false;
@@ -99,9 +99,9 @@ Tile.prototype.prepareBuffering = function () {
 
 Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
 
-   for(var i = 0; i< this.params.sources.length; i++){
+   for(var i = 0; i< this.parameters.sources.length; i++){
 
-      var source = this.params.sources[i];
+      var source = this.parameters.sources[i];
 
       if (this.requests[source.type])
          this.requests[source.type].abort();
@@ -135,8 +135,8 @@ Tile.prototype.Reset = function ( ) {
 
 Tile.prototype.IsLoaded = function ( ) {
   
-   for(var i = 0; i< this.params.sources.length; i++){
-      var source = this.params.sources[i];
+   for(var i = 0; i< this.parameters.sources.length; i++){
+      var source = this.parameters.sources[i];
 
       if (!this.load[source.type])
          return false;

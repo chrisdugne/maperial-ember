@@ -25,31 +25,31 @@ MapMover.prototype.initListeners = function (event) {
 
    var mover = this;
 
-   this.context.mapCanvas.on(MapEvents.MOUSE_DOWN, function(){
+   this.context.mapCanvas.on(MaperialEvents.MOUSE_DOWN, function(){
       mover.reset();
    });
 
-   this.context.mapCanvas.on(MapEvents.MOUSE_UP, function(){
+   this.context.mapCanvas.on(MaperialEvents.MOUSE_UP, function(){
       mover.receivedMouseUp();
    });
 
-   this.context.mapCanvas.on(MapEvents.DRAGGING_MAP, function(){
+   this.context.mapCanvas.on(MaperialEvents.DRAGGING_MAP, function(){
       mover.drag();
    });
 
-   $(window).on(MapEvents.CONTROL_UP, function(){
+   $(window).on(MaperialEvents.CONTROL_UP, function(){
       mover.moveUp();
    });
 
-   $(window).on(MapEvents.CONTROL_DOWN, function(){
+   $(window).on(MaperialEvents.CONTROL_DOWN, function(){
       mover.moveDown();
    });
 
-   $(window).on(MapEvents.CONTROL_RIGHT, function(){
+   $(window).on(MaperialEvents.CONTROL_RIGHT, function(){
       mover.moveRight();
    });
 
-   $(window).on(MapEvents.CONTROL_LEFT, function(){
+   $(window).on(MaperialEvents.CONTROL_LEFT, function(){
       mover.moveLeft();
    });
 }
@@ -58,14 +58,14 @@ MapMover.prototype.initListeners = function (event) {
 
 MapMover.prototype.removeListeners = function () {
 
-   this.context.mapCanvas.off(MapEvents.MOUSE_DOWN);
-   this.context.mapCanvas.off(MapEvents.MOUSE_UP);
-   this.context.mapCanvas.off(MapEvents.DRAGGING_MAP);
+   this.context.mapCanvas.off(MaperialEvents.MOUSE_DOWN);
+   this.context.mapCanvas.off(MaperialEvents.MOUSE_UP);
+   this.context.mapCanvas.off(MaperialEvents.DRAGGING_MAP);
 
-   $(window).off(MapEvents.CONTROL_UP);
-   $(window).off(MapEvents.CONTROL_DOWN);
-   $(window).off(MapEvents.CONTROL_RIGHT);
-   $(window).off(MapEvents.CONTROL_LEFT);
+   $(window).off(MaperialEvents.CONTROL_UP);
+   $(window).off(MaperialEvents.CONTROL_DOWN);
+   $(window).off(MaperialEvents.CONTROL_RIGHT);
+   $(window).off(MaperialEvents.CONTROL_LEFT);
 }
 
 //==================================================================//
@@ -103,7 +103,7 @@ MapMover.prototype.moveMap = function (dx, dy) {
    this.context.centerM.x -= dx * r;
    this.context.centerM.y += dy * r;
 
-   $(window).trigger(MapEvents.MAP_MOVING);
+   $(window).trigger(MaperialEvents.MAP_MOVING);
 }
 
 //==================================================================//
@@ -115,7 +115,7 @@ MapMover.prototype.receivedMouseUp = function () {
       this.prepareAutoMove();
    }
    else{
-      $(window).trigger(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+      $(window).trigger(MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
    }
 }
 

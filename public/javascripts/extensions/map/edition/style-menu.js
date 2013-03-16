@@ -28,9 +28,11 @@ Object.size = function(obj) {
 ///@todo define a xsmall small standard large xlarge size for each element and each zoom level
 //==================================================================//
 
-function StyleMenu(container, container2, container3, maperial, isMovable){
+function StyleMenu(container, container2, container3, maperial){
 
    console.log("building style menu...");
+   
+   this.maperial = maperial;
    
 // this.serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";         // local
    this.serverRootDirV = "http://serv.x-ray.fr/project/mycarto/wwwClient/";       // not local ...
@@ -43,7 +45,8 @@ function StyleMenu(container, container2, container3, maperial, isMovable){
    this.groups = null; 
 
    //the style (json)
-   this.__style = null;   // <<<<=== THIS IS WHAT YOU WANT FOR maps.js and renderTile.js
+   this.style = null;   // <<<<=== THIS IS WHAT YOU WANT FOR maps.js and renderTile.js
+   this.styleUID;
 
    //the mapping (json)
    this.mapping = null; // link id (in style) with a "real" name & filter
@@ -54,9 +57,9 @@ function StyleMenu(container, container2, container3, maperial, isMovable){
    this.currentZmax = 15;
 
    //parent div
-   this.styleMenuParentEl = null;
-   this.styleMenuParentEl2 = null;
-   this.styleMenuParentEl3 = null;
+   this.styleMenuParentEl = container;
+   this.styleMenuParentEl2 = container2;
+   this.styleMenuParentEl3 = container3;
    this.mainDiv = null;
    this.widgetDiv = null;
    this.zoomDiv = null;
@@ -68,32 +71,21 @@ function StyleMenu(container, container2, container3, maperial, isMovable){
 
    this.debug = false;
 
-   this.init(container, container2, container3, maperial, isMovable);
+   this.init();
 }
 
 //==================================================================//
 
-StyleMenu.prototype.init = function(container, container2, container3, maperial, isMovable){
+StyleMenu.prototype.init = function(){
 
-   this.maperial = maperial;
-
-   this.styleMenuParentEl = container;
-   this.styleMenuParentEl2 = container2;
-   this.styleMenuParentEl3 = container3;
-
-   this.__style = this.maperial.config.styles[0].content;
+   this.SetStyle(this.maperial.stylesManager.styles[this.maperial.defaultStyleToEdit], this.maperial.defaultStyleToEdit);
 
    this.Load(); // will call LoadMapping and then LoadStyle ...
-   if ( isMovable){
-      this.styleMenuParentEl.draggable();    
-      this.styleMenuParentEl2.draggable();    
-      this.styleMenuParentEl3.draggable();    
-   }
 
    this.initListeners();
 
    // style edition default 
-   this.OpenStyle("001");
+   this.ChangeSelectedSubLayer("001");
 
 }
 
@@ -103,35 +95,35 @@ StyleMenu.prototype.initListeners = function (event) {
    
    var styleMenu = this;
    
-   $(window).on(MapEvents.OPEN_STYLE, function(event, layerId){
-      styleMenu.OpenStyle(layerId)
+   $(window).on(MaperialEvents.OPEN_STYLE, function(event, layerId){
+      styleMenu.ChangeSelectedSubLayer(layerId)
    });
 
 }
 
 StyleMenu.prototype.removeListeners = function (event) {
-   $(window).off(MapEvents.OPEN_STYLE);
+   $(window).off(MaperialEvents.OPEN_STYLE);
 }
 
 //==================================================================//
 
 StyleMenu.prototype.Refresh = function(){
-   this.maperial.context.parameters.AddOrRefreshStyle("default", this.__style);
+   this.maperial.stylesManager.refreshStyle(this.styleUID, this.style);
 }
 
 StyleMenu.prototype.DefFromRule = function(luid,rule){
    // CARE DEPRECATED this one is not usefull anymore and will/should return 0
    // because there is ONLY one def in each rule
 
-   if ( this.__style[luid] == undefined ){
+   if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return -1;
    }
 
    var def = 0;
-   while ( Object.size(this.__style[luid]["s"][rule]["s"][def]) < 3 ){
+   while ( Object.size(this.style[luid]["s"][rule]["s"][def]) < 3 ){
       def = def + 1;
-      if ( def >= Object.size(this.__style[luid]["s"][rule]["s"]) ){
+      if ( def >= Object.size(this.style[luid]["s"][rule]["s"]) ){
          if(this.debug)console.log("cannot find def ...", luid, rule);
          return -1;
       }
@@ -143,24 +135,24 @@ StyleMenu.prototype.DefFromRule = function(luid,rule){
 StyleMenu.prototype.DefRuleIdFromZoom = function(luid,zoom){
    // CARE DEPRECATED this one will return the good ruleId and will/should return def 0
 
-   if ( this.__style[luid] == undefined ){
+   if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return {"def" : -1, "ruleId" : -1, "rule" : -1};
    }
 
-   for(var rule = 0 ; rule < Object.size(this.__style[luid]["s"]) ; rule++){ // rule
-      var zmin = this.__style[luid]["s"][rule]["zmin"];
+   for(var rule = 0 ; rule < Object.size(this.style[luid]["s"]) ; rule++){ // rule
+      var zmin = this.style[luid]["s"][rule]["zmin"];
       if ( zmin == zoom ){
          var def = 0;
-         while ( Object.size(this.__style[luid]["s"][rule]["s"][def]) < 3 ){
+         while ( Object.size(this.style[luid]["s"][rule]["s"][def]) < 3 ){
             def = def + 1;
-            if ( def >= Object.size(this.__style[luid]["s"][rule]["s"]) ){
+            if ( def >= Object.size(this.style[luid]["s"][rule]["s"]) ){
                if(this.debug)console.log("cannot find def ...", luid, rule);
                def = -1;
                return {"def" : -1, "ruleId" : -1, "rule" : -1};
             }
          }
-         return {"def" : def, "ruleId" : this.__style[luid]["s"][rule]["s"][def]["id"], "rule" : rule};
+         return {"def" : def, "ruleId" : this.style[luid]["s"][rule]["s"][def]["id"], "rule" : rule};
       }
    }
    return {"def" : -1, "ruleId" : -1, "rule" : -1};
@@ -168,17 +160,17 @@ StyleMenu.prototype.DefRuleIdFromZoom = function(luid,zoom){
 
 
 StyleMenu.prototype.SetParam = function(luid,rule,def,param,value){
-   if ( this.__style[luid] == undefined ){
+   if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return false;
    }
 
    var ok = false;
-   for( var p = 0 ; p < Object.size(this.__style[luid]["s"][rule]["s"][def] ) ; p++){ // params
-      var paramName = Symbolizer.getParamName(this.__style[luid]["s"][rule]["s"][def]["rt"],p);
+   for( var p = 0 ; p < Object.size(this.style[luid]["s"][rule]["s"][def] ) ; p++){ // params
+      var paramName = Symbolizer.getParamName(this.style[luid]["s"][rule]["s"][def]["rt"],p);
       if ( paramName == param ){
-         this.__style[luid]["s"][rule]["s"][def][paramName] = value;
-         var zmin = this.__style[luid]["s"][rule]["zmin"];
+         this.style[luid]["s"][rule]["s"][def][paramName] = value;
+         var zmin = this.style[luid]["s"][rule]["zmin"];
          //if(this.debug)console.log("changing for z " + zmin);
          ok = true;
          break;
@@ -186,7 +178,7 @@ StyleMenu.prototype.SetParam = function(luid,rule,def,param,value){
    }
    if ( !ok ){
       //if(this.debug)console.log(" not found , adding!" , luid , rule, def , param);
-      this.__style[luid]["s"][rule]["s"][def][param] = value;
+      this.style[luid]["s"][rule]["s"][def][param] = value;
    }
 
    this.Refresh();
@@ -195,24 +187,24 @@ StyleMenu.prototype.SetParam = function(luid,rule,def,param,value){
 
 
 StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
-   if ( this.__style[luid] == undefined ){
+   if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return false;
    }
-   for(var rule = 0 ; rule < Object.size(this.__style[luid]["s"]) ; rule++){
-      for( var d = 0 ; Object.size(this.__style[luid]["s"][rule]["s"]) ; d++){ //def
-         if( this.__style[luid]["s"][rule]["s"][d]["id"] == ruid ){
-            for( var p = 0 ; p < Object.size(this.__style[luid]["s"][rule]["s"][d] ) ; p++){ //params
-               var paramName = Symbolizer.getParamName(this.__style[luid]["s"][rule]["s"][d]["rt"],p);
+   for(var rule = 0 ; rule < Object.size(this.style[luid]["s"]) ; rule++){
+      for( var d = 0 ; Object.size(this.style[luid]["s"][rule]["s"]) ; d++){ //def
+         if( this.style[luid]["s"][rule]["s"][d]["id"] == ruid ){
+            for( var p = 0 ; p < Object.size(this.style[luid]["s"][rule]["s"][d] ) ; p++){ //params
+               var paramName = Symbolizer.getParamName(this.style[luid]["s"][rule]["s"][d]["rt"],p);
                if ( paramName == param ){
-                  this.__style[luid]["s"][rule]["s"][d][paramName] = value;
+                  this.style[luid]["s"][rule]["s"][d][paramName] = value;
 
                   this.Refresh();
                   return true;
                }
             }
             //if(this.debug)console.log(" not found , adding!" , luid , ruid , param);
-            this.__style[luid]["s"][rule]["s"][d][param] = value;
+            this.style[luid]["s"][rule]["s"][d][param] = value;
 
             this.Refresh();
             return true;
@@ -225,15 +217,15 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
 
 
 StyleMenu.prototype.SetParamIdZNew = function(luid,param,value){
-   if ( this.__style[luid] == undefined ){
+   if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return false;
    }
 
-   for(var rule = 0 ; rule < Object.size(this.__style[luid]["s"]) ; rule++){
-      var zmin = this.__style[luid]["s"][rule]["zmin"];
+   for(var rule = 0 ; rule < Object.size(this.style[luid]["s"]) ; rule++){
+      var zmin = this.style[luid]["s"][rule]["zmin"];
       //if(this.debug)console.log(zmin);
-      //var zmax = this.__style[luid]["s"][rule]["zmax"];
+      //var zmax = this.style[luid]["s"][rule]["zmax"];
       if ( $.inArray(zmin, this.activZooms) > -1 ){
          //if(this.debug)console.log("zoom is to be changed");
          var def = this.DefFromRule(luid,rule);
@@ -248,22 +240,22 @@ StyleMenu.prototype.SetParamIdZNew = function(luid,param,value){
 
 
 StyleMenu.prototype.GetParamId = function(luid,ruid,param){
-   if ( this.__style[luid] == undefined ){
+   if ( this.style[luid] == undefined ){
       if(this.debug)console.log(luid + " not in style");
       return undefined;
    }
-   for(var rule = 0 ; rule < Object.size(this.__style[luid]["s"]) ; rule++){
-      for( var d = 0 ; d < Object.size(this.__style[luid]["s"][rule]["s"]) ; d++){ //def
-         if ( this.__style[luid]["s"][rule]["s"][d]["id"] == ruid ){
-            for ( var p = 0 ; p < Object.size(this.__style[luid]["s"][rule]["s"][d] ); p++){ //params
-               var paramName = Symbolizer.getParamName(this.__style[luid]["s"][rule]["s"][d]["rt"],p);
+   for(var rule = 0 ; rule < Object.size(this.style[luid]["s"]) ; rule++){
+      for( var d = 0 ; d < Object.size(this.style[luid]["s"][rule]["s"]) ; d++){ //def
+         if ( this.style[luid]["s"][rule]["s"][d]["id"] == ruid ){
+            for ( var p = 0 ; p < Object.size(this.style[luid]["s"][rule]["s"][d] ); p++){ //params
+               var paramName = Symbolizer.getParamName(this.style[luid]["s"][rule]["s"][d]["rt"],p);
                if ( paramName == param ){
-                  return this.__style[luid]["s"][rule]["s"][d][paramName];
+                  return this.style[luid]["s"][rule]["s"][d][paramName];
                }
             }
             //if(this.debug)console.log(" not found , adding!" , luid , ruid , param);
-            //this.__style[luid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
-            //return this.__style[luid]["s"][rule]["s"][d][param]; 
+            //this.style[luid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
+            //return this.style[luid]["s"][rule]["s"][d][param]; 
          }
       }
    }
@@ -564,7 +556,7 @@ StyleMenu.prototype.GetCheckBoxCallBack = function(_uid){
    var me = this;
    return function() {
       var vis = $("#styleMenu_menu_check_" + _uid + ":checked").val()?true:false;
-      me.__style[_uid]["visible"] = vis;               ///@todo this is not in a "set" function ... I don't like that !!!
+      me.style[_uid]["visible"] = vis;               ///@todo this is not in a "set" function ... I don't like that !!!
 
       var gn = me.GetGroupNameFilterFromLayerId(_uid);
 
@@ -586,7 +578,7 @@ StyleMenu.prototype.GetCheckBoxCallBack = function(_uid){
       for (var i = 0 ; i < childs.length ; i++){
          var uid = childs[i];
          if ( me.mappingArray[uid].filter == this.mappingArray[_uid].filter ){
-            me.__style[uid]["visible"] = vis;               ///@todo this is not in a "set" function ... I don't like that !!!
+            me.style[uid]["visible"] = vis;               ///@todo this is not in a "set" function ... I don't like that !!!
          }
       } 
 
@@ -672,7 +664,7 @@ StyleMenu.prototype.AddCombo = function(_paramName,_paramValue,_uid,_ruleId,_con
 
 StyleMenu.prototype.Accordion = function(_group,_name,uid){
 
-   if ( this.__style[uid]["s"].length < 1 ){
+   if ( this.style[uid]["s"].length < 1 ){
       if(this.debug)console.log("Error : empty style " + uid );
       return;
    }
@@ -716,7 +708,7 @@ StyleMenu.prototype.GetFilterAlias = function(group,name,uid){
 
 
 StyleMenu.prototype.FillWidget = function(uid){
-   if ( this.__style[uid]["s"].length < 1 ){
+   if ( this.style[uid]["s"].length < 1 ){
       if(this.debug)console.log("Error : empty style " + uid );
       return;
    }
@@ -752,9 +744,9 @@ StyleMenu.prototype.FillWidget = function(uid){
    var ulul = $("<ul></ul>");
    ulul.appendTo(symbDiv);
 
-   for( var p = 0 ; p < Object.size(Symbolizer.params[this.__style[uid]["s"][rule]["s"][def]["rt"]] ) ; p++){  // this is read from a list of known params. 
+   for( var p = 0 ; p < Object.size(Symbolizer.params[this.style[uid]["s"][rule]["s"][def]["rt"]] ) ; p++){  // this is read from a list of known params. 
 
-      var paramName = Symbolizer.getParamName(this.__style[uid]["s"][rule]["s"][def]["rt"],p);
+      var paramName = Symbolizer.getParamName(this.style[uid]["s"][rule]["s"][def]["rt"],p);
       var paramValue = this.GetParamId(uid,ruleId,paramName);   
 
       if ( paramValue === undefined ){
@@ -796,7 +788,7 @@ StyleMenu.prototype.__BuildWidget = function(group,name,uid){
    this.currentGroup = group;
    this.currentName = name;
 
-   if ( this.__style[uid] == undefined ){
+   if ( this.style[uid] == undefined ){
       if(this.debug)console.log( uid + " not in style");
       return;
    }
@@ -982,8 +974,8 @@ StyleMenu.prototype.__InsertAccordion = function(){
             $("<li>" + "Filter : " + this.mappingArray[uid].filter + "</li>").appendTo(ul);
             $("<li>" + "Visible  : " + "<input type=\"checkbox\" id=\"styleMenu_menu_check_" + uid + "\" />" + "</li>").appendTo(ul);
             $("#styleMenu_menu_check_" + uid).click( this.GetCheckBoxCallBack(uid) );
-            $("#styleMenu_menu_check_" + uid).attr('checked', this.__style[uid]["visible"]);
-            $("<li>" + "Place : " + this.__style[uid]["layer"] + "</li>").appendTo(ul);
+            $("#styleMenu_menu_check_" + uid).attr('checked', this.style[uid]["visible"]);
+            $("<li>" + "Place : " + this.style[uid]["layer"] + "</li>").appendTo(ul);
 
          } // end uid loop
       } // end name loop
@@ -1010,7 +1002,7 @@ StyleMenu.prototype.__InsertAccordion = function(){
 //AJaX load style
 StyleMenu.prototype.LoadStyle = function(){
    if(this.debug)console.log("Loading style");
-   if ( this.__style === undefined ){
+   if ( this.style === undefined ){
       if(this.debug)console.log("Style not defined ... reading default");
       var me = this;
 
@@ -1021,7 +1013,7 @@ StyleMenu.prototype.LoadStyle = function(){
          dataType: 'json',
          //contentType:"application/x-javascript",
          success: function (data) {
-            me.__style = data;
+            me.style = data;
             me.__LoadStyle();
          },
          error: function (){
@@ -1037,14 +1029,15 @@ StyleMenu.prototype.LoadStyle = function(){
 }
 
 
-StyleMenu.prototype.SetStyle = function (style){
-   this.__style = style;
+StyleMenu.prototype.SetStyle = function (json, uid){
+   this.style    = json;
+   this.styleUID = uid;
    this.Load(); // will call LoadMapping and then LoadStyle ...
 }
 
 
 
-StyleMenu.prototype.OpenStyle = function (layerId) {
+StyleMenu.prototype.ChangeSelectedSubLayer = function (layerId) {
    var gn = this.GetGroupNameFilterFromLayerId(layerId);
    if ( gn.group != null && gn.name != null ){
       this.__BuildWidget(gn.group,gn.name,gn.uid);

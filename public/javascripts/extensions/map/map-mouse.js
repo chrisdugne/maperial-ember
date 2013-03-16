@@ -42,7 +42,7 @@ MapMouse.prototype.removeListeners = function () {
 
 MapMouse.prototype.down = function (event) {
    this.mouseDown = true;
-   this.context.mapCanvas.trigger(MapEvents.MOUSE_DOWN);
+   this.context.mapCanvas.trigger(MaperialEvents.MOUSE_DOWN);
 }
 
 MapMouse.prototype.leave = function (event) {
@@ -52,7 +52,7 @@ MapMouse.prototype.leave = function (event) {
 
 MapMouse.prototype.up = function (event) {
    this.mouseDown = false; 
-   this.context.mapCanvas.trigger(MapEvents.MOUSE_UP);
+   this.context.mapCanvas.trigger(MaperialEvents.MOUSE_UP);
 }
 
 MapMouse.prototype.move = function (event) {
@@ -61,13 +61,13 @@ MapMouse.prototype.move = function (event) {
    this.context.mouseP = Utils.getPoint(event);
    this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
 
-   this.context.mapCanvas.trigger(MapEvents.MOUSE_MOVE);
+   this.context.mapCanvas.trigger(MaperialEvents.MOUSE_MOVE);
 
    if (!this.mouseDown){
-      this.context.mapCanvas.trigger(MapEvents.UPDATE_LATLON);
+      this.context.mapCanvas.trigger(MaperialEvents.UPDATE_LATLON);
    }
    else{
-      this.context.mapCanvas.trigger(MapEvents.DRAGGING_MAP);
+      this.context.mapCanvas.trigger(MaperialEvents.DRAGGING_MAP);
    }
 
 }
@@ -99,7 +99,7 @@ MapMouse.prototype.wheel = function (event, delta) {
    this.context.mouseP = Utils.getPoint(event);
    this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
 
-   $(window).trigger(MapEvents.ZOOM_CHANGED);
+   $(window).trigger(MaperialEvents.ZOOM_CHANGED);
 }
 
 //----------------------------------------------------------------------//

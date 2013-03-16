@@ -93,8 +93,8 @@ VectorialLayer.prototype.IsUpToDate = function ( ) {
 VectorialLayer.prototype.Update = function ( params ) {
 
    var group      = params.group;
-   var styleName  = params.style;
-   var style      = this.mapParameters.GetStyle(styleName);
+   var styleUID   = params.styles[params.selectedStyle];
+   var style      = this.mapParameters.GetStyle(styleUID);
    if ( ! style ) {
       console.log ( "Invalid style");
       this.layerCount = 0;

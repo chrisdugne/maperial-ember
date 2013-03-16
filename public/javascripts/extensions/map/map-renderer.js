@@ -22,37 +22,37 @@ MapRenderer.prototype.initListeners = function () {
 
    var renderer = this;
    
-   this.context.mapCanvas.on(MapEvents.MOUSE_MOVE, function(){
+   this.context.mapCanvas.on(MaperialEvents.MOUSE_MOVE, function(){
       renderer.DrawMagnifier();
    });
    
-   $(window).on(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE, function(){
+   $(window).on(MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE, function(){
       if(renderer.config.edition){
          renderer.FindLayerId();
       }
    });
 
-   $(window).on(MapEvents.STYLE_CHANGED, function(){
+   $(window).on(MaperialEvents.STYLE_CHANGED, function(){
       renderer.DrawScene (true,true);
    });
    
-   $(window).on(MapEvents.COLORBAR_CHANGED, function(){
+   $(window).on(MaperialEvents.COLORBAR_CHANGED, function(){
       renderer.BuildColorBar();
    });
    
-   $(window).on(MapEvents.CONTRAST_CHANGED, function(){
+   $(window).on(MaperialEvents.CONTRAST_CHANGED, function(){
       //
    });
    
-   $(window).on(MapEvents.LUMINOSITY_CHANGED, function(){
+   $(window).on(MaperialEvents.LUMINOSITY_CHANGED, function(){
       //
    });
    
-   $(window).on(MapEvents.BW_METHOD_CHANGED, function(){
+   $(window).on(MaperialEvents.BW_METHOD_CHANGED, function(){
       //
    });
    
-   $(window).on(MapEvents.DATA_SOURCE_CHANGED, function(){
+   $(window).on(MaperialEvents.DATA_SOURCE_CHANGED, function(){
       //Reload ALL ???? and Redraw ??
       //renderer.DrawScene (true) 
    });
@@ -62,14 +62,14 @@ MapRenderer.prototype.initListeners = function () {
 
 MapRenderer.prototype.removeListeners = function () {
 
-   this.context.mapCanvas.off(MapEvents.MOUSE_MOVE);
-   $(window).off(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
-   $(window).off(MapEvents.STYLE_CHANGED);
-   $(window).off(MapEvents.COLORBAR_CHANGED);
-   $(window).off(MapEvents.CONTRAST_CHANGED);
-   $(window).off(MapEvents.LUMINOSITY_CHANGED);
-   $(window).off(MapEvents.BW_METHOD_CHANGED);
-   $(window).off(MapEvents.DATA_SOURCE_CHANGED);
+   this.context.mapCanvas.off(MaperialEvents.MOUSE_MOVE);
+   $(window).off(MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+   $(window).off(MaperialEvents.STYLE_CHANGED);
+   $(window).off(MaperialEvents.COLORBAR_CHANGED);
+   $(window).off(MaperialEvents.CONTRAST_CHANGED);
+   $(window).off(MaperialEvents.LUMINOSITY_CHANGED);
+   $(window).off(MaperialEvents.BW_METHOD_CHANGED);
+   $(window).off(MaperialEvents.DATA_SOURCE_CHANGED);
    
    clearInterval(this.drawSceneInterval);
 }
@@ -320,9 +320,9 @@ MapRenderer.prototype.FindLayerId = function () {
    var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
 
-   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, this.context.parameters.GetStyle() ) ;
+   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, this.context.parameters.GetEditedStyle() ) ;
 
-   $(window).trigger(MapEvents.OPEN_STYLE, [subLayerId]);
+   $(window).trigger(MaperialEvents.OPEN_STYLE, [subLayerId]);
 }
 
 //----------------------------------------------------------------------//

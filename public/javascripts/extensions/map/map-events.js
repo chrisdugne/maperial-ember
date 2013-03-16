@@ -1,52 +1,61 @@
 
 //==================================================================//
 
-this.MapEvents = {}
+this.MaperialEvents = {}
 
 //==================================================================//
 
-MapEvents.MOUSE_DOWN           = "MapEvents.MOUSE_DOWN";
-MapEvents.MOUSE_UP             = "MapEvents.MOUSE_UP";
-MapEvents.MOUSE_MOVE           = "MapEvents.MOUSE_MOVE";
+// GLobal Events
+MaperialEvents.LOADING          = "Maperial.LOADING";
+MaperialEvents.FREE             = "Maperial.FREE";
+MaperialEvents.REFRESH_SIZES    = "Maperial.REFRESH_SIZES";
 
-MapEvents.CONTROL_UP           = "MapEvents.CONTROL_UP";
-MapEvents.CONTROL_DOWN         = "MapEvents.CONTROL_DOWN";
-MapEvents.CONTROL_LEFT         = "MapEvents.CONTROL_LEFT";
-MapEvents.CONTROL_RIGHT        = "MapEvents.CONTROL_RIGHT";
+// Mouse Events
+MaperialEvents.MOUSE_DOWN           = "MaperialEvents.MOUSE_DOWN";
+MaperialEvents.MOUSE_UP             = "MaperialEvents.MOUSE_UP";
+MaperialEvents.MOUSE_MOVE           = "MaperialEvents.MOUSE_MOVE";
+MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE  = "MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE";
 
-MapEvents.DRAGGING_MAP         = "MapEvents.DRAGGING_MAP";
-MapEvents.MAP_MOVING           = "MapEvents.MAP_MOVING";
-MapEvents.ZOOM_CHANGED         = "MapEvents.ZOOM_CHANGED";
+// Control Events
+MaperialEvents.CONTROL_UP           = "MaperialEvents.CONTROL_UP";
+MaperialEvents.CONTROL_DOWN         = "MaperialEvents.CONTROL_DOWN";
+MaperialEvents.CONTROL_LEFT         = "MaperialEvents.CONTROL_LEFT";
+MaperialEvents.CONTROL_RIGHT        = "MaperialEvents.CONTROL_RIGHT";
 
-MapEvents.UPDATE_LATLON        = "MapEvents.UPDATE_LATLON";
-MapEvents.OPEN_STYLE           = "MapEvents.OPEN_STYLE";
+// Map Events
+MaperialEvents.DRAGGING_MAP         = "MaperialEvents.DRAGGING_MAP";
+MaperialEvents.MAP_MOVING           = "MaperialEvents.MAP_MOVING";
+MaperialEvents.ZOOM_CHANGED         = "MaperialEvents.ZOOM_CHANGED";
 
-MapEvents.STYLE_CHANGED        = "MapEvents.STYLE_CHANGED";
-MapEvents.COLORBAR_CHANGED     = "MapEvents.COLORBAR_CHANGED";
-MapEvents.CONTRAST_CHANGED     = "MapEvents.CONTRAST_CHANGED";
-MapEvents.LUMINOSITY_CHANGED   = "MapEvents.LUMINOSITY_CHANGED";
-MapEvents.BW_METHOD_CHANGED    = "MapEvents.BW_METHOD_CHANGED";
-MapEvents.DATA_SOURCE_CHANGED  = "MapEvents.DATA_SOURCE_CHANGED";
+MaperialEvents.UPDATE_LATLON        = "MaperialEvents.UPDATE_LATLON";
+MaperialEvents.OPEN_STYLE           = "MaperialEvents.OPEN_STYLE";
 
-MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE  = "MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE";
+// Rendering Events
+MaperialEvents.STYLE_CHANGED        = "MaperialEvents.STYLE_CHANGED";
+MaperialEvents.COLORBAR_CHANGED     = "MaperialEvents.COLORBAR_CHANGED";
+MaperialEvents.CONTRAST_CHANGED     = "MaperialEvents.CONTRAST_CHANGED";
+MaperialEvents.LUMINOSITY_CHANGED   = "MaperialEvents.LUMINOSITY_CHANGED";
+MaperialEvents.BW_METHOD_CHANGED    = "MaperialEvents.BW_METHOD_CHANGED";
+MaperialEvents.DATA_SOURCE_CHANGED  = "MaperialEvents.DATA_SOURCE_CHANGED";
+
 
 //==================================================================//
 
-MapEvents.removeAllListeners = function (){
+MaperialEvents.removeAllListeners = function (){
    
-   $(window).off(MapEvents.UPDATE_LATLON);
-   $(window).off(MapEvents.OPEN_STYLE);
+   $(window).off(MaperialEvents.UPDATE_LATLON);
+   $(window).off(MaperialEvents.OPEN_STYLE);
    
-   $(window).off(MapEvents.STYLE_CHANGED);
-   $(window).off(MapEvents.COLORBAR_CHANGED);
-   $(window).off(MapEvents.CONTRAST_CHANGED);
-   $(window).off(MapEvents.LUMINOSITY_CHANGED);
-   $(window).off(MapEvents.BW_METHOD_CHANGED);
-   $(window).off(MapEvents.DATA_SOURCE_CHANGED);
-   $(window).off(MapEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
+   $(window).off(MaperialEvents.STYLE_CHANGED);
+   $(window).off(MaperialEvents.COLORBAR_CHANGED);
+   $(window).off(MaperialEvents.CONTRAST_CHANGED);
+   $(window).off(MaperialEvents.LUMINOSITY_CHANGED);
+   $(window).off(MaperialEvents.BW_METHOD_CHANGED);
+   $(window).off(MaperialEvents.DATA_SOURCE_CHANGED);
+   $(window).off(MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE);
 
-   $(window).off(MapEvents.CONTROL_UP);
-   $(window).off(MapEvents.CONTROL_DOWN);
-   $(window).off(MapEvents.CONTROL_LEFT);
-   $(window).off(MapEvents.CONTROL_RIGHT);
+   $(window).off(MaperialEvents.CONTROL_UP);
+   $(window).off(MaperialEvents.CONTROL_DOWN);
+   $(window).off(MaperialEvents.CONTROL_LEFT);
+   $(window).off(MaperialEvents.CONTROL_RIGHT);
 }
