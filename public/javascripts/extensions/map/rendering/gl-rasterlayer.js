@@ -1,8 +1,8 @@
 
-function RasterLayer ( params , inLType , inZoom) {
-   this.params = params;
-   this.assets = params.assets;
-   this.gl     = params.assets.ctx;
+function RasterLayer ( mapParameters , inLType , inZoom) {
+   this.mapParameters = mapParameters;
+   this.assets = mapParameters.assets;
+   this.gl     = mapParameters.assets.ctx;
    
    this.tex    = null;
    this.data   = null;
@@ -56,17 +56,16 @@ RasterLayer.prototype.IsUpToDate = function ( ) {
    return this.tex != null;
 }
 
-RasterLayer.prototype.Update = function ( inId ) {
+RasterLayer.prototype.Update = function ( params ) {
    if (this.tex)
       return 1;
 
-   var gl         = this.gl;
-   var p          = this.params.LayerParams[inId]
-   var cb         = this.params.GetColorBar(p["colorbar"]);
+   var gl = this.gl;
+   var cb = this.mapParameters.GetColorBar(params.colorbar);
    
    if ( !cb || ! cb.tex) { 
       console.log("Invalid color bar : setting default") ;
-      this.params.SetDefaultColorBar();
+      this.mapParameters.SetDefaultColorBar();
       return;
    }
 

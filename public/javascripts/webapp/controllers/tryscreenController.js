@@ -24,7 +24,7 @@
 	
 	TryscreenController.cleanUI = function()
    {
-	   
+	   App.maperial.stop();
    }
 	
    //-----------------------------------------------------------------//

@@ -59,6 +59,12 @@ Maperial.prototype.apply = function(config){
 
 //==================================================================//
 
+Maperial.prototype.stop = function(){
+   this.reset();
+}
+   
+//==================================================================//
+   
 Maperial.prototype.reset = function(){
    
    try{

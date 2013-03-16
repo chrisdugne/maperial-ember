@@ -5,6 +5,8 @@ function MapRenderer(maperial) {
 
    console.log("building renderer...");
    
+   this.drawSceneInterval;
+   
    this.config = maperial.config;
    this.context = maperial.context;
    
@@ -69,6 +71,7 @@ MapRenderer.prototype.removeListeners = function () {
    $(window).off(MapEvents.BW_METHOD_CHANGED);
    $(window).off(MapEvents.DATA_SOURCE_CHANGED);
    
+   clearInterval(this.drawSceneInterval);
 }
 
 //----------------------------------------------------------------------//
@@ -197,7 +200,7 @@ MapRenderer.prototype.Start = function () {
    }
    
    this.DrawScene();
-   setInterval( Utils.apply ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
+   this.drawSceneInterval = setInterval( Utils.apply ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
    return true;
 } 
 
@@ -206,8 +209,6 @@ MapRenderer.prototype.Start = function () {
 MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, forceTileRedraw) {
    var keyList = [];
 
-   console.log("UpdateTileCache");
-   
    for ( tx = txB ; tx <= txE ; tx = tx + 1) {
       for ( ty = tyB ; ty <= tyE ; ty = ty + 1) {
          var key = tx + "," + ty + "," + zoom;
@@ -236,18 +237,20 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
       }
    }
 
-   var hasSomeChange = false;
+   var tileModified = false;
    var timeRemaining = MapParameters.refreshRate;
+   
    for (var ki = 0 ; ki < keyList.length ; ki++) {      
       var tile = this.tileCache[keyList[ki]];
       if (tile && !tile.IsUpToDate () )  {
-         hasSomeChange        = true
-         timeRemaining        = tile.Update( timeRemaining )
+         tileModified = true
+         timeRemaining = tile.Update( timeRemaining )
          if ( timeRemaining <= 0 )
             break;
       }
    }
-   return hasSomeChange
+   
+   return tileModified
 }
 
 //----------------------------------------------------------------------//
@@ -258,7 +261,6 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
       forceGlobalRedraw = true;
    if(typeof(forceTileRedraw)==='undefined' )
       forceTileRedraw = false;
-
 
    var w = this.context.mapCanvas.width();
    var h = this.context.mapCanvas.height();
@@ -277,6 +279,7 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
    var nbTileY = Math.floor ( h  / MapParameters.tileSize  +1 ) ; 
    
    if ( this.UpdateTileCache ( this.context.zoom , tileC.x , tileC.x + nbTileX , tileC.y - nbTileY , tileC.y , forceTileRedraw ) || forceGlobalRedraw) {
+
       mvMatrix      = mat4.create();
       pMatrix       = mat4.create();
       mat4.identity    ( pMatrix );
@@ -309,7 +312,7 @@ MapRenderer.prototype.FindLayerId = function () {
 
    var tile = this.tileCache[key];
 
-   if(!tile.IsLoad())
+   if(!tile.IsLoaded())
       return;
 
    // find the click coordinates inside invisibleCanvas
@@ -317,9 +320,9 @@ MapRenderer.prototype.FindLayerId = function () {
    var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
 
-   var layerId = tile.LayerLookup( tileClickCoord , this.context.zoom, this.context.parameters.GetStyle() ) ;
+   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, this.context.parameters.GetStyle() ) ;
 
-   $(window).trigger(MapEvents.OPEN_STYLE, [layerId]);
+   $(window).trigger(MapEvents.OPEN_STYLE, [subLayerId]);
 }
 
 //----------------------------------------------------------------------//

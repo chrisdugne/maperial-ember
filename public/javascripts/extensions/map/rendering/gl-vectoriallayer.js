@@ -5,17 +5,18 @@ VectorialLayer.FRONT  = "front";
 
 //=============================================================//
 
-function VectorialLayer ( params, inZoom ) {
-   this.params = params;
-   this.assets = params.assets;
-   this.gl     = params.assets.ctx;
+function VectorialLayer ( mapParameters, inZoom ) {
+   this.mapParameters = mapParameters;
+   this.assets = mapParameters.assets;
+   this.gl     = mapParameters.assets.ctx;
 
    this.cnv    = null;
    this.tex    = null;
    this.ctx    = null;
    this.data   = null;
-   this.lcnt   = 0;
    this.z      = inZoom;
+   
+   this.layerCount = 0;
 }
 
 VectorialLayer.prototype.GetType = function ( ) {
@@ -47,7 +48,7 @@ VectorialLayer.prototype.Init = function ( data ) {
    }
    else { // create fake !
       this.tex             = gl.createTexture();
-      this.lcnt            = null;
+      this.layerCount      = null;
       gl.bindTexture       ( gl.TEXTURE_2D           , this.tex     );
       gl.pixelStorei       ( gl.UNPACK_FLIP_Y_WEBGL  , false        );
       var byteArray        = new Uint8Array        ( [1,1,1,0 , 1,1,1,0 , 1,1,1,0 , 1,1,1,0] );
@@ -60,7 +61,7 @@ VectorialLayer.prototype.Init = function ( data ) {
 
 VectorialLayer.prototype.Reset = function (  ) {
    var gl            = this.gl;
-   this.lcnt         = 0
+   this.layerCount   = 0
    delete this.cnv;
    this.cnv          = document.createElement("canvas");
    this.cnv.height   = MapParameters.tileSize;
@@ -77,7 +78,7 @@ VectorialLayer.prototype.Release = function (  ) {
    if (this.tex) {
       gl.deleteTexture ( this.tex );
       delete this.tex;
-      this.tex = 0
+      this.tex = 0;
    }
    if (this.cnv) {
       delete this.cnv;
@@ -86,23 +87,26 @@ VectorialLayer.prototype.Release = function (  ) {
 }
 
 VectorialLayer.prototype.IsUpToDate = function ( ) {
-   return this.lcnt == null;
+   return this.layerCount == null;
 }
 
 VectorialLayer.prototype.Update = function ( params ) {
+
    var group      = params.group;
    var styleName  = params.style;
-   var style      = this.params.GetStyle(styleName);
+   var style      = this.mapParameters.GetStyle(styleName);
    if ( ! style ) {
-      console.log ( "Invalid style")
-      this.lcnt =0 
-      this._BuildTexture()
+      console.log ( "Invalid style");
+      this.layerCount = 0;
+      this._BuildTexture();
    }
-   var rendererStatus   = TileRenderer.RenderLayers (attr,  this.ctx , this.data , this.z , style , this.lcnt ) ;
-   this.lcnt            = rendererStatus[0]
-   if (this.lcnt == null) { // Render is finished, build GL Texture
-      this._BuildTexture()
-   }
+   var rendererStatus   = TileRenderer.RenderLayers (group,  this.ctx , this.data , this.z , style , this.layerCount ) ;
+
+   this.layerCount      = rendererStatus[0];
+   
+   if (this.IsUpToDate())  // Render is finished, build GL Texture
+      this._BuildTexture();
+   
    return rendererStatus[1]
 }
 

@@ -7,7 +7,7 @@ var TileRenderer = {};
  */
 
 TileRenderer.layerDummyColors = [];
-TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , layerType , style ) {
+TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , group , style ) {
 
    try {
       var subLayer = style [ subLayerId ] // on a 1 seul symbolizer par layer
@@ -16,7 +16,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , laye
       }
       
       if ( !subLayer.visible ) return;
-      if ( subLayer.layer != layerType) return;
+      if ( subLayer.layer != group) return;
 
       for (var _s = 0 ; _s < subLayer.s.length ; _s++ ) {
          var curStyle = subLayer.s[_s];
@@ -51,7 +51,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , laye
  *  g group
  */
 TileRenderer.maxRenderTime = 0
-TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , begin  ) {
+TileRenderer.RenderLayers = function ( group , ctx , data , zoom , style , cursor  ) {
    
    if(!data)
       return;
@@ -59,15 +59,15 @@ TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , b
    var beginAt;
    var limitTime = false;
 
-   if(typeof(begin)==='undefined' || begin == null) {
+   if(typeof(cursor)==='undefined' || cursor == null) {
       beginAt = 0;
    }
    else {
-      beginAt = begin;
+      beginAt = cursor;
       limitTime = true;
    }
 
-   var date    = new Date
+   var date    = new Date();
    var startT  = date.getTime();
 
    ctx.scale(1,1);
@@ -90,7 +90,7 @@ TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , b
          {
             var line = lines[li]
 
-            TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, layerType, style )
+            TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, group, style )
          }
       }
       if (limitTime) {
@@ -110,7 +110,7 @@ TileRenderer.RenderLayers = function ( layerType , ctx , data , zoom , style , b
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.LayerLookup = function ( point, ctx , data , zoom, style, group ) {
+TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group ) {
 
    ctx.scale(1,1);
    var i;
@@ -194,7 +194,7 @@ TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, subLayerId , zoom,
 
 TileRenderer.DrawImages = function (tile, ctx, wx, wy ) {
    
-   if ( tile && tile.IsLoad() && tile.IsUpToDate()) {
+   if ( tile && tile.IsLoaded() && tile.IsUpToDate()) {
       ctx.beginPath();
       ctx.rect(wx, wy , MapParameters.tileSize, MapParameters.tileSize);
       ctx.closePath();

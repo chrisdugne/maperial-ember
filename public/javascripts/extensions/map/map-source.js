@@ -15,14 +15,12 @@ function Source (type) {
 //-----------------------------------------------------------------------------------//
 
 Source.prototype.getURL = function (tx, ty, z) {
-
    switch(this.type){
       case Source.MaperialOSM:
          return "http://www.maperial.com/api/tile?x="+tx+"&y="+ty+"&z="+z;
       case Source.MaperialRaster:
          return "http://map.x-ray.fr:8081/api/tile/"+this.params.rasterUID+"?x="+tx+"&y="+ty+"&z="+z;
    }
-   
 }
 
 //-----------------------------------------------------------------------------------//

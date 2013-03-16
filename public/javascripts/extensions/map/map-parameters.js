@@ -55,15 +55,16 @@ function MapParameters (layers) {
 
 MapParameters.prototype.buildSources = function(layers){
    
-   console.log("fecthing sources...");
+   console.log("fecthing sources...TODO");
 
    for(var i = 0; i < layers.length; i++){
-      console.log(layers[i].type);
+      
    }
 
    // todo : build this.sources from layers.sources
    
-   this.sources = [ new Source(Source.MaperialOSM), new Source(Source.MaperialRaster) ];
+//   this.sources = [ new Source(Source.MaperialOSM), new Source(Source.MaperialRaster) ];
+   this.sources = [ new Source(Source.MaperialOSM) ];
 }
 
 //---------------------------------------------------------------------------//
