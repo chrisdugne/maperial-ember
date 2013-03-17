@@ -3,6 +3,7 @@ this.GeoLoc = {};
 GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
 
      var geocoder;
+     var debug = false;
 
      var maperial = _maperial;
 
@@ -16,7 +17,7 @@ GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
             maperial.SetCenter(lat,lon);
          }
          else {
-            console.log("Geocode failed: " + status);
+            if(debug)console.log("Geocode failed: " + status);
          }
      }
 
@@ -61,7 +62,7 @@ GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
             navigator.geolocation.getCurrentPosition(callBackGeoLocNav);
          }
          else{
-            console.log("No HTML5 geoloc OR tryGeoloc " + tryGeoloc);
+            if(debug)console.log("No HTML5 geoloc OR tryGeoloc " + tryGeoloc);
             initialize2();       
          }
      }

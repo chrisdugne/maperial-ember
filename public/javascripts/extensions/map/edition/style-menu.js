@@ -78,7 +78,7 @@ function StyleMenu(container, container2, container3, maperial){
 
 StyleMenu.prototype.init = function(){
 
-   this.SetStyle(this.maperial.stylesManager.styles[this.maperial.defaultStyleToEdit], this.maperial.defaultStyleToEdit);
+   this.SetStyle(this.maperial.stylesManager.styles[this.maperial.editedStyleUID], this.maperial.editedStyleUID);
 
    this.Load(); // will call LoadMapping and then LoadStyle ...
 
@@ -271,7 +271,7 @@ StyleMenu.prototype.Load = function(){
 
 
 StyleMenu.prototype.ReLoad = function(){
-   this.__LoadStyle();
+   this.BuildElements();
 }
 
 
@@ -306,7 +306,7 @@ StyleMenu.prototype.__LoadMapping = function(){
          this.mappingArray[ this.mapping[entrie]["layers"][layer]["id"] ] = { name : this.mapping[entrie]["name"] , filter : this.mapping[entrie]["layers"][layer]["filter"]};
       }
    }
-   this.LoadStyle();  
+   this.BuildElements();  
 }
 
 
@@ -362,7 +362,7 @@ StyleMenu.prototype.LoadMapping = function(){
 
 
 //Dirty version ... draw view on the fly ...
-StyleMenu.prototype.__LoadStyle = function(){
+StyleMenu.prototype.BuildElements = function(){
 
    this.styleMenuParentEl.empty();   
    this.styleMenuParentEl2.empty();   
@@ -996,36 +996,6 @@ StyleMenu.prototype.__InsertAccordion = function(){
    })
 
    this.styleMenuParentEl.show();   //show me !
-}
-
-
-//AJaX load style
-StyleMenu.prototype.LoadStyle = function(){
-   if(this.debug)console.log("Loading style");
-   if ( this.style === undefined ){
-      if(this.debug)console.log("Style not defined ... reading default");
-      var me = this;
-
-      $.ajax({
-         url: this.serverRootDirV+'style/style.json',
-         //url: 'http://map.x-ray.fr/api/style/1_style_13ba851b4e18833e08e',
-         async: false,
-         dataType: 'json',
-         //contentType:"application/x-javascript",
-         success: function (data) {
-            me.style = data;
-            me.__LoadStyle();
-         },
-         error: function (){
-            if(me.debug)console.log("Loading style failed");
-         }  
-      });
-   }
-   else{
-      this.__LoadStyle();
-   }
-
-   this.Refresh();
 }
 
 

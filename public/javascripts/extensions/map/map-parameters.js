@@ -14,7 +14,7 @@ MapParameters.autoMoveMillis         = 700;
 MapParameters.autoMoveDeceleration   = 0.005;
 MapParameters.autoMoveAnalyseSize    = 10;
 
-MapParameters.DEFAULT                = "MapParameters.DEFAULT_UID_TO_DEFINE";
+MapParameters.DEFAULT                = "1_style_13ba851b4e18833e08e";
 
 MapParameters.Vector                 = "vector";
 MapParameters.Raster                 = "raster";

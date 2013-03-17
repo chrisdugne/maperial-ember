@@ -15,6 +15,7 @@ function Maperial(){
    this.editedStyleUID;
    this.styleMenu;
 
+   this.serverURL   = "//map.x-ray.fr";
    this.scriptsPath = "assets/javascripts/extensions";
 }
 
@@ -69,7 +70,7 @@ Maperial.prototype.load = function() {
 
    //--------------------------//
 
-   this.verifyConfig();
+   this.checkConfig();
 
    //--------------------------//
 
@@ -94,10 +95,9 @@ Maperial.prototype.build = function() {
 
    if(this.editedStyleUID)
       this.buildStyleMenu();
-
-// if(this.colorbar){
-// this.renderColorbar();
-// }
+   
+//   if(this.editedColorbarUID)
+//      this.buildColorbar();
 
    //--------------------------//
 
@@ -111,7 +111,7 @@ Maperial.prototype.build = function() {
 
    //--------------------------//
 
-   $(window).trigger(MaperialEvents.FREE);
+   $(window).trigger(MaperialEvents.READY);
 
    //--------------------------//
 
@@ -120,21 +120,43 @@ Maperial.prototype.build = function() {
 
 //==================================================================//
 
-Maperial.prototype.verifyConfig = function() {
+Maperial.prototype.checkConfig = function() {
 
+   console.log("checking config...");
+     
    //--------------------------//
+   // checking serverURL
    
    if(!this.config.serverURL)
-      this.config.serverURL = "//map.x-ray.fr";
+      this.config.serverURL = this.serverURL;
 
    //--------------------------//
+   // checking layer config
       
    if(!this.config.layers)
       this.useDefaultLayers(); 
    else
-      console.log("using custom layers...");
+      console.log("  using custom layers...");
 
    //--------------------------//
+   // checking if Default style must be used
+   
+   for(var i = 0; i < this.config.layers.length; i++){
+      
+      if(this.config.layers[i].source.type != Source.MaperialOSM)
+         continue;
+
+      var layerParams = this.config.layers[i].params;
+      if(!layerParams.styles){
+         console.log("  using default style...");
+         layerParams.styles = {};
+         layerParams.styles[0] = MapParameters.DEFAULT;
+         layerParams.selectedStyle = 0;
+      }
+   }
+
+   //--------------------------//
+   // checking if styleMenu is required
    
    if(this.config.edition){
       for(var i = 0; i < this.config.layers.length; i++){
@@ -145,6 +167,7 @@ Maperial.prototype.verifyConfig = function() {
          }
       }
    }
+
 }
 
 //------------------------------------------------------------------//
@@ -160,9 +183,7 @@ Maperial.prototype.useDefaultLayers = function() {
              type: Source.MaperialOSM
           },
           params: {
-             group : VectorialLayer.BACK, 
-             styles: [MapParameters.DEFAULT],
-             selectedStyle: 0
+             group : VectorialLayer.BACK 
           }
        }
     ];

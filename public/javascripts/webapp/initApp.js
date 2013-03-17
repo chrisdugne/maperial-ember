@@ -51,14 +51,14 @@
    });
    
    $(window).on(MaperialEvents.LOADING, function(){
-      console.log("maperial is  LOADING");
+      console.log("maperial is LOADING");
       App.user.set("waiting", true);
    });
    
-   $(window).on(MaperialEvents.FREE, function(){
+   $(window).on(MaperialEvents.READY, function(){
       App.placeFooter(true);
       App.user.set("waiting", false);
-      console.log("maperial is  FREE");
+      console.log("maperial is READY");
    });
 
 })( this );

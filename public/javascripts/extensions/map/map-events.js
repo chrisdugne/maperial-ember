@@ -6,9 +6,9 @@ this.MaperialEvents = {}
 //==================================================================//
 
 // GLobal Events
-MaperialEvents.LOADING          = "Maperial.LOADING";
-MaperialEvents.FREE             = "Maperial.FREE";
-MaperialEvents.REFRESH_SIZES    = "Maperial.REFRESH_SIZES";
+MaperialEvents.LOADING              = "MaperialEvents.LOADING";
+MaperialEvents.READY                = "MaperialEvents.READY";
+MaperialEvents.REFRESH_SIZES        = "MaperialEvents.REFRESH_SIZES";
 
 // Mouse Events
 MaperialEvents.MOUSE_DOWN           = "MaperialEvents.MOUSE_DOWN";
