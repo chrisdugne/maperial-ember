@@ -221,7 +221,7 @@ a#triggerHUDSettings {
 }
 
 #control-up, #control-down, #control-left, #control-right {
-	background-image: url(../../images/mapEditing/map.sprite.png);
+	background-image: url(../../images/mapediting/map.sprite.png);
 	position: absolute;
 	background-repeat: no-repeat;
 	cursor: hand;
