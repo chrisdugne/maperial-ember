@@ -53,6 +53,7 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/maperial.js";
 // output
 $cmd .= " --js_output_file " . "../min/maperialjs.min.js ";
 $cmd .= " --language_in ECMASCRIPT5 ";
+//$cmd .= " --compilation_level ADVANCED_OPTIMIZATIONS ";
 
 
 // execute the command
