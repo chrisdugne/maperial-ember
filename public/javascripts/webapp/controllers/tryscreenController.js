@@ -34,36 +34,6 @@
                 styles: [App.stylesData.selectedStyle.uid],
                 selectedStyle: 0
              }
-          },{ 
-             type: MapParameters.Vector, 
-             source: {
-                type: Source.MaperialOSM
-             },
-             params: {
-                group : VectorialLayer.BACK, 
-                styles: [App.stylesData.selectedStyle.uid],
-                selectedStyle: 0
-             }
-          },{ 
-             type: MapParameters.Vector, 
-             source: {
-                type: Source.MaperialOSM
-             },
-             params: {
-                group : VectorialLayer.BACK, 
-                styles: [App.stylesData.selectedStyle.uid],
-                selectedStyle: 0
-             }
-          },{ 
-             type: MapParameters.Vector, 
-             source: {
-                type: Source.MaperialOSM
-             },
-             params: {
-                group : VectorialLayer.BACK, 
-                styles: [App.stylesData.selectedStyle.uid],
-                selectedStyle: 0
-             }
           }
       ];
       
