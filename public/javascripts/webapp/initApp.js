@@ -44,12 +44,6 @@
 
    //------------------------------------------------------//
 
-   $(window).on(MaperialEvents.REFRESH_SIZES, function(){
-      console.log("maperial asks to refresh sizes");
-      App.resize();
-      App.placeFooter(true);
-   });
-   
    $(window).on(MaperialEvents.LOADING, function(){
       console.log("maperial is LOADING");
       App.user.set("waiting", true);
