@@ -45,19 +45,29 @@ function MapParameters (maperial) {
 
 //---------------------------------------------------------------------------//
 
+/**
+ * this.sources is filled with every required source.
+ * if many layers require the same source, this source is put once in this.sources.
+ * This way, only one source is loaded, and the data is copied in each layer.
+ */
 MapParameters.prototype.buildSources = function(layers){
    
    console.log("fetching sources...");
-
-//   for(var i = 0; i < layers.length; i++){
-//      
-//   }
-
-   console.log("---> TODO");
+   var registeredSourceTypes = [];
+   this.sources = [];
    
-   // todo : build this.sources from layers.sources
-   //   this.sources = [ new Source(Source.MaperialOSM), new Source(Source.MaperialRaster) ];
-   this.sources = [ new Source(Source.MaperialOSM) ];
+   for(var i = 0; i < layers.length; i++){
+      var type = layers[i].source.type;
+      
+      var index = $.inArray(type, registeredSourceTypes);
+      if(index >= 0)
+         continue;
+      
+      registeredSourceTypes.push(type);
+      var source = new Source(type);
+      this.sources.push(source);
+   }
+   
 }
 
 //---------------------------------------------------------------------------//
@@ -71,6 +81,7 @@ MapParameters.prototype.GetEditedStyle = function(){
 }
 
 //---------------------------------------------------------------------------//
+// todo : same as styles : maperial requires a ColobarsManager
 
 MapParameters.prototype.AddOrRefreshColorbar = function(name,colorbar){
 
@@ -105,6 +116,8 @@ MapParameters.prototype.GetColorBar = function(name){
       return this.colorbars[name];
    return null;
 }
+
+//---------------------------------------------------------------------------//
 
 MapParameters.prototype.SetRasterUid = function ( inUid ) {
    this.rasterUid  = inUid

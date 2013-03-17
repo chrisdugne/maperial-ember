@@ -72,11 +72,11 @@ Tile.prototype.loadSources = function () {
     switch(source.type){
 
     case Source.MaperialOSM:
-       this._LoadVectorial ( source );
+       this.LoadVectorial ( source );
        break;
 
     case Source.MaperialRaster:
-       this._LoadRaster ( source );
+       this.LoadRaster ( source );
        break;
 
     }
@@ -151,7 +151,7 @@ Tile.prototype.IsUpToDate = function ( ) {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
-Tile.prototype._LoadVectorial = function ( source ) {
+Tile.prototype.LoadVectorial = function ( source ) {
    var me = this;
    this.requests[source.type] = $.ajax({
       type     : "GET",
@@ -179,7 +179,7 @@ Tile.prototype._LoadVectorial = function ( source ) {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
-Tile.prototype._LoadRaster = function ( source ) {
+Tile.prototype.LoadRaster = function ( source ) {
    if ( ! source.getURL(this.x, this.y, this.z) ) {
       this.error[source.type] = true;
       this.load[source.type] = true;
