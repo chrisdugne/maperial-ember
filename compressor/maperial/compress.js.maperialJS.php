@@ -71,7 +71,4 @@ echo $flattened_output;
 
 //-----------------------------------------------------//
 
-$cmd = "cp ../min/maperialjs.min.js /Users/mad/Projects/Maperial/mycarto/wwwClient/js/min/ ";
-exec($cmd);
-
 ?>
