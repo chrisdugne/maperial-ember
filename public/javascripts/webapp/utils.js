@@ -210,7 +210,7 @@ Utils.thumbURL = function(uid, type)
 //----------------------------------------------------------------------------------------//
 
 Utils.apply = function (toObject, methodName){
-   return function(param1, param2, param3, param4, param5, param6){toObject[methodName](param1, param2, param3, param4, param5, param6)}
+   return (function(param1, param2, param3, param4, param5, param6){toObject[methodName](param1, param2, param3, param4, param5, param6)});
 }
 
 Utils.getPoint = function (event) {

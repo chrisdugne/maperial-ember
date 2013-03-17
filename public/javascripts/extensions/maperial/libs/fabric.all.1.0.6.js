@@ -1,5 +1,5 @@
-/* build: `node build.js modules=ALL exclude=gestures` */
-/*! Fabric.js Copyright 2008-2013, Printio (Juriy Zaytsev, Maxim Chernyak) */
+/* build: node build.js modules=ALL exclude=gestures */
+/* Fabric.js Copyright 2008-2013, Printio (Juriy Zaytsev, Maxim Chernyak) */
 
 var fabric = fabric || { version: "1.0.6" };
 
@@ -30,7 +30,7 @@ fabric.isTouchSupported = "ontouchstart" in fabric.document.documentElement;
  * @type boolean
  */
 fabric.isLikelyNode = typeof Buffer !== 'undefined' && typeof window === 'undefined';
-/*!
+/*
  * Copyright (c) 2009 Simo Kinnunen.
  * Licensed under the MIT license.
  */

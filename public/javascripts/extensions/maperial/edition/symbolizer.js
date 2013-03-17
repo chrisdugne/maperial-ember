@@ -30,7 +30,7 @@ Symbolizer.combos = {
     "linecap"  : [ "butt" , "round" , "square" ],
 };
 
-Symbolizer.default = {
+Symbolizer.defaultValues = {
    fill : "rgba(0,0,0,0)",
    stroke : "rgba(0,0,0,0)",
    width : "0",

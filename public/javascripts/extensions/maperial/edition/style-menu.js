@@ -254,7 +254,7 @@ StyleMenu.prototype.GetParamId = function(luid,ruid,param){
                }
             }
             //if(this.debug)console.log(" not found , adding!" , luid , ruid , param);
-            //this.style[luid]["s"][rule]["s"][d][param] = Symbolizer.default[param];           
+            //this.style[luid]["s"][rule]["s"][d][param] = Symbolizer.defaultValues[param];           
             //return this.style[luid]["s"][rule]["s"][d][param]; 
          }
       }
@@ -750,7 +750,7 @@ StyleMenu.prototype.FillWidget = function(uid){
       var paramValue = this.GetParamId(uid,ruleId,paramName);   
 
       if ( paramValue === undefined ){
-         paramValue = Symbolizer.default[paramName];
+         paramValue = Symbolizer.defaultValues[paramName];
          //continue;
       }
       //if(this.debug)console.log( paramName + " : " + paramValue ) ;
