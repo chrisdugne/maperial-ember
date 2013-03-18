@@ -53,8 +53,8 @@ function StyleMenu(container, container2, container3, maperial){
 
    //current zooms
    this.activZooms = Array();
-   this.currentZmin = 10;
-   this.currentZmax = 15;
+   this.currentZmin = 0;
+   this.currentZmax = 18;
 
    //parent div
    this.styleMenuParentEl = container;
