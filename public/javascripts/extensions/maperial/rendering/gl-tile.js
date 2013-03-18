@@ -97,7 +97,7 @@ Tile.prototype.prepareBuffering = function () {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
-Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
+Tile.prototype.Release = function() {
 
    for(var i = 0; i< this.parameters.sources.length; i++){
 
@@ -106,7 +106,11 @@ Tile.prototype.Release = function ( inVecUrl, inRasterUrl ) {
       if (this.requests[source.type])
          this.requests[source.type].abort();
 
-      this.layers[i].Release();
+
+      for(var j = 0; j< this.layersConfig.length; j++){
+         if ( this.layersConfig[j].source.type == sourceType )
+            this.layers[j].Release();
+      } 
 
       delete this.data[source.type];
 
