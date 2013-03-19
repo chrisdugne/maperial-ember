@@ -12,7 +12,6 @@ function Maperial(){
 
    this.stylesManager = new StylesManager(this);
 
-   this.editedStyleUID;
    this.styleMenu;
 
    this.serverURL   = "//map.x-ray.fr";
@@ -93,16 +92,15 @@ Maperial.prototype.build = function() {
    this.buildMap();
    this.buildHUD();
 
-   if(this.editedStyleUID)
+   if(this.config.edition)
       this.buildStyleMenu();
    
 //   if(this.editedColorbarUID)
 //      this.buildColorbar();
 
    //--------------------------//
-
-   var tryGeoloc = false;
-   GeoLoc.init("GeoLoc", $("#GeoLocGo"), this, tryGeoloc);
+   
+   this.initGeoloc();
 
    //--------------------------//
 
@@ -154,20 +152,6 @@ Maperial.prototype.checkConfig = function() {
          layerParams.selectedStyle = 0;
       }
    }
-
-   //--------------------------//
-   // checking if styleMenu is required
-   
-   if(this.config.edition){
-      for(var i = 0; i < this.config.layers.length; i++){
-         var layerParams = this.config.layers[i].params;
-         if(layerParams.styles){
-            this.editedStyleUID = layerParams.styles[layerParams.selectedStyle];
-            break;
-         }
-      }
-   }
-
 }
 
 //------------------------------------------------------------------//
@@ -301,8 +285,27 @@ Maperial.prototype.buildMap = function() {
 
 //==================================================================//
 
+Maperial.prototype.initGeoloc = function() {
+   if(this.config.hud[HUD.GEOLOC]){
+      GeoLoc.init("GeoLoc", $("#GeoLocGo"), this, false);
+   }   
+}
+
+//==================================================================//
+   
 Maperial.prototype.buildStyleMenu = function() {
-   this.styleMenu = new StyleMenu($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
+
+   var styleUID;
+   
+   for(var i = 0; i < this.config.layers.length; i++){
+      var layerParams = this.config.layers[i].params;
+      if(layerParams.styles){
+         styleUID = layerParams.styles[layerParams.selectedStyle];
+         break;
+      }
+   }
+   
+   this.styleMenu = new StyleMenu($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this, styleUID);
 }
 
 //==================================================================//

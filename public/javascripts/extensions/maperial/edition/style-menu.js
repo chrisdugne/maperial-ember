@@ -28,7 +28,7 @@ Object.size = function(obj) {
 ///@todo define a xsmall small standard large xlarge size for each element and each zoom level
 //==================================================================//
 
-function StyleMenu(container, container2, container3, maperial){
+function StyleMenu(container, container2, container3, maperial, styleUID){
 
    console.log("building style menu...");
    
@@ -69,16 +69,16 @@ function StyleMenu(container, container2, container3, maperial){
    this.currentGroup = null;
    this.currentName = null;
 
-   this.debug = false;
+   this.debug = true;
 
-   this.init();
+   this.init(styleUID);
 }
 
 //==================================================================//
 
-StyleMenu.prototype.init = function(){
+StyleMenu.prototype.init = function(styleUID){
 
-   this.SetStyle(this.maperial.stylesManager.styles[this.maperial.editedStyleUID], this.maperial.editedStyleUID);
+   this.SetStyle(this.maperial.stylesManager.styles[styleUID], styleUID);
 
    this.Load(); // will call LoadMapping and then LoadStyle ...
 
@@ -155,6 +155,7 @@ StyleMenu.prototype.DefRuleIdFromZoom = function(luid,zoom){
          return {"def" : def, "ruleId" : this.style[luid]["s"][rule]["s"][def]["id"], "rule" : rule};
       }
    }
+   
    return {"def" : -1, "ruleId" : -1, "rule" : -1};
 }
 
@@ -164,7 +165,7 @@ StyleMenu.prototype.SetParam = function(luid,rule,def,param,value){
       if(this.debug)console.log( luid + " not in style");
       return false;
    }
-
+   
    var ok = false;
    for( var p = 0 ; p < Object.size(this.style[luid]["s"][rule]["s"][def] ) ; p++){ // params
       var paramName = Symbolizer.getParamName(this.style[luid]["s"][rule]["s"][def]["rt"],p);
@@ -217,6 +218,9 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
 
 
 StyleMenu.prototype.SetParamIdZNew = function(luid,param,value){
+
+   console.log("SetParamIdZNew");
+   
    if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return false;
@@ -533,6 +537,7 @@ StyleMenu.prototype.GetSpinnerCallBack = function(_uid,_ruleId,pName){
 //Closure for slider callback
 StyleMenu.prototype.GetSliderCallBack = function(_uid,_ruleId,pName){  
    var me = this;
+
    return function (event, ui) {
       var newV = ui.value;
       me.SetParamIdZNew(_uid,pName,newV);
@@ -640,7 +645,7 @@ StyleMenu.prototype.AddSlider = function(_paramName,_paramValue,_uid,_ruleId,_co
       max: _max,
       step: _step,
       value: _paramValue,
-      change: function(){me.GetSliderCallBack(_uid,_ruleId,_paramName)},
+      change: this.GetSliderCallBack(_uid,_ruleId,_paramName),
    });
 
    // set initial value

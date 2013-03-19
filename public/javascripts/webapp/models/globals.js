@@ -29,6 +29,7 @@
 
       //-------------------------------------------//
       // mapcreation - wizardStepper in header
+      isViewLayerCreation: false,
       isViewDatasetSelection: false,
       isViewStyleAndColorbar: false,
       isViewGeneration: false

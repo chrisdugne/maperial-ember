@@ -26,6 +26,7 @@
 	   map.styles[0] = App.publicData.styles[0];
 	   
 	   App.mapManager.createMap(map);
+      App.get('router').transitionTo('mapCreation');
 	}
 
 	//----------------------//

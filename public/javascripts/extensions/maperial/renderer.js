@@ -22,9 +22,11 @@ MapRenderer.prototype.initListeners = function () {
 
    var renderer = this;
    
-   this.context.mapCanvas.on(MaperialEvents.MOUSE_MOVE, function(){
-      renderer.DrawMagnifier();
-   });
+   if(this.config.hud[HUD.MAGNIFIER]){
+      this.context.mapCanvas.on(MaperialEvents.MOUSE_MOVE, function(){
+         renderer.DrawMagnifier();
+      });
+   }
    
    $(window).on(MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE, function(){
       if(renderer.config.edition){

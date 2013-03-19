@@ -108,7 +108,7 @@ Tile.prototype.Release = function() {
 
 
       for(var j = 0; j< this.layersConfig.length; j++){
-         if ( this.layersConfig[j].source.type == sourceType )
+         if ( this.layersConfig[j].source.type == source.type )
             this.layers[j].Release();
       } 
 

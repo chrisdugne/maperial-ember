@@ -25,11 +25,6 @@
 @import views.html.templates.components.styleList;
 @import views.html.templates.components.colorbarList;
 
-<!-- Sub pages as components -->
-
-@import views.html.templates.pages.mapcreation.datasetSelection;
-@import views.html.templates.pages.mapcreation.mapEdition;
-
 <!-- ------------------------------------------------------------------- -->
 
 <script type="text/x-handlebars" data-template-name="application">
@@ -57,10 +52,5 @@
 @componentTemplate("styleList"){@styleList()}
 @componentTemplate("colorbarList"){@colorbarList()}
 
-<!-- --- Sub pages as components --- -->
-
-<!-- mapCreation-->
-@componentTemplate("datasetSelection"){@datasetSelection()}
-@componentTemplate("mapEdition"){@mapEdition()}
 
 <!-- ------------------------------------------------------------------- -->

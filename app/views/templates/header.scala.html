@@ -42,24 +42,17 @@
 		{{#if user.isCreatingANewMap}}
 			<div class="wizardStepper">
 				<div class="span2">
-					{{#if App.Globals.isViewDatasetSelection}}
-					<h3>1 - Select the data</h3>
+					{{#if App.Globals.isViewLayerCreation}}
+					<h3>1 - Build the layers</h3>
 					{{else}}
-					<h4>1 - Select the data</h4>
-					{{/if}}
-				</div>
-				<div class="span2">
-					{{#if App.Globals.isViewStyleAndColorbar}}
-					<h3>2 - Style your map</h3>
-					{{else}}
-					<h4>2 - Style your map</h4>
+					<h4>1 - Build the layers</h4>
 					{{/if}}
 				</div>
 				<div class="span2">
 					{{#if App.Globals.isViewSettings}}
-					<h3>3 - Settings</h3>
+					<h3>2 - Settings</h3>
 					{{else}}
-					<h4>3 - Settings</h4>
+					<h4>2 - Settings</h4>
 					{{/if}}
 				</div>
 			</div>
