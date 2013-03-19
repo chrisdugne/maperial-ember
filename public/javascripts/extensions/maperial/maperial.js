@@ -121,7 +121,19 @@ Maperial.prototype.build = function() {
 Maperial.prototype.checkConfig = function() {
 
    console.log("checking config...");
-     
+
+   //--------------------------//
+   // checking default config
+   
+   if(!this.config)
+      this.config = {};
+   
+   if(!this.config.hud)
+      this.config.hud = {};
+
+   if(!this.config.map)
+      this.config.map = {};
+
    //--------------------------//
    // checking serverURL
    
