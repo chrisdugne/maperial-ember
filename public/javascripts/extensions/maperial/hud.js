@@ -38,17 +38,19 @@ HUD.ZOOMS                  = "Zooms";
 
 //----------------------------------------------------------------------//
 
-HUD.SETTINGS_DEFAULT_POSITION      = { left  : "0",    top    : "0"   };
-HUD.MAGNIFIER_DEFAULT_POSITION     = { left  : "0",    bottom : "0"   };
-HUD.COLORBAR_DEFAULT_POSITION      = { left  : "0",    top    : "180" };
-HUD.SCALE_DEFAULT_POSITION         = { left  : "10",   bottom : "10"   };
-HUD.MAPKEY_DEFAULT_POSITION        = { right : "0",    bottom : "0"   };
-HUD.CONTROLS_DEFAULT_POSITION      = { left  : "15",   top    : "40"   };
-HUD.LATLON_DEFAULT_POSITION        = { left  : "50%",  bottom : "0"   };
-HUD.GEOLOC_DEFAULT_POSITION        = { left  : "50%",  top    : "0"   };
-HUD.DETAILS_MENU_DEFAULT_POSITION  = { left  : "0",    top    : "360" };
-HUD.QUICK_EDIT_DEFAULT_POSITION    = { left  : "0",    top    : "280" };
-HUD.ZOOMS_DEFAULT_POSITION         = { right : "25%",  top    : "0"   };
+HUD.positions = [];
+
+HUD.positions[HUD.SETTINGS]      = { left  : "0",    top    : "0"   };
+HUD.positions[HUD.MAGNIFIER]     = { left  : "0",    bottom : "0"   };
+HUD.positions[HUD.COLORBAR]      = { left  : "0",    top    : "180" };
+HUD.positions[HUD.SCALE]         = { left  : "10",   bottom : "10"  };
+HUD.positions[HUD.MAPKEY]        = { right : "0",    bottom : "0"   };
+HUD.positions[HUD.CONTROLS]      = { left  : "15",   top    : "40"  };
+HUD.positions[HUD.LATLON]        = { left  : "50%",  bottom : "0"   };
+HUD.positions[HUD.GEOLOC]        = { left  : "50%",  top    : "0"   };
+HUD.positions[HUD.DETAILS_MENU]  = { left  : "0",    top    : "360" };
+HUD.positions[HUD.QUICK_EDIT]    = { left  : "0",    top    : "280" };
+HUD.positions[HUD.ZOOMS]         = { right : "25%",  top    : "0"   };
 
 //----------------------------------------------------------------------//
 
@@ -80,41 +82,37 @@ HUD.prototype.removeListeners = function () {
 //----------------------------------------------------------------------//
 
 HUD.prototype.getMargin = function (property) {
-   if(!this.config.hud["margin-"+property])
+   if(!this.config.hud.options["margin-"+property])
       return 0;
    else
-      return this.config.hud["margin-"+property];
+      return this.config.hud.options["margin-"+property];
 }
 
 //----------------------------------------------------------------------//
 
 HUD.prototype.placeElements = function () {
 
-   for (defaultPosition in HUD) {
+   for (element in this.config.hud.elements) {
 
-      if(!HUD.hasOwnProperty(defaultPosition))
-         continue;
+      var position = HUD.positions[element];
       
-      var element = HUD[defaultPosition.split("_DEFAULT_POSITION")[0]];
+      // position in config overrides default position
+      if(this.config.hud.elements[element].position){
+         position = this.config.hud.elements[element].position;
+      }
 
-      if(!this.config.hud[element])
-         continue;
-      
-      for (property in HUD[defaultPosition]) {
-
-         if(!HUD[defaultPosition].hasOwnProperty(property))
-            continue;
-
-         var value = HUD[defaultPosition][property];
+      for (property in position) {
          
-         if(HUD[defaultPosition][property].indexOf("%") == -1){
+         var value = position[property];
+         
+         if(position[property].indexOf("%") == -1){
             value = parseInt(value) + this.getMargin(property);
             $("#panel"+element).css(property, value+"px");
             $("#trigger"+element).css(property, value+"px");
             continue;
          }
 
-         var percentage = HUD[defaultPosition][property].split("%")[0];
+         var percentage = position[property].split("%")[0];
          var triggerWidth = $("#trigger"+element).width();
          var triggerHeight = $("#trigger"+element).height();
          var panelWidth = $("#panel"+element).width();
@@ -123,14 +121,14 @@ HUD.prototype.placeElements = function () {
          switch(property){
             case "top":
             case "bottom":
-               switch(this.config.hud[element].type){
+               switch(this.config.hud.elements[element].type){
                   case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].height) - panelHeight/2; break;
                   case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].height) - triggerHeight/2; break;
                }
                break;
             case "left":
             case "right":
-               switch(this.config.hud[element].type){
+               switch(this.config.hud.elements[element].type){
                   case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].width) - panelWidth/2; break;
                   case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].width) - triggerWidth/2; break;
                }
@@ -338,6 +336,9 @@ HUD.prototype.clickOnTrigger = function(trigger){
 
 //------------------------------------------------//
 
+/**
+ * Draw the HUD settings panel
+ */
 HUD.prototype.refreshSettings = function() {
 
    $("#HUDSettings").empty(); 
@@ -345,24 +346,20 @@ HUD.prototype.refreshSettings = function() {
    var configHUD = this.config.hud;
    var hud = this;
 
-   for (element in configHUD) {
+   for (element in configHUD.elements) {
 
       // ----- testing option in config
-      if(!configHUD.hasOwnProperty(element)){
+      if(configHUD.elements[element] == HUD.DISABLED){ 
          continue;
       }  
 
-      if(configHUD[element] == HUD.DISABLED){ 
-         continue;
-      }  
-
-      if(!configHUD[element].isOption){ 
+      if(!configHUD.elements[element].isOption){ 
          continue;
       }  
 
       // ----- appending div
       var div = "<div class=\"row-fluid\">" +
-      "<div class=\"span5 offset1\">" + configHUD[element].label + "</div>" +
+      "<div class=\"span5 offset1\">" + configHUD.elements[element].label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
       "   <span class=\"slider-button\" id=\"toggle"+element+"\"></span>" +
       "</div>" +
@@ -377,20 +374,20 @@ HUD.prototype.refreshSettings = function() {
          if($(this).hasClass('on')){
             $(this).removeClass('on');
             var thisElement = $(this).context.id.replace("toggle","");
-            $("#"+configHUD[thisElement].type+thisElement).addClass("hide");
+            $("#"+configHUD.elements[thisElement].type+thisElement).addClass("hide");
             
-            if(configHUD[thisElement].type == HUD.TRIGGER)
+            if(configHUD.elements[thisElement].type == HUD.TRIGGER)
                hud.hideTrigger(thisElement);
          }
          else{
             $(this).addClass('on');
             var thisElement = $(this).context.id.replace("toggle","");
-            $("#"+configHUD[thisElement].type+thisElement).removeClass("hide");
+            $("#"+configHUD.elements[thisElement].type+thisElement).removeClass("hide");
             hud.showTrigger(thisElement);
          }
       });
 
-      if(configHUD[element].show){
+      if(configHUD.elements[element].show){
          $("#toggle"+element).addClass("on");
       }
    }
@@ -401,14 +398,11 @@ HUD.prototype.refreshSettings = function() {
 //------------------------------------------------//
 
 HUD.prototype.hideAllHUD = function(){
-   for (element in this.config.hud) {
-      if(!this.config.hud.hasOwnProperty(element))
-         continue;
-
+   for (element in this.config.hud.elements) {
       $("#"+this.config.hud[element].type + element).addClass("hide");
       $("#toggle"+element).removeClass('on');
 
-      if(this.config.hud[element].type == HUD.TRIGGER)
+      if(this.config.hud.elements[element].type == HUD.TRIGGER)
          this.hideTrigger(element);
    }
 }
@@ -416,12 +410,9 @@ HUD.prototype.hideAllHUD = function(){
 //------------------------------------------------//
 
 HUD.prototype.showAllHUD = function(){
-   for (element in this.config.hud) {
-      if(!this.config.hud.hasOwnProperty(element))
-         continue;
-
-      if(this.config.hud[element].show == true){
-         $("#"+this.config.hud[element].type + element).removeClass("hide");
+   for (element in this.config.hud.elements) {
+      if(this.config.hud.elements[element].show == true){
+         $("#"+this.config.hud.elements[element].type + element).removeClass("hide");
       }
    }
 

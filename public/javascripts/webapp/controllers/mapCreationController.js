@@ -48,20 +48,19 @@
    
    MapCreationController.getLayersCreationConfig = function(){
 
-      var config = {hud:[], map:{}};
+      var config = {hud:{elements:{}, options:{}}, map:{}};
       
       // custom
-      // mapCreation.layersCreation
-      //config["StyleManager"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
+      config.hud.elements["Layers"] = {show : true, type : HUD.PANEL, isOption : false, position : { right: "0", top: "0"} };
 
       // maperial hud
-      config.hud[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
-      config.hud[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    isOption : true, label : "Controls" };
-      config.hud[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    isOption : true, label : "Scale" };
-      config.hud[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    isOption : true, label : "Location" };
+      config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
+      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    isOption : true, label : "Controls" };
+      config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    isOption : true, label : "Scale",    position : { right: "10", bottom: "10"} };
+      config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    isOption : true, label : "Location" };
       
-      config.hud["margin-top"] = App.Globals.HEADER_HEIGHT;
-      config.hud["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
+      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
             
       return config;
    }  

@@ -19,13 +19,9 @@
 
 /*---------------------------------------------------------------*/
 
-#panelStyleManager {
-	top: 67px;
-	left: 0;
-	height: 30px;
-	width: 420px;
-	padding-left: 20px;
-	padding-right: 20px;
+#panelLayers {
+	background: transparent;
+	padding-top: 0px;
 }
 
 /*---------------------------------------------------------------*/
