@@ -129,7 +129,7 @@ Maperial.prototype.checkConfig = function() {
       this.config = {};
    
    if(!this.config.hud)
-      this.config.hud = {};
+      this.config.hud = {elements:{}, options:{}};
 
    if(!this.config.map)
       this.config.map = {};
@@ -267,7 +267,7 @@ Maperial.prototype.createContext = function() {
 
    this.context.parameters = new MapParameters(this);
 
-   if(this.config.hud[HUD.MAGNIFIER]){
+   if(this.config.hud.elements[HUD.MAGNIFIER]){
       this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
    }
 
@@ -298,7 +298,7 @@ Maperial.prototype.buildMap = function() {
 //==================================================================//
 
 Maperial.prototype.initGeoloc = function() {
-   if(this.config.hud[HUD.GEOLOC]){
+   if(this.config.hud.elements[HUD.GEOLOC]){
       GeoLoc.init("GeoLoc", $("#GeoLocGo"), this, false);
    }   
 }
@@ -383,3 +383,13 @@ Maperial.prototype.ZoomOut = function(){
    }
 }
 
+
+//---------------------------------------------------------------------------//
+
+Maperial.prototype.GetStyle = function(uid){
+ return this.stylesManager.styles[uid];
+}
+
+Maperial.prototype.GetEditedStyle = function(){
+ return this.stylesManager.styles[this.styleMenu.styleUID];
+}

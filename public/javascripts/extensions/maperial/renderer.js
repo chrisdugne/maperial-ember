@@ -7,6 +7,7 @@ function MapRenderer(maperial) {
    
    this.drawSceneInterval;
    
+   this.maperial = maperial;
    this.config = maperial.config;
    this.context = maperial.context;
    
@@ -22,7 +23,7 @@ MapRenderer.prototype.initListeners = function () {
 
    var renderer = this;
    
-   if(this.config.hud[HUD.MAGNIFIER]){
+   if(this.config.hud.elements[HUD.MAGNIFIER]){
       this.context.mapCanvas.on(MaperialEvents.MOUSE_MOVE, function(){
          renderer.DrawMagnifier();
       });
@@ -322,7 +323,7 @@ MapRenderer.prototype.FindLayerId = function () {
    var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
 
-   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, this.context.parameters.GetEditedStyle() ) ;
+   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, this.maperial.GetEditedStyle() ) ;
 
    $(window).trigger(MaperialEvents.OPEN_STYLE, [subLayerId]);
 }
@@ -330,7 +331,7 @@ MapRenderer.prototype.FindLayerId = function () {
 //----------------------------------------------------------------------//
 
 MapRenderer.prototype.DrawMagnifier = function () {
-   if (this.config.hud[HUD.MAGNIFIER] == HUD.DISABLED)
+   if (this.config.hud.elements[HUD.MAGNIFIER] == HUD.DISABLED)
       return;
    
    var scale = 3;

@@ -71,16 +71,6 @@ MapParameters.prototype.buildSources = function(layers){
 }
 
 //---------------------------------------------------------------------------//
-
-MapParameters.prototype.GetStyle = function(uid){
-   return this.maperial.stylesManager.styles[uid];
-}
-
-MapParameters.prototype.GetEditedStyle = function(){
-   return this.maperial.stylesManager.styles[this.maperial.editedStyleUID];
-}
-
-//---------------------------------------------------------------------------//
 // todo : same as styles : maperial requires a ColobarsManager
 
 MapParameters.prototype.AddOrRefreshColorbar = function(name,colorbar){

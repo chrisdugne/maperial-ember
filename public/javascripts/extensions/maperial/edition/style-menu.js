@@ -69,7 +69,7 @@ function StyleMenu(container, container2, container3, maperial, styleUID){
    this.currentGroup = null;
    this.currentName = null;
 
-   this.debug = true;
+   this.debug = false;
 
    this.init(styleUID);
 }
@@ -219,8 +219,6 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
 
 StyleMenu.prototype.SetParamIdZNew = function(luid,param,value){
 
-   console.log("SetParamIdZNew");
-   
    if ( this.style[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return false;
@@ -645,7 +643,7 @@ StyleMenu.prototype.AddSlider = function(_paramName,_paramValue,_uid,_ruleId,_co
       max: _max,
       step: _step,
       value: _paramValue,
-      change: this.GetSliderCallBack(_uid,_ruleId,_paramName),
+      stop: this.GetSliderCallBack(_uid,_ruleId,_paramName),
    });
 
    // set initial value
