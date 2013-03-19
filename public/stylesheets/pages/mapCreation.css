@@ -20,11 +20,29 @@
 /*---------------------------------------------------------------*/
 
 #panelLayers {
-	background: transparent;
-	padding-top: 0px;
+	width: 200px;
+	color: #eee;
 }
 
-/*---------------------------------------------------------------*/
+#addVectorLayerButton {
+	margin-right: 111px;
+	margin-top: -35px;
+}
+
+#addRasterLayerButton {
+	margin-right: 48px;
+	margin-top: -35px;
+}
+
+#imgButtonVector {
+	margin-left: 55px;
+}
+
+#imgButtonRaster {
+	margin-left: 15px;
+}
+
+/*----------------------------------------------------------
 
 #panelSettings {
 	height: 400px;
@@ -36,6 +54,8 @@ a#triggerSettings {
 	left: 0;
 	top: 67px;
 }
+-----*/
+
 /*------------------------------------------------------------*/
 /* SETTINGS*/
 

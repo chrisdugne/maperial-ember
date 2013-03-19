@@ -77,6 +77,13 @@ HUD.prototype.removeListeners = function () {
    this.context.mapCanvas.off(MaperialEvents.UPDATE_LATLON);
    $(window).off(MaperialEvents.MAP_MOVING);
    $(window).off(MaperialEvents.ZOOM_CHANGED);
+   
+   $(".trigger").unbind("click");
+   $(".panel").unbind("click");
+   $(".trigger").unbind("dragstart");
+   $(".trigger").unbind("dragstop");
+   $(".panel").unbind("dragstart");
+   $(".panel").unbind("dragstop");
 }
 
 //----------------------------------------------------------------------//
@@ -150,7 +157,7 @@ HUD.prototype.reset = function(){
 
 HUD.prototype.display = function(){
    this.showAllHUD();
-   this.refreshSettings();   
+   this.refreshSettingsPanel();   
 }
 
 //==================================================================//
@@ -339,7 +346,7 @@ HUD.prototype.clickOnTrigger = function(trigger){
 /**
  * Draw the HUD settings panel
  */
-HUD.prototype.refreshSettings = function() {
+HUD.prototype.refreshSettingsPanel = function() {
 
    $("#HUDSettings").empty(); 
    var panelHeight = 0;
@@ -492,3 +499,5 @@ HUD.prototype.updateScale = function(){
    catch(e){}
    
 }
+
+

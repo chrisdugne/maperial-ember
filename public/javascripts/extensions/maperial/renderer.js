@@ -19,7 +19,22 @@ function MapRenderer(maperial) {
 
 //----------------------------------------------------------------------//
 
-MapRenderer.prototype.initListeners = function () {
+MapRenderer.prototype.reset = function () {
+   this.removeListeners();
+
+   // unload every tile
+   for (var key in this.tileCache) {
+      this.tileCache[key].Release();
+      delete this.tileCache[key];
+   }
+   
+   this.tileCache = {};
+   this.dataCache = {};
+}
+   
+//----------------------------------------------------------------------//
+   
+   MapRenderer.prototype.initListeners = function () {
 
    var renderer = this;
    

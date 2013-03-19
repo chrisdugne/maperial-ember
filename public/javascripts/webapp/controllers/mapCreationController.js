@@ -36,19 +36,11 @@
       App.Globals.set("isViewSettings", isViewSettings);   
    }
    
-   // --------------------- 
-   // --- dataset selection
-
-
-   // --------------------- 
-   // --- style selection
-   
-
    //--------------------------------------------------------//
    
    MapCreationController.getLayersCreationConfig = function(){
 
-      var config = {hud:{elements:{}, options:{}}, map:{}};
+      var config = {hud:{elements:{}, options:{}}};
       
       // custom
       config.hud.elements["Layers"] = {show : true, type : HUD.PANEL, isOption : false, position : { right: "0", top: "0"} };
@@ -61,7 +53,20 @@
       
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
-            
+      
+      // same here as useDefaultLayers(), but added here to work with refreshLayersPanel()
+      config.layers = [
+          { 
+             type: MapParameters.Vector, 
+             source: {
+                type: Source.MaperialOSM
+             },
+             params: {
+                group : VectorialLayer.BACK 
+             }
+          }
+       ];
+      
       return config;
    }  
 
@@ -69,10 +74,9 @@
    
    MapCreationController.getSettingsConfig = function(){
 
-      var config = {hud:[], map:{}};
+      var config = {hud:{elements:{}, options:{}}};      
       
       // custom
-      // mapCreation.mapSettings
 //      config["MapSettings"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
       // maperial hud
@@ -93,15 +97,94 @@
    MapCreationController.openLayers = function()
    {
       App.maperial.apply(MapCreationController.getLayersCreationConfig());
+      MapCreationController.refreshLayersPanel();
    }
 
    MapCreationController.backToLayers = function(){
       MapCreationController.closeSettings();
       MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
-      //App.mapEditor.changeConfig(this.getConfigStyleAndColorbar());
-      //App.placeFooter();
+      MapCreationController.openLayers();
    }
 
+   // --------------------- 
+   
+   /**
+    * Draw the HUD settings panel
+    */
+   MapCreationController.refreshLayersPanel = function() {
+
+      $("#layers").empty(); 
+      var panelHeight = 50;
+
+      for(var i = 0; i< App.maperial.config.layers.length; i++) {
+         MapCreationController.buildLayerEntry(i);
+         panelHeight += 64;
+      }
+
+      $("#panelLayers").css("height", panelHeight+"px");
+      
+   }
+
+   //--------------------------------------//
+
+   MapCreationController.buildLayerEntry = function(layerIndex) {
+      
+      var layer = App.maperial.config.layers[layerIndex];
+      
+      $("#layers").append(
+            "<div class=\"row-fluid\">" +
+      		"   <div class=\"span4 offset1\"><img src=\"assets/images/icons/layer."+layer.type+".png\"></img></div>" +
+      		"   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
+      		MapCreationController.getDeleteButtonDiv(layerIndex) +
+      		"</div>"
+      ); 
+
+   }
+
+   MapCreationController.getDeleteButtonDiv = function(layerIndex) {
+      if(App.maperial.config.layers.length > 1)
+         return "<div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>";
+      else
+         return "";
+   }
+   
+   //--------------------------------------//
+
+   MapCreationController.addLayer = function(){
+
+      App.maperial.stop();
+      
+      App.maperial.config.layers.push(
+            { 
+               type: MapParameters.Vector, 
+               source: {
+                  type: Source.MaperialOSM
+               },
+               params: {
+                  group : VectorialLayer.BACK 
+               }
+            }
+      );
+
+      App.maperial.apply(App.maperial.config);
+      MapCreationController.refreshLayersPanel();
+   }
+
+   //--------------------------------------//
+
+   MapCreationController.editLayer = function(layerIndex){
+      var layer = App.maperial.config.layers[layerIndex];
+   }
+   
+   //--------------------------------------//
+   
+   MapCreationController.deleteLayer = function(layerIndex){
+      App.maperial.stop();
+      App.maperial.config.layers.splice(layerIndex, 1);
+      App.maperial.apply(App.maperial.config);
+      MapCreationController.refreshLayersPanel();
+   }
+   
    // --------------------- 
    // --- settings
 
@@ -110,54 +193,10 @@
       MapCreationController.wizardSetView(MapCreationController.SETTINGS);
 
       App.maperial.apply(this.getSettingsConfig());
-//      App.mapEditor.showBoundingBox();
-//      App.mapEditor.deactivateBoundingBoxDrawing();
-//
-//      $("#settings").removeClass("hide");
-//      $("#buttonMapMode").addClass("active");
-//      $("#buttonDrawMode").removeClass("active");
-//      
-//      $("#triggerSettings").click(function(){
-//         $("#panelSettings").toggle("fast");
-//         $(this).toggleClass("active");
-//         return false;
-//      });
-//
-//      $("#buttonMapMode").click(function(){
-//         $(this).addClass("active");
-//         $("#buttonDrawMode").removeClass("active");
-//         $("#buttonCenter").removeClass("hide");
-//         $("#buttonReset").addClass("hide");
-//         App.mapEditor.deactivateBoundingBoxDrawing();
-//         return false;
-//      });
-//
-//      $("#buttonDrawMode").click(function(){
-//         $(this).addClass("active");
-//         $("#buttonMapMode").removeClass("active");
-//         $("#buttonCenter").addClass("hide");
-//         $("#buttonReset").removeClass("hide");
-//         App.mapEditor.activateBoundingBoxDrawing();
-//         return false;
-//      });
-//      
-//      $("#buttonCenter").click(function(){
-//         App.mapEditor.boundingBoxDrawer.center();
-//         return false;
-//      });
-//      
-//      $("#buttonReset").click(function(){
-//         App.mapEditor.boundingBoxDrawer.cancelEdition();
-//         return false;
-//      });
    }
-
+   
    MapCreationController.closeSettings = function(){
-//      App.mapEditor.hideBoundingBox();
-//      $("#settings").addClass("hide");
-//      
-//      $("#triggerSettings").unbind("click");
-//      $("#buttonMapMode").unbind("click");
+
    }
    
    //--------------------------------------//
@@ -183,6 +222,9 @@
       //--------------------------------------//
       // actions
       
+      addLayer: function(router, event){
+         MapCreationController.addLayer();
+      },
    });
 
    //==================================================================//

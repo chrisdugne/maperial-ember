@@ -44,7 +44,7 @@ Maperial.prototype.stop = function(){
 Maperial.prototype.reset = function(){
 
    try{
-      this.mapRenderer.removeListeners();
+      this.mapRenderer.reset();
       this.mapMover.removeListeners();
       this.mapMouse.removeListeners();
       this.hud.removeListeners();
