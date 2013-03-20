@@ -20,7 +20,7 @@ function VectorialLayer ( mapParameters, inZoom ) {
 }
 
 VectorialLayer.prototype.GetType = function ( ) {
-   return MapParameters.Vector;
+   return LayersManager.Vector;
 }
 
 VectorialLayer.prototype.Init = function ( data ) {
@@ -95,12 +95,14 @@ VectorialLayer.prototype.Update = function ( params ) {
    var group      = params.group;
    var styleUID   = params.styles[params.selectedStyle];
    var style      = this.mapParameters.maperial.GetStyle(styleUID);
+   var groups     = this.mapParameters.maperial.config.groups;
+
    if ( ! style ) {
       console.log ( "Invalid style");
       this.layerCount = 0;
       this._BuildTexture();
    }
-   var rendererStatus   = TileRenderer.RenderLayers (group,  this.ctx , this.data , this.z , style , this.layerCount ) ;
+   var rendererStatus   = TileRenderer.RenderLayers (groups, group,  this.ctx , this.data , this.z , style , this.layerCount ) ;
 
    this.layerCount      = rendererStatus[0];
    

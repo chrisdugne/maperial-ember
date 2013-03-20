@@ -16,9 +16,6 @@ MapParameters.autoMoveAnalyseSize    = 10;
 
 MapParameters.DEFAULT                = "1_style_13ba851b4e18833e08e";
 
-MapParameters.Vector                 = "vector";
-MapParameters.Raster                 = "raster";
-
 MapParameters.AlphaBlend             = "AlphaBlend";
 MapParameters.AlphaClip              = "AlphaClip";
 MapParameters.MulBlend               = "MulBlend";

@@ -1,16 +1,17 @@
 //==================================================================//
 
 function Maperial(){
-   
+
    this.config;
    this.context;
-   
+
    this.mapRenderer;
    this.mapMover;
    this.mapMouse;
    this.hud;
 
    this.stylesManager = new StylesManager(this);
+   this.layersManager = new LayersManager(this);
 
    this.styleMenu;
 
@@ -35,14 +36,10 @@ Maperial.prototype.apply = function(config){
 
 //==================================================================//
 
-Maperial.prototype.stop = function(){
-   this.reset();
-}
-
-//==================================================================//
-
 Maperial.prototype.reset = function(){
 
+   console.log("Reset maperial...");
+   
    try{
       this.mapRenderer.reset();
       this.mapMover.removeListeners();
@@ -72,12 +69,22 @@ Maperial.prototype.load = function() {
    this.checkConfig();
 
    //--------------------------//
-
-   var maperial = this;
-   this.loadStyles(function(){
-      maperial.build();
-   });
+   // After having checked the config, there still may be no layers.
+   // For instance in webapp.layersCreation the user may remove every layers.
+   
+   if(this.config.layers.length > 0){
+      var maperial = this;
+      this.loadStyles(function(){
+         maperial.checkGroups();
+         maperial.build();
+      });
+   }
+   else{
+      this.finishStartup();
+   }
 }
+
+//==================================================================//
 
 Maperial.prototype.build = function() {
 
@@ -94,26 +101,27 @@ Maperial.prototype.build = function() {
 
    if(this.config.edition)
       this.buildStyleMenu();
-   
-//   if(this.editedColorbarUID)
-//      this.buildColorbar();
+
+// if(this.editedColorbarUID)
+// this.buildColorbar();
 
    //--------------------------//
-   
+
    this.initGeoloc();
-
+   
    //--------------------------//
+   
+   this.finishStartup();
+}
+
+//==================================================================//
+
+Maperial.prototype.finishStartup = function() {
 
    this.refreshScreen();
    $(window).resize(Utils.apply ( this , "refreshScreen" ) );
 
-   //--------------------------//
-
    $(window).trigger(MaperialEvents.READY);
-
-   //--------------------------//
-
-   this.isBuilt = true;
 }
 
 //==================================================================//
@@ -123,11 +131,11 @@ Maperial.prototype.checkConfig = function() {
    console.log("checking config...");
 
    //--------------------------//
-   // checking default config
-   
+   // checking default objects
+
    if(!this.config)
       this.config = {};
-   
+
    if(!this.config.hud)
       this.config.hud = {elements:{}, options:{}};
 
@@ -136,23 +144,25 @@ Maperial.prototype.checkConfig = function() {
 
    //--------------------------//
    // checking serverURL
-   
+
    if(!this.config.serverURL)
       this.config.serverURL = this.serverURL;
 
    //--------------------------//
    // checking layer config
-      
+
    if(!this.config.layers)
-      this.useDefaultLayers(); 
-   else
+      this.layersManager.useDefaultLayers();
+   else{
       console.log("  using custom layers...");
+      console.log(this.config.layers);
+   }
 
    //--------------------------//
    // checking if Default style must be used
-   
+
    for(var i = 0; i < this.config.layers.length; i++){
-      
+
       if(this.config.layers[i].source.type != Source.MaperialOSM)
          continue;
 
@@ -166,79 +176,11 @@ Maperial.prototype.checkConfig = function() {
    }
 }
 
-//------------------------------------------------------------------//
-
-Maperial.prototype.useDefaultLayers = function() {
-
-   console.log("using default layers...");
-
-   this.config.layers = [
-       { 
-          type: MapParameters.Vector, 
-          source: {
-             type: Source.MaperialOSM
-          },
-          params: {
-             group : VectorialLayer.BACK 
-          }
-       }
-    ];
-
-}
-
-//Maperial.prototype.useDefaultLayers = function() {
-
-//console.log("using default layers...");
-
-//this.config.layers = [
-//{ 
-//type: MapParameters.Vector, 
-//source: {
-//type: Source.MaperialOSM
-//},
-//params: {
-//group : VectorialLayer.BACK, 
-//styles: [MapParameters.DEFAULT],
-//selectedStyle: 0
-//}
-//},
-//{ 
-//type: MapParameters.Raster, 
-//source: {
-//type: Source.MaperialRaster,
-//params: { uid : "rasterUID" }
-//},
-//params: {
-//colorbar: MapParameters.DEFAULT, 
-//},
-//composition: {
-//shader : MapParameters.MulBlend,
-//params : { uParams : [ -0.5, -0.5, 1.0 ]}
-//}
-//},
-//{ 
-//type: MapParameters.Vector, 
-//source: {
-//type: Source.MaperialOSM
-//},
-//params: {
-//group : VectorialLayer.FRONT, 
-//styles: [MapParameters.DEFAULT],
-//selectedStyle: 0
-//},
-//composition: {
-//shader : MapParameters.AlphaBlend
-//}
-//}
-//];
-
-//}
-
 //==================================================================//
 
 Maperial.prototype.loadStyles = function(next){
 
-   console.log("loading styles...");
+   console.log("checking styles...");
    var styleUIDs = [];
 
    for(var i = 0; i < this.config.layers.length; i++){
@@ -248,7 +190,12 @@ Maperial.prototype.loadStyles = function(next){
       }
    }
 
-   this.stylesManager.getStyles(styleUIDs, next);
+   if(styleUIDs.length > 0){
+      console.log("loading styles...");
+      this.stylesManager.getStyles(styleUIDs, next);
+   }
+   else 
+      next();
 }
 
 //==================================================================//
@@ -304,20 +251,9 @@ Maperial.prototype.initGeoloc = function() {
 }
 
 //==================================================================//
-   
-Maperial.prototype.buildStyleMenu = function() {
 
-   var styleUID;
-   
-   for(var i = 0; i < this.config.layers.length; i++){
-      var layerParams = this.config.layers[i].params;
-      if(layerParams.styles){
-         styleUID = layerParams.styles[layerParams.selectedStyle];
-         break;
-      }
-   }
-   
-   this.styleMenu = new StyleMenu($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this, styleUID);
+Maperial.prototype.buildStyleMenu = function() {
+   this.styleMenu = new StyleMenu($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
 }
 
 //==================================================================//
@@ -341,7 +277,6 @@ Maperial.prototype.refreshScreen = function() {
    if(this.config.map.height)
       h = this.config.map.height;
 
-
    if(this.context.mapCanvas[0]){
       this.context.mapCanvas.css("width", w);
       this.context.mapCanvas.css("height", h);
@@ -356,7 +291,21 @@ Maperial.prototype.refreshScreen = function() {
 
 //==================================================================//
 
-Maperial.prototype.SetCenter=function(lat,lon){
+Maperial.prototype.checkGroups = function(){
+
+   console.log("checking groups...");
+
+   var selectedStyle = this.stylesManager.getSelectedStyle();
+   
+   if(selectedStyle && !this.config.groups){
+      this.layersManager.buildGroups(selectedStyle);
+   }
+   
+}
+
+//==================================================================//
+
+Maperial.prototype.SetCenter = function(lat,lon){
    this.context.centerM = this.context.coordS.LatLonToMeters( lat , lon );
    this.mapRenderer.DrawScene();
 }
@@ -387,9 +336,9 @@ Maperial.prototype.ZoomOut = function(){
 //---------------------------------------------------------------------------//
 
 Maperial.prototype.GetStyle = function(uid){
- return this.stylesManager.styles[uid];
+   return this.stylesManager.styles[uid];
 }
 
 Maperial.prototype.GetEditedStyle = function(){
- return this.stylesManager.styles[this.styleMenu.styleUID];
+   return this.stylesManager.styles[this.styleMenu.styleUID];
 }

@@ -5,26 +5,6 @@
 this.UserManager = {};
 
 //-------------------------------------------//
-//init getPublicData
-
-$.ajax({  
-   type: "POST",  
-   url: "/getPublicData",
-   dataType: "json",
-   success: function (publicData, textStatus, jqXHR)
-   {
-      console.log(publicData);
-
-      App.publicData.set("maps", publicData.maps);
-      App.publicData.set("styles", publicData.styles);
-      App.publicData.set("datasets", publicData.datasets);
-      App.publicData.set("colorbars", publicData.colorbars);
-      App.publicData.set("fonts", publicData.fonts);
-      App.publicData.set("icons", publicData.icons);
-   }
-});
-
-//-------------------------------------------//
 
 UserManager.getAccount = function()
 {

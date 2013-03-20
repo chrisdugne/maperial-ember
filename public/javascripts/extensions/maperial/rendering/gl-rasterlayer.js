@@ -12,7 +12,7 @@ function RasterLayer ( mapParameters , inLType , inZoom) {
 }
 
 RasterLayer.prototype.GetType = function ( ) {
-   return MapParameters.Raster;
+   return LayersManager.Raster;
 }
 
 RasterLayer.prototype.Init = function ( data ) {

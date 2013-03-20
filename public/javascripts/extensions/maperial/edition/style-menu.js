@@ -28,7 +28,7 @@ Object.size = function(obj) {
 ///@todo define a xsmall small standard large xlarge size for each element and each zoom level
 //==================================================================//
 
-function StyleMenu(container, container2, container3, maperial, styleUID){
+function StyleMenu(container, container2, container3, maperial){
 
    console.log("building style menu...");
    
@@ -46,7 +46,6 @@ function StyleMenu(container, container2, container3, maperial, styleUID){
 
    //the style (json)
    this.style = null;   // <<<<=== THIS IS WHAT YOU WANT FOR maps.js and renderTile.js
-   this.styleUID;
 
    //the mapping (json)
    this.mapping = null; // link id (in style) with a "real" name & filter
@@ -71,14 +70,14 @@ function StyleMenu(container, container2, container3, maperial, styleUID){
 
    this.debug = false;
 
-   this.init(styleUID);
+   this.init();
 }
 
 //==================================================================//
 
-StyleMenu.prototype.init = function(styleUID){
+StyleMenu.prototype.init = function(){
 
-   this.SetStyle(this.maperial.stylesManager.styles[styleUID], styleUID);
+   this.SetStyle(this.maperial.stylesManager.getSelectedStyle());
 
    this.Load(); // will call LoadMapping and then LoadStyle ...
 
@@ -1002,9 +1001,8 @@ StyleMenu.prototype.__InsertAccordion = function(){
 }
 
 
-StyleMenu.prototype.SetStyle = function (json, uid){
-   this.style    = json;
-   this.styleUID = uid;
+StyleMenu.prototype.SetStyle = function (json){
+   this.style = json;
    this.Load(); // will call LoadMapping and then LoadStyle ...
 }
 

@@ -46,13 +46,13 @@ Tile.prototype.initLayers = function () {
 
       switch(this.layersConfig[i].type){
 
-      case MapParameters.Vector:
-         this.layers[i] = new VectorialLayer( this.parameters , this.z);
-         break;
-
-      case MapParameters.Raster:
-         this.layers[i] = new RasterLayer( this.parameters , this.z);
-         break;
+         case LayersManager.Vector:
+            this.layers[i] = new VectorialLayer( this.parameters , this.z);
+            break;
+   
+         case LayersManager.Raster:
+            this.layers[i] = new RasterLayer( this.parameters , this.z);
+            break;
       }
 
    }
@@ -71,13 +71,13 @@ Tile.prototype.loadSources = function () {
 
     switch(source.type){
 
-    case Source.MaperialOSM:
-       this.LoadVectorial ( source );
-       break;
-
-    case Source.MaperialRaster:
-       this.LoadRaster ( source );
-       break;
+       case Source.MaperialOSM:
+          this.LoadVectorial ( source );
+          break;
+   
+       case Source.Raster:
+          this.LoadRaster ( source );
+          break;
 
     }
  }
@@ -137,7 +137,8 @@ Tile.prototype.Reset = function ( ) {
 //----------------------------------------------------------------------------------------------------------------------//
 
 Tile.prototype.IsLoaded = function ( ) {
-  
+
+   
    for(var i = 0; i< this.parameters.sources.length; i++){
       var source = this.parameters.sources[i];
 
@@ -222,19 +223,17 @@ Tile.prototype.LoadRaster = function ( source ) {
 //----------------------------------------------------------------------------------------------------------------------//
 
 Tile.prototype.appendDataToLayers = function ( sourceType, data ) {
-
    for(var i = 0; i< this.layersConfig.length; i++){
       if ( this.layersConfig[i].source.type == sourceType )
          this.layers[i].Init( data );
    }   
-   
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
 
 Tile.prototype.RenderVectorialLayers = function ( context, wx, wy ) {
    for (i in this.layers) {
-      if (this.layers[i].GetType() == MapParameters.Vector && this.layers[i].IsUpToDate() && this.layers[i].cnv) {
+      if (this.layers[i].GetType() == LayersManager.Vector && this.layers[i].IsUpToDate() && this.layers[i].cnv) {
          context.drawImage(this.layers[i].cnv, wx, wy);
       }
    }

@@ -54,18 +54,7 @@
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
       
-      // same here as useDefaultLayers(), but added here to work with refreshLayersPanel()
-      config.layers = [
-          { 
-             type: MapParameters.Vector, 
-             source: {
-                type: Source.MaperialOSM
-             },
-             params: {
-                group : VectorialLayer.BACK 
-             }
-          }
-       ];
+      config.layersCreation = true;
       
       return config;
    }  
@@ -133,40 +122,18 @@
       
       $("#layers").append(
             "<div class=\"row-fluid\">" +
-      		"   <div class=\"span4 offset1\"><img src=\"assets/images/icons/layer."+layer.type+".png\"></img></div>" +
+      		"   <div class=\"span4 offset1\"><img src=\"assets/images/icons/layer."+layer.source.type+".png\"></img></div>" +
       		"   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
-      		MapCreationController.getDeleteButtonDiv(layerIndex) +
+      		"   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
       		"</div>"
       ); 
 
-   }
-
-   MapCreationController.getDeleteButtonDiv = function(layerIndex) {
-      if(App.maperial.config.layers.length > 1)
-         return "<div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>";
-      else
-         return "";
    }
    
    //--------------------------------------//
 
    MapCreationController.addLayer = function(){
-
-      App.maperial.stop();
-      
-      App.maperial.config.layers.push(
-            { 
-               type: MapParameters.Vector, 
-               source: {
-                  type: Source.MaperialOSM
-               },
-               params: {
-                  group : VectorialLayer.BACK 
-               }
-            }
-      );
-
-      App.maperial.apply(App.maperial.config);
+      App.maperial.layersManager.addLayer(Source.MaperialOSM);
       MapCreationController.refreshLayersPanel();
    }
 
@@ -179,9 +146,7 @@
    //--------------------------------------//
    
    MapCreationController.deleteLayer = function(layerIndex){
-      App.maperial.stop();
-      App.maperial.config.layers.splice(layerIndex, 1);
-      App.maperial.apply(App.maperial.config);
+      App.maperial.layersManager.deleteLayer(layerIndex);
       MapCreationController.refreshLayersPanel();
    }
    

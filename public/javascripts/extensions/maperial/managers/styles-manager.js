@@ -14,6 +14,24 @@ function StylesManager(maperial){
 
 //-------------------------------------------//
 
+/**
+ * Quel que soit le nbre de layers OSM, il y a un seul style selectionne a la fois
+ */
+StylesManager.prototype.getSelectedStyle = function() {
+
+   for(var i = 0; i < this.maperial.config.layers.length; i++){
+      var layerParams = this.maperial.config.layers[i].params;
+      if(layerParams.styles){
+         var styleUID = layerParams.styles[layerParams.selectedStyle];
+         return this.styles[styleUID];
+      }
+   }
+   
+   return null;
+}
+
+//-------------------------------------------//
+
 StylesManager.prototype.getStyles = function(styleUIDs, next) {
 
    this.nextFunction = next;
@@ -72,4 +90,3 @@ StylesManager.prototype.refreshStyle = function(uid, json){
 StylesManager.prototype.getURL = function(styleUID) {
    return this.maperial.config.serverURL + "/api/style/" + styleUID;
 }
-

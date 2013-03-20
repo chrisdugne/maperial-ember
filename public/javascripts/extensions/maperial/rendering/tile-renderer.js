@@ -11,12 +11,8 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , grou
 
    try {
       var subLayer = style [ subLayerId ] // on a 1 seul symbolizer par layer
-      if ( /*subLayerId == "02d" ||*/ subLayerId == "02e") {
-         subLayer.layer = VectorialLayer.FRONT;
-      }
       
       if ( !subLayer.visible ) return;
-      if ( subLayer.layer != group) return;
 
       for (var _s = 0 ; _s < subLayer.s.length ; _s++ ) {
          var curStyle = subLayer.s[_s];
@@ -26,9 +22,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , grou
                var params = curStyle.s[_ss];
 
                if ( TileRenderer[params.rt] ) 
-               { 
                   TileRenderer[ params.rt ] ( ctx , line, attr, params )
-               }
             }
          }
       }
@@ -51,8 +45,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , grou
  *  g group
  */
 TileRenderer.maxRenderTime = 0
-TileRenderer.RenderLayers = function ( group , ctx , data , zoom , style , cursor  ) {
-   
+TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style , cursor  ) {
    if(!data)
       return;
    
@@ -75,22 +68,25 @@ TileRenderer.RenderLayers = function ( group , ctx , data , zoom , style , curso
 
    for (i = beginAt ; i < data["l"].length ; ++i ) {
       var layer = data["l"][i]; // layerGroup
-      var cl = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ? 
+      var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
+      
+      if(groups[subLayerId] != group)
+         continue;
+      
       var ll = layer["g"]; // liste de listes de lignes
       var al = null; // attributlist
-      if ("a" in layer) al = layer["a"]
+      if ("a" in layer) al = layer["a"];
       if (ll == null) 
-         continue
+         continue;
 
       for ( var l = 0 ; l < ll.length ; ++l ) {
-         var lines = ll[l] // liste de lignes
-         var attr  = null // attribut
+         var lines = ll[l]; // liste de lignes
+         var attr  = null; // attribut
          if (al) attr = al[l] // attributlist
          for ( var li = 0 ; li < lines.length ; ++li ) 
          {
-            var line = lines[li]
-
-            TileRenderer.ApplyStyle ( ctx , line , attr , cl , zoom, group, style )
+            var line = lines[li];
+            TileRenderer.ApplyStyle ( ctx , line , attr , subLayerId , zoom, group, style );
          }
       }
       if (limitTime) {

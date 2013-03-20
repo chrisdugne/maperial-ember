@@ -1,11 +1,13 @@
 <?php
 
 //-----------------------------------------------------//
+// cleanup + launch
 
 $cmd = "rm ../min/maperialjs.min.js;";
 $cmd .= "java -jar ../compiler.jar ";
 
 //-----------------------------------------------------//
+// tools
 
 $cmd .= " --js " . "../../public/javascripts/libs/jquery.mousewheel.min.js";
 $cmd .= " --js " . "../../public/javascripts/webapp/utils.js";
@@ -32,14 +34,17 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/rende
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/tile-renderer.js";
 
 // modules
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/events.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/source.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/parameters.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/mouse.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/renderer.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/mover.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/events.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/source.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/parameters.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mouse.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/hud.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/renderer.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mover.js";
+
+// managers
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/styles-manager.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/layers-manager.js";
 
 // edition
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/edition/boundingbox-drawer.js";
@@ -50,20 +55,20 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/edition/style-m
 // maperial
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/maperial.js";
 
+//-----------------------------------------------------//
+
 // output
 $cmd .= " --js_output_file " . "../min/maperialjs.min.js ";
 $cmd .= " --language_in ECMASCRIPT5 ";
 //$cmd .= " --compilation_level ADVANCED_OPTIMIZATIONS ";
 
+//-----------------------------------------------------//
 
 // execute the command
 exec($cmd . ' 2>&1', $raw_output);
  
 // add line breaks to show errors in an intelligible manner
 $flattened_output = implode("\n", $raw_output);
-
- // execute the command
-exec($cmd);
 
 //-----------------------------------------------------//
 

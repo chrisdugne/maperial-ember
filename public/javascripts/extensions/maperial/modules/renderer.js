@@ -25,11 +25,14 @@ MapRenderer.prototype.reset = function () {
    // unload every tile
    for (var key in this.tileCache) {
       this.tileCache[key].Release();
+      this.tileCache[key].Reset();
       delete this.tileCache[key];
    }
    
    this.tileCache = {};
    this.dataCache = {};
+   
+   this.DrawScene(true, true);
 }
    
 //----------------------------------------------------------------------//
