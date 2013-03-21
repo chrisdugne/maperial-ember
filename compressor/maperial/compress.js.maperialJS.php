@@ -43,8 +43,8 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/rendere
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mover.js";
 
 // managers
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/styles-manager.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/layers-manager.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/managers/styles-manager.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/managers/layers-manager.js";
 
 // edition
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/edition/boundingbox-drawer.js";
