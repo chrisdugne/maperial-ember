@@ -42,9 +42,15 @@ Maperial.prototype.reset = function(){
    
    try{
       this.mapRenderer.reset();
+   }catch(e){}
+   
+   try{
       this.mapMover.removeListeners();
       this.mapMouse.removeListeners();
       this.hud.removeListeners();
+   }catch(e){}
+
+   try{
       this.styleMenu.removeListeners();
    }catch(e){}
 

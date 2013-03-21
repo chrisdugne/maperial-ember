@@ -74,6 +74,7 @@ HUD.prototype.initListeners = function () {
 //----------------------------------------------------------------------//
 
 HUD.prototype.removeListeners = function () {
+
    this.context.mapCanvas.off(MaperialEvents.UPDATE_LATLON);
    $(window).off(MaperialEvents.MAP_MOVING);
    $(window).off(MaperialEvents.ZOOM_CHANGED);
@@ -84,6 +85,11 @@ HUD.prototype.removeListeners = function () {
    $(".trigger").unbind("dragstop");
    $(".panel").unbind("dragstart");
    $(".panel").unbind("dragstop");
+
+   $( "#control-up" ).unbind("click");
+   $( "#control-down" ).unbind("click");
+   $( "#control-left" ).unbind("click");
+   $( "#control-right" ).unbind("click");
 }
 
 //----------------------------------------------------------------------//
@@ -180,23 +186,14 @@ HUD.prototype.buildControls = function(){
          $(window).trigger(MaperialEvents.ZOOM_CHANGED);
       }
     });
-
-   $( "#control-up" ).click(function(){
-      $(window).trigger(MaperialEvents.CONTROL_UP);
-   });
    
-   $( "#control-down" ).click(function(){
-      $(window).trigger(MaperialEvents.CONTROL_DOWN);
-   });
-   
-   $( "#control-left" ).click(function(){
-      $(window).trigger(MaperialEvents.CONTROL_LEFT);
-   });
-   
-   $( "#control-right" ).click(function(){
-      $(window).trigger(MaperialEvents.CONTROL_RIGHT);
-   });
+   $( "#control-up" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_UP); } );
+   $( "#control-down" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_DOWN); } );
+   $( "#control-left" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_LEFT); } );
+   $( "#control-right" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_RIGHT); } );
 }
+
+//--------------------------------------------------------//
 
 HUD.prototype.buildTriggers = function(){
 
@@ -208,8 +205,8 @@ HUD.prototype.buildTriggers = function(){
    // Init Triggers
 
    $(".panel").click(function(){
-      var name = $(this).context.id.replace("panel","");
-      hud.putOnTop(name);
+      var element = $(this).context.id.replace("panel","");
+      hud.putOnTop(element);
    });
 
    $(".trigger").click(function(){
@@ -220,15 +217,27 @@ HUD.prototype.buildTriggers = function(){
    //--------------------------------------------------------//
    // Dragging
 
-   //---------------
+   //-----------------
    // snapping
 
    $( ".panel" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
    $( ".trigger" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
    
-   // all but settings
-   $( "#panel"+HUD.SETTINGS ).draggable( 'disable' );
-   $( "#trigger"+HUD.SETTINGS ).draggable( 'disable' );
+   //------------------
+   // disable dragging
+
+   for (element in this.config.hud.elements) {
+
+      if(this.config.hud.elements[element] == HUD.DISABLED){ 
+         continue;
+      }  
+
+      if(this.config.hud.elements[element].disableDrag){ 
+         $( "#panel"+element ).draggable( 'disable' );
+         $( "#trigger"+element ).draggable( 'disable' );
+      }
+   }
+      
    
    //---------------
    // panels
@@ -236,12 +245,12 @@ HUD.prototype.buildTriggers = function(){
    $( ".panel" ).bind('dragstart',function( event ){
 
       var id = $(this).context.id;
-      var name = id.replace("panel","");
+      var element = id.replace("panel","");
 
-      hud.putOnTop(name);
+      hud.putOnTop(element);
 
       // hide the close button
-      $("#trigger"+name).css({
+      $("#trigger"+element).css({
          opacity : 0
       });
    });
@@ -263,11 +272,11 @@ HUD.prototype.buildTriggers = function(){
 
    $( ".panel" ).bind('dragstop',function( event ){
       var id = $(this).context.id;
-      var name = id.replace("panel","");
+      var element = id.replace("panel","");
       var newTop = $("#"+id).css("top");
       var newLeft = $("#"+id).css("left");
 
-      $("#trigger"+name).css({
+      $("#trigger"+element).css({
          top: newTop,
          left: newLeft,
          opacity : 1
@@ -283,17 +292,17 @@ HUD.prototype.buildTriggers = function(){
       $(this).css('right', 'auto');
       $(this).css('bottom', 'auto');
 
-      var name = $(this).context.id.replace("trigger","");
-      hud.putOnTop(name);
+      var element = $(this).context.id.replace("trigger","");
+      hud.putOnTop(element);
    });
 
    $( ".trigger" ).bind('dragstop',function( event ){
       var id = $(this).context.id;
-      var name = id.replace("trigger","");
+      var element = id.replace("trigger","");
 
       var newTop = $("#"+id).css("top");
       var newLeft = $("#"+id).css("left");
-      $("#panel"+name).css({
+      $("#panel"+element).css({
          top: newTop,
          left: newLeft
       });
@@ -304,39 +313,39 @@ HUD.prototype.buildTriggers = function(){
 
 //------------------------------------------------//
 
-HUD.prototype.showTrigger = function(name){
-   $("#icon"+name).show("fast");
-   $("#trigger"+name).removeClass("active");
+HUD.prototype.showTrigger = function(element){
+   $("#icon"+element).show("fast");
+   $("#trigger"+element).removeClass("active");
 }
 
 //------------------------------------------------//
 
-HUD.prototype.hideTrigger = function(name){
-   $("#icon"+name).hide("fast");
-   $("#panel"+name).hide("fast");
-   $("#trigger"+name).addClass("active");
+HUD.prototype.hideTrigger = function(element){
+   $("#icon"+element).hide("fast");
+   $("#panel"+element).hide("fast");
+   $("#trigger"+element).addClass("active");
 }
 
 //------------------------------------------------//
 
 HUD.prototype.clickOnTrigger = function(trigger){
-   var name = trigger[0].id.replace("trigger","");
-   this.putOnTop(name);
+   var element = trigger[0].id.replace("trigger","");
+   this.putOnTop(element);
 
    if (trigger.hasClass('beingdrag')) {
       trigger.removeClass('beingdrag');
    }
    else {
 
-      if (trigger.hasClass('active') && name != HUD.SETTINGS) {
+      if (trigger.hasClass('active') && !this.config.hud.elements[element].disableDrag) {
          trigger.draggable("enable");
       }
       else{
          trigger.draggable("disable");
       }
 
-      $("#icon"+name).toggle("fast");
-      $("#panel"+name).toggle("fast");
+      $("#icon"+element).toggle("fast");
+      $("#panel"+element).toggle("fast");
       trigger.toggleClass("active");
    }
 }
@@ -355,12 +364,12 @@ HUD.prototype.refreshSettingsPanel = function() {
 
    for (element in configHUD.elements) {
 
-      // ----- testing option in config
+      // ----- checking config options
       if(configHUD.elements[element] == HUD.DISABLED){ 
          continue;
       }  
 
-      if(!configHUD.elements[element].isOption){ 
+      if(configHUD.elements[element].disableHide){ 
          continue;
       }  
 
@@ -427,11 +436,11 @@ HUD.prototype.showAllHUD = function(){
 
 //------------------------------------------------//
 
-HUD.prototype.putOnTop = function(name){
+HUD.prototype.putOnTop = function(element){
    $(".trigger").css({ zIndex : 101 });
    $(".panel").css({ zIndex : 100 });
-   $("#trigger"+name).css({ zIndex : 201 });
-   $("#panel"+name).css({ zIndex : 200 });  
+   $("#trigger"+element).css({ zIndex : 201 });
+   $("#panel"+element).css({ zIndex : 200 });  
 }
 
 //==================================================================//

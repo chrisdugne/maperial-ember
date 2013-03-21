@@ -136,7 +136,6 @@ LayersManager.prototype.updateGroups = function(groupRemovedId) {
          this.maperial.config.layers[i].params.group--;
    }
    
-   console.log(this.maperial.config.layers);
 }
 
 //------------------------------------------------------------------//
