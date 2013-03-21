@@ -97,7 +97,7 @@
    }  
 
    //=============================================================================//
-   // --- layers
+   // --- layer view
 
    MapCreationController.openLayers = function()
    {
@@ -111,9 +111,10 @@
    }
 
    //=============================================================================//
+   // Layers Panel Drawing
    
    /**
-    * Draw the HUD settings panel
+    * Draw the Layers panel
     */
    MapCreationController.refreshLayersPanel = function() {
 
@@ -161,6 +162,7 @@
    }
 
    //=============================================================================//
+   // Layers
    
    MapCreationController.openSourceSelection = function(){
       $("#sourceSelectionWindow").modal();
@@ -168,20 +170,35 @@
    
    //--------------------------------------//
 
-   MapCreationController.addLayer = function(source){
+   MapCreationController.addLayer = function(sourceType){
       $("#sourceSelectionWindow").modal("hide");
       
+      switch(sourceType){
+         
+         case Source.MaperialOSM:
+            MapCreationController.addOSMLayer();
+            break;
+
+         case Source.Raster:
+            MapCreationController.openSelectRasterWindow();
+            break;
+            
+      }
+   }
+
+   //--------------------------------------//
+
+   MapCreationController.addOSMLayer = function(){
       if(App.maperial.config.layers.length > 0 
-      && source == Source.MaperialOSM 
       && App.maperial.config.layers[App.maperial.config.layers.length-1].source.type == Source.MaperialOSM){
          // TODO :  ameliorer le UI avec bootstrap.alert
          alert("Le layer du dessus est deja OSM");
       }
       else{
-         App.maperial.layersManager.addLayer(source);
-      }    
+         App.maperial.layersManager.addLayer(Source.MaperialOSM);
+      }
    }
-
+   
    //--------------------------------------//
 
    MapCreationController.editLayer = function(layerIndex){
@@ -190,6 +207,10 @@
       switch(layer.source.type){
          case Source.MaperialOSM :
             MapCreationController.openSelectStyleWindow();
+            break;
+
+         case Source.Raster :
+            MapCreationController.openSelectRasterWindow();
             break;
       }
    }
@@ -201,6 +222,7 @@
    }
    
    //=============================================================================//
+   // OSM Styles
    
    MapCreationController.openSelectStyleWindow = function(){
       App.get('router').transitionTo('mapCreation.publicStyles');
@@ -220,26 +242,29 @@
    }
    
    //=============================================================================//
-   // --- settings
+   // Rasters
+   
+   MapCreationController.openSelectRasterWindow = function(){
+      $("#selectRasterWindow").modal();
+   }
+   
+   MapCreationController.selectRaster = function(raster){
+      //App.stylesData.set("selectedStyle", style);
+   }
+   
+   //=============================================================================//
+   // --- settings view
 
    MapCreationController.openSettings = function(){
-      
       MapCreationController.wizardSetView(MapCreationController.SETTINGS);
-
       App.maperial.apply(this.getSettingsConfig());
    }
    
    MapCreationController.closeSettings = function(){
 
    }
-   
-   //--------------------------------------//
 
-   MapCreationController.finish = function(){
-      
-   }
-   
-   //--------------------------------------//
+   //=============================================================================//
 
    App.MapCreationController = MapCreationController;
 
@@ -250,7 +275,9 @@
       route: '/mapCreation',
 
       connectOutlets: function(router){
-         App.Router.openPage(router, "mapCreation");
+         var customContext = new Object();
+         customContext["datasetsData"] = App.datasetsData; // datasetsData required in rasterList
+         App.Router.openPage(router, "mapCreation", customContext);
       },
    
       //--------------------------------------//

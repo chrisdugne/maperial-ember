@@ -1,0 +1,20 @@
+@import views.html.templates.components.rasterList; 
+
+<div id="selectRasterWindow"
+	class="modal hide fade" role="dialog">
+
+	<br />
+	<div class="row">
+		<div class="span5 offset1">
+			<p class="popuptitle">Select a raster</p>
+		</div>
+	</div>
+	
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer" data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i></a>
+		
+	@rasterList()
+		    
+	<br />
+	<br />
+    
+</div>
