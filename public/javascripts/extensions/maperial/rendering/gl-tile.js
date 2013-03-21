@@ -245,7 +245,7 @@ Tile.prototype.RenderVectorialLayers = function ( context, wx, wy ) {
 /*
  *  render the tile inside an invisibleCanvas with the layerId colors
  */
-Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, style ) {
+Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) {
 
    // create an invisibleCanvas to render the pixel for every layers
    var canvas = document.getElementById("dummyTilesCanvas");
@@ -262,7 +262,7 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, style ) {
       if(this.layersConfig[i].source.type != Source.MaperialOSM)
          continue;
 
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.layersConfig[i].params.group, this.groups );
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, this.layersConfig[i].params.group, this.groups );
 
       if(subLayerId)
          return subLayerId;

@@ -34,10 +34,6 @@ StylesManager.prototype.getStyle = function(uid){
    return this.styles[uid];
 }
 
-StylesManager.prototype.getEditedStyle = function(){
-   return this.styles[this.maperial.styleMenu.styleUID];
-}
-
 //-------------------------------------------//
 
 StylesManager.prototype.fetchStyles = function(styleUIDs, next) {
@@ -84,13 +80,6 @@ StylesManager.prototype.loadStyle = function(styleUID) {
 
 StylesManager.prototype.loadNextStyle = function() {
    this.fetchStyles(this.stylesToLoad, this.nextFunction);
-}
-
-//----------------------------//
-
-StylesManager.prototype.refreshStyle = function(style){
-   this.styles[style.uid].content = style.content;
-   $(window).trigger(MaperialEvents.STYLE_CHANGED);
 }
 
 //----------------------------//

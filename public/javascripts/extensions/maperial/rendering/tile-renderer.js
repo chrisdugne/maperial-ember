@@ -116,7 +116,7 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group, groups ) {
+TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent, group, groups ) {
 
    ctx.scale(1,1);
    var i;
@@ -129,8 +129,11 @@ TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group,
       if(groups[subLayerId] != group)
          continue;
 
-      var subLayer = style [ subLayerId ];
-
+      var subLayer = styleContent [ subLayerId ];
+      
+      if ( !subLayer.visible ) 
+         continue;
+      
       // clear
       ctx.fillStyle = "#fff";
       ctx.fillRect(point.x, point.y, 1, 1);
@@ -147,7 +150,7 @@ TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group,
          if (al) attr = al[l] // attributlist
          for ( var li = 0 ; li < lines.length ; ++li ) 
          {
-            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , subLayerId , zoom, style);
+            TileRenderer.ApplyLookupStyle ( ctx , lines[li] , attr , subLayer , zoom);
          }
       }
 
@@ -165,12 +168,8 @@ TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group,
    return false;
 }
 
-TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, subLayerId , zoom, style  ) {
+TileRenderer.ApplyLookupStyle = function ( ctx , line , attr, subLayer , zoom  ) {
    try {
-      var subLayer = style [ subLayerId ] 
-
-      if ( !subLayer.visible ) return;
-
       for (var _s = 0 ; _s < subLayer.s.length ; _s++ ) {
          var curStyle = subLayer.s[_s];
 

@@ -340,8 +340,9 @@ MapRenderer.prototype.FindLayerId = function () {
    // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
    var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
    var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
-
-   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, this.maperial.GetEditedStyle() ) ;
+   
+   var style = this.maperial.stylesManager.getSelectedStyle();
+   var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, style.content ) ;
 
    $(window).trigger(MaperialEvents.OPEN_STYLE, [subLayerId]);
 }

@@ -109,7 +109,7 @@ StyleMenu.prototype.removeListeners = function (event) {
 //==================================================================//
 
 StyleMenu.prototype.Refresh = function(){
-   //this.maperial.stylesManager.refreshStyle(this.styleUID, this.style);
+   $(window).trigger(MaperialEvents.STYLE_CHANGED);
 }
 
 StyleMenu.prototype.DefFromRule = function(luid,rule){
