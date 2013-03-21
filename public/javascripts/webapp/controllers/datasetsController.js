@@ -68,7 +68,7 @@
       var dataset = {
             name : data.result.files[0].name,
             size : data.result.files[0].size,
-            uid  : data.result.files[0].datasetUID,
+            uid  : data.result.files[0].uid,
             separator : ",",
             rasters : []
       };

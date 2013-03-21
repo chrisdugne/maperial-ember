@@ -40,15 +40,18 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , grou
  *  <layer> contient une liste de <rule> 
  *  <rule> contient une liste de <style> 
  *  
- * Un layer est
- * une liste de 
- *  g group
+ * Un layer est une liste de g group
  */
 TileRenderer.maxRenderTime = 0
 TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style , cursor  ) {
-   if(!data)
-      return;
+
+   //-------------------------------------------------//
    
+   if(!data)
+      return cursor;
+   
+   //-------------------------------------------------//
+
    var beginAt;
    var limitTime = false;
 
@@ -60,13 +63,17 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
       limitTime = true;
    }
 
+   //-------------------------------------------------//
+
    var date    = new Date();
    var startT  = date.getTime();
 
    ctx.scale(1,1);
-   var i;
 
-   for (i = beginAt ; i < data["l"].length ; ++i ) {
+   //-------------------------------------------------//
+   
+   for (var i = beginAt ; i < data["l"].length ; ++i ) {
+      
       var layer = data["l"][i]; // layerGroup
       var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
@@ -91,12 +98,15 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
       }
       if (limitTime) {
          var diffT   = (new Date).getTime() - startT;
-         TileRenderer.maxRenderTime = Math.max(TileRenderer.maxRenderTime,diffT);
+         TileRenderer.maxRenderTime = Math.max(TileRenderer.maxRenderTime, diffT);
          if ( diffT > 10 )
             break;
 
       }
    }
+   
+   //-------------------------------------------------//
+   
    var diffT   = (new Date).getTime() - startT;
    if ( i < data["l"].length )
       return [ i+1 , diffT ];

@@ -7,11 +7,12 @@ Source.Images          = "images";
 
 //-----------------------------------------------------------------------------------//
 
-function Source (type) {
+function Source (type, params) {
    this.type = type;
+   this.params = params;
    
-   if(type == Source.Raster)
-      this.params = {rasterUID : "demorasteruid"};
+   console.log("new source");
+   console.log(this);
 }
 
 //-----------------------------------------------------------------------------------//
@@ -21,7 +22,7 @@ Source.prototype.getURL = function (tx, ty, z) {
       case Source.MaperialOSM:
          return "http://www.maperial.com/api/tile?x="+tx+"&y="+ty+"&z="+z;
       case Source.Raster:
-         return "http://map.x-ray.fr:8081/api/tile/"+this.params.rasterUID+"?x="+tx+"&y="+ty+"&z="+z;
+         return "http://map.x-ray.fr/api/tile/"+this.params.rasterUID+"?x="+tx+"&y="+ty+"&z="+z;
    }
 }
 

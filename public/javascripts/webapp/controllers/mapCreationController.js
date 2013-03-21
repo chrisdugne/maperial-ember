@@ -249,7 +249,9 @@
    }
    
    MapCreationController.selectRaster = function(raster){
-      //App.stylesData.set("selectedStyle", style);
+      console.log(raster);
+      $("#selectRasterWindow").modal("hide");
+      App.maperial.layersManager.addLayer(Source.Raster, [raster.uid]);
    }
    
    //=============================================================================//
@@ -304,7 +306,7 @@
       }),
 
       //---------------------//
-      // ---- select style actions
+      // style actions
 
       showPublicStyles: Ember.Route.transitionTo('mapCreation.publicStyles'),
       showMyStyles: Ember.Route.transitionTo('mapCreation.myStyles'),
@@ -318,7 +320,7 @@
       },
       
       //--------------------------------------//
-      // actions
+      // layer actions
       
       openSourceSelection: function(router, event){
          MapCreationController.openSourceSelection();
@@ -327,6 +329,14 @@
       addLayer: function(router, event){
          var source = event.context;
          MapCreationController.addLayer(source);
+      },
+      
+      //--------------------------------------//
+      // raster actions
+      
+      selectRaster: function(router, event){
+         var raster = event.context;
+         MapCreationController.selectRaster(raster);
       },
    });
 

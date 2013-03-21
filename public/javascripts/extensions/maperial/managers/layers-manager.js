@@ -14,27 +14,30 @@ LayersManager.Images = "images";
 
 //-------------------------------------------//
 
-LayersManager.prototype.addLayer = function(sourceType) {
+LayersManager.prototype.addLayer = function(sourceType, params) {
 
    var layerConfig;
    switch(sourceType){
-   case Source.MaperialOSM :
-      layerConfig = this.getOSMLayerConfig(this.maperial.config.layers.length);
-      break;
-
-   case Source.Raster :
-      layerConfig = this.getRasterLayerConfig();
-      break;
-
-   case Source.Vector :
-      layerConfig = this.getVectorLayerConfig();
-      break;
-
-   case Source.Images :
-      layerConfig = this.getImagesLayerConfig();
-      break;
+      case Source.MaperialOSM :
+         layerConfig = this.getOSMLayerConfig(this.maperial.config.layers.length);
+         break;
+   
+      case Source.Raster :
+         var rasterUID = params[0];
+         console.log(rasterUID);
+         layerConfig = this.getRasterLayerConfig(rasterUID);
+         break;
+   
+      case Source.Vector :
+         layerConfig = this.getVectorLayerConfig();
+         break;
+   
+      case Source.Images :
+         layerConfig = this.getImagesLayerConfig();
+         break;
    }
 
+   console.log("layerConfig");
    console.log(layerConfig);
    this.maperial.config.layers.push(layerConfig);
    this.maperial.apply(this.maperial.config);
@@ -57,14 +60,15 @@ LayersManager.prototype.getOSMLayerConfig = function(groupId) {
 
 //-------------------------------------------//
 
-LayersManager.prototype.getRasterLayerConfig = function() {
+LayersManager.prototype.getRasterLayerConfig = function(rasterUID) {
    return { 
       type: LayersManager.Raster, 
       source: {
-         type: Source.Raster
+         type: Source.Raster,
+         params: { uid : rasterUID }
       },
       params: {
-
+         colorbar: MapParameters.DEFAULT 
       }
    }
 }

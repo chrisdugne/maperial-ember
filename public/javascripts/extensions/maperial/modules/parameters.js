@@ -47,22 +47,29 @@ function MapParameters (maperial) {
  * if many layers require the same source, this source is put once in this.sources.
  * This way, only one source is loaded, and the data is copied in each layer.
  */
+// TODO : tout pourri ! on doit pouvoir avoir plusieurs rasters
 MapParameters.prototype.buildSources = function(layers){
    
    console.log("fetching sources...");
-   var registeredSourceTypes = [];
+   var isRegisterdOSM;
    this.sources = [];
    
    for(var i = 0; i < layers.length; i++){
       var type = layers[i].source.type;
+      var params;
+
+      switch(type){
+         case Source.MaperialOSM:
+            if(isRegisterdOSM) continue;
+            isRegisterdOSM = true;
+            break;
+   
+         case Source.Raster:
+            params = {rasterUID : layers[i].source.params.uid };
+            break;
+      }
       
-      var index = $.inArray(type, registeredSourceTypes);
-      if(index >= 0)
-         continue;
-      
-      registeredSourceTypes.push(type);
-      var source = new Source(type);
-      this.sources.push(source);
+      this.sources.push(new Source(type, params));
    }
    
 }

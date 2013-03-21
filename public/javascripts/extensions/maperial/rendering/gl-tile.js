@@ -38,22 +38,22 @@ Tile.prototype.Init = function () {
    this.loadSources();
    this.prepareBuffering();
 }
-   
+
 //----------------------------------------------------------------------------------------------------------------------//
-   
+
 Tile.prototype.initLayers = function () {
 
    for(var i = 0; i< this.layersConfig.length; i++){
 
       switch(this.layersConfig[i].type){
 
-         case LayersManager.Vector:
-            this.layers[i] = new VectorialLayer( this.parameters , this.z);
-            break;
-   
-         case LayersManager.Raster:
-            this.layers[i] = new RasterLayer( this.parameters , this.z);
-            break;
+      case LayersManager.Vector:
+         this.layers[i] = new VectorialLayer( this.parameters , this.z);
+         break;
+
+      case LayersManager.Raster:
+         this.layers[i] = new RasterLayer( this.parameters , this.z);
+         break;
       }
 
    }
@@ -63,26 +63,26 @@ Tile.prototype.initLayers = function () {
 
 Tile.prototype.loadSources = function () {
 
- for(var i = 0; i< this.parameters.sources.length; i++){
+   for(var i = 0; i< this.parameters.sources.length; i++){
 
-    var source = this.parameters.sources[i];
+      var source = this.parameters.sources[i];
 
-    if (this.requests[source.type])
-       return false;
+      if (this.requests[source.type])
+         return false;
 
-    switch(source.type){
+      switch(source.type){
 
-       case Source.MaperialOSM:
-          this.LoadVectorial ( source );
-          break;
-   
-       case Source.Raster:
-          this.LoadRaster ( source );
-          break;
+      case Source.MaperialOSM:
+         this.LoadVectorial ( source );
+         break;
 
-    }
- }
- 
+      case Source.Raster:
+         this.LoadRaster ( source );
+         break;
+
+      }
+   }
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
@@ -139,14 +139,14 @@ Tile.prototype.Reset = function ( ) {
 
 Tile.prototype.IsLoaded = function ( ) {
 
-   
+
    for(var i = 0; i< this.parameters.sources.length; i++){
       var source = this.parameters.sources[i];
 
       if (!this.load[source.type])
          return false;
    }
-   
+
    return true;
 }
 
@@ -170,7 +170,7 @@ Tile.prototype.LoadVectorial = function ( source ) {
          else {
             me.data[source.type] = data;
          }
-         
+
          me.appendDataToLayers(source.type, data);
          me.load[source.type] = true;
       },
@@ -214,10 +214,10 @@ Tile.prototype.LoadRaster = function ( source ) {
       me.load[source.type]  = true;
       me.appendDataToLayers(source.type, null);
    }
-   
+
    function ajaxTimeout() { me.requests[source.type].abort(); }
    var tm = setTimeout(ajaxTimeout,MapParameters.tileDLTimeOut);
-   
+
    this.requests[source.type].send(null);
 }
 

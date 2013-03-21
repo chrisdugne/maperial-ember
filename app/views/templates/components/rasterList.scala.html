@@ -6,7 +6,7 @@
 			{{#if hasNoRaster}}
 			{{else}}
 				<div class="row-fluid datasetTitle">
-					<div class="span3 name">
+					<div class="span7 offset1 name">
 						<p class="datasetFileName">{{name}}</p>
 					</div>
 				</div>
@@ -15,14 +15,14 @@
 					{{#with raster}}
 						<div class="row-fluid">
 						{{#if onError}}
-							<div class="span2 offset2">
+							<div class="span3 offset1">
 								<span class="label label-important">Raster Error</span>
 							</div>
 							<div class="span4">
 								<span>{{error}}</span>
 							</div>
 						{{else}}
-							<div class="span3 offset2 name">
+							<div class="span3 offset1 name">
 								<p class="filename">{{name}}</p>
 							</div>
 							{{#if interpolating}}
@@ -34,10 +34,10 @@
 								<div class="span2">
 									<span>{{raster.nbPoints}} pts</span>
 								</div>
-								<div class="span1">
+								<div class="span3">
 									<span>{{formatDate creationTime}}</span>
 								</div>
-								<button {{action selectRaster raster}}  class="btn-small btn-success">
+								<button {{action selectRaster raster}}  class="span1 offset1 btn-small btn-success">
 									<i class="icon-arrow-right icon-white"></i>
 								</button>
 							{{/if}}
