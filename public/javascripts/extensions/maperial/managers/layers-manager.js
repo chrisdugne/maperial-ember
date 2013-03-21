@@ -110,23 +110,12 @@ LayersManager.prototype.deleteLayer = function(layerIndex) {
 
 //------------------------------------------------------------------//
 
-LayersManager.prototype.buildGroups = function(style) {
-
-   console.log("building groups...");
-
-   this.maperial.config.groups = {};
-
-   for(layerId in style){
-      this.maperial.config.groups[layerId] = 0;
-   }
-}
-
-//------------------------------------------------------------------//
-
 LayersManager.prototype.updateGroups = function(groupRemovedId) {
 
    console.log("updating groups...");
+   console.log(this.maperial.config.groups);
 
+   // decremente le groupe dans la config des layers OSM, pour les layers au dessus du layer removed
    for(var i = 0; i < this.maperial.config.layers.length; i++){
 
       if(this.maperial.config.layers[i].source.type != Source.MaperialOSM)
@@ -134,8 +123,30 @@ LayersManager.prototype.updateGroups = function(groupRemovedId) {
 
       if(this.maperial.config.layers[i].params.group > groupRemovedId)
          this.maperial.config.layers[i].params.group--;
+
    }
-   
+
+   // decremente le groupe dans le dico des groups, pour les layers au dessus du layer removed
+   for(layerId in this.maperial.config.groups){
+      if(this.maperial.config.groups[layerId] > groupRemovedId)
+         this.maperial.config.groups[layerId]--;
+   }
+
+   console.log("after : ");
+   console.log(this.maperial.config.groups);
+}
+
+//------------------------------------------------------------------//
+
+LayersManager.prototype.buildGroups = function(style) {
+
+   console.log("building groups for style '" + style.name + "'...");
+
+   this.maperial.config.groups = {};
+
+   for(layerId in style.content){
+      this.maperial.config.groups[layerId] = 0;
+   }
 }
 
 //------------------------------------------------------------------//

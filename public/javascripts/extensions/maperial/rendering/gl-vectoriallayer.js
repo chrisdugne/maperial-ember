@@ -94,7 +94,7 @@ VectorialLayer.prototype.Update = function ( params ) {
 
    var group      = params.group;
    var styleUID   = params.styles[params.selectedStyle];
-   var style      = this.mapParameters.maperial.GetStyle(styleUID);
+   var style      = this.mapParameters.maperial.stylesManager.getStyle(styleUID).content;
    var groups     = this.mapParameters.maperial.config.groups;
 
    if ( ! style ) {

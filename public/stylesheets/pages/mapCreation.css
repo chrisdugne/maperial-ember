@@ -29,6 +29,17 @@
 	margin-top: 10px;
 }
 
+/*----------------------------------------------------------*/
+
+.bigbutton {
+	cursor:hand; 
+	cursor:pointer;
+	opacity: 0.8;
+}
+
+.bigbutton:hover {
+	opacity: 1;
+}
 
 /*----------------------------------------------------------
 
@@ -42,10 +53,6 @@ a#triggerSettings {
 	left: 0;
 	top: 67px;
 }
------*/
-
-/*------------------------------------------------------------*/
-/* SETTINGS*/
 
 #buttonReset {
 	right: 100px;
@@ -67,5 +74,6 @@ a#triggerSettings {
 	top: 36px;
 }
 
+-----*/
 
 

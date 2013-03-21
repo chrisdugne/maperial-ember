@@ -1,0 +1,33 @@
+
+<div id="sourceSelectionWindow"
+	class="modal hide fade" role="dialog">
+
+	<br />
+	<div class="row">
+		<div class="span5 offset1">
+			<p class="popuptitle">Select a source</p>
+		</div>
+	</div>
+	
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer" data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i></a>
+
+	<div class="row-fluid">
+		<div {{action addLayer Source.MaperialOSM}} class="span5 offset1" title="OSM">
+			<img src="@routes.Assets.at("images/buttons/sources/button.osm.png")" class="bigbutton"></img>
+		</div>
+		<div {{action addLayer Source.Raster}} class="span5" title="Raster">
+			<img src="@routes.Assets.at("images/buttons/sources/button.raster.png")" class="bigbutton"></img>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div {{action addLayer Source.Images}} class="span5 offset1" title="Images">
+			<img src="@routes.Assets.at("images/buttons/sources/button.images.png")" class="bigbutton"></img>
+		</div>
+		<div {{action addLayer Source.Vector}} class="span5" title="Vector">
+			<img src="@routes.Assets.at("images/buttons/sources/button.vector.png")" class="bigbutton"></img>
+		</div>
+	</div>
+
+	<br />
+</div>
+

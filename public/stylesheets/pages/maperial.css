@@ -137,8 +137,12 @@ div.active.buttonMode {
 
 /*-------------------------*/
 #cancelSelection {
-	margin-top: -152px;
-	margin-left: 126px;
+	margin-top: -189px;
+	margin-left: 164px;
+}
+
+#selectStyleWindow.fade.in {
+	top: 35%;
 }
 
 #selectedStyleArea {

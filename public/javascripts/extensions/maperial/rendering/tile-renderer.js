@@ -106,7 +106,7 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group ) {
+TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group, groups ) {
 
    ctx.scale(1,1);
    var i;
@@ -116,10 +116,10 @@ TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, style, group 
       var layer = data["l"][i]; // layerGroup
       var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
-      var subLayer = style [ subLayerId ];
-      
-      if(subLayer.layer != group)
+      if(groups[subLayerId] != group)
          continue;
+
+      var subLayer = style [ subLayerId ];
 
       // clear
       ctx.fillStyle = "#fff";

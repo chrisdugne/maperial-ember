@@ -5,7 +5,7 @@
    	<!--  -------------       Header      ---------------- -->
     
     <br/>
-    <div class="row">
+    <div class="row-fluid">
     
 	<br/>
         <div class="span3">
@@ -15,7 +15,7 @@
 				<p class="popupTitle">Public styles</p>
 			{{/equals}}
         </div>
-        <div class="span2 offset1">
+        <div class="span3 offset5">
 			{{#equals App.Globals.currentView value='myStyles'}}
 				<div class="btn-small btn-primary" {{action showPublicStyles}}>Show public styles</div>
 			{{else}}			
@@ -29,27 +29,27 @@
  
    	<!--  -------------       Content      ---------------- -->
    	
-   	<div class=styleList>
+   	<div class="row-fluid styleList">
 		{{#each style in styles}}
 			{{#with style}}
-				<div {{action selectStyle this}} class="row">
+				<div {{action selectStyle this}} class="row-fluid">
 				    <div class="span2 name"><p class="filename">{{name}}</p></div>
-				   	<a class="selectable span2 offset2">{{stylethumb uid}}</a>
+				   	<a class="offset3">{{stylethumb uid}}</a>
 				</div>
 			{{/with}}
 		{{/each}}
 	</div>
 	
-    <div id="selectedStyleArea" class="row">
+    <div id="selectedStyleArea" class="row-fluid">
 	    {{isset stylesData.selectedStyle
-	      yes='<div class="span2">
+	      yes='<div class="span6">
 	      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(context.stylesData.selectedStyle.uid)}"></img>
 					<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
 						<i class="icon icon-ex-white-outline"></i>
 					</a>
 	      	   </div>
-	      	   <div id="continueButton" class="span2 offset1 btn-large btn-primary" onclick="App.StylesController.continueStyleCreation()">Continue</div>'
-	      no='<h4 class="offset2">(Select a style)</h4>'}}
+	      	   <div id="continueButton" class="span3 btn-large btn-primary" onclick="App.StylesController.changeStyle()">Continue</div>'
+	      no='<h4 class="offset4">(Select a style)</h4>'}}
 	</div>
 
 	<br/>

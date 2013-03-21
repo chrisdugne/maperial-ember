@@ -167,19 +167,8 @@ Maperial.prototype.checkConfig = function() {
    //--------------------------//
    // checking if Default style must be used
 
-   for(var i = 0; i < this.config.layers.length; i++){
-
-      if(this.config.layers[i].source.type != Source.MaperialOSM)
-         continue;
-
-      var layerParams = this.config.layers[i].params;
-      if(!layerParams.styles){
-         console.log("  using default style...");
-         layerParams.styles = {};
-         layerParams.styles[0] = MapParameters.DEFAULT;
-         layerParams.selectedStyle = 0;
-      }
-   }
+   this.changeStyle(MapParameters.DEFAULT, 0, false);
+   
 }
 
 //==================================================================//
@@ -198,10 +187,37 @@ Maperial.prototype.loadStyles = function(next){
 
    if(styleUIDs.length > 0){
       console.log("loading styles...");
-      this.stylesManager.getStyles(styleUIDs, next);
+      this.stylesManager.fetchStyles(styleUIDs, next);
    }
    else 
       next();
+}
+
+//==================================================================//
+
+Maperial.prototype.changeStyle = function(styleUID, position, overidde){
+
+   for(var i = 0; i < this.config.layers.length; i++){
+
+      if(this.config.layers[i].source.type != Source.MaperialOSM)
+         continue;
+
+      var layerParams = this.config.layers[i].params;
+      if(!layerParams.styles || overidde){
+         
+         if(!overidde)
+            console.log("  using default style...");
+         else
+            console.log("Changing style...");
+         
+         layerParams.styles = {};
+         layerParams.styles[position] = styleUID;
+         layerParams.selectedStyle = position;
+      }
+   }
+   
+   if(overidde)
+      this.apply(this.config);
 }
 
 //==================================================================//
@@ -338,13 +354,5 @@ Maperial.prototype.ZoomOut = function(){
    }
 }
 
-
 //---------------------------------------------------------------------------//
 
-Maperial.prototype.GetStyle = function(uid){
-   return this.stylesManager.styles[uid];
-}
-
-Maperial.prototype.GetEditedStyle = function(){
-   return this.stylesManager.styles[this.styleMenu.styleUID];
-}

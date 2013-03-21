@@ -25,15 +25,10 @@
          App.stylesData.set("selectedStyle", newStyle);
       }
 
-      //-----------------------------
-      // retrieve the content from the tileServer
-      StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
+      var config = StyleEditorController.getMapEditorConfig();
 
-         var config = StyleEditorController.getMapEditorConfig();
-
-         App.user.set("waiting", false);
-         App.maperial.apply(config);
-      });
+      App.user.set("waiting", false);
+      App.maperial.apply(config);
    }
 
    StyleEditorController.cleanUI = function()
@@ -68,8 +63,7 @@
       config.edition = true;
       config.map.resizable = true;
 
-      config.styles = [];
-      config.styles[0] = App.stylesData.selectedStyle.content;
+      //config.layers style :  //App.stylesData.selectedStyle.uid
       
       return config;
    }  

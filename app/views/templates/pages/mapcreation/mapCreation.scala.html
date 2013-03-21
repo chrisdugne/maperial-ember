@@ -1,11 +1,16 @@
 @import views.html.templates.components.maperial; 
+@import views.html.popups.sourceSelectionWindow; 
+@import views.html.popups.selectStyleWindow; 
 
 @maperial()
 
 <!-- Custom for Layers  -->
 <div class="panel snapper hide" id="panelLayers">
 	<div class="row-fluid">
-		<div id="addLayerButton" class="addDataButton pointerCursor" {{action addLayer}}></div>
+		<div id="addLayerButton" class="addDataButton pointerCursor" {{action openSourceSelection}}></div>
 	</div>
 	<div id="layers"></div>
 </div>
+
+@sourceSelectionWindow()
+@selectStyleWindow()

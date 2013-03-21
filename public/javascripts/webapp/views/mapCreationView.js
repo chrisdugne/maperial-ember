@@ -5,7 +5,7 @@
 		templateName: 'mapCreation',
 		didInsertElement: function(){
 			App.MapCreationController.init();
-         App.placeFooter();
+         App.placeFooter(true);
 		},
 		willDestroyElement: function(){
 			App.MapCreationController.terminate();

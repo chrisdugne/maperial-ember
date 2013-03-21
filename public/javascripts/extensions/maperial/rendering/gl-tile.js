@@ -1,9 +1,10 @@
 
-function Tile (layersConfig, parameters , x, y, z) {
+function Tile (parameters , x, y, z) {
 
    //--------------------------------//
 
-   this.layersConfig = layersConfig;
+   this.groups       = parameters.maperial.config.groups;
+   this.layersConfig = parameters.maperial.config.layers;
 
    this.x         = x;
    this.y         = y;
@@ -261,7 +262,7 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, style ) {
       if(this.layersConfig[i].source.type != Source.MaperialOSM)
          continue;
 
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.layersConfig[i].params.group );
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, style, this.layersConfig[i].params.group, this.groups );
 
       if(subLayerId)
          return subLayerId;

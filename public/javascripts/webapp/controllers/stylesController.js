@@ -60,7 +60,7 @@
 	 * Component StyleList : 
 	 *   whether the currentPage is "styles" or "mapCreation", the continue is different
 	 */
-	StylesController.continueStyleCreation = function() 
+	StylesController.changeStyle = function() 
 	{
 	   if(App.Globals.currentPage == "styles")
 	      StylesController.openStyleEditor();

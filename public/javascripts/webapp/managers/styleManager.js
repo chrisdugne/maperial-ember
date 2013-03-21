@@ -93,24 +93,6 @@ StyleManager.editStyleInDB = function(style)
 
 //-------------------------------------------//
 
-StyleManager.getStyle = function(styleUID, next)
-{
-   console.log("getStyle : " + styleUID);
-
-   $.ajax({  
-      type: "GET",  
-      url: App.Globals.mapServer + "/api/style/" + styleUID,
-      dataType: "json",
-      success: function (data, textStatus, jqXHR)
-      {
-         App.stylesData.selectedStyle.content = data;
-         next();
-      }
-   });
-}
-
-//-------------------------------------------//
-
 StyleManager.deleteStyle = function(style)
 {
    $.ajax({  

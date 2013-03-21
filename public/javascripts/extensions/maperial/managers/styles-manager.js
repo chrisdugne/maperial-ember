@@ -30,9 +30,17 @@ StylesManager.prototype.getSelectedStyle = function() {
    return null;
 }
 
+StylesManager.prototype.getStyle = function(uid){
+   return this.styles[uid];
+}
+
+StylesManager.prototype.getEditedStyle = function(){
+   return this.styles[this.maperial.styleMenu.styleUID];
+}
+
 //-------------------------------------------//
 
-StylesManager.prototype.getStyles = function(styleUIDs, next) {
+StylesManager.prototype.fetchStyles = function(styleUIDs, next) {
 
    this.nextFunction = next;
 
@@ -64,8 +72,8 @@ StylesManager.prototype.loadStyle = function(styleUID) {
       type: "GET",  
       url: styleURL,
       dataType: "json",
-      success: function (data) {
-         me.styles[styleUID] = data;
+      success: function (style) {
+         me.styles[styleUID] = {uid : styleUID, name: "name_"+styleUID, content:style};
          me.loadNextStyle();
       }
    });
@@ -75,13 +83,13 @@ StylesManager.prototype.loadStyle = function(styleUID) {
 //----------------------------//
 
 StylesManager.prototype.loadNextStyle = function() {
-   this.getStyles(this.stylesToLoad, this.nextFunction);
+   this.fetchStyles(this.stylesToLoad, this.nextFunction);
 }
 
 //----------------------------//
 
-StylesManager.prototype.refreshStyle = function(uid, json){
-   this.styles[uid] = json;
+StylesManager.prototype.refreshStyle = function(style){
+   this.styles[style.uid].content = style.content;
    $(window).trigger(MaperialEvents.STYLE_CHANGED);
 }
 

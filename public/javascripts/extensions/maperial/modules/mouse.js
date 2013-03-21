@@ -20,10 +20,11 @@ MapMouse.prototype.initListeners = function () {
    var mouse = this;
    
    this.context.mapCanvas
-   .mousedown( Utils.apply ( this , "down" ))
-   .mouseup ( Utils.apply ( this , "up" ))
-   .mousemove ( Utils.apply ( this , "move" ))
-   .mouseleave (Utils.apply ( this , "leave" ))
+   .mousedown  ( Utils.apply ( this , "down" ))
+   .mouseup    ( Utils.apply ( this , "up" ))
+   .mousemove  ( Utils.apply ( this , "move" ))
+   .mouseleave ( Utils.apply ( this , "leave" ))
+   .dblclick   ( Utils.apply ( this , "doubleClick" ))
    .bind('mousewheel', Utils.apply ( this , "wheel"));   
 
 }
@@ -35,6 +36,7 @@ MapMouse.prototype.removeListeners = function () {
    this.context.mapCanvas.off("mouseup");
    this.context.mapCanvas.off("mousemove");
    this.context.mapCanvas.off("mouseleave");
+   this.context.mapCanvas.unbind('dblclick');  
    this.context.mapCanvas.unbind('mousewheel');  
 }
 
@@ -70,6 +72,18 @@ MapMouse.prototype.move = function (event) {
       this.context.mapCanvas.trigger(MaperialEvents.DRAGGING_MAP);
    }
 
+}
+
+MapMouse.prototype.doubleClick = function (event) {
+   
+   this.context.zoom = Math.min(18, this.context.zoom + 1);
+   this.context.centerM = this.convertCanvasPointToMeters(this.context.mouseP);
+   
+   // refresh mouse
+   this.context.mouseP = Utils.getPoint(event);
+   this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
+
+   $(window).trigger(MaperialEvents.ZOOM_CHANGED);
 }
 
 MapMouse.prototype.wheel = function (event, delta) {
