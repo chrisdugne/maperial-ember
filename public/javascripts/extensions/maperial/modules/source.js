@@ -10,9 +10,6 @@ Source.Images          = "images";
 function Source (type, params) {
    this.type = type;
    this.params = params;
-   
-   console.log("new source");
-   console.log(this);
 }
 
 //-----------------------------------------------------------------------------------//

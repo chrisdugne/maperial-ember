@@ -23,20 +23,6 @@
 
 	   var config = {hud:{elements:{}, options:{}}};
 
-      config.layers = [
-          { 
-             type: MapParameters.Vector, 
-             source: {
-                type: Source.MaperialOSM
-             },
-             params: {
-                group : VectorialLayer.BACK, 
-                styles: [App.stylesData.selectedStyle.uid],
-                selectedStyle: 0
-             }
-          }
-      ];
-      
       // mapEditor tools
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
       config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    isOption : true, label : "Controls" };
