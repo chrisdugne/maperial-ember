@@ -129,10 +129,12 @@ div.active.buttonMode {
 /*-------------------------*/
 .selectable {
 	margin-top: 5px;
+	cursor: hand;
+	cursor: pointer;
 }
 
 .selectable:hover {
-	outline: 3px solid
+	outline: 3px solid #27C200;
 }
 
 /*-------------------------*/

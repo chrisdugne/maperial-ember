@@ -3,7 +3,7 @@
 
 function MapRenderer(maperial) {
 
-   console.log("building renderer...");
+   console.log("building map renderer...");
    
    this.drawSceneInterval;
    
@@ -344,6 +344,7 @@ MapRenderer.prototype.FindLayerId = function () {
    var style = this.maperial.stylesManager.getSelectedStyle();
    var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, style.content ) ;
 
+   console.log("subLayerId :  " + subLayerId);
    $(window).trigger(MaperialEvents.OPEN_STYLE, [subLayerId]);
 }
 

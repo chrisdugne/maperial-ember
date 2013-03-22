@@ -41,6 +41,8 @@
    App.maperial = new Maperial();
    App.mapManager = new MapManager();
    App.youtubeManager = new YoutubeManager();
+
+   App.layerSetsHelper = new LayerSetsHelper(App.maperial);
    
    App.initWindowSize(); // we now have HEADER_HEIGHT and FOOTER_HEIGHT : possible to set webappdiv.min-height
 

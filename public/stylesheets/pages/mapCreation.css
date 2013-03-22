@@ -29,6 +29,15 @@
 	margin-top: 10px;
 }
 
+.sourceThumb {
+	width: 45px;
+	margin-top: -9px;
+}
+
+#layerSetsDiv {
+	padding-left: 100px;
+}
+
 /*----------------------------------------------------------*/
 
 .bigbutton {

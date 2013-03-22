@@ -8,7 +8,7 @@
    
    MapCreationController.LAYERS_CREATION = "LAYERS_CREATION";
    MapCreationController.SETTINGS = "SETTINGS";
-   
+
    //==================================================================//
    // Rendering
    
@@ -138,25 +138,25 @@
       
       $("#layers").append(
             "<div class=\"row-fluid\">" +
-      		"   <div class=\"span4 offset1\">"+MapCreationController.getSourceThumb(layer.source.type, 45)+"</div>" +
-      		"   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
+      		"   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+MapCreationController.getSourceThumb(layer.source.type)+"></img></div>" +
+      		"   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
       		"   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
       		"</div>"
       ); 
 
    }
 
-   MapCreationController.getSourceThumb = function(sourceType, size) {
+   MapCreationController.getSourceThumb = function(sourceType) {
     
       switch(sourceType){
       
          case Source.MaperialOSM:
-            return "<img src=\""+Utils.styleThumbURL(App.maperial.stylesManager.getSelectedStyle().uid)+"\" width=\""+size+"\"></img>";
+            return " src=\""+Utils.styleThumbURL(App.maperial.stylesManager.getSelectedStyle().uid)+"\"";
 
          case Source.Raster:
          case Source.Vector:
          case Source.Images:
-            return "<img src=\"assets/images/icons/layer."+sourceType+".png\"></img>";
+            return " src=\"assets/images/icons/layer."+sourceType+".png\"";
       
       }
    }
@@ -214,6 +214,23 @@
             break;
       }
    }
+
+   //--------------------------------------//
+   
+   MapCreationController.customizeLayer = function(layerIndex){
+
+      var layer = App.maperial.config.layers[layerIndex];
+      
+      switch(layer.source.type){
+         case Source.MaperialOSM :
+            MapCreationController.openCustomizeLayerSetsWindow(layerIndex);
+            break;
+            
+         case Source.Raster :
+            MapCreationController.openSelectRasterWindow();
+            break;
+      }
+   }
    
    //--------------------------------------//
    
@@ -240,6 +257,18 @@
       App.maperial.changeStyle(App.stylesData.selectedStyle.uid, 0, true);
       $("#selectStyleWindow").modal("hide");
    }
+
+   //=============================================================================//
+   // OSM Groups
+   
+   MapCreationController.openCustomizeLayerSetsWindow = function(layerIndex){
+
+      $("#customizeLayerSetsWindow").modal();
+      App.layerSetsHelper.buildLayerSets(layerIndex);
+//      $('#selectGroupsWindow').off('hidden');
+//      $('#selectGroupsWindow').on('hidden', MapCreationController.defaultStyleSelection);
+   }
+   
    
    //=============================================================================//
    // Rasters
@@ -283,7 +312,7 @@
       },
    
       //--------------------------------------//
-      // states
+      // styles states
 
       myStyles: Ember.Route.extend({
          route: '/',
@@ -304,9 +333,9 @@
             App.Router.openComponent(router, "mapCreation", customParams);
          }
       }),
-
+      
       //---------------------//
-      // style actions
+      // styles actions
 
       showPublicStyles: Ember.Route.transitionTo('mapCreation.publicStyles'),
       showMyStyles: Ember.Route.transitionTo('mapCreation.myStyles'),
@@ -318,9 +347,9 @@
       changeStyle : function(router, event){
          MapCreationController.changeStyle();
       },
-      
-      //--------------------------------------//
-      // layer actions
+
+      //---------------------//
+      // layers actions
       
       openSourceSelection: function(router, event){
          MapCreationController.openSourceSelection();

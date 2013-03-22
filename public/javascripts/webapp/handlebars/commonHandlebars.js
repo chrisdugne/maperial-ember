@@ -97,7 +97,7 @@ Ember.Handlebars.registerBoundHelper('textInput',
 Ember.Handlebars.registerBoundHelper('stylethumb', 
 	function(styleUID, options) 
 	{
-		return new Handlebars.SafeString("<img src=\""+Utils.styleThumbURL(styleUID)+"\"></img>");
+		return new Handlebars.SafeString("<img class=\"selectable\" src=\""+Utils.styleThumbURL(styleUID)+"\"></img>");
 	}
 );
 
@@ -107,7 +107,7 @@ Ember.Handlebars.registerBoundHelper('stylethumb',
 Ember.Handlebars.registerBoundHelper('ministylethumb', 
 	function(styleUID, options) 
 	{
-		return new Handlebars.SafeString("<img src=\""+Utils.styleThumbURL(styleUID)+"\" width=\"60\"></img>");
+		return new Handlebars.SafeString("<img class=\"selectable\" src=\""+Utils.styleThumbURL(styleUID)+"\" width=\"60\"></img>");
 	}
 );
 

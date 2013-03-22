@@ -4,6 +4,24 @@
 
 function LayersManager(maperial){
    this.maperial = maperial;
+
+   this.layerSets = {
+         "0" : {
+            label: "Roads", 
+            subLayerIds:["02f", "030", "031", "032", "033", "034", "035", "036", "037", "038", "039", "03a", "03b", "03c","03d", "03e"], 
+            group: -1
+         },
+         "1" : {
+            label: "Floors", 
+            subLayerIds:["001", "008", "011"],
+            group: -1
+         },
+         "2" : {
+            label: "Buildings", 
+            subLayerIds:["050"],
+            group: -1
+         }
+   };
 }
 
 //-------------------------------------------//
@@ -18,29 +36,29 @@ LayersManager.prototype.addLayer = function(sourceType, params) {
 
    var layerConfig;
    switch(sourceType){
-      case Source.MaperialOSM :
-         layerConfig = this.getOSMLayerConfig(this.maperial.config.layers.length);
-         break;
-   
-      case Source.Raster :
-         var rasterUID = params[0];
-         console.log(rasterUID);
-         layerConfig = this.getRasterLayerConfig(rasterUID);
-         break;
-   
-      case Source.Vector :
-         layerConfig = this.getVectorLayerConfig();
-         break;
-   
-      case Source.Images :
-         layerConfig = this.getImagesLayerConfig();
-         break;
+   case Source.MaperialOSM :
+      layerConfig = this.getOSMLayerConfig(this.maperial.config.layers.length);
+      break;
+
+   case Source.Raster :
+      var rasterUID = params[0];
+      console.log(rasterUID);
+      layerConfig = this.getRasterLayerConfig(rasterUID);
+      break;
+
+   case Source.Vector :
+      layerConfig = this.getVectorLayerConfig();
+      break;
+
+   case Source.Images :
+      layerConfig = this.getImagesLayerConfig();
+      break;
    }
 
    console.log("layerConfig");
    console.log(layerConfig);
    this.maperial.config.layers.push(layerConfig);
-   this.maperial.apply(this.maperial.config);
+   this.maperial.restart();
 
 }
 
@@ -109,15 +127,14 @@ LayersManager.prototype.deleteLayer = function(layerIndex) {
    if(layerRemoved.source.type == Source.MaperialOSM)
       this.updateGroups(layerRemoved.params.group);
 
-   this.maperial.apply(this.maperial.config);
+   this.maperial.restart();
 }
 
 //------------------------------------------------------------------//
 
 LayersManager.prototype.updateGroups = function(groupRemovedId) {
 
-   console.log("updating groups...");
-   console.log(this.maperial.config.groups);
+   console.log("updating groups with a groupRemovedId...");
 
    // decremente le groupe dans la config des layers OSM, pour les layers au dessus du layer removed
    for(var i = 0; i < this.maperial.config.layers.length; i++){
@@ -136,8 +153,12 @@ LayersManager.prototype.updateGroups = function(groupRemovedId) {
          this.maperial.config.groups[layerId]--;
    }
 
-   console.log("after : ");
-   console.log(this.maperial.config.groups);
+   // decremente le groupe dans les layerSets, pour les layers au dessus du layer removed
+   for(i in this.layerSets){
+      if(this.layerSets[i].group > groupRemovedId)
+         this.layerSets[i].group--;
+   }
+
 }
 
 //------------------------------------------------------------------//
@@ -150,6 +171,10 @@ LayersManager.prototype.buildGroups = function(style) {
 
    for(layerId in style.content){
       this.maperial.config.groups[layerId] = 0;
+   }
+
+   for(i in this.layerSets){
+      this.layerSets[i].group = 0;
    }
 }
 
@@ -208,3 +233,29 @@ LayersManager.prototype.useDefaultLayers = function() {
 //];
 
 //}
+
+//------------------------------------------------------------------//
+
+LayersManager.prototype.detachSet = function(setIndex) {
+   this.layerSets[setIndex].group = -1;
+   
+   for(var i=0;  i < this.layerSets[setIndex].subLayerIds.length; i++){
+      var subLayerId = this.layerSets[setIndex].subLayerIds[i];
+      console.log("detaching " + subLayerId);
+      this.maperial.config.groups[subLayerId] = -1;
+   }
+      
+   this.maperial.restart();
+}
+
+LayersManager.prototype.attachSet = function(setIndex, group) {
+   this.layerSets[setIndex].group = group;
+
+   for(var i=0;  i < this.layerSets[setIndex].subLayerIds.length; i++){
+      var subLayerId = this.layerSets[setIndex].subLayerIds[i];
+      console.log("attaching " + subLayerId);
+      this.maperial.config.groups[subLayerId] = group;
+   }
+   
+   this.maperial.restart();
+}

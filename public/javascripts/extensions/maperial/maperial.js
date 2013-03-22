@@ -28,10 +28,19 @@ function Maperial(){
 
 //==================================================================//
 
-Maperial.prototype.apply = function(config){
-   this.config = config;
+/**
+ * Must be called whenever the config is changed, in order to build Maperial again
+ */
+Maperial.prototype.restart = function(){
    this.reset();
    this.load();
+}
+
+//==================================================================//
+
+Maperial.prototype.apply = function(config){
+   this.config = config;
+   this.restart();
 }
 
 //==================================================================//
@@ -217,7 +226,7 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
    }
    
    if(overidde)
-      this.apply(this.config);
+      this.restart();
 }
 
 //==================================================================//

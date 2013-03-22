@@ -39,7 +39,7 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/source.
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/parameters.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mouse.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/hud.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/renderer.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/map-renderer.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mover.js";
 
 // managers
