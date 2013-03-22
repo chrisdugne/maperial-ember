@@ -9,7 +9,9 @@ this.StyleManager = {};
 StyleManager.uploadNewStyle = function(style)
 {
    App.user.set("waiting", true);
-
+  
+   console.log(style);
+   
    $.ajax({
       type: "POST",
       url: App.Globals.mapServer + "/api/style?_method=DATA",
@@ -18,7 +20,7 @@ StyleManager.uploadNewStyle = function(style)
       success: function (data, textStatus, jqXHR)
       {
          var result = data.files[0];
-         var styleUID = result.styleUID;
+         var styleUID = result.uid;
 
          var newStyle = App.stylesData.selectedStyle;
          newStyle.uid = styleUID;

@@ -69,7 +69,7 @@ StylesManager.prototype.loadStyle = function(styleUID) {
       url: styleURL,
       dataType: "json",
       success: function (style) {
-         me.styles[styleUID] = {uid : styleUID, name: "name_"+styleUID, content:style};
+         me.styles[styleUID] = {uid : styleUID, name: styleUID, content:style};
          me.loadNextStyle();
       }
    });
@@ -85,6 +85,5 @@ StylesManager.prototype.loadNextStyle = function() {
 //----------------------------//
 
 StylesManager.prototype.getURL = function(styleUID) {
-//   return MapParameters.serverURL + "/api/style/" + styleUID;
-   return MapParameters.tmpserverURL + "/api/style/" + styleUID;
+   return MapParameters.serverURL + "/api/style/" + styleUID;
 }

@@ -29,8 +29,8 @@
       config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls" };
       config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    label : "Scale",    position : { right: "10", bottom: "10"} };
       config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    label : "Location" };
-      config.hud.elements[HUD.QUICK_EDIT]    = {show : true,  type : HUD.TRIGGER,  label : "Quick Style Edit" };
-      config.hud.elements[HUD.MAGNIFIER]     = {show : true,  type : HUD.TRIGGER,  label : "Magnifier" };
+      config.hud.elements[HUD.QUICK_EDIT]    = {show : true,  type : HUD.PANEL,    label : "Quick Style Edit" };
+      config.hud.elements[HUD.MAGNIFIER]     = {show : true,  type : HUD.PANEL,    label : "Magnifier" };
       
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;

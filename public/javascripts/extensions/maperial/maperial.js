@@ -176,7 +176,6 @@ Maperial.prototype.checkConfig = function() {
    // checking if Default style must be used
 
    this.changeStyle(MapParameters.DEFAULT_STYLE_UID, 0, false);
-   
 }
 
 //==================================================================//

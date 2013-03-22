@@ -86,7 +86,7 @@ LayersManager.prototype.getRasterLayerConfig = function(rasterUID) {
          params: { uid : rasterUID }
       },
       params: {
-         colorbar: MapParameters.DEFAULT_STYLE_UID 
+         colorbar: MapParameters.DEFAULT_COLORBAR_UID 
       }
    }
 }

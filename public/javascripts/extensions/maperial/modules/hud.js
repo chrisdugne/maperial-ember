@@ -19,8 +19,6 @@ function HUD(maperial){
 
 //----------------------------------------------------------------------//
 
-HUD.DISABLED               = "Maperial.DISABLED";
-
 HUD.TRIGGER                = "trigger";
 HUD.PANEL                  = "panel";
 
@@ -43,14 +41,14 @@ HUD.positions = [];
 HUD.positions[HUD.SETTINGS]      = { left  : "0",    top    : "0"   };
 HUD.positions[HUD.MAGNIFIER]     = { left  : "0",    bottom : "0"   };
 HUD.positions[HUD.COLORBAR]      = { left  : "0",    top    : "180" };
-HUD.positions[HUD.SCALE]         = { left  : "10",   bottom : "10"  };
+HUD.positions[HUD.SCALE]         = { right : "10",   bottom : "10"  };
 HUD.positions[HUD.MAPKEY]        = { right : "0",    bottom : "0"   };
 HUD.positions[HUD.CONTROLS]      = { left  : "15",   top    : "40"  };
 HUD.positions[HUD.LATLON]        = { left  : "50%",  bottom : "0"   };
 HUD.positions[HUD.GEOLOC]        = { left  : "50%",  top    : "0"   };
-HUD.positions[HUD.DETAILS_MENU]  = { left  : "0",    top    : "360" };
-HUD.positions[HUD.QUICK_EDIT]    = { left  : "0",    top    : "280" };
-HUD.positions[HUD.ZOOMS]         = { right : "25%",  top    : "0"   };
+HUD.positions[HUD.DETAILS_MENU]  = { left  : "50%",  top    : "30%" };
+HUD.positions[HUD.QUICK_EDIT]    = { right : "0",    top    : "38", };
+HUD.positions[HUD.ZOOMS]         = { left  : "50%",  bottom : "0"   };
 
 //----------------------------------------------------------------------//
 
@@ -228,16 +226,12 @@ HUD.prototype.buildTriggers = function(){
 
    for (element in this.config.hud.elements) {
 
-      if(this.config.hud.elements[element] == HUD.DISABLED){ 
-         continue;
-      }  
-
       if(this.config.hud.elements[element].disableDrag){ 
          $( "#panel"+element ).draggable( 'disable' );
          $( "#trigger"+element ).draggable( 'disable' );
       }
-   }
       
+   }
    
    //---------------
    // panels
@@ -365,10 +359,6 @@ HUD.prototype.refreshSettingsPanel = function() {
    for (element in configHUD.elements) {
 
       // ----- checking config options
-      if(configHUD.elements[element] == HUD.DISABLED){ 
-         continue;
-      }  
-
       if(configHUD.elements[element].disableHide){ 
          continue;
       }  

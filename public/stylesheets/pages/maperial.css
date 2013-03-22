@@ -382,6 +382,7 @@ a#triggerZooms {
 }
 
 .zoom-button {
+	background: #eee url('');
 	font-size: 11px;
 	color: #111;
 }

@@ -1,8 +1,6 @@
 //---------------------------------------------------------------------------//
 
 MapParameters.serverURL   = "//maperial.com";
-MapParameters.tmpserverURL   = "//map.x-ray.fr";
-
 
 MapParameters.shadersPath            = "assets/shaders";
 
