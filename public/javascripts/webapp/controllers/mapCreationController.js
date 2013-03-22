@@ -254,7 +254,7 @@
 
    //** called from StylesController.changeStyle()... 
    MapCreationController.changeStyle = function(){
-      App.maperial.changeStyle(App.stylesData.selectedStyle.uid, 0, true);
+      App.maperial.changeStyle(App.stylesData.selectedStyle.uid);
       $("#selectStyleWindow").modal("hide");
    }
 

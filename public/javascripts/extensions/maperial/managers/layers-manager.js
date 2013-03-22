@@ -86,7 +86,7 @@ LayersManager.prototype.getRasterLayerConfig = function(rasterUID) {
          params: { uid : rasterUID }
       },
       params: {
-         colorbar: MapParameters.DEFAULT 
+         colorbar: MapParameters.DEFAULT_STYLE_UID 
       }
    }
 }
@@ -198,7 +198,7 @@ LayersManager.prototype.useDefaultLayers = function() {
 //},
 //params: {
 //group : VectorialLayer.BACK, 
-//styles: [MapParameters.DEFAULT],
+//styles: [MapParameters.DEFAULT_STYLE_UID],
 //selectedStyle: 0
 //}
 //},
@@ -209,7 +209,7 @@ LayersManager.prototype.useDefaultLayers = function() {
 //params: { uid : "rasterUID" }
 //},
 //params: {
-//colorbar: MapParameters.DEFAULT, 
+//colorbar: MapParameters.DEFAULT_COLORBAR_UID, 
 //},
 //composition: {
 //shader : MapParameters.MulBlend,
@@ -223,7 +223,7 @@ LayersManager.prototype.useDefaultLayers = function() {
 //},
 //params: {
 //group : VectorialLayer.FRONT, 
-//styles: [MapParameters.DEFAULT],
+//styles: [MapParameters.DEFAULT_STYLE_UID],
 //selectedStyle: 0
 //},
 //composition: {

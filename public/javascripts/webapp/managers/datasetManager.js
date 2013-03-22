@@ -6,6 +6,10 @@ this.DatasetManager = {};
 
 //-------------------------------------------//
 
+DatasetManager.CHECK_RASTER_MILLIS = 5000;
+
+//-------------------------------------------//
+
 DatasetManager.initDatasets = function()
 {
    for(var i=0; i< App.user.datasets.length; i++){
@@ -207,7 +211,7 @@ DatasetManager.checkRaster = function(raster){
       {
          if(data.running != undefined){
             Utils.editObjectInArray(raster, "percentage", data.running);
-            setTimeout(function(){DatasetManager.checkRaster(raster)}, 1000);
+            setTimeout(function(){DatasetManager.checkRaster(raster)}, DatasetManager.CHECK_RASTER_MILLIS);
          }
          else{
             Utils.editObjectInArray(raster, "interpolating", false);

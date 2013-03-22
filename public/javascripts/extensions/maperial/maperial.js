@@ -14,9 +14,6 @@ function Maperial(){
    this.layersManager = new LayersManager(this);
 
    this.styleMenu;
-
-   this.serverURL   = "//map.x-ray.fr";
-   this.scriptsPath = "assets/javascripts/extensions";
 }
 
 //==================================================================//
@@ -39,6 +36,8 @@ Maperial.prototype.restart = function(){
 //==================================================================//
 
 Maperial.prototype.apply = function(config){
+   console.log("maperial.apply");
+   console.log(config);
    this.config = config;
    this.restart();
 }
@@ -159,9 +158,9 @@ Maperial.prototype.checkConfig = function() {
 
    //--------------------------//
    // checking serverURL
-
-   if(!this.config.serverURL)
-      this.config.serverURL = this.serverURL;
+//
+//   if(!this.config.serverURL)
+//      this.config.serverURL = MapParameters.serverURL;
 
    //--------------------------//
    // checking layer config
@@ -176,7 +175,7 @@ Maperial.prototype.checkConfig = function() {
    //--------------------------//
    // checking if Default style must be used
 
-   this.changeStyle(MapParameters.DEFAULT, 0, false);
+   this.changeStyle(MapParameters.DEFAULT_STYLE_UID, 0, false);
    
 }
 
@@ -205,6 +204,9 @@ Maperial.prototype.loadStyles = function(next){
 //==================================================================//
 
 Maperial.prototype.changeStyle = function(styleUID, position, overidde){
+   
+   if(position === undefined) position = 0;
+   if(overidde === undefined) overidde = true;
 
    for(var i = 0; i < this.config.layers.length; i++){
 

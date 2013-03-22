@@ -25,10 +25,8 @@
          App.stylesData.set("selectedStyle", newStyle);
       }
 
-      var config = StyleEditorController.getMapEditorConfig();
-
       App.user.set("waiting", false);
-      App.maperial.apply(config);
+      App.maperial.apply(StyleEditorController.getMapEditorConfig());
    }
 
    StyleEditorController.cleanUI = function()
@@ -39,32 +37,41 @@
    //-----------------------------------------------------------------//
 
    StyleEditorController.getMapEditorConfig = function(){
-   
-      var config = {hud:[], map:{}};
-      
+
+      var config = {hud:{elements:{}, options:{}}};
+      config.edition = true;
+
       // mapCreation.styleAndColorbar
-      config.hud["StyleManager"] = {show : true, type : HUD.PANEL, isOption : false };
+      config.hud.elements["StyleManager"] = {show : true, type : HUD.PANEL, disableHide : true, disableDrag : true };
 
       // mapEditor tools
-      config.hud[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  isOption : false };
-      config.hud[HUD.LATLON]        = {show : false, type : HUD.PANEL,    isOption : true, label : "Lat/Lon" };
-      config.hud[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    isOption : true, label : "Scale" };
-      config.hud[HUD.MAPKEY]        = {show : false, type : HUD.PANEL,    isOption : true, label : "Map Key" };
-      config.hud[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    isOption : true, label : "Location" };
-      config.hud[HUD.DETAILS_MENU]  = {show : false, type : HUD.TRIGGER,  isOption : true, label : "Style Details" };
-      config.hud[HUD.QUICK_EDIT]    = {show : true,  type : HUD.TRIGGER,  isOption : true, label : "Quick Style Edit" };
-      config.hud[HUD.ZOOMS]         = {show : false, type : HUD.TRIGGER,  isOption : true, label : "Zooms" };
-      config.hud[HUD.MAGNIFIER]     = {show : true,  type : HUD.TRIGGER,  isOption : true, label : "Magnifier" };
-      config.hud[HUD.COLOR_BAR]     = {show : false, type : HUD.TRIGGER,  isOption : true, label : "ColorBar" };
+      // maperial hud
+      config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
+      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls" };
+      config.hud.elements[HUD.LATLON]        = {show : true,  type : HUD.PANEL,    label : "Lat/Lon" };
+      config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    label : "Scale",    position : { right: "10", bottom: "10"} };
+      config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    label : "Location" };
+      config.hud.elements[HUD.QUICK_EDIT]    = {show : true,  type : HUD.TRIGGER,  label : "Quick Edition" };
+      config.hud.elements[HUD.DETAILS_MENU]  = {show : false, type : HUD.TRIGGER,  label : "Style Details" };
+      config.hud.elements[HUD.ZOOMS]         = {show : false, type : HUD.TRIGGER,  label : "Zooms" };
+      config.hud.elements[HUD.MAGNIFIER]     = {show : true,  type : HUD.TRIGGER,  label : "Magnifier" };
 
-      config.hud["margin-top"] = App.Globals.HEADER_HEIGHT;
-      config.hud["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
-      
-      config.edition = true;
-      config.map.resizable = true;
+      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
+      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
 
-      //config.layers style :  //App.stylesData.selectedStyle.uid
-      
+      config.layers = 
+         [{ 
+            type: LayersManager.Vector, 
+            source: {
+               type: Source.MaperialOSM
+            },
+            params: {
+               styles: [App.stylesData.selectedStyle.uid],
+               selectedStyle: 0,
+               group : 0 
+            }
+         }];
+
       return config;
    }  
 
