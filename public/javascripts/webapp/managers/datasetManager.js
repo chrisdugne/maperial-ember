@@ -121,7 +121,7 @@ DatasetManager.deleteDataset = function(dataset)
 
 //-------------------------------------------//
 
-DatasetManager.validateRaterConfig = function(raster){
+DatasetManager.validateRasterConfig = function(raster){
 
    var errorTitle = "This raster is not well configured";
    var checkMessage = "Check out this parameter : ";
@@ -166,7 +166,7 @@ DatasetManager.createRaster = function(){
    var dataset = App.datasetsData.selectedDataset;
    var raster = App.datasetsData.rasterBeingConfigured;
 
-   if(!DatasetManager.validateRaterConfig(raster)){
+   if(!DatasetManager.validateRasterConfig(raster)){
       App.datasetsData.set("rasterBeingConfigured.creationAsked", false);
       return;
    }
