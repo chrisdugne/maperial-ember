@@ -63,7 +63,7 @@
       config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,  label : "Controls" };
       config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,  label : "Scale"  };
       config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,  label : "Location" };
-      config.hud.elements[HUD.QUICK_EDIT]    = {show : true,  type : HUD.PANEL,  label : "Quick Edition"};
+      config.hud.elements[HUD.QUICK_EDIT]    = {show : true,  type : HUD.PANEL,  label : "Quick Edition", disableDrag : true};
       config.hud.elements[HUD.DETAILS_MENU]  = {show : false, type : HUD.PANEL,  label : "Style Details" };
       config.hud.elements[HUD.ZOOMS]         = {show : false, type : HUD.PANEL,  label : "Zooms" };
       config.hud.elements[HUD.MAGNIFIER]     = {show : true,  type : HUD.PANEL,  label : "Magnifier" };

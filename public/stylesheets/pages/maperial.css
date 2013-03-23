@@ -127,6 +127,11 @@ div.active.buttonMode {
 }
 
 /*-------------------------*/
+.touchable {
+	cursor: hand;
+	cursor: pointer;
+}
+
 .selectable {
 	margin-top: 5px;
 	cursor: hand;
@@ -334,20 +339,18 @@ a#triggerDetailsMenu {
 }
 
 /*-------------------------*/
-a#triggerQuickEdit {
-	
+#openDetailledWidget {
+	width:30px;
 }
 
 #panelQuickEdit {
-	width: 256px;
-	height: auto;
+
 }
 
 /* main widget div*/
 .styleMenu_menu_widgetDiv {
-	float: left;
-	font-size: 70%;
-	width: 250px;
+	float: right;
+	/* font-size: 70%;
 	padding: 3px;
 	border-style: solid;
 	border-width: 0px;
@@ -357,7 +360,7 @@ a#triggerQuickEdit {
 	filter: alpha(opacity =     85);
 	opacity: .85;
 	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
+	-webkit-border-radius: 6px; */
 }
 
 /*-------------------------*/
