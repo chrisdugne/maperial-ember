@@ -1,5 +1,5 @@
 
-function RasterLayer ( mapParameters , inLType , inZoom) {
+function RasterLayer ( mapParameters , inZoom) {
    this.mapParameters = mapParameters;
    this.assets = mapParameters.assets;
    this.gl     = mapParameters.assets.ctx;
@@ -66,7 +66,7 @@ RasterLayer.prototype.Update = function ( params ) {
    if ( !cb || ! cb.tex) { 
       console.log("Invalid color bar : setting default") ;
       this.mapParameters.SetDefaultColorBar();
-      return;
+      return 1;
    }
 
    if ( this.data ) {

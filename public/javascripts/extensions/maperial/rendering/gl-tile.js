@@ -400,13 +400,10 @@ Tile.prototype.Compose = function (  ) {
    var destFb  = this.frameBufferL[ 0 ]
    var tmpI    = 0;
 
-   if ( this.layers.length > 1 ) {
-      for( var i = 1 ; i < this.layers.length ; i++ ) {
+   if ( this.layersConfig.length > 1 ) {
+      for( var i = 1 ; i < this.layersConfig.length ; i++ ) {
          var frontTex   = this.layers[i].tex;
          if (frontTex) {
-            if (this.layersConfig[i].params.group == VectorialLayer.FRONT) {
-               var ttt = 4;
-            }
             var prog       = this.assets.prog[ this.layersConfig[i].composition.shader ]
             var params     = this.layersConfig[i].composition.params;
             this.Fuse      ( backTex,frontTex,destFb, prog , params);

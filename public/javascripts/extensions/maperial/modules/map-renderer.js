@@ -307,7 +307,6 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
       mat4.ortho       ( 0, w , h, 0 , 0, 1, pMatrix ); // Y swap !
       this.gl.viewport ( 0, 0, w , h);
       this.gl.clear    ( this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT );
-      var layerDataParams = [this.context.parameters.GetContrast(),this.context.parameters.GetLuminosity(),this.context.parameters.GetBWMethod()]
       for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + MapParameters.tileSize , tx = tx + 1) {
          for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+ MapParameters.tileSize , ty = ty - 1) {
             mat4.identity (mvMatrix);

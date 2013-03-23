@@ -87,6 +87,10 @@ LayersManager.prototype.getRasterLayerConfig = function(rasterUID) {
       },
       params: {
          colorbar: MapParameters.DEFAULT_COLORBAR_UID 
+      },
+      composition: {
+         shader : MapParameters.MulBlend,
+         params : { uParams : [ -0.5, -0.5, 1.0 ]}
       }
    }
 }
