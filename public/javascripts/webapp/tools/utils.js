@@ -209,6 +209,24 @@ Utils.thumbURL = function(uid, type)
 
 //----------------------------------------------------------------------------------------//
 
+//ui-slider-handle ui-state-default ui-corner-all
+Utils.buildSliderStyle = function (id){
+
+   $("#" + id + " a").css({color:"#000"});
+   $("#" + id + " a").css({textDecoration:"none"});
+   $("#" + id + " a").css({textAlign:"center"});
+   $("#" + id + " a").css({width:"20px"});
+   $("#" + id + " a").css({height:"20px"});
+   $("#" + id + " a").css({borderTopLeftRadius:"30px"});
+   $("#" + id + " a").css({borderTopRightRadius:"30px"});
+   $("#" + id + " a").css({borderBottomLeftRadius:"30px"});
+   $("#" + id + " a").css({borderBottomRightRadius:"30px"});
+   $("#" + id + " a").css({outline:"none"});
+
+}
+
+//----------------------------------------------------------------------------------------//
+   
 Utils.apply = function (toObject, methodName){
    return (function(param1, param2, param3, param4, param5, param6){toObject[methodName](param1, param2, param3, param4, param5, param6)});
 }

@@ -208,12 +208,7 @@ HUD.prototype.buildControls = function(){
    $( "#control-left" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_LEFT); } );
    $( "#control-right" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_RIGHT); } );
    
-   $("#control-zoom a").css({color:"#000"});
-   $("#control-zoom a").css({textAlign:"center"});
-   $("#control-zoom a").css({textDecoration:"none"});
-
-   $("#control-zoom a:focus").css({outline:"none"});
-   $("#control-zoom a:active").css({outline:"none"});
+   Utils.buildSliderStyle("control-zoom");
 
    this.refreshZoom();
 }

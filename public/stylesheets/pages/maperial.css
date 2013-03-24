@@ -40,7 +40,7 @@
 	-moz-border-radius-topleft: 6px;
 	-webkit-border-top-left-radius: 6px;
 	padding: 4px 4px 4px 4px;
-	filter: alpha(opacity =     85);
+	filter: alpha(opacity =       85);
 	opacity: .85;
 	z-index: 101;
 }
@@ -68,7 +68,7 @@ a.trigger {
 	-moz-border-radius-topleft: 6px;
 	-webkit-border-top-left-radius: 6px;
 	z-index: 102;
-	filter: alpha(opacity =     85);
+	filter: alpha(opacity =       85);
 	opacity: .85;
 }
 
@@ -103,7 +103,7 @@ a.active.trigger {
 	-moz-border-radius-bottomleft: 20px;
 	-webkit-border-bottom-left-radius: 20px;
 	z-index: 9999;
-	filter: alpha(opacity =   85);
+	filter: alpha(opacity =     85);
 }
 
 .buttonMode:hover {
@@ -231,7 +231,7 @@ a#triggerHUDSettings {
 	padding-top: 0px;
 }
 
-#control-up, #control-down, #control-left, #control-right {
+#control-up,#control-down,#control-left,#control-right {
 	background-image: url(../../images/mapediting/map.sprite.png);
 	position: absolute;
 	background-repeat: no-repeat;
@@ -272,8 +272,11 @@ a#triggerHUDSettings {
 
 #control-zoom {
 	height: 166px;
-	top: 60px;
-	left: 10px;
+	top: 65px;
+	left: 9px;
+	width: 16px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 }
 
 /*-------------------------*/
@@ -332,7 +335,7 @@ a#triggerDetailsMenu {
 	border-color: #000;
 	background-color: #000;
 	color: #fff;
-	filter: alpha(opacity =     85);
+	filter: alpha(opacity =       85);
 	opacity: .85;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
@@ -340,11 +343,11 @@ a#triggerDetailsMenu {
 
 /*-------------------------*/
 #openDetailledWidget {
-	width:30px;
+	width: 30px;
 }
 
 #panelQuickEdit {
-
+	
 }
 
 /* main widget div*/
