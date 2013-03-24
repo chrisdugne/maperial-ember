@@ -83,7 +83,7 @@ MapMouse.prototype.doubleClick = function (event) {
    this.context.mouseP = Utils.getPoint(event);
    this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
 
-   $(window).trigger(MaperialEvents.ZOOM_CHANGED);
+   $(window).trigger(MaperialEvents.ZOOM_TO_REFRESH);
 }
 
 MapMouse.prototype.wheel = function (event, delta) {
@@ -113,7 +113,7 @@ MapMouse.prototype.wheel = function (event, delta) {
    this.context.mouseP = Utils.getPoint(event);
    this.context.mouseM = this.convertCanvasPointToMeters ( this.context.mouseP );
 
-   $(window).trigger(MaperialEvents.ZOOM_CHANGED);
+   $(window).trigger(MaperialEvents.ZOOM_TO_REFRESH);
 }
 
 //----------------------------------------------------------------------//

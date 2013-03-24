@@ -25,6 +25,7 @@ MaperialEvents.CONTROL_RIGHT        = "MaperialEvents.CONTROL_RIGHT";
 // Map Events
 MaperialEvents.DRAGGING_MAP         = "MaperialEvents.DRAGGING_MAP";
 MaperialEvents.MAP_MOVING           = "MaperialEvents.MAP_MOVING";
+MaperialEvents.ZOOM_TO_REFRESH      = "MaperialEvents.ZOOM_TO_REFRESH";
 MaperialEvents.ZOOM_CHANGED         = "MaperialEvents.ZOOM_CHANGED";
 
 MaperialEvents.UPDATE_LATLON        = "MaperialEvents.UPDATE_LATLON";

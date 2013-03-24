@@ -242,7 +242,7 @@ Maperial.prototype.createContext = function() {
    this.context.centerM    = this.context.coordS.LatLonToMeters( 45.7 , 3.12 );
    this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
    this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
-   this.context.zoom       = 14;
+   this.context.zoom       = MapParameters.DEFAULT_ZOOM;
 
    this.context.parameters = new MapParameters(this);
 

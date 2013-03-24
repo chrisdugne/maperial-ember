@@ -67,6 +67,11 @@ HUD.prototype.initListeners = function () {
    $(window).on(MaperialEvents.ZOOM_CHANGED, function(event, x, y){
       hud.updateScale();
    });
+
+   $(window).on(MaperialEvents.ZOOM_TO_REFRESH, function(event, x, y){
+      console.log("hud.refershzoom");
+      hud.refreshZoom();
+   });
 }
 
 //----------------------------------------------------------------------//
@@ -76,6 +81,7 @@ HUD.prototype.removeListeners = function () {
    this.context.mapCanvas.off(MaperialEvents.UPDATE_LATLON);
    $(window).off(MaperialEvents.MAP_MOVING);
    $(window).off(MaperialEvents.ZOOM_CHANGED);
+   $(window).off(MaperialEvents.ZOOM_TO_REFRESH);
    
    $(".trigger").unbind("click");
    $(".panel").unbind("click");
@@ -166,6 +172,18 @@ HUD.prototype.display = function(){
 
 //==================================================================//
 
+/**
+ * slider.change calls refreshZoom => infinite loop if no shunt !
+ */
+HUD.prototype.refreshZoom = function(shuntSlider){
+   
+   if(!shuntSlider)
+      $( "#control-zoom" ).slider({value: this.context.zoom});
+   
+   $("#control-zoom a").html(this.context.zoom);
+   $(window).trigger(MaperialEvents.ZOOM_CHANGED);
+}
+
 HUD.prototype.buildControls = function(){
 
    var me = this;
@@ -173,15 +191,15 @@ HUD.prototype.buildControls = function(){
    $( "#control-zoom" ).slider({
       orientation: "vertical",
       range: "min",
-      min: 0,
+      min: 1,
       max: 18,
-      value: 14,
+      value: MapParameters.DEFAULT_ZOOM,
       slide: function( event, ui ) {
-        // todo zoomGL
+         $("#control-zoom a").html(ui.value);
       },
       change: function( event, ui ) {
-         me.context.zoom = parseInt(ui.value); 
-         $(window).trigger(MaperialEvents.ZOOM_CHANGED);
+         me.context.zoom = parseInt(ui.value);
+         me.refreshZoom(true);
       }
     });
    
@@ -189,6 +207,15 @@ HUD.prototype.buildControls = function(){
    $( "#control-down" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_DOWN); } );
    $( "#control-left" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_LEFT); } );
    $( "#control-right" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_RIGHT); } );
+   
+   $("#control-zoom a").css({color:"#000"});
+   $("#control-zoom a").css({textAlign:"center"});
+   $("#control-zoom a").css({textDecoration:"none"});
+
+   $("#control-zoom a:focus").css({outline:"none"});
+   $("#control-zoom a:active").css({outline:"none"});
+
+   this.refreshZoom();
 }
 
 //--------------------------------------------------------//

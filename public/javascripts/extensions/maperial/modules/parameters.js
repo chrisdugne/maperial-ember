@@ -7,6 +7,7 @@ MapParameters.shadersPath            = "assets/shaders";
 MapParameters.mapCanvasName          = "map";
 MapParameters.magnifierCanvasName    = "magnifier";
 
+MapParameters.DEFAULT_ZOOM           = 10;
 MapParameters.refreshRate            = 15; // ms
 MapParameters.tileDLTimeOut          = 60000; //ms
 MapParameters.tileSize               = 256;
@@ -22,6 +23,7 @@ MapParameters.DEFAULT_COLORBAR_UID   = "default";
 MapParameters.AlphaBlend             = "AlphaBlend";
 MapParameters.AlphaClip              = "AlphaClip";
 MapParameters.MulBlend               = "MulBlend";
+
 
 //-----------------------------------------------------------------------------------//
 
