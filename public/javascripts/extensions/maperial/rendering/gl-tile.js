@@ -3,8 +3,8 @@ function Tile (parameters , x, y, z) {
 
    //--------------------------------//
 
-   this.groups       = parameters.maperial.config.groups;
-   this.layersConfig = parameters.maperial.config.layers;
+   this.layersConfig       = parameters.maperial.config.layers;
+   this.layerVisibilities  = parameters.maperial.config.layerVisibilities;
 
    this.x         = x;
    this.y         = y;
@@ -48,14 +48,19 @@ Tile.prototype.initLayers = function () {
       switch(this.layersConfig[i].type){
 
       case LayersManager.Vector:
-         this.layers[i] = new VectorialLayer( this.parameters , this.z);
+         this.layers[i] = new VectorialLayer ( this.parameters , this.z);
          break;
 
       case LayersManager.Raster:
-         this.layers[i] = new RasterLayer( this.parameters , this.z);
+         this.layers[i] = new RasterLayer    ( this.parameters , this.z);
          break;
-      }
 
+      case LayersManager.Images:
+         this.layers[i] = new ImageLayer     ( this.parameters , this.z);
+         break;
+         
+      }
+      
    }
 }
 
@@ -80,6 +85,9 @@ Tile.prototype.loadSources = function () {
          this.LoadRaster ( source );
          break;
 
+      case Source.Images:
+         this.LoadImage ( source );
+         break;
       }
    }
 
@@ -184,6 +192,36 @@ Tile.prototype.LoadVectorial = function ( source ) {
 
 //----------------------------------------------------------------------------------------------------------------------//
 
+Tile.prototype.LoadImage = function ( source ) {
+   var url                    = source.getURL(this.x, this.y, this.z);
+   var me                     = this;   
+   this.requests[source.type] = new Image();
+      
+   this.requests[source.type].onload = function (oEvent) {      
+      var img = me.requests[source.type]
+      me.error[source.type] = false;
+      me.load[source.type]  = true;
+      me.appendDataToLayers(source.type, img);
+   };
+
+   this.requests[source.type].onerror = function (oEvent) {
+      me.error[source.type] = true;
+      me.load[source.type]  = true;
+      me.appendDataToLayers(source.type, null);
+   }
+   this.requests[source.type].abort = function () {
+      this.src = ''
+   }
+
+   function ajaxTimeout() { me.requests[source.type].abort(); }
+   var tm = setTimeout(ajaxTimeout,MapParameters.tileDLTimeOut);
+   
+   this.requests[source.type].crossOrigin = ''; // no credentials flag. Same as img.crossOrigin='anonymous'
+   this.requests[source.type].src = url;
+}
+
+//----------------------------------------------------------------------------------------------------------------------//
+
 Tile.prototype.LoadRaster = function ( source ) {
    if ( ! source.getURL(this.x, this.y, this.z) ) {
       this.error[source.type] = true;
@@ -262,7 +300,7 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) 
       if(this.layersConfig[i].source.type != Source.MaperialOSM)
          continue;
 
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, this.layersConfig[i].params.group, this.groups );
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, i, this.layerVisibilities );
 
       if(subLayerId)
          return subLayerId;
@@ -281,7 +319,7 @@ Tile.prototype.Update = function ( maxTime ) {
 
    for(var i = 0; i< this.layersConfig.length; i++){
       if (! this.layers[i].IsUpToDate ( ) ) {
-         timeRemaining -= this.layers[i].Update( this.layersConfig[i].params );
+         timeRemaining -= this.layers[i].Update( this.layersConfig[i].params, i );
          if ( timeRemaining <= 0 )
             break;
       }

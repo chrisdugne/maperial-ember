@@ -1,15 +1,118 @@
 // ----------------------------//
 
-function LayerSetsHelper (maperial) {
+function LayerSetsHelper (maperial, mapCreationController) {
    this.maperial = maperial;
+   this.mapCreationController = mapCreationController;
+   this.layerBeingDraggedIndex;
 }
 
 //----------------------------//
 
 LayerSetsHelper.TOGGLE = "toggleLayerSet";
 
-//----------------------------//
+//=============================================================================//
+// Layers Panel Drawing
 
+/**
+ * Draw the Layers panel
+ */
+LayerSetsHelper.prototype.refreshLayersPanel = function() {
+
+   var me = this;
+   $("#layers").empty(); 
+   var panelHeight = 50;
+
+   for(var i = App.maperial.config.layers.length - 1; i >= 0 ; i--) {
+      this.buildLayerEntry(i);
+      panelHeight += 64;
+   }
+   
+   $("#layers").sortable({
+      revert: true,
+      start: function(event, ui){
+         me.mapCreationController.preventNextEdit = true;
+         me.layerBeingDraggedIndex = parseInt((ui.item[0].id).split("_")[1]);
+      },
+      stop: function(){
+         me.mapCreationController.preventNextEdit = false;
+         me.exchangeLayers();
+      }
+   });
+   
+   $("#panelLayers").css("height", panelHeight+"px");
+   
+}
+
+//--------------------------------------//
+
+LayerSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
+   
+   var layer = App.maperial.config.layers[layerIndex];
+   
+   $("#layers").append(
+         "<div class=\"row-fluid movable\" id=\"layer_"+layerIndex+"\">" +
+         "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+this.getSourceThumb(layer.source.type)+"></img></div>" +
+         "   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
+         "   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
+         "</div>"
+   ); 
+
+}
+
+LayerSetsHelper.prototype.getSourceThumb = function(sourceType) {
+ 
+   switch(sourceType){
+   
+      case Source.MaperialOSM:
+         return " src=\""+Utils.styleThumbURL(App.maperial.stylesManager.getSelectedStyle().uid)+"\"";
+
+      case Source.Raster:
+      case Source.Vector:
+      case Source.Images:
+         return " src=\"assets/images/icons/layer."+sourceType+".png\"";
+   
+   }
+}
+
+//=======================================================================//
+
+LayerSetsHelper.prototype.exchangeLayers = function(){
+   
+   console.log("layer being dragged : " + this.layerBeingDraggedIndex);
+   
+   // layers are ordered from bottom to top
+   for(var i = ($("#layers")[0].children.length - 1); i >= 0 ; i--){
+      var layerIndex = $("#layers")[0].children[i].id.split("_")[1];
+      var k = ($("#layers")[0].children.length-1) - i;
+      
+      // just found our layer in the new div list
+      if(layerIndex == this.layerBeingDraggedIndex){
+         if(this.layerBeingDraggedIndex == k){
+            return;
+         }
+      }
+   }
+
+   var exchangedIds = {};
+   for(var i = ($("#layers")[0].children.length - 1); i >= 0 ; i--){
+
+      var layerIndex = $("#layers")[0].children[i].id.split("_")[1];
+      var k = ($("#layers")[0].children.length-1) - i;
+      
+      exchangedIds[layerIndex] = k;
+      $("#layer_"+layerIndex).attr("id", "layer_"+k);
+      
+   }
+
+   this.maperial.layersManager.exchangeLayers(exchangedIds);
+}
+
+//=================================================================================================================//
+
+
+/**
+ * On/off buttons to show hide layerSets
+ */
 LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
    
    var layersManager = this.maperial.layersManager;
@@ -17,6 +120,8 @@ LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
 
    container.empty();
    var panelHeight = 0;
+   
+   console.log(layersManager.layerSets);
    
    for (var i in layersManager.layerSets) {
       var set = layersManager.layerSets[i];
@@ -47,7 +152,7 @@ LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
          }
       });
 
-      if(layerCustomizedIndex == set.group)
+      if(layerCustomizedIndex == set.layerPosition)
          $("#"+LayerSetsHelper.TOGGLE+i).addClass("on");
    }
 

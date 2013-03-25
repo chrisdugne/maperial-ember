@@ -3,7 +3,7 @@
    'use strict';
 
    var MapCreationController = Ember.ObjectController.extend({});
-
+   
    //==================================================================//
    
    MapCreationController.LAYERS_CREATION = "LAYERS_CREATION";
@@ -30,7 +30,7 @@
    //==================================================================//
 
    MapCreationController.maperialReady = function (){
-      MapCreationController.refreshLayersPanel();
+      App.layerSetsHelper.refreshLayersPanel();
       MapCreationController.defaultStyleSelection();
    }
 
@@ -111,57 +111,6 @@
    }
 
    //=============================================================================//
-   // Layers Panel Drawing
-   
-   /**
-    * Draw the Layers panel
-    */
-   MapCreationController.refreshLayersPanel = function() {
-
-      $("#layers").empty(); 
-      var panelHeight = 50;
-
-      for(var i = App.maperial.config.layers.length - 1; i >= 0 ; i--) {
-         MapCreationController.buildLayerEntry(i);
-         panelHeight += 64;
-      }
-
-      $("#panelLayers").css("height", panelHeight+"px");
-      
-   }
-
-   //--------------------------------------//
-
-   MapCreationController.buildLayerEntry = function(layerIndex) {
-      
-      var layer = App.maperial.config.layers[layerIndex];
-      
-      $("#layers").append(
-            "<div class=\"row-fluid\">" +
-      		"   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+MapCreationController.getSourceThumb(layer.source.type)+"></img></div>" +
-      		"   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
-      		"   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
-      		"</div>"
-      ); 
-
-   }
-
-   MapCreationController.getSourceThumb = function(sourceType) {
-    
-      switch(sourceType){
-      
-         case Source.MaperialOSM:
-            return " src=\""+Utils.styleThumbURL(App.maperial.stylesManager.getSelectedStyle().uid)+"\"";
-
-         case Source.Raster:
-         case Source.Vector:
-         case Source.Images:
-            return " src=\"assets/images/icons/layer."+sourceType+".png\"";
-      
-      }
-   }
-
-   //=============================================================================//
    // Layers
    
    MapCreationController.openSourceSelection = function(){
@@ -202,6 +151,11 @@
    //--------------------------------------//
 
    MapCreationController.editLayer = function(layerIndex){
+      
+      if(MapCreationController.preventNextEdit){
+         return;
+      }
+         
       var layer = App.maperial.config.layers[layerIndex];
       
       switch(layer.source.type){
@@ -264,6 +218,7 @@
    MapCreationController.openCustomizeLayerSetsWindow = function(layerIndex){
 
       $("#customizeLayerSetsWindow").modal();
+      console.log("openCustomizeLayerSetsWindow " + layerIndex);
       App.layerSetsHelper.buildLayerSets(layerIndex);
 //      $('#selectGroupsWindow').off('hidden');
 //      $('#selectGroupsWindow').on('hidden', MapCreationController.defaultStyleSelection);
@@ -298,6 +253,7 @@
    //=============================================================================//
 
    App.MapCreationController = MapCreationController;
+   App.layerSetsHelper = new LayerSetsHelper(App.maperial, App.MapCreationController);
 
    //==================================================================//
    // Routing

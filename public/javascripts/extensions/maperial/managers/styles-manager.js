@@ -39,9 +39,12 @@ StylesManager.prototype.getStyle = function(uid){
 StylesManager.prototype.fetchStyles = function(styleUIDs, next) {
 
    this.nextFunction = next;
+   console.log("fetchStyles");
+   console.log(styleUIDs);
 
    if(styleUIDs.length > 0){
       var styleUID = styleUIDs.shift();
+      console.log(styleUID);
       this.stylesToLoad = styleUIDs;
       this.loadStyle(styleUID);
    }

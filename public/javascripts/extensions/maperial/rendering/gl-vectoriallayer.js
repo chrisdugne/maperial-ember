@@ -90,19 +90,18 @@ VectorialLayer.prototype.IsUpToDate = function ( ) {
    return this.layerCount == null;
 }
 
-VectorialLayer.prototype.Update = function ( params ) {
+VectorialLayer.prototype.Update = function ( params, layerPosition ) {
 
-   var group      = params.group;
+   var layerVisibilities = this.mapParameters.maperial.config.layerVisibilities;
    var styleUID   = params.styles[params.selectedStyle];
    var style      = this.mapParameters.maperial.stylesManager.getStyle(styleUID).content;
-   var groups     = this.mapParameters.maperial.config.groups;
 
    if ( ! style ) {
       console.log ( "Invalid style");
       this.layerCount = 0;
       this._BuildTexture();
    }
-   var rendererStatus   = TileRenderer.RenderLayers (groups, group,  this.ctx , this.data , this.z , style , this.layerCount ) ;
+   var rendererStatus   = TileRenderer.RenderLayers (layerVisibilities, layerPosition,  this.ctx , this.data , this.z , style , this.layerCount ) ;
 
    this.layerCount      = rendererStatus[0];
    

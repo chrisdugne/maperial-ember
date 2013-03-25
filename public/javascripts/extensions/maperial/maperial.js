@@ -89,7 +89,7 @@ Maperial.prototype.load = function() {
    if(this.config.layers.length > 0){
       var maperial = this;
       this.loadStyles(function(){
-         maperial.checkGroups();
+         maperial.checkLayerVisibilities();
          maperial.build();
       });
    }
@@ -188,12 +188,11 @@ Maperial.prototype.loadStyles = function(next){
    for(var i = 0; i < this.config.layers.length; i++){
       var layerParams = this.config.layers[i].params;
       if(layerParams.styles){
-         styleUIDs[i] = layerParams.styles[layerParams.selectedStyle];
+         styleUIDs.push(layerParams.styles[layerParams.selectedStyle]);
       }
    }
 
    if(styleUIDs.length > 0){
-      console.log("loading styles...");
       this.stylesManager.fetchStyles(styleUIDs, next);
    }
    else 
@@ -323,14 +322,14 @@ Maperial.prototype.refreshScreen = function() {
 
 //==================================================================//
 
-Maperial.prototype.checkGroups = function(){
+Maperial.prototype.checkLayerVisibilities = function(){
 
-   console.log("checking groups...");
+   console.log("checking layer visibilities...");
 
    var selectedStyle = this.stylesManager.getSelectedStyle();
    
-   if(selectedStyle && !this.config.groups){
-      this.layersManager.buildGroups(selectedStyle);
+   if(selectedStyle && !this.config.layerVisibilities){
+      this.layersManager.buildLayerVisibilities(selectedStyle);
    }
    
 }

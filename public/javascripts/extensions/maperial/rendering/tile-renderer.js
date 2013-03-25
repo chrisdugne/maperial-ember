@@ -7,7 +7,7 @@ var TileRenderer = {};
  */
 
 TileRenderer.layerDummyColors = [];
-TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , group , style ) {
+TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , style ) {
 
    try {
       var subLayer = style [ subLayerId ] // on a 1 seul symbolizer par layer
@@ -43,7 +43,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , grou
  * Un layer est une liste de g group
  */
 TileRenderer.maxRenderTime = 0
-TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style , cursor  ) {
+TileRenderer.RenderLayers = function (layerPositions, layerPosition , ctx , data , zoom , style , cursor  ) {
 
    //-------------------------------------------------//
    
@@ -77,7 +77,7 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
       var layer = data["l"][i]; // layerGroup
       var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
-      if(groups[subLayerId] != group)
+      if(layerPositions[subLayerId] != layerPosition)
          continue;
       
       var ll = layer["g"]; // liste de listes de lignes
@@ -93,7 +93,7 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
          for ( var li = 0 ; li < lines.length ; ++li ) 
          {
             var line = lines[li];
-            TileRenderer.ApplyStyle ( ctx , line , attr , subLayerId , zoom, group, style );
+            TileRenderer.ApplyStyle ( ctx , line , attr , subLayerId , zoom, style );
          }
       }
       if (limitTime) {
@@ -116,7 +116,7 @@ TileRenderer.RenderLayers = function (groups, group , ctx , data , zoom , style 
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent, group, groups ) {
+TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent, layerPosition, layerPositions ) {
 
    ctx.scale(1,1);
    var i;
@@ -126,7 +126,7 @@ TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent,
       var layer = data["l"][i]; // layerGroup
       var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
-      if(groups[subLayerId] != group)
+      if(layerPositions[subLayerId] != layerPosition)
          continue;
 
       var subLayer = styleContent [ subLayerId ];

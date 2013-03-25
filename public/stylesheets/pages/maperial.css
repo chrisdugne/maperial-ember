@@ -132,6 +132,10 @@ div.active.buttonMode {
 	cursor: pointer;
 }
 
+.movable {
+	cursor: move;
+}
+
 .selectable {
 	margin-top: 5px;
 	cursor: hand;

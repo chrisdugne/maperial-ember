@@ -72,6 +72,10 @@ MapParameters.prototype.buildSources = function(layers){
          case Source.Raster:
             params = {rasterUID : layers[i].source.params.uid };
             break;
+            
+         case Source.Images:
+            params = {src : layers[i].source.params.src };
+            break;
       }
       
       this.sources.push(new Source(type, params));
