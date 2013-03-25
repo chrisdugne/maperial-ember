@@ -131,6 +131,10 @@
          case Source.Raster:
             MapCreationController.openSelectRasterWindow();
             break;
+
+         case Source.Images:
+            MapCreationController.openSelectImagesWindow();
+            break;
             
       }
    }
@@ -166,6 +170,11 @@
          case Source.Raster :
             MapCreationController.openSelectRasterWindow();
             break;
+            
+         case Source.Images:
+            MapCreationController.openSelectImagesWindow();
+            break;
+            
       }
    }
 
@@ -183,6 +192,11 @@
          case Source.Raster :
             MapCreationController.openSelectRasterWindow();
             break;
+
+         case Source.Images:
+            MapCreationController.openSelectImagesWindow();
+            break;
+            
       }
    }
    
@@ -236,6 +250,19 @@
       console.log(raster);
       $("#selectRasterWindow").modal("hide");
       App.maperial.layersManager.addLayer(Source.Raster, [raster.uid]);
+   }
+   
+   //=============================================================================//
+   // Rasters
+   
+   MapCreationController.openSelectImagesWindow = function(){
+      $("#selectImagesWindow").modal();
+   }
+   
+   MapCreationController.selectImages = function(src){
+      console.log(src);
+      $("#selectImagesWindow").modal("hide");
+      App.maperial.layersManager.addLayer(Source.Images, [src]);
    }
    
    //=============================================================================//
@@ -322,6 +349,14 @@
       selectRaster: function(router, event){
          var raster = event.context;
          MapCreationController.selectRaster(raster);
+      },
+
+      //--------------------------------------//
+      // images actions
+      
+      selectImages: function(router, event){
+         var src = event.context;
+         MapCreationController.selectImages(src);
       },
    });
 

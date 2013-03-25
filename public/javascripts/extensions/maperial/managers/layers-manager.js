@@ -51,7 +51,8 @@ LayersManager.prototype.addLayer = function(sourceType, params) {
       break;
 
    case Source.Images :
-      layerConfig = this.getImagesLayerConfig();
+      var src = params[0];
+      layerConfig = this.getImagesLayerConfig(src);
       break;
    }
 
@@ -64,14 +65,14 @@ LayersManager.prototype.addLayer = function(sourceType, params) {
 
 //-------------------------------------------//
 
-LayersManager.prototype.getOSMLayerConfig = function(groupId) {
+LayersManager.prototype.getOSMLayerConfig = function() {
    return { 
       type: LayersManager.Vector, 
       source: {
          type: Source.MaperialOSM
       },
       params: {
-         group : groupId 
+
       },
       composition: {
          shader : MapParameters.MulBlend,
@@ -118,11 +119,18 @@ LayersManager.prototype.getVectorLayerConfig = function() {
 
 //-------------------------------------------//
 
-LayersManager.prototype.getImagesLayerConfig = function() {
+/**
+ * src : 
+ *    Source.IMAGES_MAPQUEST
+ *    Source.IMAGES_MAPQUEST_SATELLITE
+ *    Source.IMAGES_OSM
+ */
+LayersManager.prototype.getImagesLayerConfig = function(src) {
    return { 
       type: LayersManager.Images, 
       source: {
-         type: Source.Images
+         type: Source.Images,
+         params: { src: src }
       },
       params: {
 
@@ -172,58 +180,9 @@ LayersManager.prototype.buildLayerVisibilities = function(style) {
 //------------------------------------------------------------------//
 
 LayersManager.prototype.useDefaultLayers = function() {
-
    console.log("  using default layers...");
-   this.maperial.config.layers = [this.getOSMLayerConfig(0)];
+   this.maperial.config.layers = [this.getOSMLayerConfig()];
 }
-
-//Maperial.prototype.useDefaultLayers = function() {
-
-//console.log("using default layers...");
-
-//this.config.layers = [
-//{ 
-//type: LayersManager.Vector, 
-//source: {
-//type: Source.MaperialOSM
-//},
-//params: {
-//group : VectorialLayer.BACK, 
-//styles: [MapParameters.DEFAULT_STYLE_UID],
-//selectedStyle: 0
-//}
-//},
-//{ 
-//type: LayersManager.Raster, 
-//source: {
-//type: Source.Raster,
-//params: { uid : "rasterUID" }
-//},
-//params: {
-//colorbar: MapParameters.DEFAULT_COLORBAR_UID, 
-//},
-//composition: {
-//shader : MapParameters.MulBlend,
-//params : { uParams : [ -0.5, -0.5, 1.0 ]}
-//}
-//},
-//{ 
-//type: LayersManager.Vector, 
-//source: {
-//type: Source.MaperialOSM
-//},
-//params: {
-//group : VectorialLayer.FRONT, 
-//styles: [MapParameters.DEFAULT_STYLE_UID],
-//selectedStyle: 0
-//},
-//composition: {
-//shader : MapParameters.AlphaBlend
-//}
-//}
-//];
-
-//}
 
 //------------------------------------------------------------------//
 

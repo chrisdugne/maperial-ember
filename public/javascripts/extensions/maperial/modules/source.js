@@ -7,6 +7,12 @@ Source.Images          = "images";
 
 //-----------------------------------------------------------------------------------//
 
+Source.IMAGES_MAPQUEST              = "images";
+Source.IMAGES_MAPQUEST_SATELLITE    = "mapquest satellite";
+Source.IMAGES_OSM                   = "osm";
+
+//-----------------------------------------------------------------------------------//
+
 function Source (type, params) {
    this.type = type;
    this.params = params;
@@ -23,22 +29,22 @@ Source.prototype.getURL = function (tx, ty, z) {
       case Source.Images:
          var src = null;
          if ( this.params === undefined || this.params.src === undefined )
-            src ="osm"
+            src = Source.IMAGES_OSM;
          else 
-            src = this.params.src
+            src = this.params.src;
             
          var gty = (Math.pow ( 2,z ) - 1) - ty;
          switch (src) {
          
-         case "mapquest" :             // need to check http://developer.mapquest.com/web/products/open/map
+         case Source.IMAGES_MAPQUEST :             // need to check http://developer.mapquest.com/web/products/open/map
             var r = Math.floor ( Math.random() * 4 + 1 ) % (4 + 1) // Betwen [0,4]
             return "http://otile"+r+".mqcdn.com/tiles/1.0.0/osm/"+z+"/"+tx+"/"+gty+".png";
 
-         case "mapquest satellite" :   // need to check http://developer.mapquest.com/web/products/open/map
+         case Source.IMAGES_MAPQUEST_SATELLITE :   // need to check http://developer.mapquest.com/web/products/open/map
             var r = Math.floor ( Math.random() * 4 + 1 ) % (4 + 1) // Betwen [0,4]
             return "http://otile"+r+".mqcdn.com/tiles/1.0.0/sat/"+z+"/"+tx+"/"+gty+".png";
           
-         case "osm":                   // http://wiki.openstreetmap.org/wiki/Tile_usage_policy
+         case Source.IMAGES_OSM:                   // http://wiki.openstreetmap.org/wiki/Tile_usage_policy
          default :
             return "http://tile.openstreetmap.org/"+z+"/"+tx+"/"+gty+".png"
             
