@@ -230,7 +230,9 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
 
 
 StyleMenu.prototype.SetParamIdZNew = function(luid,param,value){
-
+   
+   console.log("---> " + luid );
+   
    if ( this.style.content[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");
       return false;
@@ -520,7 +522,7 @@ StyleMenu.prototype.__InsertZoomEdition2 = function(){
 
 
 //Closure for colorpicker callback
-StyleMenu.prototype.ColorPickerChange = function(_uid,_ruleId,pName){
+StyleMenu.prototype.ColorPickerChange = function(_ruleId,pName){
    return function (hsb, hex, rgb) {
       $("#styleMenu_menu_colorpicker_"+_ruleId +" div").css('backgroundColor', '#' + hex);
    }
@@ -529,7 +531,8 @@ StyleMenu.prototype.ColorPickerChange = function(_uid,_ruleId,pName){
 StyleMenu.prototype.ColorPickerSubmit = function(_uid,_ruleId,pName){
    var me = this;
    return function (hsb, hex, rgb) {
-      me.SetParamIdZNew(_uid,pName,ColorTools.HexToRGBA(hex));
+      for(uid in me.linkedUIDs(_uid))
+         me.SetParamIdZNew(uid,pName,ColorTools.HexToRGBA(hex));
    }
 }
 
@@ -619,7 +622,7 @@ StyleMenu.prototype.AddColorPicker = function(_paramName,_paramValue,_uid,_ruleI
          $(colpkr).fadeOut(500);
          return false;
       },
-      onChange: this.ColorPickerChange(_uid,_ruleId,_paramName),
+      onChange: this.ColorPickerChange(_ruleId,_paramName),
       onSubmit: this.ColorPickerSubmit(_uid,_ruleId,_paramName),
    });
 }
@@ -1110,6 +1113,19 @@ StyleMenu.prototype.refreshWidget = function(group,name,uid){
       case StyleMenu.MEDIUM:
          this.__BuildWidget(group, name, uid);
          break;
+   }
+}
+
+//--------------------------------------------------------------------------//
+
+StyleMenu.prototype.linkedUIDs = function (uid) {
+   switch (uid) {
+      case "000":
+      case "001":
+         return {"000":true, "001":true}
+      
+      default: 
+         return uid;
    }
 }
 
