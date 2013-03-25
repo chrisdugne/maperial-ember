@@ -7,9 +7,9 @@ Source.Images          = "images";
 
 //-----------------------------------------------------------------------------------//
 
-Source.IMAGES_MAPQUEST              = "images";
-Source.IMAGES_MAPQUEST_SATELLITE    = "mapquest satellite";
-Source.IMAGES_OSM                   = "osm";
+Source.IMAGES_MAPQUEST              = "images.mapquest";
+Source.IMAGES_MAPQUEST_SATELLITE    = "images.mapquest.satellite";
+Source.IMAGES_OSM                   = "images.osm";
 
 //-----------------------------------------------------------------------------------//
 

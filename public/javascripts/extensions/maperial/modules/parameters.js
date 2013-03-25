@@ -17,7 +17,7 @@ MapParameters.autoMoveMillis         = 700;
 MapParameters.autoMoveDeceleration   = 0.005;
 MapParameters.autoMoveAnalyseSize    = 10;
 
-MapParameters.DEFAULT_STYLE_UID      = "1_style_13ba851b4e18833e08e";
+MapParameters.DEFAULT_STYLE_UID      = "1_style_13cdf6f75f58e56cd3e";
 MapParameters.DEFAULT_COLORBAR_UID   = "default";
 
 MapParameters.AlphaBlend             = "AlphaBlend";
