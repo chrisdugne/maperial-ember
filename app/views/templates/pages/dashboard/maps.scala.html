@@ -1,0 +1,16 @@
+
+<div class="span12">
+    <table role="presentation" class="table table-striped">
+       	<tbody class="files">
+    		{{#each map in user.maps}}
+			    <tr class="template-download">
+			        <td colspan="3">{{mapthumb map.config}}</td>
+			        <td><p class="filename">{{map.name}}</p></td>
+
+			        <td><div class="btn-small btn-success touchable" {{action editMap map}} ><i class="icon-edit icon-white"></i></div></td>
+			        <td><div class="btn-small btn-danger touchable" {{action deleteMap map}} ><i class="icon-trash icon-white"></i></div></td>
+			    </tr>
+		    {{/each}}
+	    </tbody>
+       </table>
+</div>

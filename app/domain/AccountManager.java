@@ -215,6 +215,43 @@ public class AccountManager {
 
 	//======================================================================================//
 	//
+	// - Maps
+	//
+
+	@Transactional
+	public static void addMap(String accountUID, Map map) 
+	{
+		Account account = Account.find.where().ilike("uid", accountUID).findUnique();
+
+		map.setAccount(account);
+
+		Ebean.save(map);  
+	}
+
+	//------------------------------------------------------------------------------------//
+
+	@Transactional
+	public static void editMap(Map map) 
+	{
+		Map mapInDb = Map.find.where().ilike("uid", map.getUid()).findUnique();
+
+		mapInDb.setName(map.getName());
+
+		Ebean.save(mapInDb); 
+	}
+
+	//------------------------------------------------------------------------------------//
+
+	@Transactional
+	public static void removeMap(String mapUID) 
+	{
+		Map map = Map.find.where().ilike("uid", mapUID).findUnique();
+
+		Ebean.delete(map);
+	}
+	
+	//======================================================================================//
+	//
 	// - Public
 	//
 

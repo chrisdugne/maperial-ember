@@ -11,7 +11,9 @@
 <!-- Custom for Layers  -->
 <div class="panel snapper hide" id="panelLayers">
 	<div class="row-fluid">
-		<div id="addLayerButton" class="addDataButton pointerCursor" {{action openSourceSelection}}></div>
+		<div id="addLayerButton" class="span2 offset2 addDataButton pointerCursor" {{action openSourceSelection}}></div>
+		<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
+		<div class="span3 offset4 btn-small btn-primary" {{action saveMap}}>Save</div>
 	</div>
 	<div id="layers"></div>
 </div>

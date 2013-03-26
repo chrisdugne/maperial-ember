@@ -51,7 +51,7 @@
 	
 	StylesController.deleteStyle = function(style) 
 	{
-		StyleManager.deleteStyle(style);
+		App.styleManager.deleteStyle(style);
 	}
 	
 	//------------------------------------------------//

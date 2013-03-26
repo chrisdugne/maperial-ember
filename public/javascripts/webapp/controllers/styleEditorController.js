@@ -96,9 +96,9 @@
       App.stylesData.set('selectedStyle.name', $("#styleNameInput").val());
 
       if(App.stylesData.editingStyle)
-         StyleManager.saveStyle(App.stylesData.selectedStyle);
+         App.styleManager.saveStyle(App.stylesData.selectedStyle);
       else
-         StyleManager.uploadNewStyle(App.stylesData.selectedStyle);
+         App.styleManager.uploadNewStyle(App.stylesData.selectedStyle);
    }
 
    //------------------------------------------------//

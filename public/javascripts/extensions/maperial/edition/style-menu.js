@@ -46,7 +46,7 @@ function StyleMenu(container, container2, container3, maperial){
    //-------------------------------------------------//
 
    this.size = StyleMenu.SMALLEST;
-   this.currentLayerId = "001";
+   this.currentLayerId = "000";
    
    //-------------------------------------------------//
    
@@ -98,7 +98,7 @@ function StyleMenu(container, container2, container3, maperial){
    this.initListeners();
    
    // style edition default 
-   this.ChangeSelectedSubLayer("001");
+   this.ChangeSelectedSubLayer(this.currentLayerId);
 }
 
 //==================================================================//

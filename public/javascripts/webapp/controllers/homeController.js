@@ -8,12 +8,14 @@
 
 	HomeController.renderUI = function()
 	{
-	   $("#homeContent").bind('mousewheel', App.homeScroller.scroll);
+	   //$("#homeContent").bind('mousewheel', App.homeScroller.scroll);
+	   
+	   HomeController.moving = setInterval( App.homeMover.move , 40 );
 	}
 
 	HomeController.cleanUI = function()
 	{
-		
+	   clearInterval(HomeController.moving);
 	}
 
 	//==================================================================//

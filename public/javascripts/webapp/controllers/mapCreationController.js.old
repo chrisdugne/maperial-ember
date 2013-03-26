@@ -104,7 +104,7 @@
           * 
           *  //-----------------------------
             // retrieve the content from the tileServer
-            StyleManager.getStyle(mapEditor.style.uid, function(){
+            App.styleManager.getStyle(mapEditor.style.uid, function(){
       
                if(mapEditor.colorbar){
                   //-----------------------------
@@ -149,7 +149,7 @@
       
       // custom
       // mapCreation.styleAndColorbar
-      config["StyleManager"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
+      config["App.styleManager"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
 
       // maperial hud
       config[HUD.LATLON]        = {show : false, type : HUD.PANEL,    visibility : HUD.OPTION, label : "Lat/Lon" };
@@ -189,7 +189,7 @@
    MapCreationController.refreshMap = function()  
    {
       // retrieve the content from the tileServer
-      StyleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
+      App.styleManager.getStyle(App.stylesData.selectedStyle.uid, function(){
 
          // rendering after reception
          App.mapEditor.map.GetParams().SetStyle(App.stylesData.selectedStyle); 

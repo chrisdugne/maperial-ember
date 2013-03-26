@@ -30,6 +30,7 @@ UserManager.getAccount = function()
          App.user.set("icons", account.icons);
          
          DatasetManager.initDatasets();
+         App.mapManager.getMaps(App.user);
          
          console.log(App.user);
       }

@@ -14,6 +14,11 @@
 		icons: Ember.A([]),
 		loggedIn: false,
 		waiting: false,
+		
+		//---------------------------//
+		
+		isCreatingANewMap:false,
+		selectedMap:false,
 	});
 	
 	App.user = User.create();

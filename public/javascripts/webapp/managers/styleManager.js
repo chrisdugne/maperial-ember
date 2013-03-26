@@ -2,12 +2,15 @@
 //StyleManager
 //-------------------------------------------//
 
-this.StyleManager = {};
+function StyleManager(){
+
+}
 
 //-------------------------------------------//
 
-StyleManager.uploadNewStyle = function(style)
+StyleManager.prototype.uploadNewStyle = function(style)
 {
+   var me = this;
    App.user.set("waiting", true);
   
    console.log(style);
@@ -29,32 +32,14 @@ StyleManager.uploadNewStyle = function(style)
          App.user.styles.pushObject(newStyle);
          App.get('router').transitionTo('styles');
 
-         StyleManager.addStyleInDB(newStyle);
-      }
-   });
-}
-
-
-StyleManager.saveStyle = function(style)
-{
-   App.user.set("waiting", true);
-
-   $.ajax({
-      type: "POST",
-      url: App.Globals.mapServer + "/api/style?_method=DATA&uid=" + style.uid,
-      data: JSON.stringify(style.content), 
-      dataType: "text",
-      success: function (data, textStatus, jqXHR)
-      {
-         style.content = null; // useless to keep user.style.content (full style.json) all around (+ doesnt work with a huge json..?)
-         StyleManager.editStyleInDB(style);
+         me.addStyleInDB(newStyle);
       }
    });
 }
 
 //-------------------------------------------//
 
-StyleManager.addStyleInDB = function(style)
+StyleManager.prototype.addStyleInDB = function(style)
 {
    var params = new Object();
    params["user"] = App.user;
@@ -73,7 +58,25 @@ StyleManager.addStyleInDB = function(style)
    });
 }
 
-//-------------------------------------------//
+//=================================================================//
+
+StyleManager.prototype.saveStyle = function(style)
+{
+   var me = this;
+   App.user.set("waiting", true);
+
+   $.ajax({
+      type: "POST",
+      url: App.Globals.mapServer + "/api/style?_method=DATA&uid=" + style.uid,
+      data: JSON.stringify(style.content), 
+      dataType: "text",
+      success: function (data, textStatus, jqXHR)
+      {
+         style.content = null; // useless to keep user.style.content (full style.json) all around (+ doesnt work with a huge json..?)
+         me.editStyleInDB(style);
+      }
+   });
+}
 
 StyleManager.editStyleInDB = function(style)
 {
@@ -95,7 +98,7 @@ StyleManager.editStyleInDB = function(style)
 
 //-------------------------------------------//
 
-StyleManager.deleteStyle = function(style)
+StyleManager.prototype.deleteStyle = function(style)
 {
    $.ajax({  
       type: "DELETE",  

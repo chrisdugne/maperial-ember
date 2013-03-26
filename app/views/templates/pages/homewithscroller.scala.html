@@ -1,16 +1,29 @@
 @import views.html.popups.loginWindow;
 @import views.html.popups.videoWindow;
 
+<div id="imageBackContainer1" class="imageBackContainer">
+	<img src="@routes.Assets.at("images/home/back/osmcompil2.png")" class="imageBack"></img>
+</div>
+<div id="imageBackContainer2" class="imageBackContainer">
+	<img src="@routes.Assets.at("images/home/back/rastercompil2.png")" class="imageBack"></img>
+</div>
+<div id="imageBackContainer3" class="imageBackContainer">
+	<img src="@routes.Assets.at("images/home/back/osmcompil2.png")" class="imageBack"></img>
+</div>
+<div id="imageBackContainer4" class="imageBackContainer">
+	<img src="@routes.Assets.at("images/home/back/rastercompil2.png")" class="imageBack"></img>
+</div>
+ 
 <div class="container-fluid" id="homeContent">
 
 	<div class="marketing">
 		
-		<div id="homeImage"></div>
+		<img id="homeImage" src="@routes.Assets.at("images/home/part1/worldmap.jpg")"></img>
 		<img id="playImage" {{action showVideo}} src="@routes.Assets.at("images/home/part1/play.png")"></img>
 
-		<div class="row-fluid" id="part1">
-			<h1 class="homeTitle">Maperial</h1>
-			<p class="homeSubtitle">Beautiful maps.</p>
+		<div class="row-fluid homePart" id="part1">
+			<h1>Maperial</h1>
+			<p class="marketing-byline">Beautiful maps.</p>
 		</div>
 
 		<div class="row-fluid homePart" id="part2">
@@ -61,7 +74,7 @@
 					<h4>Customize your exports</h4>
 				</div>
 				<div class="span4">
-					<img src="@routes.Assets.at("images/home/part4/colorpicker.jpg")" width="200px">
+					<img src="@routes.Assets.at("images/home/part4/colorpicker.jpg")">
 					<h4>Deep and Accurate edition</h4>
 				</div>
 			</div>

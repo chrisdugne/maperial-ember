@@ -11,9 +11,10 @@
 }
 
 #homeImage {
-	width: 100%;
-	margin-bottom: -479px;
-	margin-top: -91px;
+	background: url('/assets/images/home/part1/worldmap.mini.jpg');
+	background-repeat: repeat-x;
+	background-position-x: 0px;
+	height: 350px;
 }
 
 #videoWindow {
@@ -22,42 +23,43 @@
 }
 
 /*--------------------------------*/
-#part1 {
-	margin-top: 0px;
-	color: #fff;
+#playImage {
+	margin-top: -245px;
 }
 
-.homePart {
-	background: #fff;
-	margin-top: 550px;
-	margin-bottom: 0px;
+#part1 {
+	margin-top: -50px;
 }
 
 /*--------------------------------*/
-.imageBackContainer {
-	position: fixed;
-	visibility: hidden;
-	padding-bottom: 10px; /* to avoid line flickering*/
-	margin-top: 150px;
+.homeTitle {
+	color: #fff;
+	font-size: 19px;
+	margin-bottom: 14px;
 }
 
-#imageBackContainer1 {
-	z-index: -12;
-	visibility: visible;
+.homeSubtitle {
+	margin-bottom: 40px;
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 1.25;
+	color: #fff;
 }
 
-#imageBackContainer2 {
-	z-index: -11;
+/*--------------------------------*/
+.footerTitle {
+	color: #fff;
+	font-size: 19px;
+	margin-bottom: 14px;
 }
 
-#imageBackContainer3 {
-	z-index: -10;
+.footerContent {
+	text-align: center;
+	color: #bbb;
+	margin-bottom: 5px;
 }
 
-#imageBackContainer4 {
-	z-index: -9;
-}
-
-#imageBackContainer5 {
-	z-index: -8;
+.footerEnd {
+	text-align: center;
+	color: #777;
 }

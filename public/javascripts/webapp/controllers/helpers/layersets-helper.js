@@ -20,7 +20,7 @@ LayerSetsHelper.prototype.refreshLayersPanel = function() {
 
    var me = this;
    $("#layers").empty(); 
-   var panelHeight = 50;
+   var panelHeight = 35;
 
    for(var i = App.maperial.config.layers.length - 1; i >= 0 ; i--) {
       this.buildLayerEntry(i);

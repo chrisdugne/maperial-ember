@@ -8,7 +8,7 @@
 	
 	DashboardController.renderUI = function()
 	{
-	   
+
 	}
 
 	DashboardController.cleanUI = function()
@@ -21,12 +21,21 @@
 	
 	DashboardController.createMap = function()
 	{
-	   var map = {};
-	   map.styles = [];
-	   map.styles[0] = App.publicData.styles[0];
-	   
-	   App.mapManager.createMap(map);
+	   var map = {uid : "uidToCreate", name : "New Map"};
+
+      App.user.set("selectedMap", map);
       App.get('router').transitionTo('mapCreation');
+	}
+
+	DashboardController.editMap = function(map)
+	{
+	   App.user.set("selectedMap", map);
+	   App.get('router').transitionTo('mapCreation');
+	}
+	
+	DashboardController.deleteMap = function(map)
+	{
+	   App.mapManager.deleteMap(map);
 	}
 
 	//----------------------//
@@ -48,11 +57,20 @@
 		//------------------------------------------//
 		// actions
 
-		//Ember.Route.transitionTo('mapCreation.datasetSelection')
-		
 		createMap: function(){
 		   DashboardController.createMap();
       },
+      
+      editMap: function(router, event){
+         var map = event.context;
+         DashboardController.editMap(map);
+      },
+      
+      deleteMap: function(router, event){
+         var map = event.context;
+         DashboardController.deleteMap(map);
+      },
+      
 		styles: Ember.Route.transitionTo('styles'),
 		colorbars: Ember.Route.transitionTo('colorbars'),
 		datasets: Ember.Route.transitionTo('datasets'),

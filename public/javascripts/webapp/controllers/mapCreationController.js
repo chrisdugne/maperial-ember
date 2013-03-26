@@ -15,10 +15,11 @@
    MapCreationController.init = function()
    {
       App.user.set("isCreatingANewMap", true);
-      $(window).on(MaperialEvents.READY, MapCreationController.maperialReady);
       
       MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
       MapCreationController.openLayersCreation();
+
+      $(window).on(MaperialEvents.READY, MapCreationController.maperialReady);
    }
    
    MapCreationController.terminate = function ()
@@ -96,6 +97,16 @@
       return config;
    }  
 
+   //=============================================================================//
+   // Map controls
+
+   MapCreationController.saveMap = function()
+   {
+      App.user.set('selectedMap.name', $("#mapNameInput").val());
+      App.user.set('selectedMap.config', App.maperial.config);
+      App.mapManager.uploadNewMap(App.user.selectedMap);
+   }
+   
    //=============================================================================//
    // --- layer view
 
@@ -301,7 +312,7 @@
    }
    
    //=============================================================================//
-   // Rasters
+   // Images
    
    MapCreationController.openSelectImagesWindow = function(){
       $("#selectImagesWindow").modal();
@@ -390,6 +401,10 @@
          var source = event.contexts[0];
          var imagesSrc = event.contexts[1];
          MapCreationController.addLayer(source, imagesSrc);
+      },
+
+      saveMap: function(router, event){
+         MapCreationController.saveMap();
       },
       
       //--------------------------------------//

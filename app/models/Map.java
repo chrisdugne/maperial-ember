@@ -21,9 +21,6 @@ public class Map extends Model{
 	private String name;
 	
 	@Expose
-	private String config;
-	
-	@Expose
 	private Long creationTime;
 
 	@Expose
@@ -57,14 +54,6 @@ public class Map extends Model{
 		this.name = name;
 	}
 	
-	public String getConfig() {
-		return config;
-	}
-
-	public void setConfig(String config) {
-		this.config = config;
-	}
-
 	public Long getCreationTime() {
 		return creationTime;
 	}

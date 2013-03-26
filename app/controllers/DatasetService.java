@@ -7,7 +7,6 @@ import models.Raster;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.Logger;
 import play.mvc.Result;
 import domain.AccountManager;
 

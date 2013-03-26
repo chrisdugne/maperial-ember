@@ -1,6 +1,7 @@
 @import views.html.templates.components.databox;
 @import views.html.templates.pages.dashboard.datasets;
 @import views.html.templates.pages.dashboard.styles;
+@import views.html.templates.pages.dashboard.maps;
 @import views.html.templates.pages.dashboard.colorbars;
 
 <div id="userDisplay" class="googleUser">{{user.email}}</div>
@@ -10,7 +11,7 @@
   <div class="page marketing">
 		
 		<div class="row-fluid">
-			@databox("Your maps", "createMap"){ }
+			@databox("Your maps", "createMap"){ @maps() }
 			@databox("Your datasets", "datasets"){ @datasets() }
 		</div>
 		

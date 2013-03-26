@@ -16,10 +16,10 @@
 
    App.initWindowSize = function()
    {
-      App.homeScroller = new HomeScroller();
+//      App.homeScroller = new HomeScroller();
+      App.homeMover = new HomeMover();
       App.resize();
 
-      
       $(window).resize(function() {
          App.resize();
       });
@@ -39,7 +39,7 @@
 
    App.resize = function()
    {
-      App.homeScroller.resizeWindow();
+      //App.homeScroller.resizeWindow();
    }
 
    //------------------------------------------------------//

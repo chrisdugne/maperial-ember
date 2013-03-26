@@ -1,9 +1,15 @@
 package controllers;
 
+import java.util.Date;
+
+import models.Map;
+import models.Style;
+
 import org.codehaus.jackson.JsonNode;
 
 import play.Logger;
 import play.mvc.Result;
+import domain.AccountManager;
 
 public class MapService extends Application 
 {
@@ -17,9 +23,79 @@ public class MapService extends Application
 		
 		Logger.debug(userJson.toString());
 		Logger.debug(mapJson.toString());
+
+		//----------//
 		
-		return ok(params);
+		Map map = new Map();
+
+		String accountUID = userJson.get("uid").asText();
+		String mapUID = mapJson.get("uid").asText();
+		String mapName = mapJson.get("name").asText();
+		
+		map.setUid(mapUID);
+		map.setName(mapName);
+		map.setCreationTime(new Date().getTime());
+		map.setLastModifiedTime(new Date().getTime());
+
+		//----------//
+
+		AccountManager.addMap(accountUID, map);
+		
+		//----------//
+
+		return ok(gson.toJson(map));
 	}
 
+	// ---------------------------------------------//
+	
+	public static Result editMap()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode mapJson = params.get("map");
+		
+		//----------//
+		
+		Map map = new Map();
+		
+		String mapUID = mapJson.get("uid").asText();
+		String mapName = mapJson.get("name").asText();
+		
+		map.setUid(mapUID);
+		map.setName(mapName);
+		
+		//----------//
+		
+		AccountManager.editMap(map);
+		
+		//----------//
+		
+		return ok(gson.toJson(map));
+	}
+
+
+	// ---------------------------------------------//
+	
+	public static Result removeMap()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode mapJson = params.get("map");
+		
+		//----------//
+
+		String mapUID = mapJson.get("uid").asText();
+		
+		//----------//
+		
+		AccountManager.removeMap(mapUID);
+		
+		//----------//
+		
+		return ok();
+	}
+	
 	// ---------------------------------------------//
 }
