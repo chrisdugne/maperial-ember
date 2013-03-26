@@ -216,7 +216,10 @@ Tile.prototype.LoadImage = function ( source ) {
    function ajaxTimeout() { me.requests[source.type].abort(); }
    var tm = setTimeout(ajaxTimeout,MapParameters.tileDLTimeOut);
    
+   //http://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
    this.requests[source.type].crossOrigin = ''; // no credentials flag. Same as img.crossOrigin='anonymous'
+   
+   
    this.requests[source.type].src = url;
 }
 
