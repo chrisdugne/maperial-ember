@@ -53,10 +53,6 @@ GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
      // init geocoder and geoloc
      function initialize(tryGeoloc) {
          geocoder = new google.maps.Geocoder();
-         // default value
-         var lat = 3.1;
-         var lon = 45.3;
-         var zoom = 13;
 
          if (tryGeoloc && navigator.geolocation){
             navigator.geolocation.getCurrentPosition(callBackGeoLocNav);

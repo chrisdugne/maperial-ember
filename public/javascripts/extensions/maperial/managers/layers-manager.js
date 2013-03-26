@@ -159,7 +159,31 @@ LayersManager.prototype.deleteLayer = function(layerRemovedPosition) {
    this.maperial.restart();
 }
 
-//------------------------------------------------------------------//
+//=======================================================================================//
+
+LayersManager.prototype.changeRaster = function(layerIndex, rasterUID) {
+
+   if(this.maperial.config.layers[layerIndex].type == Source.Raster
+   && this.maperial.config.layers[layerIndex].source.params.uid != rasterUID){
+      
+      this.maperial.config.layers[layerIndex].source.params.uid = rasterUID;
+      this.maperial.restart();
+   }
+}
+
+//=======================================================================================//
+
+LayersManager.prototype.changeImages = function(layerIndex, imagesSrc) {
+   
+   if(this.maperial.config.layers[layerIndex].type == Source.Images
+   && this.maperial.config.layers[layerIndex].source.params.src != imagesSrc){
+      
+      this.maperial.config.layers[layerIndex].source.params.src = imagesSrc;
+      this.maperial.restart();
+   }
+}
+
+//=======================================================================================//
 
 LayersManager.prototype.buildLayerVisibilities = function(style) {
 
@@ -181,7 +205,11 @@ LayersManager.prototype.buildLayerVisibilities = function(style) {
 
 LayersManager.prototype.useDefaultLayers = function() {
    console.log("  using default layers...");
-   this.maperial.config.layers = [this.getOSMLayerConfig()];
+   
+   if(this.maperial.config.layersCreation)
+      this.maperial.config.layers = [];
+   else
+      this.maperial.config.layers = [this.getOSMLayerConfig()];
 }
 
 //------------------------------------------------------------------//

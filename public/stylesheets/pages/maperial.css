@@ -43,6 +43,7 @@
 	filter: alpha(opacity =       85);
 	opacity: .85;
 	z-index: 101;
+	cursor:move;
 }
 
 a.trigger {
@@ -70,6 +71,7 @@ a.trigger {
 	z-index: 102;
 	filter: alpha(opacity =       85);
 	opacity: .85;
+	cursor:hand;cursor:pointer;
 }
 
 a.trigger:hover {

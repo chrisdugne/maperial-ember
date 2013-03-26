@@ -69,7 +69,6 @@ HUD.prototype.initListeners = function () {
    });
 
    $(window).on(MaperialEvents.ZOOM_TO_REFRESH, function(event, x, y){
-      console.log("hud.refershzoom");
       hud.refreshZoom();
    });
 }
@@ -193,7 +192,7 @@ HUD.prototype.buildControls = function(){
       range: "min",
       min: 1,
       max: 18,
-      value: MapParameters.DEFAULT_ZOOM,
+      value: this.context.zoom,
       slide: function( event, ui ) {
          $("#control-zoom a").html(ui.value);
       },

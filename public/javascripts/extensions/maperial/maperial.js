@@ -83,6 +83,10 @@ Maperial.prototype.load = function() {
    this.checkConfig();
 
    //--------------------------//
+
+   this.createContext();
+
+   //--------------------------//
    // After having checked the config, there still may be no layers.
    // For instance in webapp.layersCreation the user may remove every layers.
    
@@ -103,10 +107,6 @@ Maperial.prototype.load = function() {
 Maperial.prototype.build = function() {
 
    console.log("starting build...");
-
-   //--------------------------//
-
-   this.createContext();
 
    //--------------------------//
 
@@ -155,12 +155,6 @@ Maperial.prototype.checkConfig = function() {
 
    if(!this.config.map)
       this.config.map = {};
-
-   //--------------------------//
-   // checking serverURL
-//
-//   if(!this.config.serverURL)
-//      this.config.serverURL = MapParameters.serverURL;
 
    //--------------------------//
    // checking layer config
@@ -233,22 +227,23 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
 
 Maperial.prototype.createContext = function() {
 
-   console.log("creating context...");
-
-   this.context = {};
-   this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
-   this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
-   this.context.centerM    = this.context.coordS.LatLonToMeters( 45.7 , 3.12 );
-   this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
-   this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
-   this.context.zoom       = MapParameters.DEFAULT_ZOOM;
-
-   this.context.parameters = new MapParameters(this);
-
-   if(this.config.hud.elements[HUD.MAGNIFIER]){
-      this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
+   if(!this.context){
+      console.log("creating context...");
+      
+      this.context = {};
+      this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
+      this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
+      this.context.centerM    = this.context.coordS.LatLonToMeters( MapParameters.DEFAULT_LATITUDE , MapParameters.DEFAULT_LONGITUDE );
+      this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
+      this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
+      this.context.zoom       = MapParameters.DEFAULT_ZOOM;
+      
+      if(this.config.hud.elements[HUD.MAGNIFIER]){
+         this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
+      }
    }
 
+   this.context.parameters = new MapParameters(this);
 }
 
 //==================================================================//
@@ -315,9 +310,12 @@ Maperial.prototype.refreshScreen = function() {
       this.context.mapCanvas[0].height = h;
    }
 
-   this.mapRenderer.fitToSize();
-   this.mapMover.resizeDrawers();
-   this.hud.placeElements();
+   try{
+      this.mapRenderer.fitToSize();
+      this.mapMover.resizeDrawers();
+      this.hud.placeElements();
+   }
+   catch(e){}
 }
 
 //==================================================================//

@@ -50,6 +50,14 @@
 	opacity: 1;
 }
 
+/*----------------------------------------------------------*/
+#sourceSelectionWindow {
+	width: 670px;
+	margin-left: -335px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 /*----------------------------------------------------------
 
 #panelSettings {

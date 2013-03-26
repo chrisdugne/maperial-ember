@@ -18,7 +18,7 @@
       $(window).on(MaperialEvents.READY, MapCreationController.maperialReady);
       
       MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
-      MapCreationController.openLayers();
+      MapCreationController.openLayersCreation();
    }
    
    MapCreationController.terminate = function ()
@@ -31,12 +31,12 @@
 
    MapCreationController.maperialReady = function (){
       App.layerSetsHelper.refreshLayersPanel();
-      MapCreationController.defaultStyleSelection();
+      MapCreationController.setSelectedStyle();
    }
 
    // init : once maperial is ready, getSelectedStyle is also the selected one in the styleSelectionWindow
-   MapCreationController.defaultStyleSelection = function (){
-      console.log("MapCreationController.setNewStyle");
+   MapCreationController.setSelectedStyle = function (){
+      console.log("MapCreationController.setSelectedStyle");
       App.stylesData.set("selectedStyle", App.maperial.stylesManager.getSelectedStyle());
    }
    
@@ -63,7 +63,7 @@
 
       // maperial hud
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
-      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls" };
+      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls", disableDrag : true };
       config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    label : "Scale",    position : { right: "10", bottom: "10"} };
       config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    label : "Location" };
       
@@ -86,7 +86,7 @@
 
       // maperial hud
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
-      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls" };
+      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls", disableDrag : true };
       config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    label : "Scale",    position : { right: "10", bottom: "10"} };
       config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    label : "Location" };
 
@@ -99,27 +99,44 @@
    //=============================================================================//
    // --- layer view
 
-   MapCreationController.openLayers = function()
+   MapCreationController.openLayersCreation = function()
    {
       App.maperial.apply(MapCreationController.getLayersCreationConfig());
+      MapCreationController.openBaseSelection();
    }
 
    MapCreationController.backToLayers = function(){
       MapCreationController.closeSettings();
       MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
-      MapCreationController.openLayers();
+      MapCreationController.openLayersCreation();
    }
 
    //=============================================================================//
    // Layers
    
+   MapCreationController.openBaseSelection = function(){
+      $("#baseSelectionWindow").modal();
+      $('#baseSelectionWindow').off('hidden');
+      $('#baseSelectionWindow').on('hidden', function(){
+         setTimeout(function(){
+            if(App.maperial.config.layers.length == 0)
+               MapCreationController.openBaseSelection()
+         }, 200);
+      });
+   }
+
+   //--------------------------------------//
+
    MapCreationController.openSourceSelection = function(){
       $("#sourceSelectionWindow").modal();
+      
+      MapCreationController.currentLayerIndex = -1;
    }
    
    //--------------------------------------//
 
-   MapCreationController.addLayer = function(sourceType){
+   MapCreationController.addLayer = function(sourceType, imagesSrc){
+      $("#baseSelectionWindow").modal("hide");
       $("#sourceSelectionWindow").modal("hide");
       
       switch(sourceType){
@@ -133,7 +150,7 @@
             break;
 
          case Source.Images:
-            MapCreationController.openSelectImagesWindow();
+            MapCreationController.addImagesLayer(imagesSrc);
             break;
             
       }
@@ -153,14 +170,37 @@
    }
    
    //--------------------------------------//
+   
+   MapCreationController.addImagesLayer = function(src){
+      var yetAnotherImagesLayer = false;
+      
+      for(var i = 0; i < App.maperial.config.layers.length; i++){
+         if(App.maperial.config.layers[i].type == Source.Images){
+            yetAnotherImagesLayer = true;
+            break;
+         }
+      }
+      
+      if(yetAnotherImagesLayer){
+         // TODO :  ameliorer le UI avec bootstrap.alert
+         alert("Il y a deja un layer 'Images'");
+      }
+      else{
+         App.maperial.layersManager.addLayer(Source.Images, [src]);
+      }
+   }
+   
+   //--------------------------------------//
 
    MapCreationController.editLayer = function(layerIndex){
       
       if(MapCreationController.preventNextEdit){
+         // mouseUp when dragging layer arrives here : not a click : prevent this call.
          return;
       }
          
       var layer = App.maperial.config.layers[layerIndex];
+      MapCreationController.currentLayerIndex = layerIndex;
       
       switch(layer.source.type){
          case Source.MaperialOSM :
@@ -183,10 +223,11 @@
    MapCreationController.customizeLayer = function(layerIndex){
 
       var layer = App.maperial.config.layers[layerIndex];
+      MapCreationController.currentLayerIndex = layerIndex;
       
       switch(layer.source.type){
          case Source.MaperialOSM :
-            MapCreationController.openCustomizeLayerSetsWindow(layerIndex);
+            MapCreationController.openCustomizeLayerSetsWindow();
             break;
             
          case Source.Raster :
@@ -213,7 +254,7 @@
       App.get('router').transitionTo('mapCreation.publicStyles');
       $("#selectStyleWindow").modal();
       $('#selectStyleWindow').off('hidden');
-      $('#selectStyleWindow').on('hidden', MapCreationController.defaultStyleSelection);
+      $('#selectStyleWindow').on('hidden', MapCreationController.setSelectedStyle);
    }
 
    MapCreationController.selectStyle = function(style){
@@ -229,13 +270,13 @@
    //=============================================================================//
    // OSM Groups
    
-   MapCreationController.openCustomizeLayerSetsWindow = function(layerIndex){
+   MapCreationController.openCustomizeLayerSetsWindow = function(){
 
       $("#customizeLayerSetsWindow").modal();
-      console.log("openCustomizeLayerSetsWindow " + layerIndex);
-      App.layerSetsHelper.buildLayerSets(layerIndex);
+      console.log("openCustomizeLayerSetsWindow " + MapCreationController.currentLayerIndex);
+      App.layerSetsHelper.buildLayerSets(MapCreationController.currentLayerIndex);
 //      $('#selectGroupsWindow').off('hidden');
-//      $('#selectGroupsWindow').on('hidden', MapCreationController.defaultStyleSelection);
+//      $('#selectGroupsWindow').on('hidden', MapCreationController.setSelectedStyle);
    }
    
    
@@ -247,9 +288,16 @@
    }
    
    MapCreationController.selectRaster = function(raster){
-      console.log(raster);
       $("#selectRasterWindow").modal("hide");
-      App.maperial.layersManager.addLayer(Source.Raster, [raster.uid]);
+      
+      if(MapCreationController.currentLayerIndex >= 0){
+         console.log("editing a raster");
+         App.maperial.layersManager.changeRaster(MapCreationController.currentLayerIndex, raster.uid);
+      }
+      else{
+         console.log("adding a new raster");
+         App.maperial.layersManager.addLayer(Source.Raster, [raster.uid]);
+      }
    }
    
    //=============================================================================//
@@ -260,9 +308,9 @@
    }
    
    MapCreationController.selectImages = function(src){
-      console.log(src);
       $("#selectImagesWindow").modal("hide");
-      App.maperial.layersManager.addLayer(Source.Images, [src]);
+      console.log("editing images");
+      App.maperial.layersManager.changeImages(MapCreationController.currentLayerIndex, src);
    }
    
    //=============================================================================//
@@ -339,8 +387,9 @@
       },
       
       addLayer: function(router, event){
-         var source = event.context;
-         MapCreationController.addLayer(source);
+         var source = event.contexts[0];
+         var imagesSrc = event.contexts[1];
+         MapCreationController.addLayer(source, imagesSrc);
       },
       
       //--------------------------------------//

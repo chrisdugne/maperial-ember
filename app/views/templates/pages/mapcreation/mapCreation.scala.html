@@ -1,4 +1,5 @@
 @import views.html.templates.components.maperial; 
+@import views.html.popups.baseSelectionWindow; 
 @import views.html.popups.sourceSelectionWindow; 
 @import views.html.popups.selectStyleWindow; 
 @import views.html.popups.selectRasterWindow; 
@@ -15,6 +16,7 @@
 	<div id="layers"></div>
 </div>
 
+@baseSelectionWindow()
 @sourceSelectionWindow()
 @selectStyleWindow()
 @selectRasterWindow()

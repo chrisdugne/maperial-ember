@@ -531,8 +531,9 @@ StyleMenu.prototype.ColorPickerChange = function(_ruleId,pName){
 StyleMenu.prototype.ColorPickerSubmit = function(_uid,_ruleId,pName){
    var me = this;
    return function (hsb, hex, rgb) {
-      for(uid in me.linkedUIDs(_uid))
-         me.SetParamIdZNew(uid,pName,ColorTools.HexToRGBA(hex));
+      var linkedUIDs = me.linkedUIDs(_uid);
+      for(var i = 0 ; i < linkedUIDs.length; i++)
+         me.SetParamIdZNew(linkedUIDs[i], pName, ColorTools.HexToRGBA(hex));
    }
 }
 
@@ -1122,10 +1123,14 @@ StyleMenu.prototype.linkedUIDs = function (uid) {
    switch (uid) {
       case "000":
       case "001":
-         return {"000":true, "001":true}
+         return ["000", "001"]
+
+      case "008":
+      case "014":
+         return ["008", "014"]
       
       default: 
-         return uid;
+         return [uid];
    }
 }
 

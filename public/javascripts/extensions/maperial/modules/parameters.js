@@ -1,13 +1,17 @@
 //---------------------------------------------------------------------------//
 
-MapParameters.serverURL   = "//maperial.com";
+MapParameters.serverURL              = "//maperial.com";
 
 MapParameters.shadersPath            = "assets/shaders";
 
 MapParameters.mapCanvasName          = "map";
 MapParameters.magnifierCanvasName    = "magnifier";
 
-MapParameters.DEFAULT_ZOOM           = 10;
+MapParameters.DEFAULT_ZOOM           = 8;
+MapParameters.DEFAULT_LATITUDE       = 45.7;
+MapParameters.DEFAULT_LONGITUDE      = 3.12;
+
+
 MapParameters.refreshRate            = 15; // ms
 MapParameters.tileDLTimeOut          = 60000; //ms
 MapParameters.tileSize               = 256;
@@ -17,7 +21,7 @@ MapParameters.autoMoveMillis         = 700;
 MapParameters.autoMoveDeceleration   = 0.005;
 MapParameters.autoMoveAnalyseSize    = 10;
 
-MapParameters.DEFAULT_STYLE_UID      = "1_style_13cdf6f75f58e56cd3e";
+MapParameters.DEFAULT_STYLE_UID      = "1_style_13ba851b4e18833e08e";
 MapParameters.DEFAULT_COLORBAR_UID   = "default";
 
 MapParameters.AlphaBlend             = "AlphaBlend";

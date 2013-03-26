@@ -29,6 +29,7 @@ LayerSetsHelper.prototype.refreshLayersPanel = function() {
    
    $("#layers").sortable({
       revert: true,
+      delay: 200,
       start: function(event, ui){
          me.mapCreationController.preventNextEdit = true;
          me.layerBeingDraggedIndex = parseInt((ui.item[0].id).split("_")[1]);
@@ -67,6 +68,8 @@ LayerSetsHelper.prototype.getSourceThumb = function(source) {
          return " src=\""+Utils.styleThumbURL(App.maperial.stylesManager.getSelectedStyle().uid)+"\"";
 
       case Source.Raster:
+         return " src=\"assets/images/icons/layer.raster.png\""; // TODO : thumb du raster
+
       case Source.Vector:
       case Source.Images:
          console.log("source.params.src : " + source.params.src);

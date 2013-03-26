@@ -263,8 +263,11 @@ Tile.prototype.LoadRaster = function ( source ) {
 
 Tile.prototype.appendDataToLayers = function ( sourceType, data ) {
    for(var i = 0; i< this.layersConfig.length; i++){
-      if ( this.layersConfig[i].source.type == sourceType )
-         this.layers[i].Init( data );
+      try{
+         if ( this.layersConfig[i].source.type == sourceType )
+            this.layers[i].Init( data );
+      }
+      catch(e){}
    }   
 }
 
