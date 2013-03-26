@@ -46,20 +46,20 @@ ExtensionUpload.init = function ()
       maxFileSize: 15000000,
       acceptFileTypes: /(\.|\/)(pst|gif|jpe?g|png)$/i,
       process: [
-                {
-                   action: 'load',
-                   fileTypes: /^image\/(gif|jpeg|png)$/,
-                   maxFileSize: 20000000 // 20MB
-                },
-                {
-                   action: 'resize',
-                   maxWidth: 1440,
-                   maxHeight: 900
-                },
-                {
-                   action: 'save'
-                }
-                ]
+          {
+             action: 'load',
+             fileTypes: /^image\/(gif|jpeg|png)$/,
+             maxFileSize: 20000000 // 20MB
+          },
+          {
+             action: 'resize',
+             maxWidth: 1440,
+             maxHeight: 900
+          },
+          {
+             action: 'save'
+          }
+       ]
    });
 
    //-------------------------------------------------------------------//  
