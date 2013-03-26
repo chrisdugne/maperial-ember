@@ -32,10 +32,6 @@ MapManager.prototype.uploadNewMap = function(map)
    App.user.set("waiting", true);
    var me = this;
    
-   console.log("uploadNewMap");
-   
-   console.log(map);
-   
    $.ajax({
       type: "POST",
       url: App.Globals.mapServer + "/api/map?_method=DATA",
@@ -43,11 +39,12 @@ MapManager.prototype.uploadNewMap = function(map)
       dataType: "json",
       success: function (data, textStatus, jqXHR)
       {
-         console.log("result");
-         console.log(data);
          var result = data.files[0];
          map.uid = result.uid;
          
+         App.user.maps.pushObject(map);
+         App.get('router').transitionTo('dashboard');
+
          me.addMapInDB(map);
       }
    });
@@ -61,8 +58,6 @@ MapManager.prototype.addMapInDB = function(map)
    params["user"] = App.user;
    params["map"] = map;
 
-   console.log("addMapInDB");
-   
    $.ajax({  
       type: "POST",  
       url: "/createMap",
@@ -71,10 +66,6 @@ MapManager.prototype.addMapInDB = function(map)
       dataType: "text",
       success: function (map)
       {
-         console.log("success");
-         console.log(map);
-         
-         App.user.maps.pushObject(map);
          App.user.set("waiting", false);
       }
    });
