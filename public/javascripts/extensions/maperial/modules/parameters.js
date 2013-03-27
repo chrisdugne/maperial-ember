@@ -24,8 +24,8 @@ MapParameters.autoMoveAnalyseSize    = 10;
 MapParameters.DEFAULT_STYLE_UID      = "1_style_13ba851b4e18833e08e";
 MapParameters.DEFAULT_COLORBAR_UID   = "default";
 
-MapParameters.AlphaBlend             = "AlphaBlend";
 MapParameters.AlphaClip              = "AlphaClip";
+MapParameters.AlphaBlend             = "AlphaBlend";
 MapParameters.MulBlend               = "MulBlend";
 
 
@@ -41,10 +41,11 @@ function MapParameters (maperial) {
    this.contrast     = 0.0;
    this.luminosity   = 0.0;
    this.bwMethod     = 1.0;
-   this.obs          = [];
    
    this.colorbars    = {};
    this.sources      = {};
+   
+   this.shaders = [MapParameters.AlphaClip, MapParameters.AlphaBlend, MapParameters.MulBlend];
    
    this.buildSources(this.maperial.config.layers);
 }

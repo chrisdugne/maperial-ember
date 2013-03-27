@@ -315,7 +315,9 @@ Maperial.prototype.refreshScreen = function() {
       this.mapMover.resizeDrawers();
       this.hud.placeElements();
    }
-   catch(e){}
+   catch(e){
+      console.log(e);
+   }
 }
 
 //==================================================================//

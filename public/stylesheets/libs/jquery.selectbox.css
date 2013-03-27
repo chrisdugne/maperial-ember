@@ -7,7 +7,7 @@
 	font-weight: normal;
 	height: 30px;
 	position: relative;
-	width: 200px;
+	width: 140px;
 }
 .sbHolder:focus .sbSelector{
 	
@@ -67,7 +67,7 @@
 	padding: 0;
 	position: absolute;
 	top: 30px;
-	width: 200px;
+	width: 140px;
 	z-index: 1;
 	overflow-y: auto;
 }

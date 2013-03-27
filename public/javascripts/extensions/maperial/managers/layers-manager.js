@@ -95,7 +95,7 @@ LayersManager.prototype.getRasterLayerConfig = function(rasterUID) {
       },
       composition: {
          shader : MapParameters.MulBlend,
-         params : { uParams : [ -0.5, -0.5, 1.0 ]}
+         params : { uParams : [ -0.5, -0.5, 1 ]}
       }
    }
 }
@@ -267,4 +267,24 @@ LayersManager.prototype.attachSet = function(setIndex, layerPosition) {
    }
    
    this.maperial.restart();
+}
+
+//-----------------------------------------------------------------------------------//
+
+
+LayersManager.prototype.getSourceThumb = function(source) {
+
+ switch(source.type){
+ 
+    case Source.MaperialOSM:
+       return " src=\""+Utils.styleThumbURL(this.maperial.stylesManager.getSelectedStyle().uid)+"\"";
+
+    case Source.Raster:
+       return " src=\"assets/images/icons/layer.raster.png\""; // TODO : thumb du raster
+
+    case Source.Vector:
+    case Source.Images:
+       return " src=\"assets/images/icons/layer."+source.params.src+".png\"";
+ 
+ }
 }

@@ -31,8 +31,6 @@ UserManager.getAccount = function()
          
          DatasetManager.initDatasets();
          App.mapManager.getMaps(App.user);
-         
-         console.log(App.user);
       }
    });
 }

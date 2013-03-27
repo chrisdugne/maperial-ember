@@ -18,7 +18,7 @@
 /*************************/
 .panel {
 	position: fixed;
-	background: #000000; //
+	background: #000000; 
 	background-image: url(IMAGE_URL); /* fallback */
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#444444),
 		to(#000000) ); /* Saf4+, Chrome */
@@ -204,6 +204,23 @@ div.active.buttonMode {
 
 a#triggerHUDSettings {
 	height: 16px;
+}
+
+/*-------------------------*/
+#panelCompositions {
+	width: 300px;
+	color: #eee;
+	max-height: 73%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#compositionSettingsTitle {
+	color: #eee;
+	font-size:14px;
+	text-align: center;
+	margin-top:7px;
+	margin-bottom:23px;
 }
 
 /*-------------------------*/

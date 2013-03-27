@@ -59,5 +59,3 @@ Source.prototype.getURL = function (tx, ty, z) {
          // http://www.neongeo.com/wiki/doku.php?id=map_servers
    }
 }
-
-//-----------------------------------------------------------------------------------//

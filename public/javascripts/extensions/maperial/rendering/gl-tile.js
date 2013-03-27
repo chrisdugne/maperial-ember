@@ -383,9 +383,9 @@ Tile.prototype.Fuse = function ( backTex,frontTex,destFB, prog, params ) {
 
    this.gl.drawArrays               (this.gl.TRIANGLE_STRIP, 0, this.assets.squareVertexPositionBuffer.numItems);
 
-   for (var k in params) {
+   for (var p in params) {
       // WRONG !!!!! always  uniform3fv ???
-      this.gl.uniform3fv             (prog.params[k] , params[k] ); 
+      this.gl.uniform3fv             (prog.params[p] , params[p] ); 
    }
 
    gl.bindFramebuffer               ( gl.FRAMEBUFFER, null );

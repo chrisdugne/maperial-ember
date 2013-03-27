@@ -51,30 +51,12 @@ LayerSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
    
    $("#layers").append(
          "<div class=\"row-fluid movable\" id=\"layer_"+layerIndex+"\">" +
-         "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+this.getSourceThumb(layer.source)+"></img></div>" +
+         "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+this.maperial.layersManager.getSourceThumb(layer.source)+"></img></div>" +
          "   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
          "   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
          "</div>"
    ); 
 
-}
-
-LayerSetsHelper.prototype.getSourceThumb = function(source) {
- 
-   switch(source.type){
-   
-      case Source.MaperialOSM:
-         return " src=\""+Utils.styleThumbURL(App.maperial.stylesManager.getSelectedStyle().uid)+"\"";
-
-      case Source.Raster:
-         return " src=\"assets/images/icons/layer.raster.png\""; // TODO : thumb du raster
-
-      case Source.Vector:
-      case Source.Images:
-         console.log("source.params.src : " + source.params.src);
-         return " src=\"assets/images/icons/layer."+source.params.src+".png\"";
-   
-   }
 }
 
 //=======================================================================//

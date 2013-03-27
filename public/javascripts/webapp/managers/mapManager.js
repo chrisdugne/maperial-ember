@@ -10,17 +10,24 @@ function MapManager(){
 
 MapManager.prototype.getMaps = function(user){
 
-   var map = user.maps[0];
-   if(!map)return;
+   var list = {uids : []};
+   for(var i=0; i < user.maps.length; i++ ){
+      list.uids.push(user.maps[i].uid);
+   }
    
    $.ajax({
-      type: "GET",
-      url: App.Globals.mapServer + "/api/map/"+map.uid,
+      type: "POST",
+      url: App.Globals.mapServer + "/api/map/list",
+      data: JSON.stringify(list),  
+      contentType: "application/json; charset=utf-8",
       dataType: "json",
-      success: function (data, textStatus, jqXHR)
+      success: function (result)
       {
-         console.log("map received");
-         console.log(data);
+         var maps = result.maps;
+
+         for(uid in maps){
+            console.log(maps[uid]);
+         }
       }
    });
 }
