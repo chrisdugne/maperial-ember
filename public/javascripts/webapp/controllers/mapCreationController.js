@@ -232,24 +232,9 @@
    //--------------------------------------//
    
    MapCreationController.customizeLayer = function(layerIndex){
-
       var layer = App.maperial.config.layers[layerIndex];
       MapCreationController.currentLayerIndex = layerIndex;
-      
-      switch(layer.source.type){
-         case Source.MaperialOSM :
-            MapCreationController.openCustomizeLayerSetsWindow();
-            break;
-            
-         case Source.Raster :
-            MapCreationController.openSelectRasterWindow();
-            break;
-
-         case Source.Images:
-            MapCreationController.openSelectImagesWindow();
-            break;
-            
-      }
+      MapCreationController.openCustomizeLayerWindow(layer);
    }
    
    //--------------------------------------//
@@ -279,17 +264,28 @@
    }
 
    //=============================================================================//
-   // OSM Groups
+   // Customize 
    
-   MapCreationController.openCustomizeLayerSetsWindow = function(){
+   MapCreationController.openCustomizeLayerWindow = function(layer){
 
-      $("#customizeLayerSetsWindow").modal();
-      console.log("openCustomizeLayerSetsWindow " + MapCreationController.currentLayerIndex);
-      App.layerSetsHelper.buildLayerSets(MapCreationController.currentLayerIndex);
-//      $('#selectGroupsWindow').off('hidden');
-//      $('#selectGroupsWindow').on('hidden', MapCreationController.setSelectedStyle);
+      console.log("customize layer " + MapCreationController.currentLayerIndex);
+
+      switch(layer.source.type){
+
+         case Source.MaperialOSM :
+            $("#customizeLayerOSMWindow").modal();
+            App.layerSetsHelper.buildLayerSets(MapCreationController.currentLayerIndex);
+            break;
+            
+         case Source.Raster :
+         case Source.Images:
+            $("#customizeLayerWindow").modal();
+            break;
+            
+      }
+
+      App.layerSetsHelper.buildCompositionOptions(MapCreationController.currentLayerIndex);
    }
-   
    
    //=============================================================================//
    // Rasters

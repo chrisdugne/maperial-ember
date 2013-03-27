@@ -45,21 +45,3 @@
 	line-height: 1.25;
 	color: #fff;
 }
-
-/*--------------------------------*/
-.footerTitle {
-	color: #fff;
-	font-size: 19px;
-	margin-bottom: 14px;
-}
-
-.footerContent {
-	text-align: center;
-	color: #bbb;
-	margin-bottom: 5px;
-}
-
-.footerEnd {
-	text-align: center;
-	color: #777;
-}

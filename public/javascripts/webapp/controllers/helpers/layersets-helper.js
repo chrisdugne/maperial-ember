@@ -41,7 +41,6 @@ LayerSetsHelper.prototype.refreshLayersPanel = function() {
    });
    
    $("#panelLayers").css("height", panelHeight+"px");
-   
 }
 
 //--------------------------------------//
@@ -165,7 +164,67 @@ LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
 
 //=======================================================================//
 
+LayerSetsHelper.prototype.buildCompositionOptions = function(layerIndex){
+   
+   //-----------------------------------------------------//
+
+   var maperial = this.maperial;
+   var composition = this.maperial.config.layers[layerIndex].composition;
+
+   //-----------------------------------------------------//
+   
+   $("#shadersDiv").empty();
+
+   //-----------------------------------------------------//
+   
+   var shadersSelection = "<select name=\"shadersSelection\" id=\"shadersSelection\">";
+   
+   for(var i=0; i< App.Globals.shaders.length; i++) 
+      shadersSelection += "<option value=\""+i+"\">"+App.Globals.shaders[i]+"</option>";
+   
+   shadersSelection += "</select>";
+   
+   $("#shadersDiv").append(shadersSelection);
+
+   //-----------------------------------------------------//
+   
+   $("#shadersSelection").selectbox({
+      onChange: function (val, inst) {
+         try{
+            composition.shader = inst.input[0][val].label;
+            maperial.restart();
+         }
+         catch(e){}
+      },
+      effect: "slide"
+   });
+   
+   $('#shadersSelection').selectbox('change', "", composition.shader);
+}
+
+//=======================================================================//
+
+/**
+ * TODO (not usefull for a DEMO)
+ */
 LayerSetsHelper.prototype.buildDetailledSets = function(){
    $("#layerSetsDiv").empty();
-   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

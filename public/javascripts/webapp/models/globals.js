@@ -26,6 +26,7 @@
       parentView: "",
       currentPage: "",
       epsg: [],
+      shaders: [],
       separators: [",", ";", "|", "\t"],
 
       //-------------------------------------------//
@@ -69,6 +70,13 @@
       }
    });
 
+   //-------------------------------------------//
+   // init blends
+   
+   App.Globals.shaders.push(MapParameters.AlphaClip);
+   App.Globals.shaders.push(MapParameters.AlphaBlend);
+   App.Globals.shaders.push(MapParameters.MulBlend);
+   
    //-------------------------------------------//
    //init getPublicData
 

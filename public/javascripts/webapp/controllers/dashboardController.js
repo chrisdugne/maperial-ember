@@ -29,6 +29,8 @@
 
 	DashboardController.editMap = function(map)
 	{
+	   console.log("editmap");
+	   console.log(map);
 	   App.user.set("selectedMap", map);
 	   App.get('router').transitionTo('mapCreation');
 	}
