@@ -8,12 +8,22 @@ function MapManager(){
 
 //=================================================================//
 
+MapManager.prototype.createNewMap = function(){
+   var map = {uid: null, name: "New Map", config: App.maperial.newConfig()};
+   App.user.set("selectedMap", map);
+}
+   
+//=================================================================//
+   
 MapManager.prototype.getMaps = function(user){
 
    var list = {uids : []};
    for(var i=0; i < user.maps.length; i++ ){
       list.uids.push(user.maps[i].uid);
    }
+   
+   if(list.uids.length == 0) 
+      return;
    
    $.ajax({
       type: "POST",
@@ -81,6 +91,7 @@ MapManager.prototype.addMapInDB = function(map)
       success: function (map)
       {
          App.user.set("waiting", false);
+         App.get('router').transitionTo('dashboard');
       }
    });
    
@@ -122,6 +133,7 @@ MapManager.prototype.editMapInDB = function(map)
       success: function()
       {
          App.user.set("waiting", false);
+         App.get('router').transitionTo('dashboard');
       }
    });
 }

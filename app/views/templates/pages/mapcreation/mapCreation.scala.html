@@ -13,10 +13,24 @@
 <div class="panel snapper hide" id="panelLayers">
 	<div class="row-fluid">
 		<div id="addLayerButton" class="span2 offset2 addDataButton pointerCursor" {{action openSourceSelection}}></div>
-		<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
-		<div class="span3 offset4 btn-small btn-primary" {{action saveMap}}>Save</div>
+		<div class="span4 offset2 btn-small btn-primary" {{action openSettings}}>Settings</div>
 	</div>
 	<div id="layers"></div>
+</div>
+
+<div class="panel snapper hide" id="panelCompositionSettings">
+	<div id="compositionSettings"></div>
+</div>
+
+<!-- Custom for Settings -->
+<div class="panel snapper hide" id="panelSettings">
+	<div class="row-fluid">
+		<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
+		<div class="span3 offset5 btn-small btn-primary" {{action backToLayers}}>Back</div>
+		<div class="span3 btn-small btn-primary" {{action saveMap}}>Save</div>
+	</div>
+	
+	<div id="hudViewerSettings"></div>
 </div>
 
 @baseSelectionWindow()

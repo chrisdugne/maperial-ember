@@ -21,16 +21,12 @@
 	
 	DashboardController.createMap = function()
 	{
-	   var map = {uid : null, name : "New Map"};
-
-      App.user.set("selectedMap", map);
+	   App.mapManager.createNewMap();
       App.get('router').transitionTo('mapCreation');
 	}
 
 	DashboardController.editMap = function(map)
 	{
-	   console.log("editmap");
-	   console.log(map);
 	   App.user.set("selectedMap", map);
 	   App.get('router').transitionTo('mapCreation');
 	}

@@ -32,7 +32,15 @@
    //==================================================================//
 
    MapCreationController.maperialReady = function (){
-      App.layerSetsHelper.refreshLayersPanel();
+      
+      if(App.Globals.isViewLayerCreation){
+         App.layerSetsHelper.refreshLayersPanel();
+         App.layerSetsHelper.refreshCompositionsPanel();
+      }
+      else{
+         App.layerSetsHelper.refreshHUDViewerSettings();
+      }
+      
       MapCreationController.setSelectedStyle();
    }
 
@@ -61,11 +69,11 @@
       var config = {hud:{elements:{}, options:{}}};
       
       // custom
-      config.hud.elements["Layers"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true, disableDrag : true };
+      config.hud.elements["Layers"]              = {show : true,  type : HUD.PANEL,  position : { right: "0", top: "0"},      disableHide : true, disableDrag : true };
+      config.hud.elements["CompositionSettings"] = {show : true,  type : HUD.PANEL,  position : { left:  "0", bottom: "0"} ,  disableHide : true, disableDrag : true };
 
       // maperial hud
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
-      config.hud.elements[HUD.COMPOSITIONS]  = {show : true,  type : HUD.PANEL,    disableHide : true, disableDrag : true };
       config.hud.elements[HUD.CONTROLS]      = {show : false, type : HUD.PANEL,    label : "Controls", disableDrag : true };
       config.hud.elements[HUD.SCALE]         = {show : false, type : HUD.PANEL,    label : "Scale" };
       config.hud.elements[HUD.GEOLOC]        = {show : false, type : HUD.PANEL,    label : "Location" };
@@ -82,55 +90,39 @@
    
    MapCreationController.getSettingsConfig = function(){
 
-      var config = {hud:{elements:{}, options:{}}};      
+      var config = {};
+      
+      // map viewer hud config
+      config.hud = App.user.selectedMap.config.hud;
       
       // custom
-//      config["MapSettings"] = {show : true, type : HUD.PANEL, visibility : HUD.REQUIRED };
+      config.hud.elements["Settings"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true, disableDrag : true };
 
-      // maperial hud
-      config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
-      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,    label : "Controls", disableDrag : true };
-      config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,    label : "Scale",    position : { right: "10", bottom: "10"} };
-      config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,    label : "Location" };
+      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
+      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
 
-      config.hud["margin-top"] = App.Globals.HEADER_HEIGHT;
-      config.hud["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
-      
+      // layers previously chosen
+      config.layers = App.maperial.config.layers;
+
+      console.log(config);
       return config;
    }  
-
-   //=============================================================================//
-   // Map controls
-
-   MapCreationController.saveMap = function()
-   {
-      App.user.set('selectedMap.name', $("#mapNameInput").val());
-      App.user.set('selectedMap.config', App.maperial.config);
-      
-      if(App.user.isCreatingANewMap)
-         App.mapManager.uploadNewMap(App.user.selectedMap);
-      else
-         App.mapManager.saveMap(App.user.selectedMap);
-   }
    
    //=============================================================================//
    // --- layer view
 
    MapCreationController.openLayersCreation = function()
    {
+      var config = MapCreationController.getLayersCreationConfig();
+      
       if(App.user.isCreatingANewMap){
-         App.maperial.apply(MapCreationController.getLayersCreationConfig());
          MapCreationController.openBaseSelection();
       }
       else{
-         App.maperial.apply(App.user.selectedMap.config);
+         config.layers = App.user.selectedMap.config.layers;
       }
-   }
 
-   MapCreationController.backToLayers = function(){
-      MapCreationController.closeSettings();
-      MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
-      MapCreationController.openLayersCreation();
+      App.maperial.apply(config);
    }
 
    //=============================================================================//
@@ -290,12 +282,9 @@
             
          case Source.Raster :
          case Source.Images:
-            $("#customizeLayerWindow").modal();
             break;
             
       }
-
-      App.layerSetsHelper.buildCompositionOptions(MapCreationController.currentLayerIndex);
    }
    
    //=============================================================================//
@@ -336,13 +325,45 @@
 
    MapCreationController.openSettings = function(){
       MapCreationController.wizardSetView(MapCreationController.SETTINGS);
-      App.maperial.apply(this.getSettingsConfig());
+      App.maperial.apply(MapCreationController.getSettingsConfig());
+   }
+
+   MapCreationController.backToLayers = function(){
+      MapCreationController.closeSettings();
+      MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
+      
+      var config = MapCreationController.getLayersCreationConfig();
+      config.layers = App.maperial.config.layers;
+
+      App.maperial.apply(config);
    }
    
    MapCreationController.closeSettings = function(){
 
    }
 
+   //=============================================================================//
+   // Map controls
+
+   MapCreationController.saveMap = function()
+   {
+      MapCreationController.closeSettings();
+      
+      delete App.maperial.config.hud.elements["Settings"];
+      App.maperial.config.hud.options = {};
+      
+      App.user.set('selectedMap.config.hud', App.maperial.config.hud);
+      App.user.set('selectedMap.config.layers', App.maperial.config.layers);
+      App.user.set('selectedMap.name', $("#mapNameInput").val());
+
+      console.log(App.user.selectedMap);
+      
+      if(App.user.isCreatingANewMap)
+         App.mapManager.uploadNewMap(App.user.selectedMap);
+      else
+         App.mapManager.saveMap(App.user.selectedMap);
+   }
+   
    //=============================================================================//
 
    App.MapCreationController = MapCreationController;
@@ -412,6 +433,14 @@
 
       saveMap: function(router, event){
          MapCreationController.saveMap();
+      },
+
+      openSettings: function(router, event){
+         MapCreationController.openSettings();
+      },
+      
+      backToLayers: function(router, event){
+         MapCreationController.backToLayers();
       },
       
       //--------------------------------------//

@@ -42,7 +42,6 @@ LayersManager.prototype.addLayer = function(sourceType, params) {
 
    case Source.Raster :
       var rasterUID = params[0];
-      console.log(rasterUID);
       layerConfig = this.getRasterLayerConfig(rasterUID);
       break;
 
@@ -56,8 +55,6 @@ LayersManager.prototype.addLayer = function(sourceType, params) {
       break;
    }
 
-   console.log("layerConfig");
-   console.log(layerConfig);
    this.maperial.config.layers.push(layerConfig);
    this.maperial.restart();
 
@@ -232,7 +229,6 @@ LayersManager.prototype.exchangeLayers = function(exchangedIds) {
 
    for(subLayerId in this.maperial.config.layerVisibilities){
       var previousPosition = this.maperial.config.layerVisibilities[subLayerId];
-      console.log("subLayerId " + subLayerId + " previousPosition : " + previousPosition + " | new position : " + exchangedIds[previousPosition]);
       this.maperial.config.layerVisibilities[subLayerId] = exchangedIds[previousPosition];
    }
 
@@ -250,7 +246,6 @@ LayersManager.prototype.detachSet = function(setIndex) {
 
    for(var i=0;  i < this.layerSets[setIndex].subLayerIds.length; i++){
       var subLayerId = this.layerSets[setIndex].subLayerIds[i];
-      console.log("detaching " + subLayerId);
       this.maperial.config.layerVisibilities[subLayerId] = -1;
    }
 
@@ -262,7 +257,6 @@ LayersManager.prototype.attachSet = function(setIndex, layerPosition) {
 
    for(var i=0;  i < this.layerSets[setIndex].subLayerIds.length; i++){
       var subLayerId = this.layerSets[setIndex].subLayerIds[i];
-      console.log("attaching " + subLayerId);
       this.maperial.config.layerVisibilities[subLayerId] = layerPosition;
    }
 

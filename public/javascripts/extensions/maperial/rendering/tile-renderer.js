@@ -43,7 +43,7 @@ TileRenderer.ApplyStyle = function ( ctx , line , attr, subLayerId , zoom , styl
  * Un layer est une liste de g group
  */
 TileRenderer.maxRenderTime = 0
-TileRenderer.RenderLayers = function (layerPositions, layerPosition , ctx , data , zoom , style , cursor  ) {
+TileRenderer.RenderLayers = function (layerVisibilities, layerPosition , ctx , data , zoom , style , cursor  ) {
 
    //-------------------------------------------------//
    
@@ -77,7 +77,7 @@ TileRenderer.RenderLayers = function (layerPositions, layerPosition , ctx , data
       var layer = data["l"][i]; // layerGroup
       var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
-      if(layerPositions[subLayerId] != layerPosition)
+      if( layerPosition != null &&  layerVisibilities[subLayerId] != layerPosition)
          continue;
       
       var ll = layer["g"]; // liste de listes de lignes
@@ -116,7 +116,7 @@ TileRenderer.RenderLayers = function (layerPositions, layerPosition , ctx , data
 
 //------------------------------------------------------------------------------------------------//
 
-TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent, layerPosition, layerPositions ) {
+TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent, layerPosition, layerVisibilities ) {
 
    ctx.scale(1,1);
    var i;
@@ -126,7 +126,7 @@ TileRenderer.FindSubLayerId = function ( point, ctx , data , zoom, styleContent,
       var layer = data["l"][i]; // layerGroup
       var subLayerId = layer["c"]; // class - il devrait y avoir une class par Layer, pas par LayerGroup ?
       
-      if(layerPositions[subLayerId] != layerPosition)
+      if(layerVisibilities[subLayerId] != layerPosition)
          continue;
 
       var subLayer = styleContent [ subLayerId ];

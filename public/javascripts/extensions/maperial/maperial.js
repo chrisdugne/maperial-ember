@@ -29,6 +29,7 @@ function Maperial(){
  * Must be called whenever the config is changed, in order to build Maperial again
  */
 Maperial.prototype.restart = function(){
+   $(window).trigger(MaperialEvents.LOADING);
    this.reset();
    this.load();
 }
@@ -36,8 +37,7 @@ Maperial.prototype.restart = function(){
 //==================================================================//
 
 Maperial.prototype.apply = function(config){
-   console.log("maperial.apply");
-   console.log(config);
+   console.log("MaperialJS applies ", config);
    this.config = config;
    this.restart();
 }
@@ -47,15 +47,15 @@ Maperial.prototype.apply = function(config){
 Maperial.prototype.reset = function(){
 
    console.log("Reset maperial...");
-   
+
    try{
       this.mapRenderer.reset();
    }catch(e){}
-   
+
    try{
       this.mapMover.removeListeners();
       this.mapMouse.removeListeners();
-      this.hud.removeListeners();
+      this.hud.reset();
    }catch(e){}
 
    try{
@@ -76,10 +76,6 @@ Maperial.prototype.load = function() {
 
    //--------------------------//
 
-   $(window).trigger(MaperialEvents.LOADING);
-
-   //--------------------------//
-
    this.checkConfig();
 
    //--------------------------//
@@ -89,7 +85,7 @@ Maperial.prototype.load = function() {
    //--------------------------//
    // After having checked the config, there still may be no layers.
    // For instance in webapp.layersCreation the user may remove every layers.
-   
+
    if(this.config.layers.length > 0){
       var maperial = this;
       this.loadStyles(function(){
@@ -122,9 +118,9 @@ Maperial.prototype.build = function() {
    //--------------------------//
 
    this.initGeoloc();
-   
+
    //--------------------------//
-   
+
    this.finishStartup();
 }
 
@@ -148,7 +144,7 @@ Maperial.prototype.checkConfig = function() {
    // checking default objects
 
    if(!this.config)
-      this.config = {};
+      this.config = this.newConfig();
 
    if(!this.config.hud)
       this.config.hud = {elements:{}, options:{}};
@@ -163,13 +159,22 @@ Maperial.prototype.checkConfig = function() {
       this.layersManager.useDefaultLayers();
    else{
       console.log("  using custom layers...");
-      console.log(this.config.layers);
    }
 
    //--------------------------//
    // checking if Default style must be used
 
    this.changeStyle(MapParameters.DEFAULT_STYLE_UID, 0, false);
+}
+
+//==================================================================//
+
+Maperial.prototype.newConfig = function() {
+   console.log("new config");
+   var config = {};
+   HUD.applyDefaultHUD(config);
+   console.log(config);
+   return config;
 }
 
 //==================================================================//
@@ -196,7 +201,7 @@ Maperial.prototype.loadStyles = function(next){
 //==================================================================//
 
 Maperial.prototype.changeStyle = function(styleUID, position, overidde){
-   
+
    if(position === undefined) position = 0;
    if(overidde === undefined) overidde = true;
 
@@ -207,18 +212,18 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
 
       var layerParams = this.config.layers[i].params;
       if(!layerParams.styles || overidde){
-         
+
          if(!overidde)
             console.log("  using default style...");
          else
             console.log("Changing style...");
-         
+
          layerParams.styles = {};
          layerParams.styles[position] = styleUID;
          layerParams.selectedStyle = position;
       }
    }
-   
+
    if(overidde)
       this.restart();
 }
@@ -229,7 +234,7 @@ Maperial.prototype.createContext = function() {
 
    if(!this.context){
       console.log("creating context...");
-      
+
       this.context = {};
       this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
       this.context.centerM    = this.context.coordS.LatLonToMeters( MapParameters.DEFAULT_LATITUDE , MapParameters.DEFAULT_LONGITUDE );
@@ -242,15 +247,15 @@ Maperial.prototype.createContext = function() {
 
    //----------------------------------------------------------
    // set new divs (ember erase and build new divs)
-   
+
    this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
-   
+
    if(this.config.hud.elements[HUD.MAGNIFIER]){
       this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
    }
 
    //----------------------------------------------------------
-   
+
    this.context.parameters = new MapParameters(this);
 }
 
@@ -310,7 +315,7 @@ Maperial.prototype.refreshScreen = function() {
 
    if(this.config.map.height)
       h = this.config.map.height;
-   
+
 
    if(this.context.mapCanvas[0]){
       this.context.mapCanvas.css("width", w);
@@ -336,11 +341,11 @@ Maperial.prototype.checkLayerVisibilities = function(){
    console.log("checking layer visibilities...");
 
    var selectedStyle = this.stylesManager.getSelectedStyle();
-   
+
    if(selectedStyle && !this.config.layerVisibilities){
       this.layersManager.buildLayerVisibilities(selectedStyle);
    }
-   
+
 }
 
 //==================================================================//

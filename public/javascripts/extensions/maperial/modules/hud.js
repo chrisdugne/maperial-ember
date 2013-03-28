@@ -23,18 +23,46 @@ function HUD(maperial){
 HUD.TRIGGER                = "trigger";
 HUD.PANEL                  = "panel";
 
+// hud options user only
 HUD.SETTINGS               = "HUDSettings";
-HUD.COMPOSITIONS           = "Compositions";
-HUD.MAGNIFIER              = "Magnifier";
 HUD.COLORBAR               = "ColorBar";
-HUD.LATLON                 = "LatLon";
-HUD.SCALE                  = "Scale";
-HUD.MAPKEY                 = "MapKey";
-HUD.CONTROLS               = "Controls";
-HUD.GEOLOC                 = "Geoloc";
-HUD.DETAILS_MENU           = "DetailsMenu";
 HUD.QUICK_EDIT             = "QuickEdit";
+HUD.DETAILS_MENU           = "DetailsMenu";
 HUD.ZOOMS                  = "Zooms";
+
+// hud options user + viewer
+HUD.CONTROLS               = "Controls";
+HUD.SCALE                  = "Scale";
+HUD.GEOLOC                 = "Geoloc";
+HUD.COMPOSITIONS           = "Compositions";
+HUD.LATLON                 = "LatLon";
+HUD.MAPKEY                 = "MapKey";
+HUD.MAGNIFIER              = "Magnifier";
+
+HUD.VIEWER_OPTIONS = {
+    "0" : {element : HUD.CONTROLS,     label : "Controls",        defaultDisableDrag : true  },
+    "1" : {element : HUD.SCALE,        label : "Scale",           defaultDisableDrag : false },
+    "2" : {element : HUD.GEOLOC,       label : "Geoloc",          defaultDisableDrag : false },
+    "3" : {element : HUD.COMPOSITIONS, label : "Compositions",    defaultDisableDrag : false },
+    "4" : {element : HUD.LATLON,       label : "Lat/Lon",         defaultDisableDrag : false },
+    "5" : {element : HUD.MAPKEY,       label : "Map Key",         defaultDisableDrag : false },
+    "6" : {element : HUD.MAGNIFIER,    label : "Magnifier",       defaultDisableDrag : false }
+}
+
+//----------------------------------------------------------------------//
+
+HUD.applyDefaultHUD = function(config) {
+   
+   config.hud = {elements:{}, options:{}};
+
+   for (i in HUD.VIEWER_OPTIONS) {
+      var element             = HUD.VIEWER_OPTIONS[i].element;
+      var label               = HUD.VIEWER_OPTIONS[i].label;
+      var defaultDisableDrag  = HUD.VIEWER_OPTIONS[i].defaultDisableDrag;
+
+      config.hud.elements[element] = {show : false, type : HUD.PANEL, label : label, disableDrag : defaultDisableDrag };
+   }
+}
 
 //----------------------------------------------------------------------//
 
@@ -52,6 +80,14 @@ HUD.positions[HUD.GEOLOC]        = { left  : "50%",  top    : "0"   };
 HUD.positions[HUD.DETAILS_MENU]  = { left  : "50%",  top    : "30%" };
 HUD.positions[HUD.QUICK_EDIT]    = { right : "0",    top    : "38", };
 HUD.positions[HUD.ZOOMS]         = { left  : "50%",  bottom : "0"   };
+
+
+//----------------------------------------------------------------------//
+
+HUD.prototype.reset = function () {
+   this.hideAllHUD();
+   this.removeListeners();
+}
 
 //----------------------------------------------------------------------//
 
@@ -163,14 +199,9 @@ HUD.prototype.placeElements = function () {
 
 //==================================================================//
 
-HUD.prototype.reset = function(){
-   this.hideAllHUD();
-}
-
 HUD.prototype.display = function(){
    this.showAllHUD();
-   this.refreshSettingsPanel();   
-   this.refreshCompositionsPanel();   
+   this.refreshSettingsPanel(); 
 }
 
 //==================================================================//
@@ -428,182 +459,17 @@ HUD.prototype.refreshSettingsPanel = function() {
 
 //====================================================================================//
 
-/**
-* Draw the compositions panel
-*/
-HUD.prototype.refreshCompositionsPanel = function() {
-   
-   //-----------------------------------------------------//
-
-   $("#"+HUD.COMPOSITIONS).empty(); 
-
-   if(this.maperial.config.layers.length < 2){
-      $("#panel"+HUD.COMPOSITIONS).addClass("hide"); 
-      return;
-   }
-      
-   $("#"+HUD.COMPOSITIONS).removeClass("hide"); 
-   $("#"+HUD.COMPOSITIONS).append("<p id=\"compositionSettingsTitle\">Compositions Settings</p>");
-
-   //-----------------------------------------------------//
-
-   var panelHeight = 40;
-   var hud = this;
-
-   //-----------------------------------------------------//
-
-   for(var l = (this.maperial.config.layers.length-1); l>0 ; l--){
-      
-      var composition = this.maperial.config.layers[l].composition;
-
-      //-----------------------------------------------------//
-      // layer header html
-      
-      var div = "<div class=\"row-fluid\">" +
-      "<div class=\"span4 offset1\"><img class=\"sourceThumb\" "+Utils.getSourceThumb(this.maperial.config.layers[l])+"></img></div>" +
-      "<div class=\"slider-frame offset6\">" +
-      "   <span class=\"slider-button\" id=\"toggleLayerComposition"+l+"\"></span>" +
-      "</div>" +
-      "</div>";
-
-      $("#"+HUD.COMPOSITIONS).append(div);
-      
-      //-----------------------------------------------------//
-      // selectbox html
-      
-      var shadersSelectionId = "shadersSelection_"+l;
-      var shadersSelection = "<div class=\"row-fluid\">";
-      shadersSelection += "<div class=\"paramName span3 offset1\">Shader: </div>";
-      shadersSelection += "<div class=\"span4 offset1\"><select name=\""+shadersSelectionId+"\" id=\""+shadersSelectionId+"\">";
-      
-      for(var s=0; s< this.maperial.context.parameters.shaders.length; s++) 
-         shadersSelection += "<option value=\""+s+"\">"+this.maperial.context.parameters.shaders[s]+"</option>";
-      
-      shadersSelection += "</select></div>";
-      shadersSelection += "</div>";
-      
-      $("#"+HUD.COMPOSITIONS).append(shadersSelection);
-
-      //-----------------------------------------------------//
-      // build selectbox
-      
-      $("#"+shadersSelectionId).selectbox({
-         onChange: function(composition){
-            return function (val, inst) {
-               try{
-                  composition.shader = inst.input[0][val].label;
-                  hud.maperial.restart();
-               }
-               catch(e){}
-            }
-         }(composition),
-         effect: "slide"
-      });
-      
-      // init selectbox value
-      $("#"+shadersSelectionId).selectbox('change', "", composition.shader);
-
-      
-      if(composition.shader == MapParameters.MulBlend){
-
-         //-----------------------------------------------------//
-         // MulBlend params html 
-
-         var constrastId = "mulblend_contrast_"+l;
-         var brightnessId = "mulblend_brightness_"+l;
-         var bwId = "mulblend_bw_"+l;
-         
-         var div = "<div class=\"row-fluid\">" +
-         "<div class=\"span1 offset4\"><div id="+constrastId+"></div></div>" +
-         "<div class=\"span1 offset1\"><div id="+brightnessId+"></div></div>" +
-         "<div class=\"span1 offset1\"><div id="+bwId+"></div></div>" +
-         "</div>";
-         
-         $("#"+HUD.COMPOSITIONS).append(div);
-         
-         //-----------------------------------------------------//
-         // MulBlend params js 
-         
-         $( "#"+constrastId ).slider({
-            orientation: "vertical",
-            range: "min",
-            min: -2,
-            max: 2,
-            step: 0.01,
-            value: composition.params.uParams[0],
-            slide: function(constrastId){
-               return function( event, ui ) {
-                  $("#"+constrastId+" a").html(ui.value);
-               }
-            }(constrastId),
-            change: function(constrastId, composition){
-               return function( event, ui ) {
-                  composition.params.uParams[0] = ui.value;
-                  hud.maperial.restart();
-               }
-            }(constrastId, composition)
-         });
-         
-         $( "#"+brightnessId ).slider({
-            orientation: "vertical",
-            range: "min",
-            min: -2,
-            max: 2,
-            step: 0.01,
-            value: composition.params.uParams[1],
-            slide: function(brightnessId){
-               return function( event, ui ) {
-                  $("#"+brightnessId+" a").html(ui.value);
-               }
-            }(brightnessId),
-            change: function(brightnessId, composition){
-               return function( event, ui ) {
-                  composition.params.uParams[1] = ui.value;
-                  hud.maperial.restart();
-               }
-            }(brightnessId, composition)
-         });
-         
-         $( "#"+bwId ).slider({
-            orientation: "vertical",
-            range: "min",
-            min: 1,
-            max: 4,
-            step: 1,
-            value: composition.params.uParams[2],
-            slide: function(bwId){
-               return function( event, ui ) {
-                  $("#"+bwId+" a").html(ui.value);
-               }
-            }(bwId),
-            change: function(bwId, composition){
-               return function( event, ui ) {
-                  composition.params.uParams[2] = ui.value;
-                  hud.maperial.restart();
-               }
-            }(bwId, composition)
-         });
-
-         panelHeight += 140;
-      }
-      //-----------------------------------------------------//
-      
-      panelHeight += 120;
-   }
-
-   $("#panel"+HUD.COMPOSITIONS).css("height", panelHeight+"px");
-}
-
-//====================================================================================//
-
 HUD.prototype.hideAllHUD = function(){
-   for (element in this.maperial.config.hud.elements) {
-      $("#"+this.maperial.config.hud[element].type + element).addClass("hide");
-      $("#toggle"+element).removeClass('on');
-
-      if(this.maperial.config.hud.elements[element].type == HUD.TRIGGER)
-         this.hideTrigger(element);
-   }
+//   for (element in this.maperial.config.hud.elements) {
+//      $("#"+this.maperial.config.hud[element].type + element).addClass("hide");
+//      $("#toggle"+element).removeClass('on');
+//
+//      if(this.maperial.config.hud.elements[element].type == HUD.TRIGGER)
+//         this.hideTrigger(element);
+//   }
+ 
+   $(".panel").addClass("hide");
+   $(".trigger").addClass("hide");
 }
 
 //------------------------------------------------//

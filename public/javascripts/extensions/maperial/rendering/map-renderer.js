@@ -235,7 +235,7 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
          var key = tx + "," + ty + "," + zoom;
          keyList.push(key) 
          if ( this.tileCache[key] == null ) {
-            this.tileCache[key]  = new Tile ( this.context.parameters, tx, ty, zoom);
+            this.tileCache[key]  = new Tile ( this.context.parameters, this.config, tx, ty, zoom);
          }
       }
    }

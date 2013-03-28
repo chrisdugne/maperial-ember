@@ -1,16 +1,15 @@
 
-function Tile (parameters , x, y, z) {
+function Tile (parameters, config, x, y, z) {
 
    //--------------------------------//
 
-   this.layersConfig       = parameters.maperial.config.layers;
-   this.layerVisibilities  = parameters.maperial.config.layerVisibilities;
+   this.parameters = parameters;
+   this.config = config;
 
    this.x         = x;
    this.y         = y;
    this.z         = z;
 
-   this.parameters   = parameters;
    this.assets       = parameters.assets;
    this.gl           = parameters.assets.ctx;
    this.error        = false;
@@ -43,9 +42,9 @@ Tile.prototype.Init = function () {
 
 Tile.prototype.initLayers = function () {
 
-   for(var i = 0; i< this.layersConfig.length; i++){
+   for(var i = 0; i< this.config.layers.length; i++){
 
-      switch(this.layersConfig[i].type){
+      switch(this.config.layers[i].type){
 
       case LayersManager.Vector:
          this.layers[i] = new VectorialLayer ( this.parameters , this.z);
@@ -115,8 +114,8 @@ Tile.prototype.Release = function() {
       if (this.requests[source.type])
          this.requests[source.type].abort();
 
-      for(var j = 0; j< this.layersConfig.length; j++){
-         if ( this.layersConfig[j].source.type == source.type )
+      for(var j = 0; j< this.config.layers.length; j++){
+         if ( this.config.layers[j].source.type == source.type )
             this.layers[j].Release();
       } 
 
@@ -265,9 +264,9 @@ Tile.prototype.LoadRaster = function ( source ) {
 //----------------------------------------------------------------------------------------------------------------------//
 
 Tile.prototype.appendDataToLayers = function ( sourceType, data ) {
-   for(var i = 0; i< this.layersConfig.length; i++){
+   for(var i = 0; i< this.config.layers.length; i++){
       try{
-         if ( this.layersConfig[i].source.type == sourceType )
+         if ( this.config.layers[i].source.type == sourceType )
             this.layers[i].Init( data );
       }
       catch(e){}
@@ -300,13 +299,13 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) 
 
    ctx.translate(-tileClickCoord.x, -tileClickCoord.y);
 
-   for(var i = this.layersConfig.length -1 ; i>=0 ; --i){
+   for(var i = this.config.layers.length -1 ; i>=0 ; --i){
 
       // a ameliorer pour pouvoir PICK sur une source CUSTOM
-      if(this.layersConfig[i].source.type != Source.MaperialOSM)
+      if(this.config.layers[i].source.type != Source.MaperialOSM)
          continue;
 
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, i, this.layerVisibilities );
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, i, this.config.layerVisibilities );
 
       if(subLayerId)
          return subLayerId;
@@ -323,9 +322,9 @@ Tile.prototype.Update = function ( maxTime ) {
 
    var timeRemaining = maxTime;
 
-   for(var i = 0; i< this.layersConfig.length; i++){
+   for(var i = 0; i< this.config.layers.length; i++){
       if (! this.layers[i].IsUpToDate ( ) ) {
-         timeRemaining -= this.layers[i].Update( this.layersConfig[i].params, i );
+         timeRemaining -= this.layers[i].Update( this.config.layers[i].params, i );
          if ( timeRemaining <= 0 )
             break;
       }
@@ -444,12 +443,12 @@ Tile.prototype.Compose = function (  ) {
    var destFb  = this.frameBufferL[ 0 ]
    var tmpI    = 0;
 
-   if ( this.layersConfig.length > 1 ) {
-      for( var i = 1 ; i < this.layersConfig.length ; i++ ) {
+   if ( this.config.layers.length > 1 ) {
+      for( var i = 1 ; i < this.config.layers.length ; i++ ) {
          var frontTex   = this.layers[i].tex;
          if (frontTex) {
-            var prog       = this.assets.prog[ this.layersConfig[i].composition.shader ]
-            var params     = this.layersConfig[i].composition.params;
+            var prog       = this.assets.prog[ this.config.layers[i].composition.shader ]
+            var params     = this.config.layers[i].composition.params;
             this.Fuse      ( backTex,frontTex,destFb, prog , params);
          }
          else {
