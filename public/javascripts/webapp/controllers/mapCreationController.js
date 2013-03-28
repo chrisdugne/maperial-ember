@@ -76,7 +76,7 @@
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
       config.hud.elements[HUD.CONTROLS]      = {show : false, type : HUD.PANEL,    label : "Controls", disableDrag : true };
       config.hud.elements[HUD.SCALE]         = {show : false, type : HUD.PANEL,    label : "Scale" };
-      config.hud.elements[HUD.GEOLOC]        = {show : false, type : HUD.PANEL,    label : "Location" };
+      //config.hud.elements[HUD.GEOLOC]        = {show : false, type : HUD.PANEL,    label : "Location" };
       
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;

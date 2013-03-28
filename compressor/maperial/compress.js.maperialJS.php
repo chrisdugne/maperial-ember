@@ -27,6 +27,7 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/libs/canvasutil
 
 // rendering 
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/gl-tools.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/gl-imagelayer.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/gl-rasterlayer.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/gl-tile.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/gl-vectoriallayer.js";
