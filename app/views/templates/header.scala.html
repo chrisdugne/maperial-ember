@@ -35,11 +35,12 @@
 	   	 	no=''
 	   	}}
 		
-		{{bound_equals App.Globals.currentPage value='mapCreation'
-			yes='<h1>New Map</h1>'
-	   	 	no=''
-	   	}}
-		{{#if user.isCreatingANewMap}}
+		{{#if user.selectedMap}}
+			{{#if user.isCreatingANewMap}}
+				<h1>New Map</h1>
+			{{else}}
+				<h1>{{user.selectedMap.name}}</h1>
+			{{/if}}
 			<div class="wizardStepper">
 				<div class="span2">
 					{{#if App.Globals.isViewLayerCreation}}
