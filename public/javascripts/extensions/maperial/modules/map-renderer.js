@@ -3,7 +3,7 @@
 
 function MapRenderer(maperial) {
 
-   console.log("building map renderer...");
+   console.log("  building map renderer...");
    
    this.drawSceneInterval;
    
@@ -201,7 +201,7 @@ MapRenderer.prototype.BuildColorBar = function () {
 
 MapRenderer.prototype.Start = function () {
 
-   console.log("Starting renderer...");
+   console.log("  starting rendering...");
    
    try {
       this.gl = this.context.mapCanvas[0].getContext("experimental-webgl");

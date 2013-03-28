@@ -3,7 +3,7 @@
 
 function HUD(maperial){
 
-   console.log("building HUD...");
+   console.log("  building HUD...");
    
    this.maperial = maperial;
    this.maperial.config = this.maperial.config;

@@ -187,7 +187,7 @@ LayersManager.prototype.changeImages = function(layerIndex, imagesSrc) {
 
 LayersManager.prototype.buildLayerVisibilities = function(style) {
 
-   console.log("building layer visibilities for style '" + style.name + "'...");
+   console.log("  building layer visibilities for style '" + style.name + "'...");
 
    this.maperial.config.layerVisibilities = {};
    var defaultLayerPosition = 0;

@@ -36,7 +36,7 @@ StyleMenu.BIGGEST = 3;
 
 function StyleMenu(container, container2, container3, maperial){
 
-   console.log("building style menu...");
+   console.log("  building style menu...");
 
    //-------------------------------------------------//
    

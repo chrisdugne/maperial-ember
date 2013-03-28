@@ -5,7 +5,7 @@
 		templateName: 'colorbarEditor',
 		didInsertElement: function(){
 			App.ColorbarEditorController.renderUI();
-         App.placeFooter();
+         App.placeFooter(true);
 		},
 		willDestroyElement: function(){
 			App.ColorbarEditorController.cleanUI();

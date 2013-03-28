@@ -63,7 +63,7 @@ StylesManager.prototype.loadStyle = function(styleUID) {
 
    var styleURL = this.getURL(styleUID);
 //   styleURL = "http://serv.x-ray.fr/project/mycarto/wwwClient/style/style.json";
-   console.log("fetching : " + styleURL);
+   console.log("  fetching : " + styleURL);
 
    $.ajax({  
       type: "GET",  

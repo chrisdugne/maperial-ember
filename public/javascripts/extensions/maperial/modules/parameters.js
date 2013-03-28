@@ -33,8 +33,6 @@ MapParameters.MulBlend               = "MulBlend";
 
 function MapParameters (maperial) {
    
-   console.log("creating parameters...");
-
    this.maperial     = maperial;
    
    this.rasterUid    = null;
@@ -60,7 +58,7 @@ function MapParameters (maperial) {
 // TODO : tout pourri ! on doit pouvoir avoir plusieurs rasters
 MapParameters.prototype.buildSources = function(layers){
    
-   console.log("fetching sources...");
+   console.log("  fetching sources...");
    var isRegisterdOSM;
    this.sources = [];
    

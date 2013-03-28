@@ -231,18 +231,26 @@ Maperial.prototype.createContext = function() {
       console.log("creating context...");
       
       this.context = {};
-      this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
       this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
       this.context.centerM    = this.context.coordS.LatLonToMeters( MapParameters.DEFAULT_LATITUDE , MapParameters.DEFAULT_LONGITUDE );
       this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
       this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
       this.context.zoom       = MapParameters.DEFAULT_ZOOM;
-      
-      if(this.config.hud.elements[HUD.MAGNIFIER]){
-         this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
-      }
+   }
+   else
+      console.log("reset context...");
+
+   //----------------------------------------------------------
+   // set new divs (ember erase and build new divs)
+   
+   this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
+   
+   if(this.config.hud.elements[HUD.MAGNIFIER]){
+      this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
    }
 
+   //----------------------------------------------------------
+   
    this.context.parameters = new MapParameters(this);
 }
 
@@ -250,7 +258,7 @@ Maperial.prototype.createContext = function() {
 
 Maperial.prototype.buildMap = function() {
 
-   console.log("building map...");
+   console.log("  building map...");
 
    this.mapRenderer = new MapRenderer( this );
    this.mapMover = new MapMover( this );
@@ -302,6 +310,7 @@ Maperial.prototype.refreshScreen = function() {
 
    if(this.config.map.height)
       h = this.config.map.height;
+   
 
    if(this.context.mapCanvas[0]){
       this.context.mapCanvas.css("width", w);

@@ -5,7 +5,7 @@
 		templateName: 'styleEditor',
 		didInsertElement: function(){
 			App.StyleEditorController.renderUI();
-         App.placeFooter();
+         App.placeFooter(true);
 		},
 		willDestroyElement: function(){
 			App.StyleEditorController.cleanUI();

@@ -2,7 +2,7 @@
 
 function MapMover(maperial){
 
-   console.log("building mover...");
+   console.log("  building mover...");
    
    this.config = maperial.config;
    this.context = maperial.context;
