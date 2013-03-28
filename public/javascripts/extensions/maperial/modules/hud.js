@@ -460,7 +460,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
       // layer header html
       
       var div = "<div class=\"row-fluid\">" +
-      "<div class=\"span4 offset1\"><img class=\"sourceThumb\" "+this.maperial.layersManager.getSourceThumb(this.maperial.config.layers[l].source)+"></img></div>" +
+      "<div class=\"span4 offset1\"><img class=\"sourceThumb\" "+Utils.getSourceThumb(this.maperial.config.layers[l])+"></img></div>" +
       "<div class=\"slider-frame offset6\">" +
       "   <span class=\"slider-button\" id=\"toggleLayerComposition"+l+"\"></span>" +
       "</div>" +

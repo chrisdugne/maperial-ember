@@ -137,12 +137,12 @@ Ember.Handlebars.registerBoundHelper('minicolorbarthumb',
  * Display a map thumb from its config.layers.source.types 
  */ 
 Ember.Handlebars.registerBoundHelper('mapthumb', 
-   function(config, options) 
+   function(layers, options) 
    {
       var images = "";
       
-      for (var i =0; i< Utils.random(10); i++)
-         images += "<div class=\"span1\"><img src=\"/assets/images/icons/layer.osm.png\"></img></div>";
+      for (var i =0; i< layers.length; i++)
+         images += "<div class=\"span1 mapthumb "+(i>0?"top":"")+"\"><img class=\"minithumb\" "+Utils.getSourceThumb(layers[i])+"></img></div>";
       
       return new Handlebars.SafeString(images);
    }

@@ -14,18 +14,19 @@
    
    MapCreationController.init = function()
    {
-      App.user.set("isCreatingANewMap", true);
-      
+      $(window).on(MaperialEvents.READY, MapCreationController.maperialReady);
+
+      App.user.set("isCreatingANewMap", (App.user.selectedMap.uid == null));
+
       MapCreationController.wizardSetView(MapCreationController.LAYERS_CREATION);
       MapCreationController.openLayersCreation();
-
-      $(window).on(MaperialEvents.READY, MapCreationController.maperialReady);
    }
    
    MapCreationController.terminate = function ()
    {
       $(window).off(MaperialEvents.READY, MapCreationController.maperialReady);
       App.user.set("isCreatingANewMap", false);  
+      App.user.set("selectedMap", null);  
    }
    
    //==================================================================//
@@ -105,7 +106,11 @@
    {
       App.user.set('selectedMap.name', $("#mapNameInput").val());
       App.user.set('selectedMap.config', App.maperial.config);
-      App.mapManager.uploadNewMap(App.user.selectedMap);
+      
+      if(App.user.isCreatingANewMap)
+         App.mapManager.uploadNewMap(App.user.selectedMap);
+      else
+         App.mapManager.saveMap(App.user.selectedMap);
    }
    
    //=============================================================================//
@@ -113,8 +118,13 @@
 
    MapCreationController.openLayersCreation = function()
    {
-      App.maperial.apply(MapCreationController.getLayersCreationConfig());
-      MapCreationController.openBaseSelection();
+      if(App.user.isCreatingANewMap){
+         App.maperial.apply(MapCreationController.getLayersCreationConfig());
+         MapCreationController.openBaseSelection();
+      }
+      else{
+         App.maperial.apply(App.user.selectedMap.config);
+      }
    }
 
    MapCreationController.backToLayers = function(){

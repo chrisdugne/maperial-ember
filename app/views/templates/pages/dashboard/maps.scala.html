@@ -4,7 +4,7 @@
        	<tbody class="files">
     		{{#each map in user.maps}}
 			    <tr class="template-download">
-			        <td colspan="3">{{mapthumb map.config}}</td>
+			        <td colspan="3">{{mapthumb map.config.layers}}</td>
 			        <td><p class="filename">{{map.name}}</p></td>
 
 			        <td><div class="btn-small btn-success touchable" {{action editMap map}} ><i class="icon-edit icon-white"></i></div></td>

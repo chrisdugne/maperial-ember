@@ -214,6 +214,26 @@ Utils.thumbURL = function(uid, type)
 
 //----------------------------------------------------------------------------------------//
 
+Utils.getSourceThumb = function(layer) {
+
+   switch(layer.source.type){
+   
+      case Source.MaperialOSM:
+         return " src=\""+Utils.styleThumbURL(layer.params.styles[layer.params.selectedStyle])+"\"";
+   
+      case Source.Vector:
+      case Source.Images:
+         return " src=\"assets/images/icons/layer."+layer.source.params.src+".png\"";
+         
+      case Source.Raster:
+      default:
+         return " src=\"assets/images/icons/layer.raster.png\""; // TODO : thumb du raster
+
+   }
+}
+
+//----------------------------------------------------------------------------------------//
+
 //ui-slider-handle ui-state-default ui-corner-all
 Utils.buildSliderStyle = function (id){
 

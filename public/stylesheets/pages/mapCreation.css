@@ -63,6 +63,20 @@
 	padding-right: 15px;
 }
 
+/*----------------------------------------------------------*/
+.mapthumb {
+	padding-left: 15px;
+}
+
+.mapthumb.top {
+	opacity: 0.6;
+}
+
+.minithumb {
+	width:70px;
+	height:70px;
+}
+
 /*----------------------------------------------------------
 
 #panelSettings {

@@ -18,6 +18,9 @@ LayerSetsHelper.TOGGLE = "toggleLayerSet";
  */
 LayerSetsHelper.prototype.refreshLayersPanel = function() {
 
+   console.log("----------> refreshLayersPanel");
+   console.log(App.maperial.config.layers);
+   
    var me = this;
    $("#layers").empty(); 
    var panelHeight = 35;
@@ -51,7 +54,7 @@ LayerSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
    
    $("#layers").append(
          "<div class=\"row-fluid movable\" id=\"layer_"+layerIndex+"\">" +
-         "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+this.maperial.layersManager.getSourceThumb(layer.source)+"></img></div>" +
+         "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+Utils.getSourceThumb(layer)+"></img></div>" +
          "   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
          "   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
          "</div>"
@@ -142,46 +145,6 @@ LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
    }
 
    container.css("height", panelHeight+"px");
-}
-
-//=======================================================================//
-
-LayerSetsHelper.prototype.buildCompositionOptions = function(layerIndex){
-   
-   //-----------------------------------------------------//
-
-   var maperial = this.maperial;
-   var composition = this.maperial.config.layers[layerIndex].composition;
-
-   //-----------------------------------------------------//
-   
-   $("#shadersDiv").empty();
-
-   //-----------------------------------------------------//
-   
-   var shadersSelection = "<select name=\"shadersSelection\" id=\"shadersSelection\">";
-   
-   for(var i=0; i< App.Globals.shaders.length; i++) 
-      shadersSelection += "<option value=\""+i+"\">"+App.Globals.shaders[i]+"</option>";
-   
-   shadersSelection += "</select>";
-   
-   $("#shadersDiv").append(shadersSelection);
-
-   //-----------------------------------------------------//
-   
-   $("#shadersSelection").selectbox({
-      onChange: function (val, inst) {
-         try{
-            composition.shader = inst.input[0][val].label;
-            maperial.restart();
-         }
-         catch(e){}
-      },
-      effect: "slide"
-   });
-   
-   $('#shadersSelection').selectbox('change', "", composition.shader);
 }
 
 //=======================================================================//

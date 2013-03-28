@@ -18,7 +18,7 @@
 		//---------------------------//
 		
 		isCreatingANewMap:false,
-		selectedMap:false,
+		selectedMap:null,
 	});
 	
 	App.user = User.create();

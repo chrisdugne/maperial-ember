@@ -30,11 +30,9 @@
    App.placeFooter = function(forceFix)
    {
       if($("#webappDiv").height() < $(window).height() || forceFix){
-         console.log("FIX footer");
          $("#footerClassic").css({ position : "fixed" });
       }
       else{
-         console.log("SMOOTH footer");
          $("#footerClassic").css({ position : "relative" });
       }
    }

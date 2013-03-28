@@ -21,7 +21,7 @@
 	
 	DashboardController.createMap = function()
 	{
-	   var map = {uid : "uidToCreate", name : "New Map"};
+	   var map = {uid : null, name : "New Map"};
 
       App.user.set("selectedMap", map);
       App.get('router').transitionTo('mapCreation');

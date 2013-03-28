@@ -150,12 +150,12 @@ LayersManager.prototype.deleteLayer = function(layerRemovedPosition) {
       if(this.maperial.config.layerVisibilities[subLayerId] > layerRemovedPosition)
          this.maperial.config.layerVisibilities[subLayerId]--;
    }
-   
+
    for(i in this.layerSets){
       if(this.layerSets[i].layerPosition > layerRemovedPosition)
          this.layerSets[i].layerPosition--;
    }
-   
+
    this.maperial.restart();
 }
 
@@ -164,8 +164,8 @@ LayersManager.prototype.deleteLayer = function(layerRemovedPosition) {
 LayersManager.prototype.changeRaster = function(layerIndex, rasterUID) {
 
    if(this.maperial.config.layers[layerIndex].type == Source.Raster
-   && this.maperial.config.layers[layerIndex].source.params.uid != rasterUID){
-      
+         && this.maperial.config.layers[layerIndex].source.params.uid != rasterUID){
+
       this.maperial.config.layers[layerIndex].source.params.uid = rasterUID;
       this.maperial.restart();
    }
@@ -174,10 +174,10 @@ LayersManager.prototype.changeRaster = function(layerIndex, rasterUID) {
 //=======================================================================================//
 
 LayersManager.prototype.changeImages = function(layerIndex, imagesSrc) {
-   
+
    if(this.maperial.config.layers[layerIndex].type == Source.Images
-   && this.maperial.config.layers[layerIndex].source.params.src != imagesSrc){
-      
+         && this.maperial.config.layers[layerIndex].source.params.src != imagesSrc){
+
       this.maperial.config.layers[layerIndex].source.params.src = imagesSrc;
       this.maperial.restart();
    }
@@ -205,7 +205,7 @@ LayersManager.prototype.buildLayerVisibilities = function(style) {
 
 LayersManager.prototype.useDefaultLayers = function() {
    console.log("  using default layers...");
-   
+
    if(this.maperial.config.layersCreation)
       this.maperial.config.layers = [];
    else
@@ -229,7 +229,7 @@ LayersManager.prototype.exchangeLayers = function(exchangedIds) {
    for(id in exchangedIds){
       newLayers.push(this.maperial.config.layers[exchangedIds[id]]);
    }
-   
+
    for(subLayerId in this.maperial.config.layerVisibilities){
       var previousPosition = this.maperial.config.layerVisibilities[subLayerId];
       console.log("subLayerId " + subLayerId + " previousPosition : " + previousPosition + " | new position : " + exchangedIds[previousPosition]);
@@ -242,18 +242,18 @@ LayersManager.prototype.exchangeLayers = function(exchangedIds) {
    this.maperial.config.layers = newLayers;
    this.maperial.restart();
 }
-   
+
 //------------------------------------------------------------------//
-   
+
 LayersManager.prototype.detachSet = function(setIndex) {
    this.layerSets[setIndex].layerPosition = -1;
-   
+
    for(var i=0;  i < this.layerSets[setIndex].subLayerIds.length; i++){
       var subLayerId = this.layerSets[setIndex].subLayerIds[i];
       console.log("detaching " + subLayerId);
       this.maperial.config.layerVisibilities[subLayerId] = -1;
    }
-      
+
    this.maperial.restart();
 }
 
@@ -265,26 +265,9 @@ LayersManager.prototype.attachSet = function(setIndex, layerPosition) {
       console.log("attaching " + subLayerId);
       this.maperial.config.layerVisibilities[subLayerId] = layerPosition;
    }
-   
+
    this.maperial.restart();
 }
 
 //-----------------------------------------------------------------------------------//
 
-
-LayersManager.prototype.getSourceThumb = function(source) {
-
- switch(source.type){
- 
-    case Source.MaperialOSM:
-       return " src=\""+Utils.styleThumbURL(this.maperial.stylesManager.getSelectedStyle().uid)+"\"";
-
-    case Source.Raster:
-       return " src=\"assets/images/icons/layer.raster.png\""; // TODO : thumb du raster
-
-    case Source.Vector:
-    case Source.Images:
-       return " src=\"assets/images/icons/layer."+source.params.src+".png\"";
- 
- }
-}

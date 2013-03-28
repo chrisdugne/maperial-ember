@@ -1,12 +1,12 @@
-//-------------------------------------------//
-//MapManager
-//-------------------------------------------//
+//=================================================================//
+//    MapManager
+//=================================================================//
 
 function MapManager(){
 
 }
 
-//-------------------------------------------//
+//=================================================================//
 
 MapManager.prototype.getMaps = function(user){
 
@@ -23,16 +23,23 @@ MapManager.prototype.getMaps = function(user){
       dataType: "json",
       success: function (result)
       {
-         var maps = result.maps;
+         var mapConfigs = result.maps;
 
-         for(uid in maps){
-            console.log(maps[uid]);
+         for(var i=0; i < user.maps.length; i++ ){
+            for(mapUID in mapConfigs){
+               if(user.maps[i].uid == mapUID){
+                  user.maps[i].config = mapConfigs[mapUID];
+                  break;
+               }
+            }
          }
+         
+         console.log("user.maps", user.maps);
       }
    });
 }
 
-//-------------------------------------------//
+//=================================================================//
 
 MapManager.prototype.uploadNewMap = function(map)
 {
