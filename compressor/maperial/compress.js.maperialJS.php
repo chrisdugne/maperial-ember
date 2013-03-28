@@ -32,6 +32,7 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/gl-ve
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/render-line.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/render-text.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/tile-renderer.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/map-renderer.js";
 
 // modules
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/events.js";
@@ -39,7 +40,6 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/source.
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/parameters.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mouse.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/hud.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/map-renderer.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mover.js";
 
 // managers

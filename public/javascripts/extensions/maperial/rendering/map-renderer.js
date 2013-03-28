@@ -332,7 +332,7 @@ MapRenderer.prototype.FindLayerId = function () {
 
    var tile = this.tileCache[key];
 
-   if(!tile.IsLoaded())
+   if(!tile || !tile.IsLoaded())
       return;
 
    // find the click coordinates inside invisibleCanvas
