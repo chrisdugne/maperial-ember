@@ -10,7 +10,8 @@ $cmd .= "java -jar ../compiler.jar ";
 // tools
 
 $cmd .= " --js " . "../../public/javascripts/libs/jquery.mousewheel.min.js";
-$cmd .= " --js " . "../../public/javascripts/webapp/utils.js";
+$cmd .= " --js " . "../../public/javascripts/libs/jquery.selectbox-0.2.min.js";
+$cmd .= " --js " . "../../public/javascripts/webapp/tools/utils.js";
 
 // -------------   MaperialJS ------------------
 

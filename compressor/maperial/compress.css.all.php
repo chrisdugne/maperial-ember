@@ -24,6 +24,7 @@ $yui->addFile("../../target/scala-2.10/resource_managed/main/public/stylesheets/
 $yui->addFile("../../public/stylesheets/libs/bootstrap-image-gallery.css");
 $yui->addFile("../../public/stylesheets/libs/jquery-ui-1.9.2.custom.min.css");
 $yui->addFile("../../public/stylesheets/libs/slideronoff.css");
+$yui->addFile("../../public/stylesheets/libs/jquery.selectbox.css");
 
 $yui->addFile("../../public/stylesheets/mapediting/colorpicker.css");
 $yui->addFile("../../public/stylesheets/mapediting/ajaxwaitspin.css");
