@@ -204,7 +204,7 @@ Utils.thumbURL = function(uid, type)
    var end = uid.substring(uid.length-4);
    var folders = end.split("");
 
-   var url = App.Globals.mapServer + "/thumbs" + type;
+   var url = "//maperial.com/thumbs" + type;
    folders.forEach(function(folder) {
       url += "/" + folder;
    });
@@ -261,4 +261,8 @@ Utils.getPoint = function (event) {
    var y = event.clientY - $(event.target).offset().top;
 
    return new Point(x,y);
+}
+
+function odump(o){
+   console.log($.parseJSON(JSON.stringify(o)));
 }

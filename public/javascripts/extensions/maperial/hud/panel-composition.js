@@ -3,7 +3,7 @@
  */
 HUD.prototype.refreshCompositionsPanel = function() {
 
-   console.log("refreshCompositionsPanel " + HUD.COMPOSITIONS);
+   console.log("     building compositions...");
 
    //-----------------------------------------------------//
 

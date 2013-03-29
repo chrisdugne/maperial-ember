@@ -1,6 +1,6 @@
 //----------------------------//
 
-function LayerSetsHelper (maperial, mapCreationController) {
+function OSMSetsHelper (maperial, mapCreationController) {
    this.maperial = maperial;
    this.mapCreationController = mapCreationController;
    this.layerBeingDraggedIndex;
@@ -8,7 +8,7 @@ function LayerSetsHelper (maperial, mapCreationController) {
 
 //----------------------------//
 
-LayerSetsHelper.TOGGLE = "toggleLayerSet";
+OSMSetsHelper.TOGGLE = "toggleLayerSet";
 
 //=============================================================================//
 //Layers Panel Drawing
@@ -16,7 +16,7 @@ LayerSetsHelper.TOGGLE = "toggleLayerSet";
 /**
  * Draw the Layers panel
  */
-LayerSetsHelper.prototype.refreshLayersPanel = function() {
+OSMSetsHelper.prototype.refreshLayersPanel = function() {
 
    var me = this;
    $("#layers").empty(); 
@@ -45,7 +45,7 @@ LayerSetsHelper.prototype.refreshLayersPanel = function() {
 
 //--------------------------------------//
 
-LayerSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
+OSMSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
 
    var layer = App.maperial.config.layers[layerIndex];
 
@@ -61,7 +61,7 @@ LayerSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
 
 //=======================================================================//
 
-LayerSetsHelper.prototype.exchangeLayers = function(){
+OSMSetsHelper.prototype.exchangeLayers = function(){
 
    // layers are ordered from bottom to top
    for(var i = ($("#layers")[0].children.length - 1); i >= 0 ; i--){
@@ -92,26 +92,25 @@ LayerSetsHelper.prototype.exchangeLayers = function(){
 
 //=================================================================================================================//
 
-
 /**
- * On/off buttons to show hide layerSets
+ * On/off buttons to show hide osmSets
  */
-LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
+OSMSetsHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
 
    var layersManager = this.maperial.layersManager;
-   var container = $("#layerSetsDiv");
+   var container = $("#osmSetsDiv");
 
    container.empty();
    var panelHeight = 0;
 
-   for (var i in layersManager.layerSets) {
-      var set = layersManager.layerSets[i];
+   for (var i in this.maperial.config.map.osmSets) {
+      var set = this.maperial.config.map.osmSets[i];
 
       // ----- appending div
       var div = "<div class=\"row-fluid\">" +
       "<div class=\"span5 offset1\">" + set.label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
-      "   <span class=\"slider-button\" id=\""+LayerSetsHelper.TOGGLE+i+"\"></span>" +
+      "   <span class=\"slider-button\" id=\""+OSMSetsHelper.TOGGLE+i+"\"></span>" +
       "</div>" +
       "</div>";
 
@@ -120,21 +119,21 @@ LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
 
       // ----- toggle listeners
 
-      $('#'+LayerSetsHelper.TOGGLE+i).click(function(){
+      $('#'+OSMSetsHelper.TOGGLE+i).click(function(){
          if($(this).hasClass('on')){
             $(this).removeClass('on');
-            var setIndex = $(this).context.id.replace(LayerSetsHelper.TOGGLE,"");
+            var setIndex = $(this).context.id.replace(OSMSetsHelper.TOGGLE,"");
             layersManager.detachSet(setIndex);
          }
          else{
             $(this).addClass('on');
-            var setIndex = $(this).context.id.replace(LayerSetsHelper.TOGGLE,"");
+            var setIndex = $(this).context.id.replace(OSMSetsHelper.TOGGLE,"");
             layersManager.attachSet(setIndex, layerCustomizedIndex);
          }
       });
 
       if(layerCustomizedIndex == set.layerPosition)
-         $("#"+LayerSetsHelper.TOGGLE+i).addClass("on");
+         $("#"+OSMSetsHelper.TOGGLE+i).addClass("on");
    }
 
    container.css("height", panelHeight+"px");
@@ -145,8 +144,8 @@ LayerSetsHelper.prototype.buildLayerSets = function(layerCustomizedIndex){
 /**
  * TODO (not usefull for a DEMO)
  */
-LayerSetsHelper.prototype.buildDetailledSets = function(){
-   $("#layerSetsDiv").empty();
+OSMSetsHelper.prototype.buildDetailledSets = function(){
+   $("#osmSetsDiv").empty();
 }
 
 
@@ -158,7 +157,7 @@ LayerSetsHelper.prototype.buildDetailledSets = function(){
 /**
  * Draw the HUD Viewer Settings
  */
-LayerSetsHelper.prototype.refreshHUDViewerSettings = function() {
+OSMSetsHelper.prototype.refreshHUDViewerSettings = function() {
 
    var me = this;
    $("#hudViewerSettings").empty(); 
@@ -170,6 +169,9 @@ LayerSetsHelper.prototype.refreshHUDViewerSettings = function() {
       var label = HUD.VIEWER_OPTIONS[i].label;
 
       if(element == HUD.COMPOSITIONS && this.maperial.config.layers.length < 2)
+         continue;
+
+      if(element == HUD.SWITCH_IMAGES && !this.maperial.layersManager.atLeastOneImageLayer())
          continue;
       
       // ----- appending div

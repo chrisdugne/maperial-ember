@@ -305,7 +305,7 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) 
       if(this.config.layers[i].source.type != Source.MaperialOSM)
          continue;
 
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, i, this.config.layerVisibilities );
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, i, this.context.osmVisibilities );
 
       if(subLayerId)
          return subLayerId;

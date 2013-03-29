@@ -9,7 +9,7 @@ function MapManager(){
 //=================================================================//
 
 MapManager.prototype.createNewMap = function(){
-   var map = {uid: null, name: "New Map", config: App.maperial.newConfig()};
+   var map = {uid: null, name: "New Map", config: App.maperial.defaultConfig()};
    App.user.set("selectedMap", map);
 }
    

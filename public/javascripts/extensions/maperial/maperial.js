@@ -1,20 +1,19 @@
 //==================================================================//
 
 function Maperial(){
-
    this.config;
    this.context;
-
+   
    this.mapRenderer;
    this.mapMover;
    this.mapMouse;
    this.hud;
-
+   
    this.stylesManager = new StylesManager(this);
    this.layersManager = new LayersManager(this);
-
+   
    this.styleMenu;
-}
+};
 
 //==================================================================//
 //doit  etre mis dans this.config : 
@@ -62,10 +61,10 @@ Maperial.prototype.reset = function(){
       this.styleMenu.removeListeners();
    }catch(e){}
 
-   var stylesCache = this.stylesManager.styles;
-   var me = this;
-   me = new Maperial();
-   me.stylesManager.styles = stylesCache;
+   this.stylesManager = new StylesManager(this, true);
+   this.layersManager = new LayersManager(this);
+   
+   console.log("stylesCache : ", this.stylesManager.styles);
 }
 
 //==================================================================//
@@ -84,12 +83,12 @@ Maperial.prototype.load = function() {
 
    //--------------------------//
    // After having checked the config, there still may be no layers.
-   // For instance in webapp.layersCreation the user may remove every layers.
+   // For instance in webapp.map.layersCreation the user may remove every layers.
 
    if(this.config.layers.length > 0){
       var maperial = this;
       this.loadStyles(function(){
-         maperial.checkLayerVisibilities();
+         maperial.checkOSMSets();
          maperial.build();
       });
    }
@@ -144,7 +143,7 @@ Maperial.prototype.checkConfig = function() {
    // checking default objects
 
    if(!this.config)
-      this.config = this.newConfig();
+      this.config = this.defaultConfig();
 
    if(!this.config.hud)
       this.config.hud = {elements:{}, options:{}};
@@ -169,11 +168,14 @@ Maperial.prototype.checkConfig = function() {
 
 //==================================================================//
 
-Maperial.prototype.newConfig = function() {
-   console.log("new config");
+Maperial.prototype.emptyConfig = function() {
+   return {hud:{elements:{}, options:{}}, map: {}};
+}
+
+Maperial.prototype.defaultConfig = function() {
+   console.log("using default config");
    var config = {};
    HUD.applyDefaultHUD(config);
-   console.log(config);
    return config;
 }
 
@@ -188,6 +190,9 @@ Maperial.prototype.loadStyles = function(next){
       var layerParams = this.config.layers[i].params;
       if(layerParams.styles){
          styleUIDs.push(layerParams.styles[layerParams.selectedStyle]);
+         
+         if(this.layersManager.firstOSMPosition < 0)
+            this.layersManager.firstOSMPosition = i;
       }
    }
 
@@ -336,16 +341,24 @@ Maperial.prototype.refreshScreen = function() {
 
 //==================================================================//
 
-Maperial.prototype.checkLayerVisibilities = function(){
+Maperial.prototype.checkOSMSets = function(){
 
-   console.log("checking layer visibilities...");
+   if($.isEmptyObject(this.stylesManager.styles))
+      return;
+   
+   console.log("checking OSM sets...");
 
    var selectedStyle = this.stylesManager.getSelectedStyle();
 
-   if(selectedStyle && !this.config.layerVisibilities){
-      this.layersManager.buildLayerVisibilities(selectedStyle);
+   if(selectedStyle && !this.config.map.osmSets){
+      this.layersManager.defaultOSMSets(selectedStyle);
    }
+   
+   this.refreshOSMVisibilities();
+}
 
+Maperial.prototype.refreshOSMVisibilities = function(){
+   this.context.osmVisibilities = LayersManager.buildOSMVisibilities(this.config.map.osmSets);
 }
 
 //==================================================================//

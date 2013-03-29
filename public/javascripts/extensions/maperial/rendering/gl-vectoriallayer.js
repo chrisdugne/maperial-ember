@@ -92,7 +92,7 @@ VectorialLayer.prototype.IsUpToDate = function ( ) {
 
 VectorialLayer.prototype.Update = function ( params, layerPosition ) {
 
-   var layerVisibilities = this.mapParameters.maperial.config.layerVisibilities;
+   var osmVisibilities = this.mapParameters.maperial.context.osmVisibilities;
    var styleUID   = params.styles[params.selectedStyle];
    var style      = this.mapParameters.maperial.stylesManager.getStyle(styleUID).content;
 
@@ -101,7 +101,7 @@ VectorialLayer.prototype.Update = function ( params, layerPosition ) {
       this.layerCount = 0;
       this._BuildTexture();
    }
-   var rendererStatus   = TileRenderer.RenderLayers (layerVisibilities, layerPosition,  this.ctx , this.data , this.z , style , this.layerCount ) ;
+   var rendererStatus   = TileRenderer.RenderLayers (osmVisibilities, layerPosition,  this.ctx , this.data , this.z , style , this.layerCount ) ;
 
    this.layerCount      = rendererStatus[0];
    

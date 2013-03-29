@@ -250,6 +250,13 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
+#panelSwitchImages {
+	height: 108px;
+	width: 45px;
+	padding-top: 13px;
+}
+
+/*-------------------------*/
 #panelControls {
 	height: 200px;
 	width: 37px;

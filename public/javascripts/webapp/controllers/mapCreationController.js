@@ -34,10 +34,10 @@
    MapCreationController.maperialReady = function (){
 
       if(App.Globals.isViewLayerCreation){
-         App.layerSetsHelper.refreshLayersPanel();
+         App.osmSetsHelper.refreshLayersPanel();
       }
       else{
-         App.layerSetsHelper.refreshHUDViewerSettings();
+         App.osmSetsHelper.refreshHUDViewerSettings();
       }
       
       MapCreationController.setSelectedStyle();
@@ -65,7 +65,7 @@
    
    MapCreationController.getLayersCreationConfig = function(){
 
-      var config = {hud:{elements:{}, options:{}}};
+      var config = App.maperial.emptyConfig();
       
       // custom
       config.hud.elements["Layers"]              = {show : true,  type : HUD.PANEL,  position : { right: "0", top: "0"},      disableHide : true, disableDrag : true };
@@ -80,7 +80,7 @@
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
       
-      config.layersCreation = true;
+      config.map.layersCreation = true;
       
       return config;
    }  
@@ -89,7 +89,7 @@
    
    MapCreationController.getSettingsConfig = function(){
 
-      var config = {};
+      var config = App.maperial.emptyConfig();
       
       // map viewer hud config
       config.hud = App.user.selectedMap.config.hud;
@@ -100,10 +100,10 @@
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
 
-      // layers previously chosen
+      // layers + map options previously chosen
       config.layers = App.maperial.config.layers;
+      config.map = App.maperial.config.map;
 
-      console.log(config);
       return config;
    }  
    
@@ -119,6 +119,7 @@
       }
       else{
          config.layers = App.user.selectedMap.config.layers;
+         config.map = App.user.selectedMap.config.map;
       }
 
       App.maperial.apply(config);
@@ -276,7 +277,7 @@
 
          case Source.MaperialOSM :
             $("#customizeLayerOSMWindow").modal();
-            App.layerSetsHelper.buildLayerSets(MapCreationController.currentLayerIndex);
+            App.osmSetsHelper.buildOSMSets(MapCreationController.currentLayerIndex);
             break;
             
          case Source.Raster :
@@ -333,6 +334,7 @@
       
       var config = MapCreationController.getLayersCreationConfig();
       config.layers = App.maperial.config.layers;
+      config.map = App.maperial.config.map;
 
       App.maperial.apply(config);
    }
@@ -348,15 +350,17 @@
    {
       MapCreationController.closeSettings();
       
+      // remove custom settingView stuffs from config
       delete App.maperial.config.hud.elements["Settings"];
       App.maperial.config.hud.options = {};
       
-      App.user.set('selectedMap.config.hud', App.maperial.config.hud);
-      App.user.set('selectedMap.config.layers', App.maperial.config.layers);
+      // update the selectedMap
+      App.user.set('selectedMap.config', App.maperial.config);
       App.user.set('selectedMap.name', $("#mapNameInput").val());
 
       console.log(App.user.selectedMap);
       
+      // Save the map server side !
       if(App.user.isCreatingANewMap)
          App.mapManager.uploadNewMap(App.user.selectedMap);
       else
@@ -366,7 +370,7 @@
    //=============================================================================//
 
    App.MapCreationController = MapCreationController;
-   App.layerSetsHelper = new LayerSetsHelper(App.maperial, App.MapCreationController);
+   App.osmSetsHelper = new OSMSetsHelper(App.maperial, App.MapCreationController);
 
    //==================================================================//
    // Routing

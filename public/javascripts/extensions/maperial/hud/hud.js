@@ -32,10 +32,11 @@ HUD.ZOOMS                  = "Zooms";
 HUD.CONTROLS               = "Controls";
 HUD.SCALE                  = "Scale";
 HUD.GEOLOC                 = "Geoloc";
-HUD.COMPOSITIONS           = "Compositions";
 HUD.LATLON                 = "LatLon";
 HUD.MAPKEY                 = "MapKey";
 HUD.MAGNIFIER              = "Magnifier";
+HUD.COMPOSITIONS           = "Compositions";
+HUD.SWITCH_IMAGES          = "SwitchImages";
 
 //----------------------------------------------------------------------//
 
@@ -46,7 +47,8 @@ HUD.VIEWER_OPTIONS = {
     "3" : {element : HUD.COMPOSITIONS, label : "Compositions",    defaultDisableDrag : false },
     "4" : {element : HUD.LATLON,       label : "Lat/Lon",         defaultDisableDrag : false },
     "5" : {element : HUD.MAPKEY,       label : "Map Key",         defaultDisableDrag : false },
-    "6" : {element : HUD.MAGNIFIER,    label : "Magnifier",       defaultDisableDrag : false }
+    "6" : {element : HUD.MAGNIFIER,    label : "Magnifier",       defaultDisableDrag : false },
+    "7" : {element : HUD.SWITCH_IMAGES,label : "Switch Basemap",  defaultDisableDrag : true },
 }
 
 //----------------------------------------------------------------------//
@@ -70,6 +72,7 @@ HUD.positions = [];
 
 HUD.positions[HUD.SETTINGS]      = { left  : "0",    top    : "0"   };
 HUD.positions[HUD.COMPOSITIONS]  = { left  : "0",    bottom : "0"   };
+HUD.positions[HUD.SWITCH_IMAGES] = { left : "10",   top    : "10"  };
 HUD.positions[HUD.MAGNIFIER]     = { left  : "0",    bottom : "0"   };
 HUD.positions[HUD.COLORBAR]      = { left  : "0",    top    : "180" };
 HUD.positions[HUD.SCALE]         = { right : "10",   bottom : "10"  };
@@ -132,6 +135,10 @@ HUD.prototype.removeListeners = function () {
    $( "#control-down" ).unbind("click");
    $( "#control-left" ).unbind("click");
    $( "#control-right" ).unbind("click");
+
+   $( "#imagesMapquest" ).unbind("click");
+   $( "#imagesMapquestSatellite" ).unbind("click");
+   $( "#imagesOSM" ).unbind("click");
 }
 
 //----------------------------------------------------------------------//
@@ -207,6 +214,9 @@ HUD.prototype.display = function(){
 
    if(this.maperial.config.hud.elements[HUD.COMPOSITIONS])
       this.refreshCompositionsPanel();
+
+   if(this.maperial.config.hud.elements[HUD.SWITCH_IMAGES])
+      this.refreshSwitchImagesPanel();
 }
 
 //==================================================================//

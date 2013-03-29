@@ -2,14 +2,17 @@
 //- StylesManager - note: "StyleManager" exists outside maperialJS 
 //-------------------------------------------//
 
-function StylesManager(maperial){
+function StylesManager(maperial, useStyleCache){
 
    this.maperial = maperial;
 
    this.stylesToLoad;
    this.nextFunction;
 
-   this.styles = {}; // cache containing all previously loaded styles (see StyleLoader)
+   if(useStyleCache)
+      this.styles = this.maperial.stylesManager.styles; // cache containing all previously loaded styles
+   else
+      this.styles = {};
 }
 
 //-------------------------------------------//

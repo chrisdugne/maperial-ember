@@ -45,6 +45,7 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/mover.js";
 
 //hud
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/hud.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-switch.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-composition.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-controls.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-latlon.js";
