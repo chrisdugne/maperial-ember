@@ -37,12 +37,20 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/tile-
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/rendering/map-renderer.js";
 
 // modules
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/events.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/source.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/parameters.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mouse.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/hud.js";
-$cmd .= " --js " . "../../public/javascripts/extensions/maperial/modules/mover.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/events.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/source.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/parameters.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/mouse.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/mover.js";
+
+//hud
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/hud.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-composition.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-controls.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-latlon.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-scale.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/panel-settings.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/triggers.js";
 
 // managers
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/managers/styles-manager.js";

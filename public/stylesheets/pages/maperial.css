@@ -208,11 +208,9 @@ a#triggerHUDSettings {
 
 /*-------------------------*/
 #panelCompositions {
-	width: 300px;
+	width: 200px;
 	color: #eee;
-	max-height: 73%;
-	overflow-y: auto;
-	overflow-x: hidden;
+	padding-left:10px;
 }
 
 #compositionSettingsTitle {
