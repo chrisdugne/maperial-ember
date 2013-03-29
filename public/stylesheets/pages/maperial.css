@@ -221,6 +221,11 @@ a#triggerHUDSettings {
 	margin-bottom:23px;
 }
 
+.sourceThumb {
+	width: 45px;
+	margin-top: -9px;
+}
+
 /*-------------------------*/
 #panelGeoloc {
 	height: 30px;
