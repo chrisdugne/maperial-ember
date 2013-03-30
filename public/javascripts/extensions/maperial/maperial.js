@@ -1,18 +1,23 @@
 //==================================================================//
 
-function Maperial(){
+function Maperial(tagId, width, height){
+
+   this.tagId = tagId || "_maperial";
+
    this.config;
    this.context;
-   
+
    this.mapRenderer;
    this.mapMover;
    this.mapMouse;
    this.hud;
-   
+
    this.stylesManager = new StylesManager(this);
    this.layersManager = new LayersManager(this);
-   
+
    this.styleMenu;
+
+   this.templateBuilder = new TemplateBuilder(this.tagId);
 };
 
 //==================================================================//
@@ -63,7 +68,7 @@ Maperial.prototype.reset = function(){
 
    this.stylesManager = new StylesManager(this, true);
    this.layersManager = new LayersManager(this);
-   
+
    console.log("stylesCache : ", this.stylesManager.styles);
 }
 
@@ -79,6 +84,7 @@ Maperial.prototype.load = function() {
 
    //--------------------------//
 
+   this.templateBuilder.build();
    this.createContext();
 
    //--------------------------//
@@ -181,6 +187,37 @@ Maperial.prototype.defaultConfig = function() {
 
 //==================================================================//
 
+Maperial.prototype.createContext = function() {
+
+   if(!this.context){
+      console.log("creating context...");
+
+      this.context = {};
+      this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
+      this.context.centerM    = this.context.coordS.LatLonToMeters( MapParameters.DEFAULT_LATITUDE , MapParameters.DEFAULT_LONGITUDE );
+      this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
+      this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
+      this.context.zoom       = MapParameters.DEFAULT_ZOOM;
+   }
+   else
+      console.log("reset context...");
+
+   //----------------------------------------------------------
+   // set new divs (ember erase and build new divs)
+
+   this.context.mapCanvas = $("#Map"+this.tagId);
+
+   if(this.config.hud.elements[HUD.MAGNIFIER]){
+      this.context.magnifierCanvas = $("#Magnifier"+this.tagId);
+   }
+
+   //----------------------------------------------------------
+
+   this.context.parameters = new MapParameters(this);
+}
+
+//==================================================================//
+
 Maperial.prototype.loadStyles = function(next){
 
    console.log("checking styles...");
@@ -190,7 +227,7 @@ Maperial.prototype.loadStyles = function(next){
       var layerParams = this.config.layers[i].params;
       if(layerParams.styles){
          styleUIDs.push(layerParams.styles[layerParams.selectedStyle]);
-         
+
          if(this.layersManager.firstOSMPosition < 0)
             this.layersManager.firstOSMPosition = i;
       }
@@ -235,37 +272,6 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
 
 //==================================================================//
 
-Maperial.prototype.createContext = function() {
-
-   if(!this.context){
-      console.log("creating context...");
-
-      this.context = {};
-      this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
-      this.context.centerM    = this.context.coordS.LatLonToMeters( MapParameters.DEFAULT_LATITUDE , MapParameters.DEFAULT_LONGITUDE );
-      this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
-      this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
-      this.context.zoom       = MapParameters.DEFAULT_ZOOM;
-   }
-   else
-      console.log("reset context...");
-
-   //----------------------------------------------------------
-   // set new divs (ember erase and build new divs)
-
-   this.context.mapCanvas  = $("#"+MapParameters.mapCanvasName);
-
-   if(this.config.hud.elements[HUD.MAGNIFIER]){
-      this.context.magnifierCanvas = $("#"+MapParameters.magnifierCanvasName);
-   }
-
-   //----------------------------------------------------------
-
-   this.context.parameters = new MapParameters(this);
-}
-
-//==================================================================//
-
 Maperial.prototype.buildMap = function() {
 
    console.log("  building map...");
@@ -290,7 +296,7 @@ Maperial.prototype.buildMap = function() {
 
 Maperial.prototype.initGeoloc = function() {
    if(this.config.hud.elements[HUD.GEOLOC]){
-      GeoLoc.init("GeoLoc", $("#GeoLocGo"), this, false);
+      GeoLoc.init("GeoLoc"+this.tagId, $("#GeoLocGo"+this.tagId), this, false);
    }   
 }
 
@@ -334,9 +340,7 @@ Maperial.prototype.refreshScreen = function() {
       this.mapMover.resizeDrawers();
       this.hud.placeElements();
    }
-   catch(e){
-      console.log(e);
-   }
+   catch(e){}
 }
 
 //==================================================================//
@@ -345,7 +349,7 @@ Maperial.prototype.checkOSMSets = function(){
 
    if($.isEmptyObject(this.stylesManager.styles))
       return;
-   
+
    console.log("checking OSM sets...");
 
    var selectedStyle = this.stylesManager.getSelectedStyle();
@@ -353,7 +357,7 @@ Maperial.prototype.checkOSMSets = function(){
    if(selectedStyle && !this.config.map.osmSets){
       this.layersManager.defaultOSMSets(selectedStyle);
    }
-   
+
    this.refreshOSMVisibilities();
 }
 

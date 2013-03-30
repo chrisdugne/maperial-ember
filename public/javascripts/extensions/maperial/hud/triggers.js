@@ -8,12 +8,12 @@ HUD.prototype.buildTriggers = function(){
    //--------------------------------------------------------//
    // Init Triggers
 
-   $(".panel").click(function(){
-      var element = $(this).context.id.replace("panel","");
+   this.allPanels().click(function(){
+      var element = $(this).context.id.replace("panel","").replace(hud.maperial.tagId,"");
       hud.putOnTop(element);
    });
 
-   $(".trigger").click(function(){
+   this.allTriggers().click(function(){
       hud.clickOnTrigger($(this));
       return false;
    });
@@ -24,33 +24,31 @@ HUD.prototype.buildTriggers = function(){
    //-----------------
    // snapping
 
-   $( ".panel" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
-   $( ".trigger" ).draggable({ snap: ".snapper", containment: "#map", scroll: false });
+   this.allPanels().draggable({ snap: ".snapper", containment: ".maperial-map", scroll: false });
+   this.allTriggers().draggable({ snap: ".snapper", containment: ".maperial-map", scroll: false });
 
    //------------------
    // disable dragging
 
    for (element in this.maperial.config.hud.elements) {
-
-      if(this.maperial.config.hud.elements[element].disableDrag){ 
-         $( "#panel"+element ).draggable( 'disable' );
-         $( "#trigger"+element ).draggable( 'disable' );
+      if(this.maperial.config.hud.elements[element].disableDrag){
+         this.panel(element).draggable( 'disable' );
+         this.trigger(element).draggable( 'disable' );
       }
-
    }
 
    //---------------
    // panels
 
-   $( ".panel" ).bind('dragstart',function( event ){
+   this.allPanels().bind('dragstart',function( event ){
 
       var id = $(this).context.id;
-      var element = id.replace("panel","");
+      var element = id.replace("panel","").replace(hud.maperial.tagId,"");
 
       hud.putOnTop(element);
 
       // hide the close button
-      $("#trigger"+element).css({
+      this.trigger(element).css({
          opacity : 0
       });
    });
@@ -70,13 +68,13 @@ HUD.prototype.buildTriggers = function(){
       }   
    });
 
-   $( ".panel" ).bind('dragstop',function( event ){
+   this.allPanels().bind('dragstop',function( event ){
       var id = $(this).context.id;
       var element = id.replace("panel","");
       var newTop = $("#"+id).css("top");
       var newLeft = $("#"+id).css("left");
 
-      $("#trigger"+element).css({
+      this.trigger(element).css({
          top: newTop,
          left: newLeft,
          opacity : 1
@@ -87,22 +85,22 @@ HUD.prototype.buildTriggers = function(){
    //---------------
    // triggers
 
-   $( ".trigger" ).bind('dragstart',function( event ){
+   this.allTriggers().bind('dragstart',function( event ){
       $(this).addClass('beingdrag');
       $(this).css('right', 'auto');
       $(this).css('bottom', 'auto');
 
-      var element = $(this).context.id.replace("trigger","");
+      var element = $(this).context.id.replace("trigger","").replace(hud.maperial.tagId,"");
       hud.putOnTop(element);
    });
 
-   $( ".trigger" ).bind('dragstop',function( event ){
+   this.allTriggers().bind('dragstop',function( event ){
       var id = $(this).context.id;
       var element = id.replace("trigger","");
 
       var newTop = $("#"+id).css("top");
       var newLeft = $("#"+id).css("left");
-      $("#panel"+element).css({
+      this.panel(element).css({
          top: newTop,
          left: newLeft
       });
@@ -114,22 +112,22 @@ HUD.prototype.buildTriggers = function(){
 //------------------------------------------------//
 
 HUD.prototype.showTrigger = function(element){
-   $("#icon"+element).show("fast");
-   $("#trigger"+element).removeClass("active");
+   this.icon(element).show("fast");
+   this.trigger(element).removeClass("active");
 }
 
 //------------------------------------------------//
 
 HUD.prototype.hideTrigger = function(element){
-   $("#icon"+element).hide("fast");
-   $("#panel"+element).hide("fast");
-   $("#trigger"+element).addClass("active");
+   this.icon(element).hide("fast");
+   this.panel(element).hide("fast");
+   this.trigger(element).addClass("active");
 }
 
 //------------------------------------------------//
 
 HUD.prototype.clickOnTrigger = function(trigger){
-   var element = trigger[0].id.replace("trigger","");
+   var element = trigger[0].id.replace("trigger","").replace(this.maperial.tagId,"");
    this.putOnTop(element);
 
    if (trigger.hasClass('beingdrag')) {
@@ -144,8 +142,8 @@ HUD.prototype.clickOnTrigger = function(trigger){
          trigger.draggable("disable");
       }
 
-      $("#icon"+element).toggle("fast");
-      $("#panel"+element).toggle("fast");
+      this.icon(element).toggle("fast");
+      this.panel(element).toggle("fast");
       trigger.toggleClass("active");
    }
 }

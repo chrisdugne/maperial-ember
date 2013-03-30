@@ -42,6 +42,7 @@ $cmd .= " --js " . "../../public/javascripts/extensions/maperial/source.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/parameters.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/mouse.js";
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/mover.js";
+$cmd .= " --js " . "../../public/javascripts/extensions/maperial/template-builder.js";
 
 //hud
 $cmd .= " --js " . "../../public/javascripts/extensions/maperial/hud/hud.js";

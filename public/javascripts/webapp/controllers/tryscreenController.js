@@ -21,7 +21,7 @@
 
 	TryscreenController.maperialConfig = function(){
 
-	   var config = {hud:{elements:{}, options:{}}};
+	   var config = App.maperial.emptyConfig();
 
       // mapEditor tools
       // maperial hud

@@ -4,52 +4,54 @@
  */
 HUD.prototype.refreshSettingsPanel = function() {
 
-   $("#"+HUD.SETTINGS).empty(); 
+   this.element(HUD.SETTINGS).empty(); 
    var panelHeight = 0;
    var configHUD = this.maperial.config.hud;
    var hud = this;
 
-   for (element in configHUD.elements) {
+   for (name in configHUD.elements) {
 
       // ----- checking config options
-      if(configHUD.elements[element].disableHide){ 
+      if(configHUD.elements[name].disableHide){ 
          continue;
       }  
+      
+      var nameInTag = name + this.maperial.tagId; 
 
       // ----- appending div
       var div = "<div class=\"row-fluid\">" +
-      "<div class=\"span5 offset1\">" + configHUD.elements[element].label + "</div>" +
+      "<div class=\"span5 offset1\">" + configHUD.elements[name].label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
-      "   <span class=\"slider-button\" id=\"toggle"+element+"\"></span>" +
+      "   <span class=\"slider-button\" id=\"toggle"+nameInTag+"\"></span>" +
       "</div>" +
       "</div>";
 
-      $("#"+HUD.SETTINGS).append(div); 
+      this.element(HUD.SETTINGS).append(div); 
       panelHeight += 50;
 
       // ----- toggle listeners
 
-      $('#toggle'+element).click(function(){
-         if($(this).hasClass('on')){
-            $(this).removeClass('on');
-            var thisElement = $(this).context.id.replace("toggle","");
-            $("#"+configHUD.elements[thisElement].type+thisElement).addClass("hide");
-            
-            if(configHUD.elements[thisElement].type == HUD.TRIGGER)
-               hud.hideTrigger(thisElement);
-         }
-         else{
-            $(this).addClass('on');
-            var thisElement = $(this).context.id.replace("toggle","");
-            $("#"+configHUD.elements[thisElement].type+thisElement).removeClass("hide");
-            hud.showTrigger(thisElement);
-         }
-      });
+      $('#toggle'+nameInTag).click((function(name){
+         return function(){
+            if($(this).hasClass('on')){
+               $(this).removeClass('on');
+               hud.element(configHUD.elements[name].type+name).addClass("hide");
 
-      if(configHUD.elements[element].show){
-         $("#toggle"+element).addClass("on");
+               if(configHUD.elements[name].type == HUD.TRIGGER)
+                  hud.hideTrigger(name);
+            }
+            else{
+               $(this).addClass('on');
+               hud.element(configHUD.elements[name].type+name).removeClass("hide");
+               hud.showTrigger(name);
+            }
+         }
+      })(name));
+
+      if(configHUD.elements[name].show){
+         $("#toggle"+nameInTag).addClass("on");
       }
    }
 
-   $("#panel"+HUD.SETTINGS).css("height", panelHeight+"px");
+   this.panel(HUD.SETTINGS).css("height", panelHeight+"px");
 }

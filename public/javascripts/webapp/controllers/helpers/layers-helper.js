@@ -1,6 +1,6 @@
 //----------------------------//
 
-function OSMSetsHelper (maperial, mapCreationController) {
+function LayersHelper (maperial, mapCreationController) {
    this.maperial = maperial;
    this.mapCreationController = mapCreationController;
    this.layerBeingDraggedIndex;
@@ -8,7 +8,7 @@ function OSMSetsHelper (maperial, mapCreationController) {
 
 //----------------------------//
 
-OSMSetsHelper.TOGGLE = "toggleLayerSet";
+LayersHelper.TOGGLE = "toggleLayerSet";
 
 //=============================================================================//
 //Layers Panel Drawing
@@ -16,7 +16,7 @@ OSMSetsHelper.TOGGLE = "toggleLayerSet";
 /**
  * Draw the Layers panel
  */
-OSMSetsHelper.prototype.refreshLayersPanel = function() {
+LayersHelper.prototype.refreshLayersPanel = function() {
 
    var me = this;
    $("#layers").empty(); 
@@ -40,12 +40,12 @@ OSMSetsHelper.prototype.refreshLayersPanel = function() {
       }
    });
 
-   $("#panelLayers").css("height", panelHeight+"px");
+   $("#panelLayers"+this.maperial.tagId).css("height", panelHeight+"px");
 }
 
 //--------------------------------------//
 
-OSMSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
+LayersHelper.prototype.buildLayerEntry = function(layerIndex) {
 
    var layer = App.maperial.config.layers[layerIndex];
 
@@ -61,7 +61,7 @@ OSMSetsHelper.prototype.buildLayerEntry = function(layerIndex) {
 
 //=======================================================================//
 
-OSMSetsHelper.prototype.exchangeLayers = function(){
+LayersHelper.prototype.exchangeLayers = function(){
 
    // layers are ordered from bottom to top
    for(var i = ($("#layers")[0].children.length - 1); i >= 0 ; i--){
@@ -95,7 +95,7 @@ OSMSetsHelper.prototype.exchangeLayers = function(){
 /**
  * On/off buttons to show hide osmSets
  */
-OSMSetsHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
+LayersHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
 
    var layersManager = this.maperial.layersManager;
    var container = $("#osmSetsDiv");
@@ -110,7 +110,7 @@ OSMSetsHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
       var div = "<div class=\"row-fluid\">" +
       "<div class=\"span5 offset1\">" + set.label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
-      "   <span class=\"slider-button\" id=\""+OSMSetsHelper.TOGGLE+i+"\"></span>" +
+      "   <span class=\"slider-button\" id=\""+LayersHelper.TOGGLE+i+"\"></span>" +
       "</div>" +
       "</div>";
 
@@ -119,21 +119,21 @@ OSMSetsHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
 
       // ----- toggle listeners
 
-      $('#'+OSMSetsHelper.TOGGLE+i).click(function(){
+      $('#'+LayersHelper.TOGGLE+i).click(function(){
          if($(this).hasClass('on')){
             $(this).removeClass('on');
-            var setIndex = $(this).context.id.replace(OSMSetsHelper.TOGGLE,"");
+            var setIndex = $(this).context.id.replace(LayersHelper.TOGGLE,"");
             layersManager.detachSet(setIndex);
          }
          else{
             $(this).addClass('on');
-            var setIndex = $(this).context.id.replace(OSMSetsHelper.TOGGLE,"");
+            var setIndex = $(this).context.id.replace(LayersHelper.TOGGLE,"");
             layersManager.attachSet(setIndex, layerCustomizedIndex);
          }
       });
 
       if(layerCustomizedIndex == set.layerPosition)
-         $("#"+OSMSetsHelper.TOGGLE+i).addClass("on");
+         $("#"+LayersHelper.TOGGLE+i).addClass("on");
    }
 
    container.css("height", panelHeight+"px");
@@ -144,7 +144,7 @@ OSMSetsHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
 /**
  * TODO (not usefull for a DEMO)
  */
-OSMSetsHelper.prototype.buildDetailledSets = function(){
+LayersHelper.prototype.buildDetailledSets = function(){
    $("#osmSetsDiv").empty();
 }
 
@@ -157,7 +157,7 @@ OSMSetsHelper.prototype.buildDetailledSets = function(){
 /**
  * Draw the HUD Viewer Settings
  */
-OSMSetsHelper.prototype.refreshHUDViewerSettings = function() {
+LayersHelper.prototype.refreshHUDViewerSettings = function() {
 
    var me = this;
    $("#hudViewerSettings").empty(); 

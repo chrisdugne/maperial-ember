@@ -7,19 +7,19 @@ HUD.prototype.refreshCompositionsPanel = function() {
 
    //-----------------------------------------------------//
 
-   $("#"+HUD.COMPOSITIONS).empty();
+   this.element(HUD.COMPOSITIONS).empty();
 
    //-----------------------------------------------------//
    
    if(this.maperial.config.layers.length < 2){
-      $("#panel"+HUD.COMPOSITIONS).addClass("hide"); 
+      this.panel(HUD.COMPOSITIONS).addClass("hide"); 
       return;
    }
 
    //-----------------------------------------------------//
 
-   $("#"+HUD.COMPOSITIONS).removeClass("hide"); 
-   $("#"+HUD.COMPOSITIONS).append("<p id=\"compositionSettingsTitle\">Compositions Settings</p>");
+   this.element(HUD.COMPOSITIONS).removeClass("hide"); 
+   this.element(HUD.COMPOSITIONS).append("<p class=\"compositionSettingsTitle\">Compositions Settings</p>");
 
    //-----------------------------------------------------//
 
@@ -47,7 +47,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
       div += "</select></div>";
       div += "</div>";
 
-      $("#"+HUD.COMPOSITIONS).append(div);
+      this.element(HUD.COMPOSITIONS).append(div);
 
       //-----------------------------------------------------//
       // build selectbox
@@ -84,7 +84,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
          "<div class=\"span1 offset1\"><div class=\"mulblendSlider\" id="+bwId+"></div></div>" +
          "</div>";
 
-         $("#"+HUD.COMPOSITIONS).append(div);
+         this.element(HUD.COMPOSITIONS).append(div);
 
          //-----------------------------------------------------//
          // MulBlend params js 
@@ -159,5 +159,5 @@ HUD.prototype.refreshCompositionsPanel = function() {
       panelHeight += 60;
    }
 
-   $("#panel"+HUD.COMPOSITIONS).css("height", panelHeight+"px");
+   this.panel(HUD.COMPOSITIONS).css("height", panelHeight+"px");
 }

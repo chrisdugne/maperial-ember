@@ -7,15 +7,15 @@ HUD.prototype.refreshSwitchImagesPanel = function() {
    
    var layersManager = this.maperial.layersManager;
    
-   $("#imagesMapquest").click(function(){
+   this.element("imagesMapquest").click(function(){
       layersManager.switchImagesTo(Source.IMAGES_MAPQUEST)
    });
 
-   $("#imagesMapquestSatellite").click(function(){
+   this.element("imagesMapquestSatellite").click(function(){
       layersManager.switchImagesTo(Source.IMAGES_MAPQUEST_SATELLITE)
    });
 
-   $("#imagesOSM").click(function(){
+   this.element("imagesOSM").click(function(){
       layersManager.switchImagesTo(Source.IMAGES_OSM)
    });
 }

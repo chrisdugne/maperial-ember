@@ -16,10 +16,47 @@ function HUD(maperial){
    this.updateScale();
 
 }
+//----------------------------------------------------------------------//
+
+HUD.prototype.element = function(name){
+   return $("#"+name+this.maperial.tagId);
+}
+
+HUD.prototype.panel = function(name){
+   return this.element(HUD.PANEL+name);
+}
+
+HUD.prototype.trigger = function(name){
+   return this.element(HUD.TRIGGER+name);
+}
+
+HUD.prototype.icon = function(name){
+   return this.element(HUD.ICON+name);
+}
+
+HUD.prototype.allPanels = function(){
+   var panels = $("#"+this.maperial.tagId).find("."+HUD.PANEL);
+   var panelsWebapp = $(".panel-webapp");
+   
+   return $.merge(panels, panelsWebapp);
+}
+
+HUD.prototype.allTriggers = function(){
+   var triggers = $("#"+this.maperial.tagId).find("."+HUD.TRIGGER);
+   var triggersWebapp = $(".trigger-webapp");
+   
+   return $.merge(triggers, triggersWebapp);
+}
+
+HUD.prototype.controlZoomCursor = function(){
+   return $("#control-zoom"+this.maperial.tagId+" a");
+}
 
 //----------------------------------------------------------------------//
+
 HUD.TRIGGER                = "trigger";
 HUD.PANEL                  = "panel";
+HUD.ICON                   = "icon";
 
 // hud options user only
 HUD.SETTINGS               = "HUDSettings";
@@ -124,21 +161,21 @@ HUD.prototype.removeListeners = function () {
    $(window).off(MaperialEvents.ZOOM_CHANGED);
    $(window).off(MaperialEvents.ZOOM_TO_REFRESH);
    
-   $(".trigger").unbind("click");
-   $(".panel").unbind("click");
-   $(".trigger").unbind("dragstart");
-   $(".trigger").unbind("dragstop");
-   $(".panel").unbind("dragstart");
-   $(".panel").unbind("dragstop");
+   this.allTriggers().unbind("click");
+   this.allPanels().unbind("click");
+   this.allTriggers().unbind("dragstart");
+   this.allTriggers().unbind("dragstop");
+   this.allPanels().unbind("dragstart");
+   this.allPanels().unbind("dragstop");
 
-   $( "#control-up" ).unbind("click");
-   $( "#control-down" ).unbind("click");
-   $( "#control-left" ).unbind("click");
-   $( "#control-right" ).unbind("click");
+   this.element("control-up").unbind("click");
+   this.element("control-down").unbind("click");
+   this.element("control-left").unbind("click");
+   this.element("control-right").unbind("click");
 
-   $( "#imagesMapquest" ).unbind("click");
-   $( "#imagesMapquestSatellite" ).unbind("click");
-   $( "#imagesOSM" ).unbind("click");
+   this.element("imagesMapquest").unbind("click");
+   this.element("imagesMapquestSatellite").unbind("click");
+   this.element("imagesOSM").unbind("click");
 }
 
 //----------------------------------------------------------------------//
@@ -169,16 +206,16 @@ HUD.prototype.placeElements = function () {
          
          if(position[property].indexOf("%") == -1){
             value = parseInt(value) + this.getMargin(property);
-            $("#panel"+element).css(property, value+"px");
-            $("#trigger"+element).css(property, value+"px");
+            this.panel(element).css(property, value+"px");
+            this.trigger(element).css(property, value+"px");
             continue;
          }
 
          var percentage = position[property].split("%")[0];
-         var triggerWidth = $("#trigger"+element).width();
-         var triggerHeight = $("#trigger"+element).height();
-         var panelWidth = $("#panel"+element).width();
-         var panelHeight = $("#panel"+element).height();
+         var triggerWidth = this.trigger(element).width();
+         var triggerHeight = this.trigger(element).height();
+         var panelWidth = this.panel(element).width();
+         var panelHeight = this.panel(element).height();
 
          switch(property){
             case "top":
@@ -198,8 +235,8 @@ HUD.prototype.placeElements = function () {
          }
 
          value += this.getMargin(property);
-         $("#panel"+element).css(property, value+"px");
-         $("#trigger"+element).css(property, value+"px");
+         this.panel(element).css(property, value+"px");
+         this.trigger(element).css(property, value+"px");
       }
    }
 }
@@ -227,9 +264,9 @@ HUD.prototype.display = function(){
 HUD.prototype.refreshZoom = function(shuntSlider){
    
    if(!shuntSlider)
-      $( "#control-zoom" ).slider({value: this.context.zoom});
+      this.element("control-zoom").slider({value: this.context.zoom});
    
-   $("#control-zoom a").html(this.context.zoom);
+   this.controlZoomCursor().html(this.context.zoom);
    $(window).trigger(MaperialEvents.ZOOM_CHANGED);
    
 }
@@ -237,8 +274,8 @@ HUD.prototype.refreshZoom = function(shuntSlider){
 //====================================================================================//
 
 HUD.prototype.hideAllHUD = function(){
-   $(".panel").addClass("hide");
-   $(".trigger").addClass("hide");
+   this.allPanels().addClass("hide");
+   this.allTriggers().addClass("hide");
 }
 
 //------------------------------------------------//
@@ -247,7 +284,7 @@ HUD.prototype.showAllHUD = function(){
 
    for (element in this.maperial.config.hud.elements) {
       if(this.maperial.config.hud.elements[element].show == true){
-         $("#"+this.maperial.config.hud.elements[element].type + element).removeClass("hide");
+         this.element(this.maperial.config.hud.elements[element].type + element).removeClass("hide");
       }
    }
 
@@ -256,8 +293,8 @@ HUD.prototype.showAllHUD = function(){
 //------------------------------------------------//
 
 HUD.prototype.putOnTop = function(element){
-   $(".trigger").css({ zIndex : 101 });
-   $(".panel").css({ zIndex : 100 });
-   $("#trigger"+element).css({ zIndex : 201 });
-   $("#panel"+element).css({ zIndex : 200 });  
+   this.allTriggers().css({ zIndex : 101 });
+   this.allPanels().css({ zIndex : 100 });
+   this.trigger(element).css({ zIndex : 201 });
+   this.panel(element).css({ zIndex : 200 });  
 }

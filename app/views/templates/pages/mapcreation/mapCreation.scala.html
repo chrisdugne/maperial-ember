@@ -1,4 +1,3 @@
-@import views.html.templates.components.maperial; 
 @import views.html.popups.baseSelectionWindow; 
 @import views.html.popups.sourceSelectionWindow; 
 @import views.html.popups.selectStyleWindow; 
@@ -6,10 +5,10 @@
 @import views.html.popups.selectImagesWindow; 
 @import views.html.popups.customizeLayerOSMWindow; 
 
-@maperial()
+<div id="_maperial"></div>
 
 <!-- Custom for Layers  -->
-<div class="panel snapper hide" id="panelLayers">
+<div class="panel panel-webapp panelLayers snapper hide" id="panelLayers_maperial">
 	<div class="row-fluid">
 		<div id="addLayerButton" class="span2 offset2 addDataButton pointerCursor" {{action openSourceSelection}}></div>
 		<div class="span4 offset2 btn-small btn-primary" {{action openSettings}}>Settings</div>
@@ -18,7 +17,7 @@
 </div>
 
 <!-- Custom for Settings -->
-<div class="panel snapper hide" id="panelSettings">
+<div class="panel panel-webapp panelSettings snapper hide" id="panelSettings_maperial">
 	<div class="row-fluid">
 		<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
 		<div class="span3 offset5 btn-small btn-primary" {{action backToLayers}}>Back</div>

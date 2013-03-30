@@ -1,9 +1,10 @@
 /*-------------------------*/
-#map {
+.maperial-map {
 	margin-bottom: -5px;
+	position: absolute;
 }
 
-#magnifier {
+.maperial-magnifier {
 	margin-bottom: -4px;
 	-moz-border-radius-topleft: 6px;
 	-webkit-border-top-left-radius: 6px;
@@ -149,51 +150,51 @@ div.active.buttonMode {
 }
 
 /*-------------------------*/
-#cancelSelection {
+.cancelSelection {
 	margin-top: -189px;
 	margin-left: 164px;
 }
 
-#selectStyleWindow.fade.in {
+.selectStyleWindow.fade.in {
 	top: 35%;
 }
 
-#selectedStyleArea {
+.selectedStyleArea {
 	margin-top: 16px;
 }
 
-#selectedStyleThumb {
+.selectedStyleThumb {
 	z-index: -1;
 	position: relative;
 }
 
-#selectedColorbarThumb {
+.selectedColorbarThumb {
 	z-index: -1;
 	position: relative;
 }
 
-#continueButton {
+.continueButton {
 	margin-top: 60px;
 }
 
 /*-------------------------*/
-#colorbarNameInput {
+.colorbarNameInput {
 	width: 143px;
 	margin-top: -2px;
 }
 
-#colorbar {
+.colorbar {
 	z-index: 3 !important;
 }
 
-#saveColorbarButton {
+.saveColorbarButton {
 	margin-left: 24px;
 	width: 29px;
 }
 
 /**********************************/
 /* Panel and Triggers*/
-#panelHUDSettings {
+.panelHUDSettings {
 	width: 200px;
 	color: #eee;
 	padding-top: 15px;
@@ -202,18 +203,18 @@ div.active.buttonMode {
 	padding-left: 10px;
 }
 
-a#triggerHUDSettings {
+a.triggerHUDSettings {
 	height: 16px;
 }
 
 /*-------------------------*/
-#panelCompositions {
+.panelCompositions {
 	width: 200px;
 	color: #eee;
 	padding-left:10px;
 }
 
-#compositionSettingsTitle {
+.compositionSettingsTitle {
 	color: #eee;
 	font-size:14px;
 	text-align: center;
@@ -227,7 +228,7 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
-#panelGeoloc {
+.panelGeoloc {
 	height: 30px;
 	width: 245px;
 	padding-left: 20px;
@@ -239,32 +240,32 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
-#panelLatLon {
+.panelLatLon {
 	height: 20px;
 	width: 290px;
 	padding-left: 7px;
 }
 
-#latlondiv {
+.latlon {
 	color: #eee;
 }
 
 /*-------------------------*/
-#panelSwitchImages {
+.panelSwitchImages {
 	height: 108px;
 	width: 45px;
 	padding-top: 13px;
 }
 
 /*-------------------------*/
-#panelControls {
+.panelControls {
 	height: 200px;
 	width: 37px;
 	background: transparent;
 	padding-top: 0px;
 }
 
-#control-up,#control-down,#control-left,#control-right {
+.control-up,.control-down,.control-left,.control-right {
 	background-image: url(../../images/mapediting/map.sprite.png);
 	position: absolute;
 	background-repeat: no-repeat;
@@ -272,14 +273,14 @@ a#triggerHUDSettings {
 	cursor: pointer;
 }
 
-#control-up {
+.control-up {
 	left: 10px;
 	width: 25px;
 	height: 13px;
 	background-position: -15px -5px;
 }
 
-#control-left {
+.control-left {
 	left: 0px;
 	top: 13px;
 	width: 25px;
@@ -287,7 +288,7 @@ a#triggerHUDSettings {
 	background-position: -5px -17px;
 }
 
-#control-right {
+.control-right {
 	left: 25px;
 	top: 13px;
 	width: 25px;
@@ -295,7 +296,7 @@ a#triggerHUDSettings {
 	background-position: -30px -17px;
 }
 
-#control-down {
+.control-down {
 	left: 10px;
 	top: 36px;
 	width: 25px;
@@ -303,7 +304,7 @@ a#triggerHUDSettings {
 	background-position: -15px -40px;
 }
 
-#control-zoom {
+.control-zoom {
 	height: 166px;
 	top: 65px;
 	left: 9px;
@@ -313,14 +314,14 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
-#panelScale {
+.panelScale {
 	height: 40px;
 	width: 190px;
 	padding-left: 7px;
 	background: transparent;
 }
 
-#scalediv {
+.scale {
 	color: #eee;
 }
 
@@ -339,18 +340,18 @@ a#triggerHUDSettings {
 }
 
 /*-------------------------*/
-#panelMapKey {
+.panelMapKey {
 	height: 310px;
 	width: 206px;
 	padding-left: 7px;
 }
 
 /*-------------------------*/
-a#triggerDetailsMenu {
+a.triggerDetailsMenu {
 	
 }
 
-#panelDetailsMenu {
+.panelDetailsMenu {
 	width: 356px;
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -358,7 +359,7 @@ a#triggerDetailsMenu {
 }
 
 /* main menu div*/
-#styleMenu_menu_maindiv {
+.styleMenu_menu_maindiv {
 	float: left;
 	font-size: 60%;
 	width: 350px;
@@ -375,11 +376,11 @@ a#triggerDetailsMenu {
 }
 
 /*-------------------------*/
-#openDetailledWidget {
+.openDetailledWidget {
 	width: 30px;
 }
 
-#panelQuickEdit {
+.panelQuickEdit {
 	
 }
 
@@ -400,21 +401,21 @@ a#triggerDetailsMenu {
 }
 
 /*-------------------------*/
-a#triggerMagnifier {
+a.triggerMagnifier {
 	
 }
 
-#panelMagnifier {
+.panelMagnifier {
 	height: 200px;
 	opacity: 1;
 }
 
 /*-------------------------*/
-a#triggerZooms {
+a.triggerZooms {
 	
 }
 
-#panelZooms {
+.panelZooms {
 	width: 780px;
 	height: 50px;
 	text-align: center;
@@ -427,11 +428,11 @@ a#triggerZooms {
 }
 
 /*-------------------------*/
-a#triggerColorBar {
+a.triggerColorBar {
 	
 }
 
-#panelColorBar {
+.panelColorBar {
 	width: 370px;
 	height: auto;
 	text-align: center;
@@ -446,12 +447,12 @@ a#triggerColorBar {
 }
 
 /*zoom select buttons*/
-#styleMenu_menu_zoom_selector {
+.styleMenu_menu_zoom_selector {
 	width: 100%;
 }
 
 /*zoom slider*/
-#styleMenu_menu_sliderrangez {
+.styleMenu_menu_sliderrangez {
 	width: 92%;
 	margin-left: 4%;
 }

@@ -38,14 +38,14 @@ HUD.prototype.updateScale = function(){
    var miles = HUD.ZOOM_METERS[this.context.zoom] * 0.00062137;
    
    try {
-      $("#metersContainer").empty();
-      $("#milesContainer").empty();
+      this.element("metersContainer").empty();
+      this.element("milesContainer").empty();
       
-      $("#metersContainer").append(meters + "m");  
-      $("#milesContainer").append(miles + "mi");  
+      this.element("metersContainer").append(meters + "m");  
+      this.element("milesContainer").append(miles + "mi");  
 
-      $("#metersContainer").width(nbPixelsForMeters+"px");  
-      $("#milesContainer").width(nbPixelsForMiles+"px");  
+      this.element("metersContainer").width(nbPixelsForMeters+"px");  
+      this.element("milesContainer").width(nbPixelsForMiles+"px");  
    }
    catch(e){}
    

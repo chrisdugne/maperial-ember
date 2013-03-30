@@ -41,7 +41,7 @@ MapRenderer.prototype.reset = function () {
 
    var renderer = this;
    
-   if(this.config.hud.elements[HUD.MAGNIFIER]){
+   if(this.config.hud.elements[HUD.MAGNIFIER] && this.config.hud.elements[HUD.MAGNIFIER].show){
       this.context.mapCanvas.on(MaperialEvents.MOUSE_MOVE, function(){
          renderer.DrawMagnifier();
       });

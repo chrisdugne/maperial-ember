@@ -3,14 +3,14 @@ HUD.prototype.buildControls = function(){
 
    var me = this;
    
-   $( "#control-zoom" ).slider({
+   this.element("control-zoom").slider({
       orientation: "vertical",
       range: "min",
       min: 1,
       max: 18,
       value: this.context.zoom,
       slide: function( event, ui ) {
-         $("#control-zoom a").html(ui.value);
+         me.controlZoomCursor().html(ui.value);
       },
       change: function( event, ui ) {
          me.context.zoom = parseInt(ui.value);
@@ -18,12 +18,12 @@ HUD.prototype.buildControls = function(){
       }
     });
    
-   $( "#control-up" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_UP); } );
-   $( "#control-down" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_DOWN); } );
-   $( "#control-left" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_LEFT); } );
-   $( "#control-right" ).click( function(){ $(window).trigger(MaperialEvents.CONTROL_RIGHT); } );
+   this.element("control-up").click( function(){ $(window).trigger(MaperialEvents.CONTROL_UP); } );
+   this.element("control-down").click( function(){ $(window).trigger(MaperialEvents.CONTROL_DOWN); } );
+   this.element("control-left").click( function(){ $(window).trigger(MaperialEvents.CONTROL_LEFT); } );
+   this.element("control-right").click( function(){ $(window).trigger(MaperialEvents.CONTROL_RIGHT); } );
    
-   Utils.buildSliderStyle("control-zoom");
+   Utils.buildSliderStyle("control-zoom"+this.maperial.tagId);
 
    this.refreshZoom();
 }

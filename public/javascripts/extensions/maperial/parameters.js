@@ -4,9 +4,6 @@ MapParameters.serverURL              = "//maperial.com";
 
 MapParameters.shadersPath            = "assets/shaders";
 
-MapParameters.mapCanvasName          = "map";
-MapParameters.magnifierCanvasName    = "magnifier";
-
 MapParameters.DEFAULT_ZOOM           = 8;
 MapParameters.DEFAULT_LATITUDE       = 45.7;
 MapParameters.DEFAULT_LONGITUDE      = 3.12;
@@ -27,7 +24,6 @@ MapParameters.DEFAULT_COLORBAR_UID   = "default";
 MapParameters.AlphaClip              = "AlphaClip";
 MapParameters.AlphaBlend             = "AlphaBlend";
 MapParameters.MulBlend               = "MulBlend";
-
 
 //-----------------------------------------------------------------------------------//
 

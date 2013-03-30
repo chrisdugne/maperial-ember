@@ -34,10 +34,10 @@
    MapCreationController.maperialReady = function (){
 
       if(App.Globals.isViewLayerCreation){
-         App.osmSetsHelper.refreshLayersPanel();
+         App.layersHelper.refreshLayersPanel();
       }
       else{
-         App.osmSetsHelper.refreshHUDViewerSettings();
+         App.layersHelper.refreshHUDViewerSettings();
       }
       
       MapCreationController.setSelectedStyle();
@@ -277,7 +277,7 @@
 
          case Source.MaperialOSM :
             $("#customizeLayerOSMWindow").modal();
-            App.osmSetsHelper.buildOSMSets(MapCreationController.currentLayerIndex);
+            App.layersHelper.buildOSMSets(MapCreationController.currentLayerIndex);
             break;
             
          case Source.Raster :
@@ -370,7 +370,7 @@
    //=============================================================================//
 
    App.MapCreationController = MapCreationController;
-   App.osmSetsHelper = new OSMSetsHelper(App.maperial, App.MapCreationController);
+   App.layersHelper = new LayersHelper(App.maperial, App.MapCreationController);
 
    //==================================================================//
    // Routing
