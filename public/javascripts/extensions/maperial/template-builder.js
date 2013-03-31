@@ -157,7 +157,7 @@ TemplateBuilder.prototype.buildGeoloc = function(){
    html += "<div class=\"panel panelGeoloc snapper hide\" id=\"panelGeoloc"+this.tagId+"\" >";
    html += "   <div id=\"geoloc"+this.tagId+"\" class=\"row-fluid\">";
    html += "      <div class=\"span9\">";
-   html += "         <input type=\"text\" id=\"GeoLoc"+this.tagId+"\" name=\"GeotLoc"+this.tagId+"\">";
+   html += "         <input type=\"text\" id=\"GeoLoc"+this.tagId+"\" name=\"GeotLoc"+this.tagId+"\" class=\"inputGeoloc\">";
    html += "      </div>";
    html += "      <div class=\"span2 offset1\">";
    html += "         <div id=\"GeoLocGo"+this.tagId+"\" class=\"btn-small btn-primary\"><i class=\"icon-arrow-right icon-white\"></i></div>";

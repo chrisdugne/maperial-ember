@@ -48,7 +48,7 @@ HUD.prototype.buildTriggers = function(){
       hud.putOnTop(element);
 
       // hide the close button
-      this.trigger(element).css({
+      hud.trigger(element).css({
          opacity : 0
       });
    });
@@ -70,11 +70,11 @@ HUD.prototype.buildTriggers = function(){
 
    this.allPanels().bind('dragstop',function( event ){
       var id = $(this).context.id;
-      var element = id.replace("panel","");
+      var element = id.replace("panel","").replace(hud.maperial.tagId,"");
       var newTop = $("#"+id).css("top");
       var newLeft = $("#"+id).css("left");
 
-      this.trigger(element).css({
+      hud.trigger(element).css({
          top: newTop,
          left: newLeft,
          opacity : 1
@@ -96,7 +96,7 @@ HUD.prototype.buildTriggers = function(){
 
    this.allTriggers().bind('dragstop',function( event ){
       var id = $(this).context.id;
-      var element = id.replace("trigger","");
+      var element = id.replace("trigger","").replace(hud.maperial.tagId,"");
 
       var newTop = $("#"+id).css("top");
       var newLeft = $("#"+id).css("left");

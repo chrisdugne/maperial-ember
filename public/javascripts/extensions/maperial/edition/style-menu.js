@@ -49,12 +49,6 @@ function StyleMenu(container, container2, container3, maperial){
    this.currentLayerId = "000";
    
    //-------------------------------------------------//
-   
-// this.serverRootDirV = "http://192.168.1.19/project/mycarto/wwwClient/";         // local
-   this.serverRootDirV = "http://serv.x-ray.fr/project/mycarto/wwwClient/";       // not local ...
-   this.serverRootDirD = "http://map.x-ray.fr/";
-
-   //-------------------------------------------------//
    //id <-> name/filter mapping
    this.mappingArray = Array();
 
@@ -296,7 +290,7 @@ StyleMenu.prototype.LoadGroup = function(){
    if(this.debug)console.log("Loading groups");
    var me = this;
    $.ajax({
-      url: this.serverRootDirV+'style/group3.json',
+      url: MapParameters.styleToolsPath+'/group3.json',
       async: false,
       dataType: 'json',
       //contentType:"application/x-javascript",
@@ -362,7 +356,7 @@ StyleMenu.prototype.LoadMapping = function(){
    var me = this;
 
    $.ajax({
-      url: this.serverRootDirV+'style/mapping.json',
+      url: MapParameters.styleToolsPath+'/mapping.json',
       async: false,
       dataType: 'json',
       //contentType:"application/x-javascript",

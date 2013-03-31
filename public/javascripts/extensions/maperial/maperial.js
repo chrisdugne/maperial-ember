@@ -3,6 +3,8 @@
 function Maperial(tagId, width, height){
 
    this.tagId = tagId || "_maperial";
+   this.width = width;
+   this.height = height;
 
    this.config;
    this.context;
@@ -105,42 +107,6 @@ Maperial.prototype.load = function() {
 
 //==================================================================//
 
-Maperial.prototype.build = function() {
-
-   console.log("starting build...");
-
-   //--------------------------//
-
-   this.buildMap();
-   this.buildHUD();
-
-   if(this.config.edition)
-      this.buildStyleMenu();
-
-// if(this.editedColorbarUID)
-// this.buildColorbar();
-
-   //--------------------------//
-
-   this.initGeoloc();
-
-   //--------------------------//
-
-   this.finishStartup();
-}
-
-//==================================================================//
-
-Maperial.prototype.finishStartup = function() {
-
-   this.refreshScreen();
-   $(window).resize(Utils.apply ( this , "refreshScreen" ) );
-
-   $(window).trigger(MaperialEvents.READY);
-}
-
-//==================================================================//
-
 Maperial.prototype.checkConfig = function() {
 
    console.log("checking config...");
@@ -206,6 +172,11 @@ Maperial.prototype.createContext = function() {
    // set new divs (ember erase and build new divs)
 
    this.context.mapCanvas = $("#Map"+this.tagId);
+   
+   console.log("this.context.mapCanvas[0].offsetTop", this.context.mapCanvas[0].offsetTop);
+   console.log("this.context.mapCanvas[0].offsetLeft", this.context.mapCanvas[0].offsetLeft);
+   console.log("this.context.mapCanvas[0].offsetWidth", this.context.mapCanvas[0].offsetWidth);
+   console.log("this.context.mapCanvas[0].offsetHeight", this.context.mapCanvas[0].offsetHeight);
 
    if(this.config.hud.elements[HUD.MAGNIFIER]){
       this.context.magnifierCanvas = $("#Magnifier"+this.tagId);
@@ -272,6 +243,64 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
 
 //==================================================================//
 
+Maperial.prototype.checkOSMSets = function(){
+
+   if($.isEmptyObject(this.stylesManager.styles))
+      return;
+
+   console.log("checking OSM sets...");
+
+   var selectedStyle = this.stylesManager.getSelectedStyle();
+
+   if(selectedStyle && !this.config.map.osmSets){
+      this.layersManager.defaultOSMSets(selectedStyle);
+   }
+
+   this.refreshOSMVisibilities();
+}
+
+Maperial.prototype.refreshOSMVisibilities = function(){
+   this.context.osmVisibilities = LayersManager.buildOSMVisibilities(this.config.map.osmSets);
+}
+
+//==================================================================//
+
+Maperial.prototype.build = function() {
+
+   console.log("starting build...");
+
+   //--------------------------//
+
+   this.buildMap();
+   this.buildHUD();
+
+   if(this.config.edition)
+      this.buildStyleMenu();
+
+// if(this.editedColorbarUID)
+// this.buildColorbar();
+
+   //--------------------------//
+
+   this.initGeoloc();
+
+   //--------------------------//
+
+   this.finishStartup();
+}
+
+//==================================================================//
+
+Maperial.prototype.finishStartup = function() {
+
+   this.refreshScreen();
+   $(window).resize(Utils.apply ( this , "refreshScreen" ) );
+
+   $(window).trigger(MaperialEvents.READY);
+}
+
+//==================================================================//
+
 Maperial.prototype.buildMap = function() {
 
    console.log("  building map...");
@@ -321,12 +350,13 @@ Maperial.prototype.refreshScreen = function() {
    var w = $(window).width(); 
    var h = $(window).height();
 
-   if(this.config.map.width)
-      w = this.config.map.width;
+   if(this.width)
+      w = this.width;
 
-   if(this.config.map.height)
-      h = this.config.map.height;
+   if(this.height)
+      h = this.height;
 
+   console.log(w, h);
 
    if(this.context.mapCanvas[0]){
       this.context.mapCanvas.css("width", w);
@@ -341,28 +371,6 @@ Maperial.prototype.refreshScreen = function() {
       this.hud.placeElements();
    }
    catch(e){}
-}
-
-//==================================================================//
-
-Maperial.prototype.checkOSMSets = function(){
-
-   if($.isEmptyObject(this.stylesManager.styles))
-      return;
-
-   console.log("checking OSM sets...");
-
-   var selectedStyle = this.stylesManager.getSelectedStyle();
-
-   if(selectedStyle && !this.config.map.osmSets){
-      this.layersManager.defaultOSMSets(selectedStyle);
-   }
-
-   this.refreshOSMVisibilities();
-}
-
-Maperial.prototype.refreshOSMVisibilities = function(){
-   this.context.osmVisibilities = LayersManager.buildOSMVisibilities(this.config.map.osmSets);
 }
 
 //==================================================================//

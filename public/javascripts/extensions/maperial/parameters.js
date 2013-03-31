@@ -2,7 +2,10 @@
 
 MapParameters.serverURL              = "//maperial.com";
 
-MapParameters.shadersPath            = "assets/shaders";
+MapParameters.shadersPath            = MapParameters.serverURL + "/assets/shaders";
+MapParameters.styleToolsPath         = MapParameters.serverURL + "/assets/style";
+//MapParameters.styleToolsPath       = "http://192.168.1.19/project/mycarto/wwwClient/style";  // pour vivien :  )
+
 
 MapParameters.DEFAULT_ZOOM           = 8;
 MapParameters.DEFAULT_LATITUDE       = 45.7;

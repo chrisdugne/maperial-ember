@@ -190,7 +190,7 @@ HUD.prototype.getMargin = function (property) {
 //----------------------------------------------------------------------//
 
 HUD.prototype.placeElements = function () {
-
+   
    for (element in this.maperial.config.hud.elements) {
 
       var position = HUD.positions[element];
@@ -205,43 +205,79 @@ HUD.prototype.placeElements = function () {
          var value = position[property];
          
          if(position[property].indexOf("%") == -1){
-            value = parseInt(value) + this.getMargin(property);
-            this.panel(element).css(property, value+"px");
-            this.trigger(element).css(property, value+"px");
-            continue;
+            value = parseInt(value);
+            this.placeElementAt(element, value, property);
          }
+         else{
+            var percentage = position[property].split("%")[0];
+            var triggerWidth = this.trigger(element).width();
+            var triggerHeight = this.trigger(element).height();
+            var panelWidth = this.panel(element).width();
+            var panelHeight = this.panel(element).height();
+            
+            switch(property){
+               case "top":
+               case "bottom":
+                  switch(this.maperial.config.hud.elements[element].type){
+                     case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].height) - panelHeight/2; break;
+                     case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].height) - triggerHeight/2; break;
+                  }
+                  break;
+               case "left":
+               case "right":
+                  switch(this.maperial.config.hud.elements[element].type){
+                     case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].width) - panelWidth/2; break;
+                     case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].width) - triggerWidth/2; break;
+                  }
+                  break;
+            }
 
-         var percentage = position[property].split("%")[0];
-         var triggerWidth = this.trigger(element).width();
-         var triggerHeight = this.trigger(element).height();
-         var panelWidth = this.panel(element).width();
-         var panelHeight = this.panel(element).height();
-
-         switch(property){
-            case "top":
-            case "bottom":
-               switch(this.maperial.config.hud.elements[element].type){
-                  case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].height) - panelHeight/2; break;
-                  case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].height) - triggerHeight/2; break;
-               }
-               break;
-            case "left":
-            case "right":
-               switch(this.maperial.config.hud.elements[element].type){
-                  case HUD.PANEL    : value = (percentage/100 * this.context.mapCanvas[0].width) - panelWidth/2; break;
-                  case HUD.TRIGGER  : value = (percentage/100 * this.context.mapCanvas[0].width) - triggerWidth/2; break;
-               }
-               break;
+            this.placeElementAt(element, value, property)
          }
-
-         value += this.getMargin(property);
-         this.panel(element).css(property, value+"px");
-         this.trigger(element).css(property, value+"px");
+         
       }
    }
 }
 
 //==================================================================//
+
+HUD.prototype.placeElementAt = function(element, value, property){
+
+   var margin = this.getMargin(property);
+
+   var mapTop = this.context.mapCanvas[0].offsetTop;
+   var mapLeft = this.context.mapCanvas[0].offsetLeft;
+   var mapWidth = this.context.mapCanvas[0].offsetWidth;
+   var mapHeight = this.context.mapCanvas[0].offsetHeight;
+   
+   switch(property){
+      case "top":
+         value += mapTop;
+         value += margin;
+         break;
+      case "bottom":
+         value = mapTop + mapHeight - value;
+         value -= this.element(this.maperial.config.hud.elements[element].type+element).height();
+         value -= margin;
+         value -= 8;
+         property = "top";
+         break;
+      case "left":
+         value += mapLeft;
+         value += margin;
+         break;
+      case "right":
+         value = mapLeft + mapWidth - value;
+         value -= this.element(this.maperial.config.hud.elements[element].type+element).width();
+         value -= margin;
+         value -= 8;
+         property = "left";
+         break;
+   }
+   
+   this.panel(element).css(property, value+"px");
+   this.trigger(element).css(property, value+"px");
+}
 
 HUD.prototype.display = function(){
    this.showAllHUD();

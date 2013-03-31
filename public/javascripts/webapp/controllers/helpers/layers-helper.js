@@ -173,6 +173,8 @@ LayersHelper.prototype.refreshHUDViewerSettings = function() {
 
       if(element == HUD.SWITCH_IMAGES && !this.maperial.layersManager.atLeastOneImageLayer())
          continue;
+
+      var nameInTag = element + this.maperial.tagId; 
       
       // ----- appending div
       var div = "<div class=\"row-fluid\">" +
@@ -185,6 +187,7 @@ LayersHelper.prototype.refreshHUDViewerSettings = function() {
       $("#hudViewerSettings").append(div); 
       panelHeight += 50;
 
+      
       // ----- toggle listeners
 
       $('#toggleMapSettings_'+element).click((function(element){
@@ -192,7 +195,7 @@ LayersHelper.prototype.refreshHUDViewerSettings = function() {
             if($(this).hasClass('on')){
                $(this).removeClass('on');
                me.maperial.config.hud.elements[element].show = false;
-               $("#"+me.maperial.config.hud.elements[element].type+element).addClass("hide");
+               me.maperial.hud.element(me.maperial.config.hud.elements[element].type+element).addClass("hide");
 
                if(me.maperial.config.hud.elements[element].type == HUD.TRIGGER)
                   me.maperial.hud.hideTrigger(element);
@@ -200,11 +203,10 @@ LayersHelper.prototype.refreshHUDViewerSettings = function() {
             else{
                $(this).addClass('on');
                me.maperial.config.hud.elements[element].show = true;
-               $("#"+me.maperial.config.hud.elements[element].type+element).removeClass("hide");
+               me.maperial.hud.element(me.maperial.config.hud.elements[element].type+element).removeClass("hide");
                me.maperial.hud.showTrigger(element);
             }
             
-            console.log(me.maperial.config.hud);
          };
       })(element));
 
