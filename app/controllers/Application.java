@@ -1,8 +1,11 @@
 package controllers;
 
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.main;
@@ -18,7 +21,13 @@ public class Application extends Controller
 
 	public static Result home()
 	{
-		return ok(main.render());
+		Map<String, String[]> queryParameters = request().queryString();
+		String[] login = queryParameters.get("login");
+		
+		Boolean isLocal = request().host().contains("localhost");
+		Boolean popupLoginWindow = login != null;
+		
+		return ok(main.render(isLocal, popupLoginWindow));
 	}
 
 	// ---------------------------------------------//

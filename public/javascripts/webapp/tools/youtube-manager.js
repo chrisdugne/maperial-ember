@@ -56,24 +56,24 @@ YoutubeManager.prototype.load = function() {
          'onStateChange': function (event) {
             switch (event.data) {
             case -1:
-               console.log ('unstarted');
+//               console.log ('unstarted');
                me.play();
                break;
             case 0:
-               console.log ('ended');
+//               console.log ('ended');
                me.stop();
                break;
             case 1:
-               console.log ('playing');
+//               console.log ('playing');
                break;
             case 2:
-               console.log ('paused');
+//               console.log ('paused');
                break;
             case 3:
-               console.log ('buffering');
+//               console.log ('buffering');
                break;
             case 5:
-               console.log ('video cued');
+//               console.log ('video cued');
                break;
             }
          }
@@ -84,6 +84,5 @@ YoutubeManager.prototype.load = function() {
 //-----------------------------------------------------------------------------//
 
 window.youtubeManager = window.youtubeManager || new YoutubeManager();
-console.log("couak");
 
 //-----------------------------------------------------------------------------//

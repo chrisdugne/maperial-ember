@@ -19,8 +19,9 @@
 //      mapServer: '//map.x-ray.fr',
       apiKey: 'AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8',
       scopes: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-      googleClientId : window.location.hostname == "localhost" ? '643408271777.apps.googleusercontent.com' : '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com',
-      APP_URL : window.location.hostname == "localhost" ? 'http://localhost:9000' : 'http://maperial.herokuApp.com',
+      googleClientId : window.location.hostname == "maperial.localhost" ? '643408271777.apps.googleusercontent.com' : '643408271777-ss5bnucbnm5vv5gbpn0jpqcufph73das.apps.googleusercontent.com',
+      APP_URL : window.location.hostname == "maperial.localhost" ? 'http://localhost:9000' : 'http://maperial.herokuApp.com',
+      WEB_URL : window.location.hostname == "maperial.localhost" ? 'http://maperial.localhost/wwwClient/' : 'http://maperial.com/',
       maperialEmail: "",
       currentView: "",
       parentView: "",
@@ -40,7 +41,6 @@
    //------------------------------------------------------//
 
    App.Globals = Globals.create();
-   App.maperial = new Maperial();
    App.mapManager = new MapManager();
    App.styleManager = new StyleManager();
    App.youtubeManager = new YoutubeManager();
@@ -58,42 +58,5 @@
    }
 
    App.Globals.set("maperialEmail", email);
-
-   //------------------------------------------------------//
-   // gather epsg list
-
-   $.get('/assets/epsg.txt', function(data){
-      var lines = data.split("\n");
-      for(var i=0; i< lines.length; i++){
-         if(lines[i][0] == "#")
-            App.Globals.epsg.push(lines[i].substr(2, lines[i].length-2));
-      }
-   });
-
-   //-------------------------------------------//
-   // init blends
-   
-   App.Globals.shaders.push(MapParameters.AlphaClip);
-   App.Globals.shaders.push(MapParameters.AlphaBlend);
-   App.Globals.shaders.push(MapParameters.MulBlend);
-   
-   //-------------------------------------------//
-   //init getPublicData
-
-   $.ajax({  
-      type: "POST",  
-      url: "/getPublicData",
-      dataType: "json",
-      success: function (publicData, textStatus, jqXHR)
-      {
-         console.log(publicData);
-
-         App.publicData.set("maps", publicData.maps);
-         App.publicData.set("styles", publicData.styles);
-         App.publicData.set("datasets", publicData.datasets);
-         App.publicData.set("colorbars", publicData.colorbars);
-         App.publicData.set("fonts", publicData.fonts);
-         App.publicData.set("icons", publicData.icons);
-      }
-   });
+  
 })( App);

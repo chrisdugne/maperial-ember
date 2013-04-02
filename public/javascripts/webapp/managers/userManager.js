@@ -33,6 +33,8 @@ UserManager.getAccount = function()
          App.mapManager.getMaps(App.user);
       }
    });
+   
+   App.finishLoadings();
 }
 
 //-------------------------------------------//
