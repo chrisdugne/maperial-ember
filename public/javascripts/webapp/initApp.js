@@ -42,6 +42,8 @@
    }
 
    App.finishLoadings = function(){
+
+      App.user.set("waiting", true);
       
       //------------------------------------------------------//
       // gather epsg list
@@ -75,12 +77,21 @@
       });
       
       //-------------------------------------------//
+      
+      var scripts = [];
+      
+      var maperialJSScripts = "";
+      if(window.location.hostname != "maperial.localhost"){
+         scripts.push(App.Globals.WEB_URL + "js/min/maperialjs.min.js");
+      }
+      
+      scripts.push("http://fabricjs.com/lib/fabric.js");
+      scripts.push("assets/javascripts/extensions/upload/jquery.fileupload.js");
+      scripts.push("assets/javascripts/extensions/upload/main.js");
 
-      window.scriptLoader.getScripts([
-              App.Globals.WEB_URL + "js/min/maperialjs.min.js",
-              "http://fabricjs.com/lib/fabric.js",
-             ], 
-      function(){
+      //-------------------------------------------//
+      
+      window.scriptLoader.getScripts(scripts, function(){
 
          App.Globals.shaders.push(MapParameters.AlphaClip);
          App.Globals.shaders.push(MapParameters.AlphaBlend);
@@ -98,6 +109,9 @@
          });
          
          App.maperial = new Maperial();
+         App.get('router').transitionTo('dashboard');
+
+         App.user.set("waiting", false);
       });
    }
 

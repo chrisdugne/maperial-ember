@@ -3,7 +3,7 @@
 function LayersHelper (maperial, mapCreationController) {
    this.maperial = maperial;
    this.mapCreationController = mapCreationController;
-   this.layerBeingDraggedIndex;
+   this.layerBeingDraggedIndex = null;
 }
 
 //----------------------------//

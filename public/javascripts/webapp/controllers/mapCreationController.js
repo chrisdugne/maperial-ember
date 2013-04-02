@@ -14,6 +14,7 @@
    
    MapCreationController.init = function()
    {
+      App.layersHelper = new LayersHelper(App.maperial, App.MapCreationController);
       $(window).on(MaperialEvents.READY, MapCreationController.maperialReady);
 
       App.user.set("isCreatingANewMap", (App.user.selectedMap.uid == null));
@@ -370,7 +371,6 @@
    //=============================================================================//
 
    App.MapCreationController = MapCreationController;
-   App.layersHelper = new LayersHelper(App.maperial, App.MapCreationController);
 
    //==================================================================//
    // Routing

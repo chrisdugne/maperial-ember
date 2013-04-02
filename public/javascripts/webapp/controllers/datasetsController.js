@@ -8,15 +8,7 @@
 	 
 	DatasetsController.renderUI = function()
 	{
-	   ScriptLoader.getScripts([
-                      //-- extension.upload
-                      "assets/javascripts/extensions/upload/jquery.fileupload.js",
-                      "assets/javascripts/extensions/upload/main.js"
-                      ],
-            function(){
-	            ExtensionUpload.init();
-	         }
-	   );
+	   ExtensionUpload.init();
 	}
 
 	DatasetsController.cleanUI = function()

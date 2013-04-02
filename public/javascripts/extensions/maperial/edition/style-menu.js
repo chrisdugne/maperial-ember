@@ -856,13 +856,13 @@ StyleMenu.prototype.__BuildWidget = function(group,name,uid){
       var border = this.groups[group][this.mappingArray[uid].name].line;
       var border_uid = this.GetUid(border,this.mappingArray[uid].filter);
 
-      if ( border_uid == null){
-         //if(this.debug)console.log("border not found : " + border);
-      }
-      else{
-         //if(this.debug)console.log("border found : " + border);
-         ///@todo
-      }      
+//      if ( border_uid == null){
+//         //if(this.debug)console.log("border not found : " + border);
+//      }
+//      else{
+//         //if(this.debug)console.log("border found : " + border);
+//         ///@todo
+//      }      
    }
    else{
       ///@todo

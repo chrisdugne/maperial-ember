@@ -10,9 +10,6 @@
 </div>
 
 @if(defaultHeader){
-	{{#if user.waiting}}
-		<img id="waitingSpin" src="@routes.Assets.at("images/mapediting/spin.gif")"/>
-	{{/if}}
 	{{#if user.loggedIn}}
 		<div class="headerTitle">
 		{{bound_equals App.Globals.currentPage value='dashboard'
@@ -70,9 +67,13 @@
 	   	}}
 		</div>
 
-        <button {{action openDashboard}} class="btn-small btn-success headerButton">
-            <i class="icon-th-large icon-white"></i>
-        </button>
+		{{#if user.waiting}}
+			<img class="headerButton" src="@routes.Assets.at("images/mapediting/spin.white.gif")" width="25px"/>
+		{{else}}
+	        <button {{action openDashboard}} class="btn-small btn-success headerButton">
+	            <i class="icon-th-large icon-white"></i>
+	        </button>
+		{{/if}}
 		<div id="userDisplay" class="googleUser">{{user.email}}</div>
 	{{else}}
 		<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">@Messages("try")</div>

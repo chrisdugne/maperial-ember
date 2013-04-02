@@ -13,7 +13,7 @@
 
       //-------------------------------------------//
 
-      isLocal: window.location.hostname == "localhost",
+      isLocal: (window.location.hostname == "maperial.localhost" || window.location.hostname == "maperial.localhost.deploy") ,
       debug: false,
       mapServer: '//maperial.com',
       apiKey: 'AIzaSyCrc-COPNAP_0ysMjr8ySruAnfmImnFuH8',

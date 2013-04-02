@@ -31,8 +31,9 @@ MaperialAuth.tokenGranted = function (token, email)
 	App.user.set("loggedIn", true);
 	
 	UserManager.getAccount();
+	$("#loginWindow").modal("hide");
 	
-	MaperialAuth.checkPresence();
+	MaperialAuth.checkIfIsLoggedIn();
 }
 
 //-------------------------------------------//

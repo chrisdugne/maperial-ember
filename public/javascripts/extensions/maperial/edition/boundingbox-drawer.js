@@ -12,37 +12,37 @@ function BoundingBoxDrawer(map){
 
    // -> Drawer
    this.map = map;
-   this.drawBoard;
+   this.drawBoard = null;
 
    // -> states
    this.selecting = false;
    this.drawingEnabled = false;
 
    // -> objects
-   this.currentBox;
+   this.currentBox = null;
 
    // -> lat/lon to center the box
-   this.centerLat;
-   this.centerLon;
-   this.latMin;
-   this.lonMin;
-   this.latMax;
-   this.lonMax;
+   this.centerLat = null;
+   this.centerLon = null;
+   this.latMin = null;
+   this.lonMin = null;
+   this.latMax = null;
+   this.lonMax = null;
 
    // -> start lat/lon to use to cancel the changes 
-   this.initLatMin;
-   this.initLonMin;
-   this.initLatMax;
-   this.initLonMax;
+   this.initLatMin = null;
+   this.initLonMin = null;
+   this.initLatMax = null;
+   this.initLonMax = null;
 
    // -> to store the bestZoom
-   this.zoomToFit;
+   this.zoomToFit = null;
 
    // -> to convert selection to boundingbox
-   this.topLeftPoint;
-   this.bottomRightPoint;
-   this.startPoint;
-   this.endPoint;
+   this.topLeftPoint = null;
+   this.bottomRightPoint = null;
+   this.startPoint = null;
+   this.endPoint = null;
 
    // -> used by mapMover.moveDrawers
    this.pointsToMove = []; 
@@ -491,5 +491,4 @@ BoundingBoxDrawer.prototype.activateDrawing = function () {
    this.drawingEnabled = true;
    this.draw();
 }
-
 //----------------------------------------------------------------------//
