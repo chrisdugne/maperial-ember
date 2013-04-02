@@ -7,8 +7,12 @@
     <head>
         <title>@Messages("applicationName")</title>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/global/favicon.png")">
-		 <link rel="stylesheet" media="screen" href="http://maperial.localhost/wwwClient/assets/css/min/maperial.webapp.min.css" /> 
-		<!--<link rel="stylesheet" media="screen" href="http://www.maperial.com/assets/css/min/maperial.webapp.min.css" />-->
+        
+	    @if(isLocal){
+			<link rel="stylesheet" media="screen" href="http://maperial.localhost/wwwClient/assets/css/min/maperial.webapp.min.css" /> 
+	   	}else{
+			<link rel="stylesheet" media="screen" href="http://www.maperial.com/assets/css/min/maperial.webapp.min.css" />
+	   	}
     </head>
     
   	<body id="body">
