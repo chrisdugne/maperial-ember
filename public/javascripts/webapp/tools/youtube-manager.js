@@ -1,7 +1,25 @@
 
+/** @constructor */
 function YoutubeManager(){
-   this.player;
+   this.player = null;
    this.cancelNextPlay = false;
+}
+
+YoutubeManager.prototype.openVideoWindow = function() 
+{
+   var me = this;
+   $("#videoWindow").modal();
+   $('#videoWindow').off("hide");
+   $('#videoWindow').off("show");
+   
+   $('#videoWindow').on("hide", function(){
+      me.stop();
+   });
+
+   this.load();
+
+//   $("#videoWindow").css("left", $(window).width() - $("#videoWindow").width() );
+   $("#videoWindow").css("left", "40%" );
 }
 
 YoutubeManager.prototype.stop = function() {
@@ -62,3 +80,10 @@ YoutubeManager.prototype.load = function() {
       }
    });
 }
+
+//-----------------------------------------------------------------------------//
+
+window.youtubeManager = window.youtubeManager || new YoutubeManager();
+console.log("couak");
+
+//-----------------------------------------------------------------------------//

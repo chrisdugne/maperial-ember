@@ -130,26 +130,6 @@ div.active.buttonMode {
 }
 
 /*-------------------------*/
-.touchable {
-	cursor: hand;
-	cursor: pointer;
-}
-
-.movable {
-	cursor: move;
-}
-
-.selectable {
-	margin-top: 5px;
-	cursor: hand;
-	cursor: pointer;
-}
-
-.selectable:hover {
-	outline: 3px solid #27C200;
-}
-
-/*-------------------------*/
 .cancelSelection {
 	margin-top: -189px;
 	margin-left: 164px;

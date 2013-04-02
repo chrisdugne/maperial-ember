@@ -11,7 +11,7 @@
 }
 
 #homeImage {
-	background: url('/assets/images/home/part1/worldmap.mini.jpg');
+	background: url('../../images/home/part1/worldmap.mini.jpg');
 	background-repeat: repeat-x;
 	background-position-x: 0px;
 	height: 350px;
@@ -32,6 +32,11 @@
 }
 
 /*--------------------------------*/
+.homeIcon {
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
 .homeTitle {
 	color: #fff;
 	font-size: 19px;

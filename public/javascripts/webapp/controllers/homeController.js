@@ -9,13 +9,12 @@
 	HomeController.renderUI = function()
 	{
 	   //$("#homeContent").bind('mousewheel', App.homeScroller.scroll);
-	   
-	   HomeController.moving = setInterval( App.homeMover.move , 40 );
+	  // HomeController.moving = setInterval( App.homeMover.move , 40 );
 	}
 
 	HomeController.cleanUI = function()
 	{
-	   clearInterval(HomeController.moving);
+//	   clearInterval(HomeController.moving);
 	}
 
 	//==================================================================//
@@ -28,19 +27,19 @@
 	
 	HomeController.openVideoWindow = function() 
 	{
-
-	   $("#videoWindow").modal();
-      $('#videoWindow').off("hide");
-      $('#videoWindow').off("show");
-      
-      $('#videoWindow').on("hide", function(){
-         App.youtubeManager.stop();
-      });
-
-      App.youtubeManager.load();
-
-//      $("#videoWindow").css("left", $(window).width() - $("#videoWindow").width() );
-	   $("#videoWindow").css("left", "40%" );
+	   window.youtubeManager.openVideoWindow();
+//	   $("#videoWindow").modal();
+//      $('#videoWindow').off("hide");
+//      $('#videoWindow').off("show");
+//      
+//      $('#videoWindow').on("hide", function(){
+//         App.youtubeManager.stop();
+//      });
+//
+//      App.youtubeManager.load();
+//
+////      $("#videoWindow").css("left", $(window).width() - $("#videoWindow").width() );
+//	   $("#videoWindow").css("left", "40%" );
 	}
 
 	//----------------------------------------------------//
