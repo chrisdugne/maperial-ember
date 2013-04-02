@@ -9,6 +9,7 @@ import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.main;
+import views.html.mainDev;
 
 public class Application extends Controller
 {
@@ -24,10 +25,18 @@ public class Application extends Controller
 		Map<String, String[]> queryParameters = request().queryString();
 		String[] login = queryParameters.get("login");
 		
-		Boolean isLocal = request().host().contains("localhost");
+		Boolean isDeploy = request().host().contains("deploy");
+		Boolean isDev = request().host().contains("localhost");
 		Boolean popupLoginWindow = login != null;
 		
-		return ok(main.render(isLocal, popupLoginWindow));
+		if(isDev && !isDeploy)
+			return ok(mainDev.render(popupLoginWindow));
+		
+		if(isDeploy)
+			return ok(main.render(false, popupLoginWindow));
+
+		// prod
+		return ok(main.render(true, popupLoginWindow));
 	}
 
 	// ---------------------------------------------//

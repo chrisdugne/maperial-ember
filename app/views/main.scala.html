@@ -1,4 +1,4 @@
-@(isLocal:Boolean, popupLoginWindow:Boolean)
+@(isProd:Boolean, popupLoginWindow:Boolean)
 @import views.html.templates.webapp;
 
 <!DOCTYPE html>
@@ -8,10 +8,10 @@
         <title>@Messages("applicationName")</title>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/global/favicon.png")">
         
-	    @if(isLocal){
-			<link rel="stylesheet" media="screen" href="http://maperial.localhost/wwwClient/assets/css/min/maperial.webapp.min.css" /> 
-	   	}else{
+	    @if(isProd){
 			<link rel="stylesheet" media="screen" href="http://www.maperial.com/assets/css/min/maperial.webapp.min.css" />
+	   	}else{
+			<link rel="stylesheet" media="screen" href="http://maperial.localhost/wwwClient/assets/css/min/maperial.webapp.min.css" /> 
 	   	}
     </head>
     
@@ -56,10 +56,10 @@
     	
 		<!-- -------------   Webapp -------------------->
 
-	    @if(isLocal){
-	    	<script src="http://maperial.localhost/wwwClient/js/min/maperial.webapp.min.js" type="text/javascript"></script>
-	   	}else{
+	    @if(isProd:Boolean){
 	    	<script src="http://maperial.com/js/min/maperial.webapp.min.js" type="text/javascript"></script>
+	   	}else{
+	    	<script src="http://maperial.localhost/wwwClient/js/min/maperial.webapp.min.js" type="text/javascript"></script>
 	   	}
 
 		<!-- --------------------------------------------->
@@ -71,19 +71,6 @@
 		}
 
 		<!-- --------------------------------------------->
-		
-		<!-- Analytics 
-	    <script type="text/javascript">
-	      var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-34545115-1']);
-	      
-		  (function() {
-			  	        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			  		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                      })();
-	    </script>
-	    --->
     </body>
         
 </html>
