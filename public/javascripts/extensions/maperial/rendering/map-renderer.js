@@ -350,9 +350,7 @@ MapRenderer.prototype.FindLayerId = function () {
 //----------------------------------------------------------------------//
 
 MapRenderer.prototype.DrawMagnifier = function () {
-   if (!this.config.hud.elements[HUD.MAGNIFIER])
-      return;
-   
+
    var scale = 3;
    var w = this.context.magnifierCanvas.width();
    var h = this.context.magnifierCanvas.height();

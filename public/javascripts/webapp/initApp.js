@@ -41,7 +41,7 @@
       //App.homeScroller.resizeWindow();
    }
 
-   App.finishLoadings = function(){
+   App.finishLoadings = function(nextPage){
 
       App.user.set("waiting", true);
       
@@ -109,7 +109,7 @@
          });
          
          App.maperial = new Maperial();
-         App.get('router').transitionTo('dashboard');
+         App.get('router').transitionTo(nextPage);
 
          App.user.set("waiting", false);
       });

@@ -59,7 +59,7 @@
 		//-----------------------------------//
 		// actions
 		
-		openTryscreen: Ember.Route.transitionTo('tryscreen'),
+		openTryscreen: function(){  App.finishLoadings("tryscreen") },
 		openLoginWindow: function(){App.HomeController.openLoginWindow()},
 		showVideo: function(){App.HomeController.openVideoWindow()},
 		

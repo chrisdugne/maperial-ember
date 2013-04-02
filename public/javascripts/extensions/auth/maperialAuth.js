@@ -10,6 +10,7 @@ MaperialAuth.authorize = function()
 {
    if(App.Globals.isLocal){
       MaperialAuth.dummy();
+      $("#loginWindow").modal("hide");
       return;
    }
    

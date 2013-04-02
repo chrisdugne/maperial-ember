@@ -1,8 +1,9 @@
 
 //==================================================================//
 
-function TemplateBuilder(tagId){
-   this.tagId = tagId;
+function TemplateBuilder(maperial){
+   this.config = maperial.config;
+   this.tagId = maperial.tagId;
    this.container;
 }
 
@@ -25,8 +26,10 @@ TemplateBuilder.prototype.buildMap = function(){
    
    var html = "";
    html += "<canvas id=\"Map"+this.tagId+"\" class=\"maperial-map\"></canvas>";
-   html += "<canvas id=\"dummyTilesCanvas"+this.tagId+"\ class=\"hide maperial-magnifier\"></canvas>";
+   html += "<canvas id=\"dummyTilesCanvas"+this.tagId+"\ class=\"hide\"></canvas>";
 
+   html += "<div id=\"Magnifier"+this.tagId+"\" class=\"hide maperial-magnifier\"></canvas>";
+   
    this.container.append(html);
 }
 

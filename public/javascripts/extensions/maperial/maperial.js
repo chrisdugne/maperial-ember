@@ -19,7 +19,7 @@ function Maperial(tagId, width, height){
 
    this.styleMenu;
 
-   this.templateBuilder = new TemplateBuilder(this.tagId);
+   this.templateBuilder = new TemplateBuilder(this);
 };
 
 //==================================================================//

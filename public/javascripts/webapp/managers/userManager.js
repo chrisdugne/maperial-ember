@@ -34,7 +34,7 @@ UserManager.getAccount = function()
       }
    });
    
-   App.finishLoadings();
+   App.finishLoadings("dashboard");
 }
 
 //-------------------------------------------//

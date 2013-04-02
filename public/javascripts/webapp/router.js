@@ -62,12 +62,18 @@
 			router.transitionTo('home');
 		}
 		else{
-			var context = Router.buildGlobalContext(customContext, page);
-	      App.Globals.set("currentPage", page);
-	      App.Globals.set("currentView", page);
-	      App.Globals.set("parentView", "root");
-	      
-			router.get('applicationController').connectOutlet(page, context);
+		   if(page != "home" && !App.maperial){
+		      console.log("Not loaded properly ! Redirected to the home page");
+		      router.transitionTo('home');
+		   }
+		   else{
+		      var context = Router.buildGlobalContext(customContext, page);
+		      App.Globals.set("currentPage", page);
+		      App.Globals.set("currentView", page);
+		      App.Globals.set("parentView", "root");
+		      
+		      router.get('applicationController').connectOutlet(page, context);
+		   }
 		}
 	}
 

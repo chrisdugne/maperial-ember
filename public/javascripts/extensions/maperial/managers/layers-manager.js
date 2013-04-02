@@ -52,7 +52,8 @@ LayersManager.prototype.getOSMLayerConfig = function() {
          type: Source.MaperialOSM
       },
       params: {
-
+         selectedStyle: 0,
+         styles: [MapParameters.DEFAULT_STYLE_UID]
       },
       composition: {
          shader : MapParameters.MulBlend,
