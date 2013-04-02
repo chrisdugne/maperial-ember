@@ -1,35 +1,24 @@
 
-<div style="display: none;" id="loginWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginWindowLabel" aria-hidden="true">
+<div id="loginWindow"
+	class="modal hide fade">
 
-<div class="lbcontainer">
-	<div id="lightbox-header">
-		<h2 class="title" data-translate-text="SIGN_IN">Sign In with </h2>
-		<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
-			<i class="icon icon-ex-white-outline"></i>
-		</a>
+	<br />
+	<div class="row">
+		<div class="span5 offset1">
+			<p class="popuptitle">Sign In with</p>
+		</div>
+	</div>
+	
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer" data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i></a>
+
+	<div class="row-fluid">
+		<div class="span5 offset2" {{action maperialLogin}} title="Maperial">
+			<img class="bigbutton touchable" src="assets/images/home/part1/maperialize.mini.png">Maperial
+		</div>
+		<div class="span5" title="Google">
+			<img class="bigbutton touchable" src="assets/images/home/part1/maperialize.mini.png">Google
+		</div>
 	</div>
 
-	<div id="lightbox-content" style="max-height: 553px;">
-		<div class="lightbox-content-block">
-		
-			<a id="lb-maperial-login" class="btn share-btn third-party google last" data-dismiss="modal" onclick="MaperialAuth.authorize()">
-				<i class="icon icon-star-white-active"></i>
-				<span class="text">Maperial</span>
-			</a>
-
-			<a id="lb-maperial-login" class="btn share-btn third-party google last" data-dismiss="modal" onclick="MaperialAuth.dummy()">
-				<i class="icon icon-star-white-active"></i>
-				<span class="text">Dummy</span>
-			</a>
-
-	    </div>
-    </div>
-    
-    <div id="lightbox-footer">
-    	<div id="lightbox-footer-left" class="right">
-    		<span class="no-account-text">Just choose the way you like to sign in with your email</span>
-    	</div>
-    </div>
-</div>
-
+	<br />
 </div>

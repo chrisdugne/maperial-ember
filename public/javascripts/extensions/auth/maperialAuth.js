@@ -8,6 +8,11 @@ this.MaperialAuth = {};
 
 MaperialAuth.authorize = function() 
 {
+   if(App.Globals.isLocal){
+      MaperialAuth.dummy();
+      return;
+   }
+   
 	var authorizeURL = "http://map.x-ray.fr/user/auth"
 		+ "?redirect=" + App.Globals.APP_URL + "/maperialAuthToken";
 
