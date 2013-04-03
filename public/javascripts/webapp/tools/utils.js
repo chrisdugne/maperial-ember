@@ -150,7 +150,7 @@ Utils.popup = function(url, title, width, height)
  * 
  * http://map.x-ray.fr/wiki/display/IDEES/Custom+Mustaches
  */
-Utils.toHtml = function(template, context)
+Utils.toHtml = function(template)
 {
    while(template.indexOf("{") != -1)
    {
@@ -262,6 +262,8 @@ Utils.getPoint = function (event) {
 
    return new Point(x,y);
 }
+
+//----------------------------------------------------------------------------------------//
 
 function odump(o){
    console.log($.parseJSON(JSON.stringify(o)));

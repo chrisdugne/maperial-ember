@@ -48,7 +48,7 @@ MapRenderer.prototype.reset = function () {
    }
    
    $(window).on(MaperialEvents.MOUSE_UP_WIHTOUT_AUTOMOVE, function(){
-      if(renderer.config.edition){
+      if(renderer.config.map.edition){
          renderer.FindLayerId();
       }
    });
@@ -235,7 +235,7 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
          var key = tx + "," + ty + "," + zoom;
          keyList.push(key) 
          if ( this.tileCache[key] == null ) {
-            this.tileCache[key]  = new Tile ( this.context.parameters, this.config, tx, ty, zoom);
+            this.tileCache[key]  = new Tile ( this.context, this.config, tx, ty, zoom);
          }
       }
    }

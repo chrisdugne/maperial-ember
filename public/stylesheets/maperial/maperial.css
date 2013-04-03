@@ -4,18 +4,6 @@
 	position: absolute;
 }
 
-.maperial-magnifier {
-	margin-bottom: -4px;
-	-moz-border-radius-topleft: 6px;
-	-webkit-border-top-left-radius: 6px;
-	-moz-border-radius-bottomleft: 6px;
-	-webkit-border-bottom-left-radius: 6px;
-	-moz-border-radius-topright: 6px;
-	-webkit-border-top-right-radius: 6px;
-	-moz-border-radius-bottomright: 6px;
-	-webkit-border-bottom-right-radius: 6px;
-}
-
 /*************************/
 .panel {
 	position: absolute;
@@ -130,12 +118,12 @@ div.active.buttonMode {
 }
 
 /*-------------------------*/
-.cancelSelection {
-	margin-top: -189px;
-	margin-left: 164px;
+#cancelSelection {
+	margin-top: -173px;
+	margin-left: -17px;
 }
 
-.selectStyleWindow.fade.in {
+#selectStyleWindow {
 	top: 35%;
 }
 
@@ -218,6 +206,7 @@ a.triggerHUDSettings {
 
 .inputGeoloc {
 	height: 20px!important;
+	width: 190px;
 }
 
 .pac-container:after {
@@ -366,33 +355,35 @@ a.triggerDetailsMenu {
 }
 
 .panelQuickEdit {
-	
+	color: #eee;
 }
 
 /* main widget div*/
 .styleMenu_menu_widgetDiv {
-	float: right;
-	/* font-size: 70%;
-	padding: 3px;
-	border-style: solid;
-	border-width: 0px;
-	border-color: #000;
-	background-color: #000;
-	color: #fff;
-	filter: alpha(opacity =     85);
-	opacity: .85;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px; */
+	max-height: 450px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right: 10px;
 }
 
 /*-------------------------*/
-a.triggerMagnifier {
-	
-}
 
 .panelMagnifier {
+	width: 200px;
 	height: 200px;
 	opacity: 1;
+}
+
+.maperial-magnifier {
+	margin-bottom: -4px;
+	-moz-border-radius-topleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-right-radius: 6px;
 }
 
 /*-------------------------*/

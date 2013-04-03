@@ -68,14 +68,11 @@ Ember.Handlebars.registerBoundHelper('equals',
 Ember.Handlebars.registerBoundHelper('bound_equals', 
 	function(data, options) 
 	{
-      var currentContext = (options.contexts && options.contexts[0]) || this;
-      var context = currentContext[Ember.META_KEY].values.content;
-
       if(data == options.hash.value){
-         return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
+         return new Handlebars.SafeString(Utils.toHtml(options.hash.yes));
       }
       else{
-         return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
+         return new Handlebars.SafeString(Utils.toHtml(options.hash.no));
       }
 	}
 );
@@ -153,16 +150,14 @@ Ember.Handlebars.registerBoundHelper('mapthumb',
 /**
  * Display a specific html template whether the data is set or not 
  * This helper can evaluate Javascript functions. Use {function(params)}.
- * To use the context params, do not forget to add 'context.' in front of your params.
- * 
  * 
  * Examples : 
     {{isset container.data
       yes='<div>OK</div>'
       no='<div>Null</div>'}}
 
-    {{isset controller.style
-      yes='<div><img src="{Utils.thumbURL(context.controller.style)}"></img></div>'
+    {{isset controllerData.style
+      yes='<div><img src="{Utils.thumbURL(App.controllerData.style)}"></img></div>'
       no='<div>select the sytle !</div>'}}
       
       http://map.x-ray.fr/wiki/display/IDEES/Custom+Handlebars?focusedCommentId=1736712#comment-1736712
@@ -170,14 +165,11 @@ Ember.Handlebars.registerBoundHelper('mapthumb',
 Ember.Handlebars.registerBoundHelper('isset', 
 	function(data, options) 
 	{
-    	var currentContext = (options.contexts && options.contexts[0]) || this;
-    	var context = currentContext[Ember.META_KEY].values.content;
-
     	if(data != undefined && data != null){
-			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes, context));
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.yes));
 		}
 		else{
-			return new Handlebars.SafeString(Utils.toHtml(options.hash.no, context));
+			return new Handlebars.SafeString(Utils.toHtml(options.hash.no));
 		}
 	}
 );

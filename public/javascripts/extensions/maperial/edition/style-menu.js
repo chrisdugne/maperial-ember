@@ -36,7 +36,7 @@ StyleMenu.BIGGEST = 3;
 
 function StyleMenu(container, container2, container3, maperial){
 
-   console.log("  building style menu...");
+   console.log("  building style menu...", container, container2, container3);
 
    //-------------------------------------------------//
    
@@ -380,13 +380,13 @@ StyleMenu.prototype.BuildElements = function(){
 
    this.styleMenuParentEl.hide(); // hide me during loading
 
-   this.mainDiv = $("<div id=\"styleMenu_menu_maindiv\"></div>");
+   this.mainDiv = $('<div id="styleMenu_menu_maindiv'+this.maperial.tagId+'" class="styleMenu_menu_maindiv"></div>');
    this.mainDiv.appendTo(this.styleMenuParentEl);
 
-   this.widgetDiv = $('<div id="styleMenu_menu_widgetDiv"></div>');
+   this.widgetDiv = $('<div id="styleMenu_menu_widgetDiv'+this.maperial.tagId+'" class="styleMenu_menu_widgetDiv"></div>');
    this.widgetDiv.appendTo(this.styleMenuParentEl2);
 
-   this.zoomDiv = $('<div class="styleMenu_menu_zoomDiv" id="styleMenu_menu_zoomDiv"></div>');
+   this.zoomDiv = $('<div id="styleMenu_menu_zoomDiv'+this.maperial.tagId+'" class="styleMenu_menu_zoomDiv" ></div>');
    this.zoomDiv.appendTo(this.styleMenuParentEl3);
 
    //this.__FillZoomDef();
@@ -1109,6 +1109,8 @@ StyleMenu.prototype.refreshWidget = function(group,name,uid){
          this.__BuildWidget(group, name, uid);
          break;
    }
+   
+   this.maperial.hud.placeElements();
 }
 
 //--------------------------------------------------------------------------//

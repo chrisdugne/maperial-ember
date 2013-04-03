@@ -1,17 +1,17 @@
 
-function Tile (parameters, config, x, y, z) {
+function Tile (context, config, x, y, z) {
 
    //--------------------------------//
 
-   this.parameters = parameters;
+   this.context = context;
    this.config = config;
 
    this.x         = x;
    this.y         = y;
    this.z         = z;
 
-   this.assets       = parameters.assets;
-   this.gl           = parameters.assets.ctx;
+   this.assets       = context.parameters.assets;
+   this.gl           = context.parameters.assets.ctx;
    this.error        = false;
 
    this.layers    = {};
@@ -47,15 +47,15 @@ Tile.prototype.initLayers = function () {
       switch(this.config.layers[i].type){
 
       case LayersManager.Vector:
-         this.layers[i] = new VectorialLayer ( this.parameters , this.z);
+         this.layers[i] = new VectorialLayer ( this.context.parameters , this.z);
          break;
 
       case LayersManager.Raster:
-         this.layers[i] = new RasterLayer    ( this.parameters , this.z);
+         this.layers[i] = new RasterLayer    ( this.context.parameters , this.z);
          break;
 
       case LayersManager.Images:
-         this.layers[i] = new ImageLayer     ( this.parameters , this.z);
+         this.layers[i] = new ImageLayer     ( this.context.parameters , this.z);
          break;
          
       }
@@ -67,9 +67,9 @@ Tile.prototype.initLayers = function () {
 
 Tile.prototype.loadSources = function () {
 
-   for(var i = 0; i< this.parameters.sources.length; i++){
+   for(var i = 0; i< this.context.parameters.sources.length; i++){
 
-      var source = this.parameters.sources[i];
+      var source = this.context.parameters.sources[i];
 
       if (this.requests[source.type])
          return false;
@@ -107,9 +107,9 @@ Tile.prototype.prepareBuffering = function () {
 
 Tile.prototype.Release = function() {
 
-   for(var i = 0; i< this.parameters.sources.length; i++){
+   for(var i = 0; i< this.context.parameters.sources.length; i++){
 
-      var source = this.parameters.sources[i];
+      var source = this.context.parameters.sources[i];
 
       if (this.requests[source.type])
          this.requests[source.type].abort();
@@ -147,8 +147,8 @@ Tile.prototype.Reset = function ( ) {
 Tile.prototype.IsLoaded = function ( ) {
 
 
-   for(var i = 0; i< this.parameters.sources.length; i++){
-      var source = this.parameters.sources[i];
+   for(var i = 0; i< this.context.parameters.sources.length; i++){
+      var source = this.context.parameters.sources[i];
 
       if (!this.load[source.type])
          return false;
@@ -291,7 +291,7 @@ Tile.prototype.RenderVectorialLayers = function ( context, wx, wy ) {
 Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) {
 
    // create an invisibleCanvas to render the pixel for every layers
-   var canvas = document.getElementById("dummyTilesCanvas");
+   var canvas = document.getElementById("fakeCanvas");
    var ctx = canvas.getContext("2d");
    ExtendCanvasContext ( ctx );
    canvas.height = 1;

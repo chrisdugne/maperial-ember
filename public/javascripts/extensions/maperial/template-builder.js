@@ -26,9 +26,7 @@ TemplateBuilder.prototype.buildMap = function(){
    
    var html = "";
    html += "<canvas id=\"Map"+this.tagId+"\" class=\"maperial-map\"></canvas>";
-   html += "<canvas id=\"dummyTilesCanvas"+this.tagId+"\ class=\"hide\"></canvas>";
-
-   html += "<div id=\"Magnifier"+this.tagId+"\" class=\"hide maperial-magnifier\"></canvas>";
+   html += "<canvas id=\"fakeCanvas\" class=\"hide\"></canvas>";
    
    this.container.append(html);
 }
@@ -213,7 +211,7 @@ TemplateBuilder.prototype.buildMagnifier = function(){
    
    var html = "";
    html += "<div class=\"panel panelMagnifier snapper hide\" id=\"panelMagnifier"+this.tagId+"\" >";
-   html += "    <div id=\"Magnifier"+this.tagId+"\">";
+   html += "    <canvas id=\"Magnifier"+this.tagId+"\" class=\"maperial-magnifier\" width=\"200\" height=\"200\"></canvas>";
    html += "</div>";
    
    this.container.append(html);

@@ -173,11 +173,6 @@ Maperial.prototype.createContext = function() {
 
    this.context.mapCanvas = $("#Map"+this.tagId);
    
-   console.log("this.context.mapCanvas[0].offsetTop", this.context.mapCanvas[0].offsetTop);
-   console.log("this.context.mapCanvas[0].offsetLeft", this.context.mapCanvas[0].offsetLeft);
-   console.log("this.context.mapCanvas[0].offsetWidth", this.context.mapCanvas[0].offsetWidth);
-   console.log("this.context.mapCanvas[0].offsetHeight", this.context.mapCanvas[0].offsetHeight);
-
    if(this.config.hud.elements[HUD.MAGNIFIER]){
       this.context.magnifierCanvas = $("#Magnifier"+this.tagId);
    }
@@ -274,7 +269,7 @@ Maperial.prototype.build = function() {
    this.buildMap();
    this.buildHUD();
 
-   if(this.config.edition)
+   if(this.config.map.edition)
       this.buildStyleMenu();
 
 // if(this.editedColorbarUID)
@@ -332,7 +327,7 @@ Maperial.prototype.initGeoloc = function() {
 //==================================================================//
 
 Maperial.prototype.buildStyleMenu = function() {
-   this.styleMenu = new StyleMenu($("#detailsMenu") , $("#quickEdit") , $("#zooms") , this);
+   this.styleMenu = new StyleMenu($("#DetailsMenu"+this.tagId) , $("#QuickEdit"+this.tagId) , $("#Zooms"+this.tagId) , this);
 }
 
 //==================================================================//
@@ -355,8 +350,6 @@ Maperial.prototype.refreshScreen = function() {
 
    if(this.height)
       h = this.height;
-
-   console.log(w, h);
 
    if(this.context.mapCanvas[0]){
       this.context.mapCanvas.css("width", w);
