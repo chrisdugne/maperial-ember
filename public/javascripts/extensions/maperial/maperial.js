@@ -19,13 +19,12 @@ function Maperial(tagId, width, height){
 
    this.styleMenu;
 
-   this.templateBuilder = new TemplateBuilder(this);
+   this.templateBuilder = new TemplateBuilder();
 };
 
 //==================================================================//
-//doit  etre mis dans this.config : 
+//doit  etre mis dans this.map.config : 
 
-//this.colorbar = colorbar;
 //this.boundingBoxStartLat = boundingBoxStartLat;
 //this.boundingBoxStartLon = boundingBoxStartLon;
 
@@ -86,7 +85,7 @@ Maperial.prototype.load = function() {
 
    //--------------------------//
 
-   this.templateBuilder.build();
+   this.templateBuilder.build(this);
    this.createContext();
 
    //--------------------------//
@@ -172,7 +171,7 @@ Maperial.prototype.createContext = function() {
    // set new divs (ember erase and build new divs)
 
    this.context.mapCanvas = $("#Map"+this.tagId);
-   
+
    if(this.config.hud.elements[HUD.MAGNIFIER]){
       this.context.magnifierCanvas = $("#Magnifier"+this.tagId);
    }
@@ -305,15 +304,16 @@ Maperial.prototype.buildMap = function() {
    this.mapMouse = new MapMouse( this );
    this.mapRenderer.Start();
 
-   // note : init si config seulement
-// this.boundingBoxDrawer = new BoundingBoxDrawer(this.map);
-
-// if(this.boundingBoxStartLat){
-// this.boundingBoxDrawer.centerLat = this.boundingBoxStartLat;
-// this.boundingBoxDrawer.centerLon = this.boundingBoxStartLon;
-// this.map.SetCenter(this.boundingBoxDrawer.centerLat, this.boundingBoxDrawer.centerLon);
-// }
-
+   if(this.config.map.requireBoundingBoxDrawer){
+      
+      this.boundingBoxDrawer = new BoundingBoxDrawer(this);
+      
+      if(this.config.map.boundingBoxStartLat){
+         this.boundingBoxDrawer.centerLat = this.config.map.boundingBoxStartLat;
+         this.boundingBoxDrawer.centerLon = this.config.map.boundingBoxStartLon;
+         this.SetCenter(this.boundingBoxDrawer.centerLat, this.boundingBoxDrawer.centerLon);
+      }
+   }
 }
 
 //==================================================================//
@@ -395,5 +395,21 @@ Maperial.prototype.ZoomOut = function(){
    }
 }
 
-//---------------------------------------------------------------------------//
+//==================================================================//
 
+Maperial.prototype.showBoundingBox = function(){
+   this.boundingBoxDrawer.init();
+   $("#drawBoardContainer"+this.tagId).removeClass("hide");
+}
+
+Maperial.prototype.hideBoundingBox = function(){
+   $("#drawBoardContainer"+this.tagId).addClass("hide");
+}
+
+Maperial.prototype.deactivateBoundingBoxDrawing = function(){
+   this.boundingBoxDrawer.deactivateDrawing();
+}
+
+Maperial.prototype.activateBoundingBoxDrawing = function(){
+   this.boundingBoxDrawer.activateDrawing();
+}

@@ -50,7 +50,7 @@ LayersHelper.prototype.buildLayerEntry = function(layerIndex) {
    var layer = App.maperial.config.layers[layerIndex];
 
    $("#layers").append(
-         "<div class=\"row-fluid movable\" id=\"layer_"+layerIndex+"\">" +
+         "<div class=\"row-fluid movable marginbottom\" id=\"layer_"+layerIndex+"\">" +
          "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+Utils.getSourceThumb(layer)+"></img></div>" +
          "   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
          "   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
@@ -107,7 +107,7 @@ LayersHelper.prototype.buildOSMSets = function(layerCustomizedIndex){
       var set = this.maperial.config.map.osmSets[i];
 
       // ----- appending div
-      var div = "<div class=\"row-fluid\">" +
+      var div = "<div class=\"row-fluid marginbottom\">" +
       "<div class=\"span5 offset1\">" + set.label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
       "   <span class=\"slider-button\" id=\""+LayersHelper.TOGGLE+i+"\"></span>" +
@@ -177,7 +177,7 @@ LayersHelper.prototype.refreshHUDViewerSettings = function() {
       var nameInTag = element + this.maperial.tagId; 
       
       // ----- appending div
-      var div = "<div class=\"row-fluid\">" +
+      var div = "<div class=\"row-fluid marginbottom\">" +
       "<div class=\"span5 offset1\">" + label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
       "   <span class=\"slider-button\" id=\"toggleMapSettings_"+element+"\"></span>" +

@@ -1,20 +1,12 @@
 
 
-<div id="maperial"></div>
+<div id="_maperial"></div>
 
 <!-- Custom for StyleAndColorbar  -->
-<div class="panel snapper hide" id="panelStyleEditorMenu">
-	{{#if user.waiting}}
-		<div class="row-fluid">
-			<div class="span1 offset10">
-				<img src="@routes.Assets.at("images/mapediting/spin.white.gif")" width="25px"/>
-			</div>
-		</div>
-	{{else}}
-		<div class="row-fluid">
-			<div class="span1">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
-			<div class="span3 offset8 btn-small btn-primary" onclick="App.StyleEditorController.saveStyle()">Save</div>
-		</div>
-	{{/if}}
+<div class="panel panel-webapp panelStyleEditorMenu snapper hide" id="panelStyleEditorMenu_maperial">
+	<div class="row-fluid">
+		<div class="span1">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
+		<div class="span3 offset8 btn-small btn-primary" onclick="App.StyleEditorController.saveStyle()">Save</div>
+	</div>
 </div>
 

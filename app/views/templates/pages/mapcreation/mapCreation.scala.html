@@ -9,7 +9,7 @@
 
 <!-- Custom for Layers  -->
 <div class="panel panel-webapp panelLayers snapper hide" id="panelLayers_maperial">
-	<div class="row-fluid">
+	<div class="row-fluid marginbottom">
 		<div id="addLayerButton" class="span2 offset2 addDataButton pointerCursor" {{action openSourceSelection}}></div>
 		<div class="span4 offset2 btn-small btn-primary" {{action openSettings}}>Settings</div>
 	</div>
@@ -18,13 +18,30 @@
 
 <!-- Custom for Settings -->
 <div class="panel panel-webapp panelSettings snapper hide" id="panelSettings_maperial">
-	<div class="row-fluid">
-		<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
-		<div class="span3 offset5 btn-small btn-primary" {{action backToLayers}}>Back</div>
-		<div class="span3 btn-small btn-primary" {{action saveMap}}>Save</div>
+	<div id="globalSettings">
+		<div class="row-fluid">
+			<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
+			<div class="span3 offset5 btn-small btn-danger" {{action backToLayers}}>Back</div>
+			<div class="span3 btn-small btn-primary" {{action saveMap}}>Save</div>
+		</div>
+		
+		<div id="hudViewerSettings"></div>
+	
+		<div class="row-fluid">
+			<div class="span7 offset3 btn-small btn-primary" {{action editBoundingBox}}>Bounding Box</div>
+		</div>
 	</div>
 	
-	<div id="hudViewerSettings"></div>
+	<div id="boundingBoxSettings" class="hide">
+		<div class="row-fluid">
+			<div class="span4 offset1 btn-small btn-danger" {{action cancelBoundingBox}}>Cancel</div>
+			<div class="span3 offset4 btn-small btn-primary" {{action saveBoundingBox}}>Ok</div>
+		</div>
+		
+		<div id="buttonCenter" class="buttonMode"><i class="icon-screenshot icon-white"></i></div>
+		<div id="buttonMapMode" class="buttonMode"><i class="icon-move icon-white"></i></div>
+		<div id="buttonDrawMode" class="buttonMode"><i class="icon-pencil icon-white"></i></div>
+	</div>
 </div>
 
 @baseSelectionWindow()

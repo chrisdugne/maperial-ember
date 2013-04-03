@@ -1,20 +1,23 @@
 
 //==================================================================//
 
-function TemplateBuilder(maperial){
-   this.config = maperial.config;
-   this.tagId = maperial.tagId;
-   this.container;
+function TemplateBuilder(){
+   this.config = null;
+   this.tagId = null;
+   this.container = null;
 }
 
 //==================================================================//
 
-TemplateBuilder.prototype.build = function(){
-   
-   console.log("Drawing template "+this.tagId+"...");
+TemplateBuilder.prototype.build = function(maperial){
+
+   this.config = maperial.config;
+   this.tagId = maperial.tagId;
    
    this.container = $("#"+this.tagId);
    this.container.empty();
+
+   console.log("Drawing template "+this.tagId+"...");
    
    this.buildMap();
    this.buildHUD();
@@ -27,6 +30,12 @@ TemplateBuilder.prototype.buildMap = function(){
    var html = "";
    html += "<canvas id=\"Map"+this.tagId+"\" class=\"maperial-map\"></canvas>";
    html += "<canvas id=\"fakeCanvas\" class=\"hide\"></canvas>";
+   
+   if(this.config.map.requireBoundingBoxDrawer){
+      html += "<div id=\"drawBoardContainer"+this.tagId+"\" class=\"hide\">";
+      html += "   <canvas id=\"drawBoard"+this.tagId+"\"></canvas>";
+      html += "</div>";
+   }
    
    this.container.append(html);
 }

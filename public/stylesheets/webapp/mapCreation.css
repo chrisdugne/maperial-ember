@@ -79,39 +79,19 @@
 	height:70px;
 }
 
-/*----------------------------------------------------------
-
-#panelSettings {
-	height: 400px;
-	top: 67px;
-	left: 0;
-}
-
-a#triggerSettings {
-	left: 0;
-	top: 67px;
-}
-
-#buttonReset {
-	right: 100px;
-	top: 36px;
-}
+/*----------------------------------------------------------*/
 
 #buttonDrawMode {
 	right: 20px;
-	top: 36px;
 }
 
 #buttonMapMode {
 	right: 60px;
-	top: 36px;
 }
 
 #buttonCenter {
-	right: 100px;
-	top: 36px;
+	right: 160px;
 }
 
------*/
 
 

@@ -1,17 +1,18 @@
 /****************************************************************************************************************** 
- * Used inside MapEditor
- * 
  *  This is a Drawer
- *  - this.map : the linked Map to get the Mover from
- *  - this.draw() : the Mover calls this method to refresh the drawings
- *  - this.resize(width, height) : the Mover calls this method to resize the drawBoard
- *  - this.pointsToMove : the Mover updates these points within the current move before to call drawer.draw()
+ *  - this.draw() : the MapMover calls this method to refresh the drawings
+ *  - this.resize(width, height) : the MapMover calls this method to resize the drawBoard
+ *  - this.pointsToMove : the MapMover updates these points within the current move before to call drawer.draw()
  *
  ******************************************************************************************************************/ 
-function BoundingBoxDrawer(map){
+function BoundingBoxDrawer(maperial){
+
+   console.log("  building BoundingBoxDrawer...");
+   
+   this.maperial = maperial;
+   this.context = maperial.context;
 
    // -> Drawer
-   this.map = map;
    this.drawBoard = null;
 
    // -> states
@@ -89,9 +90,9 @@ BoundingBoxDrawer.prototype.init = function(){
    //------- init Fabric
 
    console.log("init Fabric");
-   this.drawBoard = new fabric.Canvas("drawBoard");
-   this.drawBoard.setHeight(this.map.height);
-   this.drawBoard.setWidth(this.map.width);
+   this.drawBoard = new fabric.Canvas("drawBoard"+this.maperial.tagId);
+   this.drawBoard.setHeight(this.context.mapCanvas.height());
+   this.drawBoard.setWidth(this.context.mapCanvas.width());
 
    //------- startBox
 
@@ -102,7 +103,7 @@ BoundingBoxDrawer.prototype.init = function(){
    console.log("mouse listeners");
 
    var drawer = this;
-   this.map.mover.addDrawer(drawer);
+   this.maperial.mapMover.addDrawer(drawer);
 
    this.drawBoard.on('mouse:down', function(options) {
 
@@ -113,7 +114,7 @@ BoundingBoxDrawer.prototype.init = function(){
          }
       }
       else{
-         drawer.map.OnMouseDown(options.e);
+         drawer.maperial.mapMouse.down(options.e);
       }
 
    });
@@ -129,14 +130,14 @@ BoundingBoxDrawer.prototype.init = function(){
          drawer.selecting = false;
       }
       else{
-         drawer.map.OnMouseUp(options.e);
+         drawer.maperial.mapMouse.up(options.e);
       }
 
    });
 
 
    this.drawBoard.on('mouse:move', function(options) {
-      drawer.map.OnMouseMove(options.e);
+      drawer.maperial.mapMouse.move(options.e);
    });
 
    // -> object:modified happens at the end of dragging and at the end of scaling
@@ -145,9 +146,9 @@ BoundingBoxDrawer.prototype.init = function(){
       drawer.draw();
    });
 
-   $("#drawBoardContainer").bind('mousewheel', function(event, delta) {
-      drawer.map.OnMouseWheel(event, delta);
-      drawer.setBoundingsForZoom(drawer.map.zoom, false);
+   $("#drawBoardContainer"+this.maperial.tagId).bind('mousewheel', function(event, delta) {
+      drawer.maperial.mapMouse.wheel(event, delta);
+      drawer.setBoundingsForZoom(drawer.context.zoom, false);
    });
 }
 
@@ -404,18 +405,18 @@ BoundingBoxDrawer.prototype.boundingsHaveChanged = function () {
 BoundingBoxDrawer.prototype.refreshLatLon = function(){
 
    // Attention ! pour shiftTop et shiftBottom, le repere a ordonnees vers le bas ici
-   var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, this.map.zoom);
+   var centerP = this.context.coordS.MetersToPixels(this.context.centerM.x, this.context.centerM.y, this.context.zoom);
    var shiftLeft = this.drawBoard.getWidth()/2 - this.topLeftPoint.x;
    var shiftTop = this.drawBoard.getHeight()/2 - this.topLeftPoint.y;
    var shiftRight = this.bottomRightPoint.x - this.drawBoard.getWidth()/2;
    var shiftBottom = this.bottomRightPoint.y - this.drawBoard.getHeight()/2;
 
    // Attention ! pour shiftTop et shiftBottom, le repere en metres a les ordonnees vers le haut
-   var topLeftMeters = this.map.coordS.PixelsToMeters(centerP.x - shiftLeft, centerP.y + shiftTop, this.map.zoom);
-   var bottomRightMeters = this.map.coordS.PixelsToMeters(centerP.x + shiftRight, centerP.y - shiftBottom, this.map.zoom);
+   var topLeftMeters = this.context.coordS.PixelsToMeters(centerP.x - shiftLeft, centerP.y + shiftTop, this.context.zoom);
+   var bottomRightMeters = this.context.coordS.PixelsToMeters(centerP.x + shiftRight, centerP.y - shiftBottom, this.context.zoom);
 
-   var topLeftLatLon = this.map.coordS.MetersToLatLon(topLeftMeters.x, topLeftMeters.y);
-   var bottomRightLatLon = this.map.coordS.MetersToLatLon(bottomRightMeters.x, bottomRightMeters.y);
+   var topLeftLatLon = this.context.coordS.MetersToLatLon(topLeftMeters.x, topLeftMeters.y);
+   var bottomRightLatLon = this.context.coordS.MetersToLatLon(bottomRightMeters.x, bottomRightMeters.y);
 
    var latMin = bottomRightLatLon.y;
    var latMax = topLeftLatLon.y;
@@ -429,7 +430,7 @@ BoundingBoxDrawer.prototype.refreshLatLon = function(){
 
 BoundingBoxDrawer.prototype.center = function () {
 
-   this.map.SetCenter(this.centerLat, this.centerLon);
+   this.maperial.SetCenter(this.centerLat, this.centerLon);
 
    if(this.zoomToFit)
       this.setBoundingsForZoom(this.zoomToFit, false);
@@ -441,14 +442,14 @@ BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
 
    // pour fitToScreen, on teste un nouveau zoom : necessaire de recentrer la carte pour le test
    if(fitToScreen)
-      this.map.SetCenter(this.centerLat, this.centerLon);
+      this.maperial.SetCenter(this.centerLat, this.centerLon);
    
-   var centerP = this.map.coordS.MetersToPixels(this.map.centerM.x, this.map.centerM.y, zoom);
-   var topLeftMeters = this.map.coordS.LatLonToMeters(this.latMax, this.lonMin); 
-   var bottomRightMeters = this.map.coordS.LatLonToMeters(this.latMin, this.lonMax);
+   var centerP = this.context.coordS.MetersToPixels(this.context.centerM.x, this.context.centerM.y, zoom);
+   var topLeftMeters = this.context.coordS.LatLonToMeters(this.latMax, this.lonMin); 
+   var bottomRightMeters = this.context.coordS.LatLonToMeters(this.latMin, this.lonMax);
 
-   var topLeftP = this.map.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, zoom);
-   var bottomRightP = this.map.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, zoom);
+   var topLeftP = this.context.coordS.MetersToPixels(topLeftMeters.x, topLeftMeters.y, zoom);
+   var bottomRightP = this.context.coordS.MetersToPixels(bottomRightMeters.x, bottomRightMeters.y, zoom);
 
    // Attention ! pour shiftTop et shiftBottom, le repere a les ordonnees vers le haut ici
    var shiftLeft = centerP.x - topLeftP.x;
@@ -470,7 +471,7 @@ BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
       if(fitToScreen)
          this.zoomToFit = zoom;
       
-      this.map.SetZoom(zoom);
+      this.maperial.SetZoom(zoom);
       this.boundingsHaveChanged();
       this.draw();
    }
@@ -485,7 +486,7 @@ BoundingBoxDrawer.prototype.deactivateDrawing = function () {
 
 BoundingBoxDrawer.prototype.activateDrawing = function () {
    
-   if(this.zoomToFit && this.map.zoom > this.zoomToFit)
+   if(this.zoomToFit && this.context.zoom > this.zoomToFit)
       this.center();
    
    this.drawingEnabled = true;

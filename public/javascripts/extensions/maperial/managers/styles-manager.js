@@ -1,5 +1,5 @@
 //-------------------------------------------//
-//- StylesManager - note: "StyleManager" exists outside maperialJS 
+//- StylesManager - note: "StyleManager" exists as webapp.managers.styleManager...
 //-------------------------------------------//
 
 function StylesManager(maperial, useStyleCache){

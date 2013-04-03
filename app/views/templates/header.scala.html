@@ -77,7 +77,12 @@
 			<div id="userDisplay" class="googleUser">{{user.email}}</div>
 		{{else}}
 			<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">@Messages("try")</div>
-			<div id="signinButton" onClick="window.location.href='/?login'" class="btn-large btn-primary">Log in</div>
+			
+			{{bound_equals App.Globals.currentPage value='home'
+				yes='<div id="signinButton" onClick="$(&#39;#loginWindow&#39;).modal();" class="btn-large btn-primary">Log in</div>'
+		   	 	no='<div id="signinButton" onClick="window.location.href=&#39;/?login&#39;" class="btn-large btn-primary">Log in</div>'
+		   	}}
+		   	
 		{{/if}}
 	{{/if}}
 }

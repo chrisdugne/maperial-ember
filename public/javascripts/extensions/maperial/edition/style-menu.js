@@ -36,7 +36,7 @@ StyleMenu.BIGGEST = 3;
 
 function StyleMenu(container, container2, container3, maperial){
 
-   console.log("  building style menu...", container, container2, container3);
+   console.log("  building style menu...");
 
    //-------------------------------------------------//
    
@@ -224,8 +224,6 @@ StyleMenu.prototype.SetParamId = function(luid,ruid,param,value){
 
 
 StyleMenu.prototype.SetParamIdZNew = function(luid,param,value){
-   
-   console.log("---> " + luid );
    
    if ( this.style.content[luid] == undefined ){
       if(this.debug)console.log( luid + " not in style");

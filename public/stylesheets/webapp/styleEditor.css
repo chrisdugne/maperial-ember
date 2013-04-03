@@ -1,10 +1,8 @@
 /*---------------------------------------------------------------*/
 
-#panelStyleEditorMenu {
+.panelStyleEditorMenu {
 	height: 30px;
 	width: 270px;
-	padding-left: 20px;
-	padding-right: 20px;
 }
 
 /*---------------------------------------------------------------*/
@@ -21,7 +19,7 @@
 
 /*-------------------------*/
 
-#panelColorbarManager {
+.panelColorbarManager {
 	top: 67px;
 	left: 0; 
 }

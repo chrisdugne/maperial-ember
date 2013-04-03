@@ -104,6 +104,7 @@
       // layers + map options previously chosen
       config.layers = App.maperial.config.layers;
       config.map = App.maperial.config.map;
+      config.map.requireBoundingBoxDrawer = true;
 
       return config;
    }  
@@ -344,6 +345,77 @@
 
    }
 
+   //------------------------------------------------------------------//
+   
+   MapCreationController.editBoundingBox = function(){
+      
+      /*
+       * TODO : passer ca en parametres pour centrer sur la BB du raster
+       * -> via config ? 
+       * 
+         if(App.datasetsData.selectedRaster){
+            this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
+            this.boundingBoxDrawer.setInitLatLon();
+            this.boundingBoxDrawer.center();
+         }
+       */
+      App.maperial.showBoundingBox();
+      App.maperial.deactivateBoundingBoxDrawing();
+
+      $("#globalSettings").addClass("hide");
+      $("#boundingBoxSettings").removeClass("hide");
+      
+      $("#buttonMapMode").addClass("active");
+      $("#buttonDrawMode").removeClass("active");
+      
+      $("#buttonMapMode").click(function(){
+         $(this).addClass("active");
+         $("#buttonDrawMode").removeClass("active");
+         $("#buttonCenter").removeClass("hide");
+         App.maperial.deactivateBoundingBoxDrawing();
+         return false;
+      });
+
+      $("#buttonDrawMode").click(function(){
+         $(this).addClass("active");
+         $("#buttonMapMode").removeClass("active");
+         $("#buttonReset").removeClass("hide");
+         App.maperial.activateBoundingBoxDrawing();
+         return false;
+      });
+      
+      $("#buttonCenter").click(function(){
+         App.maperial.boundingBoxDrawer.center();
+         return false;
+      });
+      
+   }
+
+   //-----------------------------------//
+   
+   MapCreationController.saveBoundingBox = function(){
+      //save latlon in config
+      MapCreationController.closeBoundingBox();
+   }
+
+   MapCreationController.cancelBoundingBox = function(){
+      App.maperial.boundingBoxDrawer.cancelEdition();
+      MapCreationController.closeBoundingBox();
+   }
+   
+   MapCreationController.closeBoundingBox = function(){
+      App.maperial.hideBoundingBox();
+      $("#buttonMapMode").unbind("click");
+      $("#buttonDrawMode").unbind("click");
+      $("#buttonCenter").unbind("click");
+      $("#buttonReset").unbind("click");
+
+      $("#globalSettings").removeClass("hide");
+      $("#boundingBoxSettings").addClass("hide");
+   }
+      
+   //-----------------------------------//
+      
    //=============================================================================//
    // Map controls
 
@@ -434,10 +506,6 @@
          MapCreationController.addLayer(source, imagesSrc);
       },
 
-      saveMap: function(router, event){
-         MapCreationController.saveMap();
-      },
-
       openSettings: function(router, event){
          MapCreationController.openSettings();
       },
@@ -460,6 +528,25 @@
       selectImages: function(router, event){
          var src = event.context;
          MapCreationController.selectImages(src);
+      },
+
+      //--------------------------------------//
+      // images actions
+      
+      saveMap: function(router, event){
+         MapCreationController.saveMap();
+      },
+
+      editBoundingBox: function(router, event){
+         MapCreationController.editBoundingBox();
+      },
+      
+      cancelBoundingBox: function(router, event){
+         MapCreationController.cancelBoundingBox();
+      },
+
+      saveBoundingBox: function(router, event){
+         MapCreationController.saveBoundingBox();
       },
    });
 

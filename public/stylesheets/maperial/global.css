@@ -33,6 +33,11 @@
 .icon-ex-white-outline{background-position:-224px -64px;}
 
 /*--------------------------------*/
+.marginbottom{
+	margin-bottom: 20px;
+}
+
+/*--------------------------------*/
 .bigbutton {
 	cursor:hand; 
 	cursor:pointer;

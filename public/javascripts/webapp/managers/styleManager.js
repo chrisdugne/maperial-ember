@@ -78,7 +78,7 @@ StyleManager.prototype.saveStyle = function(style)
    });
 }
 
-StyleManager.editStyleInDB = function(style)
+StyleManager.prototype.editStyleInDB = function(style)
 {
    var params = new Object();
    params["style"] = style;
@@ -92,6 +92,7 @@ StyleManager.editStyleInDB = function(style)
       success: function (data, textStatus, jqXHR)
       {
          App.user.set("waiting", false);
+         App.get('router').transitionTo('styles');
       }
    });
 }

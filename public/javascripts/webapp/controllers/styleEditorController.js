@@ -51,17 +51,14 @@
 
    StyleEditorController.getMapEditorConfig = function(){
 
-      var config = {hud:{elements:{}, options:{}}};
-      config.edition = true;
-
+      var config = App.maperial.emptyConfig();
+      
       // mapCreation.styleAndColorbar
       config.hud.elements["StyleEditorMenu"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true };
 
       // mapEditor tools
       // maperial hud
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
-      config.hud.elements[HUD.CONTROLS]      = {show : true,  type : HUD.PANEL,  label : "Controls" };
-      config.hud.elements[HUD.SCALE]         = {show : true,  type : HUD.PANEL,  label : "Scale"  };
       config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,  label : "Location" };
       config.hud.elements[HUD.QUICK_EDIT]    = {show : true,  type : HUD.PANEL,  label : "Quick Edition", disableDrag : true};
       config.hud.elements[HUD.DETAILS_MENU]  = {show : false, type : HUD.PANEL,  label : "Style Details" };
@@ -84,6 +81,8 @@
             }
          }];
 
+      config.map.edition = true;
+
       return config;
    }  
 
@@ -94,6 +93,7 @@
    StyleEditorController.saveStyle = function()
    {
       App.stylesData.set('selectedStyle.name', $("#styleNameInput").val());
+      $("#panelStyleEditorMenu_maperial").addClass("hide");
 
       if(App.stylesData.editingStyle)
          App.styleManager.saveStyle(App.stylesData.selectedStyle);
