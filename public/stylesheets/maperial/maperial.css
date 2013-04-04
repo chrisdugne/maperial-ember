@@ -95,6 +95,8 @@ a.active.trigger {
 	-webkit-border-bottom-left-radius: 20px;
 	z-index: 9999;
 	filter: alpha(opacity =     85);
+	cursor:pointer;
+	cursor:hand;
 }
 
 .buttonMode:hover {

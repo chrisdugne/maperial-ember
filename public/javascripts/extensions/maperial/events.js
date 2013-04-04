@@ -30,6 +30,7 @@ MaperialEvents.ZOOM_CHANGED         = "MaperialEvents.ZOOM_CHANGED";
 
 MaperialEvents.UPDATE_LATLON        = "MaperialEvents.UPDATE_LATLON";
 MaperialEvents.OPEN_STYLE           = "MaperialEvents.OPEN_STYLE";
+MaperialEvents.NEW_BOUNDING_BOX     = "MaperialEvents.NEW_BOUNDING_BOX";
 
 // Rendering Events
 MaperialEvents.STYLE_CHANGED        = "MaperialEvents.STYLE_CHANGED";

@@ -41,6 +41,7 @@ LayersHelper.prototype.refreshLayersPanel = function() {
    });
 
    $("#panelLayers"+this.maperial.tagId).css("height", panelHeight+"px");
+   $("#panelLayers"+this.maperial.tagId).removeClass("hide"); // maperial reset hideAllHUD + no layers => no HUD => orce show here
 }
 
 //--------------------------------------//
@@ -48,14 +49,25 @@ LayersHelper.prototype.refreshLayersPanel = function() {
 LayersHelper.prototype.buildLayerEntry = function(layerIndex) {
 
    var layer = App.maperial.config.layers[layerIndex];
-
-   $("#layers").append(
-         "<div class=\"row-fluid movable marginbottom\" id=\"layer_"+layerIndex+"\">" +
-         "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+Utils.getSourceThumb(layer)+"></img></div>" +
-         "   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>" +
-         "   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>" +
-         "</div>"
-   ); 
+   var html = "";
+   
+   html += "<div class=\"row-fluid movable marginbottom\" id=\"layer_"+layerIndex+"\">";
+   html += "   <div class=\"span4 offset1\"><img class=\"selectable sourceThumb\" onclick=\"App.MapCreationController.editLayer("+layerIndex+")\" "+Utils.getSourceThumb(layer)+"></img></div>";
+   
+   switch(layer.type){
+   case LayersManager.Images:
+   case LayersManager.Raster:
+      html += "   <div class=\"span1 offset4\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>";
+      break;
+   case LayersManager.Vector:
+      html += "   <div class=\"span1 offset1\"><button class=\"btn-small btn-success\" onclick=\"App.MapCreationController.customizeLayer("+layerIndex+")\"><i class=\"icon-edit icon-white\"></i></button></div>";
+      html += "   <div class=\"span1 offset2\"><button class=\"btn-small btn-danger\" onclick=\"App.MapCreationController.deleteLayer("+layerIndex+")\"><i class=\"icon-trash icon-white\"></i></button></div>";
+      break;
+   }
+      
+   html += "</div>";
+   
+   $("#layers").append(html); 
 
 }
 

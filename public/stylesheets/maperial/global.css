@@ -37,6 +37,12 @@
 	margin-bottom: 20px;
 }
 
+.error {
+	color: #d33;
+	width: 170px;
+	padding-left: 32px;
+}
+
 /*--------------------------------*/
 .bigbutton {
 	cursor:hand; 

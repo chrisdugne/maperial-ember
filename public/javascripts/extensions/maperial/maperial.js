@@ -67,10 +67,10 @@ Maperial.prototype.reset = function(){
       this.styleMenu.removeListeners();
    }catch(e){}
 
-   this.stylesManager = new StylesManager(this, true);
+   this.stylesManager = new StylesManager(this);
    this.layersManager = new LayersManager(this);
 
-   console.log("stylesCache : ", this.stylesManager.styles);
+   console.log("stylesCache : ", window.maperialStyles);
 }
 
 //==================================================================//
@@ -159,13 +159,16 @@ Maperial.prototype.createContext = function() {
 
       this.context = {};
       this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
-      this.context.centerM    = this.context.coordS.LatLonToMeters( MapParameters.DEFAULT_LATITUDE , MapParameters.DEFAULT_LONGITUDE );
-      this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
-      this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
       this.context.zoom       = MapParameters.DEFAULT_ZOOM;
    }
    else
       console.log("reset context...");
+
+   //----------------------------------------------------------
+
+   this.context.centerM    = this.context.coordS.LatLonToMeters( this.startLatitude() , this.startLongitude() );
+   this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
+   this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
 
    //----------------------------------------------------------
    // set new divs (ember erase and build new divs)
@@ -179,6 +182,20 @@ Maperial.prototype.createContext = function() {
    //----------------------------------------------------------
 
    this.context.parameters = new MapParameters(this);
+}
+
+Maperial.prototype.startLatitude = function() {
+   if(this.config.map.latMin)
+      return (this.config.map.latMin + this.config.map.latMax)/2;
+   else
+      return MapParameters.DEFAULT_LATITUDE;
+}
+
+Maperial.prototype.startLongitude = function() {
+   if(this.config.map.lonMin)
+      return (this.config.map.lonMin + this.config.map.lonMax)/2;
+   else
+      return MapParameters.DEFAULT_LONGITUDE;
 }
 
 //==================================================================//
@@ -239,7 +256,7 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
 
 Maperial.prototype.checkOSMSets = function(){
 
-   if($.isEmptyObject(this.stylesManager.styles))
+   if(this.stylesManager.styleCacheEmpty())
       return;
 
    console.log("checking OSM sets...");
@@ -397,8 +414,8 @@ Maperial.prototype.ZoomOut = function(){
 
 //==================================================================//
 
-Maperial.prototype.showBoundingBox = function(){
-   this.boundingBoxDrawer.init();
+Maperial.prototype.showBoundingBox = function(boundingBox){
+   this.boundingBoxDrawer.init(boundingBox);
    $("#drawBoardContainer"+this.tagId).removeClass("hide");
 }
 

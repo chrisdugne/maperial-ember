@@ -131,6 +131,14 @@ HUD.prototype.reset = function () {
 
 //----------------------------------------------------------------------//
 
+HUD.prototype.refresh = function () {
+   this.hideAllHUD();
+   this.placeElements();
+   this.showAllHUD();
+}
+
+//----------------------------------------------------------------------//
+
 HUD.prototype.initListeners = function () {
 
    var hud = this;
@@ -190,6 +198,9 @@ HUD.prototype.getMargin = function (property) {
 //----------------------------------------------------------------------//
 
 HUD.prototype.placeElements = function () {
+   
+   console.log("placeElements");
+   odump(this.maperial.config.hud.elements);
    
    for (element in this.maperial.config.hud.elements) {
 

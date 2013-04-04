@@ -45,6 +45,15 @@
 	color: #eee;
 }
 
+.latlonInput {
+	width: 150px;
+	margin-left: 15px;
+}
+
+.latlonInput.error {
+	border: 3px solid #d33;
+}
+
 /*----------------------------------------------------------*/
 
 .bigbutton {
@@ -82,15 +91,15 @@
 /*----------------------------------------------------------*/
 
 #buttonDrawMode {
-	right: 20px;
+	right: 40px;
 }
 
 #buttonMapMode {
-	right: 60px;
+	right: 40px;
 }
 
 #buttonCenter {
-	right: 160px;
+	right: 80px;
 }
 
 

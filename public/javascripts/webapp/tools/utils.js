@@ -265,6 +265,10 @@ Utils.getPoint = function (event) {
 
 //----------------------------------------------------------------------------------------//
 
+Utils.cloneJsonObject = function (jsonObject) {
+   return $.parseJSON(JSON.stringify(jsonObject));
+}
+
 function odump(o){
-   console.log($.parseJSON(JSON.stringify(o)));
+   console.log(Utils.cloneJsonObject(o));
 }

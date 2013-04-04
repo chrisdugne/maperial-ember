@@ -2,17 +2,20 @@
 //- StylesManager - note: "StyleManager" exists as webapp.managers.styleManager...
 //-------------------------------------------//
 
-function StylesManager(maperial, useStyleCache){
+function StylesManager(maperial){
 
    this.maperial = maperial;
 
    this.stylesToLoad;
    this.nextFunction;
 
-   if(useStyleCache)
-      this.styles = this.maperial.stylesManager.styles; // cache containing all previously loaded styles
-   else
-      this.styles = {};
+   window.maperialStyles = window.maperialStyles || {};  // cache containing all previously loaded styles
+}
+
+//-------------------------------------------//
+
+StylesManager.prototype.styleCacheEmpty = function() {
+   return $.isEmptyObject(window.maperialStyles);   
 }
 
 //-------------------------------------------//
@@ -26,7 +29,7 @@ StylesManager.prototype.getSelectedStyle = function() {
       var layerParams = this.maperial.config.layers[i].params;
       if(layerParams.styles){
          var styleUID = layerParams.styles[layerParams.selectedStyle];
-         return this.styles[styleUID];
+         return window.maperialStyles[styleUID];
       }
    }
    
@@ -34,7 +37,7 @@ StylesManager.prototype.getSelectedStyle = function() {
 }
 
 StylesManager.prototype.getStyle = function(uid){
-   return this.styles[uid];
+   return window.maperialStyles[uid];
 }
 
 //-------------------------------------------//
@@ -59,7 +62,7 @@ StylesManager.prototype.loadStyle = function(styleUID) {
 
    var me = this;
 
-   if(this.styles[styleUID]){
+   if(window.maperialStyles[styleUID]){
       this.loadNextStyle();
       return;
    }
@@ -73,7 +76,7 @@ StylesManager.prototype.loadStyle = function(styleUID) {
       url: styleURL,
       dataType: "json",
       success: function (style) {
-         me.styles[styleUID] = {uid : styleUID, name: styleUID, content:style};
+         window.maperialStyles[styleUID] = {uid : styleUID, name: styleUID, content:style};
          me.loadNextStyle();
       }
    });

@@ -105,7 +105,7 @@ TemplateBuilder.prototype.buildLatLon = function(){
    
    var html = "";
    html += "<div class=\"panel panelLatLon snapper hide\" id=\"panelLatLon"+this.tagId+"\"  >";
-   html += "    <div id=\"LatLon"+this.tagId+"\" class=\"latlon\">";
+   html += "    <div id=\"LatLon"+this.tagId+"\" class=\"row-fluid latlon\">";
    html += "         <div id=\"latitude"+this.tagId+"\" class=\"span6\"></div>";
    html += "         <div id=\"longitude"+this.tagId+"\" class=\"span6\"></div>";
    html += "    </div>";

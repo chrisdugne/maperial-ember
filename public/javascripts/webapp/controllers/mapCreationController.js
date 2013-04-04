@@ -46,7 +46,6 @@
 
    // init : once maperial is ready, getSelectedStyle is also the selected one in the styleSelectionWindow
    MapCreationController.setSelectedStyle = function (){
-      console.log("MapCreationController.setSelectedStyle");
       App.stylesData.set("selectedStyle", App.maperial.stylesManager.getSelectedStyle());
    }
    
@@ -349,37 +348,59 @@
    
    MapCreationController.editBoundingBox = function(){
       
-      /*
-       * TODO : passer ca en parametres pour centrer sur la BB du raster
-       * -> via config ? 
-       * 
-         if(App.datasetsData.selectedRaster){
-            this.boundingBoxDrawer.setLatLon(App.datasetsData.selectedRaster.latMin, App.datasetsData.selectedRaster.lonMin, App.datasetsData.selectedRaster.latMax, App.datasetsData.selectedRaster.lonMax);
-            this.boundingBoxDrawer.setInitLatLon();
-            this.boundingBoxDrawer.center();
-         }
-       */
-      App.maperial.showBoundingBox();
-      App.maperial.deactivateBoundingBoxDrawing();
+      //------------------------------------------------//
+      // Build HUD for this screen 
+      
+      App.maperial.config.hud = {elements:{}, options:{}};
+      App.maperial.config.hud.elements["Settings"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true, disableDrag : true };
+      App.maperial.config.hud.elements[HUD.LATLON] = {show : true, type : HUD.PANEL, position : { left: "0", top: "0"}, disableHide : true, disableDrag : true };
+      
+      App.maperial.config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
+      App.maperial.config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+      
+      App.maperial.hud.refresh();
+
+      //------------------------------------------------//
+      // listen to BB changes 
+      
+      $(window).on(MaperialEvents.NEW_BOUNDING_BOX, function(event, latMin, lonMin, latMax, lonMax){
+         MapCreationController.setMapBoundingBox(latMin, lonMin, latMax, lonMax);
+      });
+      
+      //------------------------------------------------//
+      
+      var boundingBox = {};
+      if(App.user.selectedMap.config.map.latMin){
+         boundingBox.latMin = App.user.selectedMap.config.map.latMin;
+         boundingBox.latMax = App.user.selectedMap.config.map.latMax;
+         boundingBox.lonMin = App.user.selectedMap.config.map.lonMin;
+         boundingBox.lonMax = App.user.selectedMap.config.map.lonMax;
+      }
+      
+      App.maperial.showBoundingBox(boundingBox);
+
+      //------------------------------------------------//
+      // show/hide Webapp panels + button-mode
 
       $("#globalSettings").addClass("hide");
       $("#boundingBoxSettings").removeClass("hide");
       
-      $("#buttonMapMode").addClass("active");
-      $("#buttonDrawMode").removeClass("active");
+      $("#buttonMapMode").addClass("hide");
+      $("#buttonDrawMode").removeClass("hide");
+
+      //------------------------------------------------//
+      // button-mode actions
       
       $("#buttonMapMode").click(function(){
-         $(this).addClass("active");
-         $("#buttonDrawMode").removeClass("active");
-         $("#buttonCenter").removeClass("hide");
+         $("#buttonMapMode").addClass("hide");
+         $("#buttonDrawMode").removeClass("hide");
          App.maperial.deactivateBoundingBoxDrawing();
          return false;
       });
 
       $("#buttonDrawMode").click(function(){
-         $(this).addClass("active");
-         $("#buttonMapMode").removeClass("active");
-         $("#buttonReset").removeClass("hide");
+         $("#buttonDrawMode").addClass("hide");
+         $("#buttonMapMode").removeClass("hide");
          App.maperial.activateBoundingBoxDrawing();
          return false;
       });
@@ -389,21 +410,149 @@
          return false;
       });
       
+      //------------------------------------------------//
+
+      MapCreationController.setUpValidation();
+      
    }
 
-   //-----------------------------------//
+   //------------------------------------------------------------------------------------------//
+
+   MapCreationController.setUpValidation = function(){
+
+      $.validator.addMethod(
+            "greaterThan",
+            function(value, element, params) {
+                var target = $(params).val();
+                var isValueNumeric = !isNaN(parseFloat(value)) && isFinite(value);
+                var isTargetNumeric = !isNaN(parseFloat(target)) && isFinite(target);
+                if (isValueNumeric && isTargetNumeric) {
+                   return Number(value) > Number(target);
+                }
+                 
+                if (!/Invalid|NaN/.test(new Date(value))) {
+                   return new Date(value) > new Date(target);
+                }
+
+                return false;
+            });
+      
+      $.validator.addMethod(
+            "lowerThan",
+            function(value, element, params) {
+               var target = $(params).val();
+               var isValueNumeric = !isNaN(parseFloat(value)) && isFinite(value);
+               var isTargetNumeric = !isNaN(parseFloat(target)) && isFinite(target);
+               if (isValueNumeric && isTargetNumeric) {
+                  return Number(value) < Number(target);
+               }
+               
+               if (!/Invalid|NaN/.test(new Date(value))) {
+                  return new Date(value) < new Date(target);
+               }
+
+               return false;
+            });
+      
+      
+      $("#latLonForm").validate({
+         rules: {
+            latMinInput: {
+               number: true,
+               required: true,
+               min: -90,
+               max: +90,
+               lowerThan: "#latMaxInput"
+            },
+            latMaxInput: {
+               required: true,
+               number: true,
+               min: -90,
+               max: +90,
+               greaterThan: "#latMinInput"
+            },
+            lonMinInput: {
+               required: true,
+               number: true,
+               min: -180,
+               max: +180,
+               lowerThan: "#lonMaxInput"
+            },
+            lonMaxInput: {
+               required: true,
+               number: true,
+               min: -180,
+               max: +180,
+               greaterThan: "#lonMinInput"
+            },
+         },
+         messages: {
+            latMinInput: {
+               number: "Latitude is a number !",
+               min: "-90 < Latitude < +90",
+               max: "-90 < Latitude < +90",
+               required: "Please provide a latitude",
+               lowerThan: "Should be < latMax"
+            },
+            latMaxInput: {
+               number: "Latitude is a number !",
+               min: "-90 < Latitude < +90",
+               max: "-90 < Latitude < +90",
+               required: "Please provide a latitude",
+               greaterThan: "Should be > latMin"
+            },
+            lonMinInput: {
+               number: "Longitude is a number !",
+               min: "-180 < Latitude < +180",
+               max: "-180 < Latitude < +180",
+               required: "Please provide a longitude",
+               lowerThan: "Should be < lonMax"
+            },
+            lonMaxInput: {
+               number: "Longitude is a number !",
+               min: "-180 < Latitude < +180",
+               max: "-180 < Latitude < +180",
+               required: "Please provide a longitude",
+               greaterThan: "Should be > lonMin"
+            },
+         }
+      });
+      
+   }
+
+   //------------------------------------------------------------------------------------------//
    
    MapCreationController.saveBoundingBox = function(){
-      //save latlon in config
       MapCreationController.closeBoundingBox();
    }
 
    MapCreationController.cancelBoundingBox = function(){
       App.maperial.boundingBoxDrawer.cancelEdition();
+      
+      var latMin = App.maperial.boundingBoxDrawer.initLatMin;
+      var latMax = App.maperial.boundingBoxDrawer.initLatMax;
+      var lonMin = App.maperial.boundingBoxDrawer.initLonMin;
+      var lonMax = App.maperial.boundingBoxDrawer.initLonMax;
+      
+      App.user.set("selectedMap.config.map.latMin", latMin);
+      App.user.set("selectedMap.config.map.latMax", latMax);
+      App.user.set("selectedMap.config.map.lonMin", lonMin);
+      App.user.set("selectedMap.config.map.lonMax", lonMax);
+      
       MapCreationController.closeBoundingBox();
+   }
+
+   MapCreationController.setMapBoundingBox = function(latMin, lonMin, latMax, lonMax){
+
+      App.user.set("selectedMap.config.map.latMin", latMin);
+      App.user.set("selectedMap.config.map.latMax", latMax);
+      App.user.set("selectedMap.config.map.lonMin", lonMin);
+      App.user.set("selectedMap.config.map.lonMax", lonMax);
    }
    
    MapCreationController.closeBoundingBox = function(){
+      
+      $(window).off(MaperialEvents.NEW_BOUNDING_BOX);
       App.maperial.hideBoundingBox();
       $("#buttonMapMode").unbind("click");
       $("#buttonDrawMode").unbind("click");
@@ -412,10 +561,41 @@
 
       $("#globalSettings").removeClass("hide");
       $("#boundingBoxSettings").addClass("hide");
+
+      App.maperial.config.hud = App.user.selectedMap.config.hud;
+      App.maperial.hud.refresh();
    }
-      
+
    //-----------------------------------//
+
+   MapCreationController.resetInputs = function(){
+      var latMin = App.maperial.boundingBoxDrawer.latMin;
+      var latMax = App.maperial.boundingBoxDrawer.latMax;
+      var lonMin = App.maperial.boundingBoxDrawer.lonMin;
+      var lonMax = App.maperial.boundingBoxDrawer.lonMax;
       
+      $("#latMinInput").val(latMin);
+      $("#latMaxInput").val(latMax);
+      $("#lonMinInput").val(lonMin);
+      $("#lonMaxInput").val(lonMax);
+      
+      $("#latLonForm").valid();
+   }
+
+   //-----------------------------------//
+   
+   MapCreationController.useInputs = function(){
+      
+      if($("#latLonForm").valid()){
+         var latMin = parseFloat($("#latMinInput").val());
+         var latMax = parseFloat($("#latMaxInput").val());
+         var lonMin = parseFloat($("#lonMinInput").val());
+         var lonMax = parseFloat($("#lonMaxInput").val());
+         
+         App.maperial.boundingBoxDrawer.forceLatLon(latMin, lonMin, latMax, lonMax);
+      }
+   }
+   
    //=============================================================================//
    // Map controls
 
@@ -425,14 +605,15 @@
       
       // remove custom settingView stuffs from config
       delete App.maperial.config.hud.elements["Settings"];
+      delete App.maperial.config.map.requireBoundingBoxDrawer;
+      delete App.maperial.config.map.layersCreation;
+
       App.maperial.config.hud.options = {};
       
       // update the selectedMap
       App.user.set('selectedMap.config', App.maperial.config);
       App.user.set('selectedMap.name', $("#mapNameInput").val());
 
-      console.log(App.user.selectedMap);
-      
       // Save the map server side !
       if(App.user.isCreatingANewMap)
          App.mapManager.uploadNewMap(App.user.selectedMap);
@@ -531,7 +712,7 @@
       },
 
       //--------------------------------------//
-      // images actions
+      // Settings actions
       
       saveMap: function(router, event){
          MapCreationController.saveMap();
@@ -547,6 +728,14 @@
 
       saveBoundingBox: function(router, event){
          MapCreationController.saveBoundingBox();
+      },
+      
+      resetInputs: function(router, event){
+         MapCreationController.resetInputs();
+      },
+      
+      useInputs: function(router, event){
+         MapCreationController.useInputs();
       },
    });
 

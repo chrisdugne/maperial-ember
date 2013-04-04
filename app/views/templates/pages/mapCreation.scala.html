@@ -19,7 +19,7 @@
 <!-- Custom for Settings -->
 <div class="panel panel-webapp panelSettings snapper hide" id="panelSettings_maperial">
 	<div id="globalSettings">
-		<div class="row-fluid">
+		<div class="row-fluid marginbottom">
 			<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
 			<div class="span3 offset5 btn-small btn-danger" {{action backToLayers}}>Back</div>
 			<div class="span3 btn-small btn-primary" {{action saveMap}}>Save</div>
@@ -33,13 +33,39 @@
 	</div>
 	
 	<div id="boundingBoxSettings" class="hide">
-		<div class="row-fluid">
+		<div class="row-fluid marginbottom">
 			<div class="span4 offset1 btn-small btn-danger" {{action cancelBoundingBox}}>Cancel</div>
 			<div class="span3 offset4 btn-small btn-primary" {{action saveBoundingBox}}>Ok</div>
 		</div>
+
+		<form id="latLonForm">
+			<div class="row-fluid marginbottom">
+				<p class="compositionSettingsTitle">Latitude</p>
+			</div>
+			<div class="row-fluid marginbottom">
+				<div class="span1">{{textInput App.user.selectedMap.config.map.latMin id='latMinInput' class='latlonInput'}}</div>
+			</div>
+			<div class="row-fluid marginbottom">
+				<div class="span1">{{textInput App.user.selectedMap.config.map.latMax id='latMaxInput' class='latlonInput'}}</div>
+			</div>
+			<div class="row-fluid marginbottom">
+				<p class="compositionSettingsTitle">Longitude</p>
+			</div>
+			<div class="row-fluid marginbottom">
+				<div class="span1">{{textInput App.user.selectedMap.config.map.lonMin id='lonMinInput' class='latlonInput'}}</div>
+			</div>
+			<div class="row-fluid marginbottom">
+				<div class="span1">{{textInput App.user.selectedMap.config.map.lonMax id='lonMaxInput' class='latlonInput'}}</div>
+			</div>
+		</form>
+			
+		<div class="row-fluid marginbottom">
+			<div class="span3 offset5 btn-small btn-primary" {{action resetInputs}}><i class="icon-refresh icon-white"></i></div>
+			<div class="span3 btn-small btn-primary" {{action useInputs}}><i class="icon-arrow-right icon-white"></i></div>
+		</div>
 		
 		<div id="buttonCenter" class="buttonMode"><i class="icon-screenshot icon-white"></i></div>
-		<div id="buttonMapMode" class="buttonMode"><i class="icon-move icon-white"></i></div>
+		<div id="buttonMapMode" class="buttonMode"><i class="icon-ok icon-white"></i></div>
 		<div id="buttonDrawMode" class="buttonMode"><i class="icon-pencil icon-white"></i></div>
 	</div>
 </div>

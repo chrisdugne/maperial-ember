@@ -19,7 +19,7 @@ HUD.prototype.refreshSettingsPanel = function() {
       var nameInTag = name + this.maperial.tagId; 
 
       // ----- appending div
-      var div = "<div class=\"row-fluid\">" +
+      var div = "<div class=\"row-fluid marginbottom\">" +
       "<div class=\"span5 offset1\">" + configHUD.elements[name].label + "</div>" +
       "<div class=\"slider-frame offset6\">" +
       "   <span class=\"slider-button\" id=\"toggle"+nameInTag+"\"></span>" +

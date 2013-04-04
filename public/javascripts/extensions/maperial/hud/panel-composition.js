@@ -36,7 +36,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
       //-----------------------------------------------------//
       // layer header html
 
-      var div = "<div class=\"row-fluid\">";
+      var div = "<div class=\"row-fluid marginbottom\">";
       div += "<div class=\"span3\"><img class=\"sourceThumb\" "+Utils.getSourceThumb(this.maperial.config.layers[l])+"></img></div>";
 
       div += "<div class=\"span4 offset1\"><select class=\"shaderSelectbox\" name=\""+shadersSelectionId+"\" id=\""+shadersSelectionId+"\">";

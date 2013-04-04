@@ -82,7 +82,7 @@ Ember.Handlebars.registerBoundHelper('bound_equals',
 Ember.Handlebars.registerBoundHelper('textInput', 
 	function(defaultValue, options) 
 	{
-		return new Handlebars.SafeString("<input id=\""+options.hash.id+"\" type=\"text\" value=\""+defaultValue+"\"/>");
+		return new Handlebars.SafeString("<input id=\""+options.hash.id+"\" name=\""+options.hash.id+"\" class=\""+options.hash.class+"\" type=\"text\" value=\""+defaultValue+"\"/>");
 	}
 );
 

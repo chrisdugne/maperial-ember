@@ -77,10 +77,11 @@ BoundingBoxDrawer.prototype.tryToRefresh = function(){
 /**
  * Init Fabric on the canvas + set mouse listeners
  */
-BoundingBoxDrawer.prototype.init = function(){
+BoundingBoxDrawer.prototype.init = function(boundingBox){
    
-   console.log("BoundingBoxDrawer.init");
+   console.log("  building BoundingBoxDrawer...");
    this.zoomToFit = null;
+   this.drawingEnabled = false;
    
    //------- if this is still the same drawBoard, just draw again and do not add listeners !!
 
@@ -89,18 +90,20 @@ BoundingBoxDrawer.prototype.init = function(){
 
    //------- init Fabric
 
-   console.log("init Fabric");
    this.drawBoard = new fabric.Canvas("drawBoard"+this.maperial.tagId);
    this.drawBoard.setHeight(this.context.mapCanvas.height());
    this.drawBoard.setWidth(this.context.mapCanvas.width());
 
    //------- startBox
 
-   console.log("newStartBox");
-   this.newStartBox();
+   if($.isEmptyObject(boundingBox)){
+      this.newStartBox();
+   }
+   else{
+      this.forceLatLon(boundingBox.latMin, boundingBox.lonMin, boundingBox.latMax, boundingBox.lonMax)
+   }
 
    //------- placing mouse listeners on this = drawer
-   console.log("mouse listeners");
 
    var drawer = this;
    this.maperial.mapMover.addDrawer(drawer);
@@ -187,6 +190,8 @@ BoundingBoxDrawer.prototype.setInitLatLon = function(){
    this.initLatMax = this.latMax;
    this.initLonMin = this.lonMin;
    this.initLonMax = this.lonMax;
+   
+   $(window).trigger(MaperialEvents.NEW_BOUNDING_BOX, [this.latMin, this.lonMin, this.latMax, this.lonMax]);
 }
 
 BoundingBoxDrawer.prototype.setLatLon = function(latMin, lonMin, latMax, lonMax){
@@ -194,9 +199,18 @@ BoundingBoxDrawer.prototype.setLatLon = function(latMin, lonMin, latMax, lonMax)
    this.latMax = latMax;
    this.lonMin = lonMin;
    this.lonMax = lonMax;
-
+   
    this.centerLat = (this.latMin + this.latMax)/2;
    this.centerLon = (this.lonMin + this.lonMax)/2;
+
+   $(window).trigger(MaperialEvents.NEW_BOUNDING_BOX, [latMin, lonMin, latMax, lonMax]);
+}
+
+BoundingBoxDrawer.prototype.forceLatLon = function(latMin, lonMin, latMax, lonMax){
+   this.setLatLon(latMin, lonMin, latMax, lonMax);
+   this.setInitLatLon();
+   this.zoomToFit = null;
+   this.center();
 }
 
 BoundingBoxDrawer.prototype.resize = function(width, height){
@@ -422,7 +436,7 @@ BoundingBoxDrawer.prototype.refreshLatLon = function(){
    var latMax = topLeftLatLon.y;
    var lonMin = topLeftLatLon.x;
    var lonMax = bottomRightLatLon.x;
-
+   
    this.setLatLon(latMin, lonMin, latMax, lonMax);
 }
 
@@ -439,7 +453,6 @@ BoundingBoxDrawer.prototype.center = function () {
 }
 
 BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
-
    // pour fitToScreen, on teste un nouveau zoom : necessaire de recentrer la carte pour le test
    if(fitToScreen)
       this.maperial.SetCenter(this.centerLat, this.centerLon);
@@ -480,16 +493,18 @@ BoundingBoxDrawer.prototype.setBoundingsForZoom = function (zoom, fitToScreen) {
 //----------------------------------------------------------------------//
 
 BoundingBoxDrawer.prototype.deactivateDrawing = function () {
-   this.drawingEnabled = false;
-   this.draw();
+   try{
+      this.drawingEnabled = false;
+      this.draw();
+   }
+   catch(e){}
 }
 
 BoundingBoxDrawer.prototype.activateDrawing = function () {
-   
-   if(this.zoomToFit && this.context.zoom > this.zoomToFit)
-      this.center();
-   
-   this.drawingEnabled = true;
-   this.draw();
+   try{
+      this.drawingEnabled = true;
+      this.draw();
+   }
+   catch(e){}
 }
 //----------------------------------------------------------------------//
