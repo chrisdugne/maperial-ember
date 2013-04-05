@@ -162,6 +162,7 @@ SourcesManager.prototype.LoadRaster = function ( source, x, y, z ) {
 
       me.errors[requestId] = arrayBuffer != null;
       me.load[requestId]  = true;
+      me.data[requestId]  = arrayBuffer;
       me.maperial.mapRenderer.sourceReady(source, x, y, z);
    };
 
@@ -171,7 +172,8 @@ SourcesManager.prototype.LoadRaster = function ( source, x, y, z ) {
       me.maperial.mapRenderer.sourceReady(source, x, y, z);
    }
 
-   function ajaxTimeout() { me.requests[requestId].abort(); }
+   // TODO opti : quest ce qui est le plus couteux : ce "try catch" + abort systematique ou un "if (requests && !data){abort}" ?
+   function ajaxTimeout() { try{ me.requests[requestId].abort(); }catch(e){} }
    var tm = setTimeout(ajaxTimeout, MapParameters.tileDLTimeOut);
 
    this.requests[requestId].send(null);
@@ -210,7 +212,7 @@ SourcesManager.prototype.getURL = function (source, tx, ty, z) {
          return MapParameters.serverURL + "/api/tile?x="+tx+"&y="+ty+"&z="+z;
    
       case Source.Raster:
-         return MapParameters.serverURL + "/api/tile/"+this.params.rasterUID+"?x="+tx+"&y="+ty+"&z="+z;
+         return MapParameters.serverURL + "/api/tile/"+source.params.rasterUID+"?x="+tx+"&y="+ty+"&z="+z;
    
       case Source.Images:
          var src = null;
