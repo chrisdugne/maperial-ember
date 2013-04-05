@@ -5,7 +5,7 @@ function MapRenderer(maperial) {
 
    console.log("  building map renderer...");
    
-   this.drawSceneInterval;
+   this.drawSceneInterval = null;
    
    this.maperial = maperial;
    this.config = maperial.config;
@@ -77,6 +77,19 @@ MapRenderer.prototype.reset = function () {
       //Reload ALL ???? and Redraw ??
       //renderer.DrawScene (true) 
    });
+
+}
+
+//-------------------------------------------//
+
+MapRenderer.prototype.sourceReady = function ( source, x, y, z ) {
+
+   var key = x + "," + y + "," + z;
+
+   if ( this.tileCache[key] != null ) {
+      this.tileCache[key].appendDataToLayers(source.type, this.maperial.sourcesManager.getData( source, x, y, z ));
+   }
+   
 }
 
 //----------------------------------------------------------------------//
@@ -93,6 +106,7 @@ MapRenderer.prototype.removeListeners = function () {
    $(window).off(MaperialEvents.DATA_SOURCE_CHANGED);
    
    clearInterval(this.drawSceneInterval);
+   this.drawSceneInterval = null;
 }
 
 //----------------------------------------------------------------------//
@@ -108,13 +122,15 @@ MapRenderer.prototype.fitToSize = function () {
 
 MapRenderer.prototype.InitGL = function () {
 
+   console.log("1")
    this.glAsset                           = new Object();
    this.glAsset.ctx                       = this.gl;
    this.context.parameters.assets         = this.glAsset;
    this.glAsset.shaderData                = null;
    this.glAsset.shaderError               = false;
    var me                                 = this.glAsset;
-   
+
+   console.log("2", this.glAsset)
    this.glAsset.ShaderReq  = $.ajax({
       type     : "GET",
       url      : MapParameters.shadersPath + "/all.json",
@@ -131,6 +147,7 @@ MapRenderer.prototype.InitGL = function () {
          console.log ( MapParameters.shadersPath + "/all.json" + " : loading failed : " + textStatus );
       }
    });
+   console.log("3")
 
    var vertices                                       = [ 0.0  , 0.0  , 0.0,     256.0, 0.0  , 0.0,      0.0  , 256.0, 0.0,      256.0, 256.0, 0.0 ];
    this.glAsset.squareVertexPositionBuffer            = this.gl.createBuffer();
@@ -139,6 +156,7 @@ MapRenderer.prototype.InitGL = function () {
    this.glAsset.squareVertexPositionBuffer.itemSize   = 3;
    this.glAsset.squareVertexPositionBuffer.numItems   = 4;
    
+   console.log("4")
    var textureCoords                                  = [ 0.0, 0.0,     1.0, 0.0,      0.0, 1.0,      1.0, 1.0 ]; // Y swap
    this.glAsset.squareVertexTextureBuffer             = this.gl.createBuffer();
    this.gl.bindBuffer   ( this.gl.ARRAY_BUFFER, this.glAsset.squareVertexTextureBuffer );
@@ -146,16 +164,20 @@ MapRenderer.prototype.InitGL = function () {
    this.glAsset.squareVertexTextureBuffer.itemSize    = 2;
    this.glAsset.squareVertexTextureBuffer.numItems    = 4;
 
+   console.log("5")
    this.gl.clearColor   ( 1.0, 1.0, 1.0, 1.0  );
    this.gl.disable      ( this.gl.DEPTH_TEST  );
 
+   console.log("7")
    this.glAsset.prog = {}
    
+   console.log("8")
    this.glAsset.prog["Tex"]                     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentTex"         , this.glAsset); 
    this.glAsset.prog["Clut"]                    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentClut"        , this.glAsset);
    this.glAsset.prog[MapParameters.MulBlend]     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"    , this.glAsset);
    this.glAsset.prog[MapParameters.AlphaClip]    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"   , this.glAsset);
    this.glAsset.prog[MapParameters.AlphaBlend]   = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"  , this.glAsset);
+   console.log("9")
    
    // Check good init !
    // ....
@@ -202,7 +224,7 @@ MapRenderer.prototype.BuildColorBar = function () {
 MapRenderer.prototype.Start = function () {
 
    console.log("  starting rendering...");
-   
+
    try {
       this.gl = this.context.mapCanvas[0].getContext("experimental-webgl");
       this.fitToSize();
@@ -211,7 +233,7 @@ MapRenderer.prototype.Start = function () {
       console.log("Could not initialise WebGL")
       return false;
    }
-   
+
    this.gltools = new GLTools ()
    this.InitGL()
 
@@ -221,6 +243,7 @@ MapRenderer.prototype.Start = function () {
    }
    
    this.DrawScene();
+   if(this.drawSceneInterval)console.log("drawscene already BOUND with setInterval ! ")
    this.drawSceneInterval = setInterval( Utils.apply ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
    return true;
 } 
@@ -235,7 +258,7 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
          var key = tx + "," + ty + "," + zoom;
          keyList.push(key) 
          if ( this.tileCache[key] == null ) {
-            this.tileCache[key]  = new Tile ( this.context, this.config, tx, ty, zoom);
+            this.tileCache[key]  = new Tile ( this.maperial, tx, ty, zoom);
          }
       }
    }

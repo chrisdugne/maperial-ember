@@ -1,24 +1,20 @@
 
-function Tile (context, config, x, y, z) {
+function Tile (maperial, x, y, z) {
 
    //--------------------------------//
 
-   this.context = context;
-   this.config = config;
+   this.maperial = maperial;
+   this.context = maperial.context;
+   this.config = maperial.config;
 
    this.x         = x;
    this.y         = y;
    this.z         = z;
-
-   this.assets       = context.parameters.assets;
-   this.gl           = context.parameters.assets.ctx;
-   this.error        = false;
-
+   
    this.layers    = {};
-   this.data      = {};
-   this.requests  = {};
-   this.load      = {};
-   this.errors    = {};
+
+   this.assets       = this.context.parameters.assets;
+   this.gl           = this.context.parameters.assets.ctx;
 
    // preparing double buffering to render as texture !
    this.frameBufferL = [];
@@ -34,7 +30,7 @@ function Tile (context, config, x, y, z) {
 
 Tile.prototype.Init = function () {
    this.initLayers();
-   this.loadSources();
+   this.maperial.sourcesManager.loadSources(this.x, this.y, this.z);
    this.prepareBuffering();
 }
 
@@ -45,51 +41,22 @@ Tile.prototype.initLayers = function () {
    for(var i = 0; i< this.config.layers.length; i++){
 
       switch(this.config.layers[i].type){
-
-      case LayersManager.Vector:
-         this.layers[i] = new VectorialLayer ( this.context.parameters , this.z);
-         break;
-
-      case LayersManager.Raster:
-         this.layers[i] = new RasterLayer    ( this.context.parameters , this.z);
-         break;
-
-      case LayersManager.Images:
-         this.layers[i] = new ImageLayer     ( this.context.parameters , this.z);
-         break;
-         
+   
+         case LayersManager.Vector:
+            this.layers[i] = new VectorialLayer ( this.context.parameters , this.z);
+            break;
+   
+         case LayersManager.Raster:
+            this.layers[i] = new RasterLayer    ( this.context.parameters , this.z);
+            break;
+   
+         case LayersManager.Images:
+            this.layers[i] = new ImageLayer     ( this.context.parameters , this.z);
+            break;
+            
       }
       
    }
-}
-
-//----------------------------------------------------------------------------------------------------------------------//
-
-Tile.prototype.loadSources = function () {
-
-   for(var i = 0; i< this.context.parameters.sources.length; i++){
-
-      var source = this.context.parameters.sources[i];
-
-      if (this.requests[source.type])
-         return false;
-
-      switch(source.type){
-
-      case Source.MaperialOSM:
-         this.LoadVectorial ( source );
-         break;
-
-      case Source.Raster:
-         this.LoadRaster ( source );
-         break;
-
-      case Source.Images:
-         this.LoadImage ( source );
-         break;
-      }
-   }
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
@@ -110,23 +77,18 @@ Tile.prototype.Release = function() {
    for(var i = 0; i< this.context.parameters.sources.length; i++){
 
       var source = this.context.parameters.sources[i];
-
-      if (this.requests[source.type])
-         this.requests[source.type].abort();
-
+      this.maperial.sourcesManager.release(source, this.x, this.y, this.z);
+      
       for(var j = 0; j< this.config.layers.length; j++){
          if ( this.config.layers[j].source.type == source.type )
             this.layers[j].Release();
       } 
-
-      delete this.data[source.type];
-
-      var gl = this.gl;
-      for ( var i = 0 ; i < 2 ; i = i + 1 ) {
-         gl.deleteFramebuffer ( this.frameBufferL[i] );
-         gl.deleteTexture     ( this.texL[i] );
-      }
-
+   }
+   
+   var gl = this.gl;
+   for ( var i = 0 ; i < 2 ; i = i + 1 ) {
+      gl.deleteFramebuffer ( this.frameBufferL[i] );
+      gl.deleteTexture     ( this.texL[i] );
    }
 }
 
@@ -142,123 +104,8 @@ Tile.prototype.Reset = function ( ) {
    }
 }
 
-//----------------------------------------------------------------------------------------------------------------------//
-
-Tile.prototype.IsLoaded = function ( ) {
-
-
-   for(var i = 0; i< this.context.parameters.sources.length; i++){
-      var source = this.context.parameters.sources[i];
-
-      if (!this.load[source.type])
-         return false;
-   }
-
-   return true;
-}
-
 Tile.prototype.IsUpToDate = function ( ) {
    return this.tex;
-}
-
-//----------------------------------------------------------------------------------------------------------------------//
-
-Tile.prototype.LoadVectorial = function ( source ) {
-   var me = this;
-   this.requests[source.type] = $.ajax({
-      type     : "GET",
-      url      : source.getURL(this.x, this.y, this.z),
-      dataType : "json",  
-      timeout  : MapParameters.tileDLTimeOut,
-      success  : function(data, textStatus, jqXHR) {
-         if ( ! data ) {
-            me.error[source.type] = true;
-         }
-         else {
-            me.data[source.type] = data;
-         }
-
-         me.appendDataToLayers(source.type, data);
-         me.load[source.type] = true;
-      },
-      error : function(jqXHR, textStatus, errorThrown) {
-         me.error[source.type]   = true;
-         me.load[source.type]    = true;
-         me.appendDataToLayers(source.type, null);
-      }
-   });
-}
-
-//----------------------------------------------------------------------------------------------------------------------//
-
-Tile.prototype.LoadImage = function ( source ) {
-   var url                    = source.getURL(this.x, this.y, this.z);
-   var me                     = this;   
-   this.requests[source.type] = new Image();
-      
-   this.requests[source.type].onload = function (oEvent) {      
-      var img = me.requests[source.type]
-      me.error[source.type] = false;
-      me.load[source.type]  = true;
-      me.appendDataToLayers(source.type, img);
-   };
-
-   this.requests[source.type].onerror = function (oEvent) {
-      me.error[source.type] = true;
-      me.load[source.type]  = true;
-      me.appendDataToLayers(source.type, null);
-   }
-   this.requests[source.type].abort = function () {
-      this.src = ''
-   }
-
-   function ajaxTimeout() { me.requests[source.type].abort(); }
-   var tm = setTimeout(ajaxTimeout,MapParameters.tileDLTimeOut);
-   
-   //http://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
-   this.requests[source.type].crossOrigin = ''; // no credentials flag. Same as img.crossOrigin='anonymous'
-   
-   
-   this.requests[source.type].src = url;
-}
-
-//----------------------------------------------------------------------------------------------------------------------//
-
-Tile.prototype.LoadRaster = function ( source ) {
-   if ( ! source.getURL(this.x, this.y, this.z) ) {
-      this.error[source.type] = true;
-      this.load[source.type] = true;
-      return ;
-   }
-
-   // https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data
-   // JQuery can not use XMLHttpRequest V2 (binary data)
-   var me = this;   
-   this.requests[source.type] = new XMLHttpRequest();
-   this.requests[source.type].open ("GET", source.getURL(this.x, this.y, this.z), true);
-   this.requests[source.type].responseType = "arraybuffer";
-
-   this.requests[source.type].onload = function (oEvent) {      
-      var arrayBuffer = me.requests[source.type].response;  // Note: not this.requests[source.type].responseText
-      if (arrayBuffer && ( me.requests[source.type].status != 200 || arrayBuffer.byteLength <= 0 )) {
-         arrayBuffer = null;
-      }
-
-      me.error[source.type] = arrayBuffer != null;
-      me.load[source.type]  = true;
-      me.appendDataToLayers(source.type, arrayBuffer);
-   };
-
-   this.requests[source.type].onerror = function (oEvent) {
-      me.error[source.type] = true;
-      me.load[source.type]  = true;
-      me.appendDataToLayers(source.type, null);
-   }
-
-   function ajaxTimeout() { me.requests[source.type].abort(); }
-   var tm = setTimeout(ajaxTimeout,MapParameters.tileDLTimeOut);
-
-   this.requests[source.type].send(null);
 }
 
 //----------------------------------------------------------------------------------------------------------------------//
@@ -305,7 +152,8 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) 
       if(this.config.layers[i].source.type != Source.MaperialOSM)
          continue;
 
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , this.data[Source.MaperialOSM] , zoom, styleContent, i, this.context.osmVisibilities );
+      var data = this.maperial.sourcesManager.getData(this.config.layers[i].source, this.x, this.y, this.z);
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , data , zoom, styleContent, i, this.context.osmVisibilities );
 
       if(subLayerId)
          return subLayerId;
@@ -464,6 +312,12 @@ Tile.prototype.Compose = function (  ) {
       this.Copy (backTex,destFb);
       this.tex = this.texL[0];
    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------//
+
+Tile.prototype.IsLoaded = function () {
+   return this.maperial.sourcesManager.isTileLoaded(this.x, this.y, this.z);
 }
 
 //----------------------------------------------------------------------------------------------------------------------//

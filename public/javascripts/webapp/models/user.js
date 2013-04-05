@@ -18,6 +18,8 @@
 		//---------------------------//
 		
 		isCreatingANewMap:false,
+		isViewingAMap:false,
+		isExportingAMap:false,
 		selectedMap:null,
 	});
 	

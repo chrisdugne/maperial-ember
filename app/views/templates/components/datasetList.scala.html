@@ -1,11 +1,11 @@
 @import views.html.popups.configureRasterWindow; 
 @import views.html.popups.editDatasetWindow; 
 
-<div class="row-fluid">
+<div class="row-fluid marginbottom">
 	
 	{{bound_equals datasetsData.nbfilesCurrentlyUploading value='0'
 		yes=''
-		no='<div class="row-fluid datasetTitle">
+		no='<div class="row-fluid marginbottom datasetTitle">
 				<div class="span3 offset2 name">
 					<p class="datasetFileName">Uploading...</p>
 				</div>
@@ -15,7 +15,7 @@
 	{{#each data in datasetsData.filesUploading}} 
 		{{#with data}}
 			{{#if data.isUploading}} 
-			<div class="row-fluid">
+			<div class="row-fluid marginbottom">
 				<div class="span3 offset2 name">
 					<p class="filename">{{fileName data}}</p>
 				</div>
@@ -27,7 +27,7 @@
 	
 	
 	{{#each dataset in user.datasets}}
-		<div class="row-fluid datasetTitle">
+		<div class="row-fluid marginbottom datasetTitle">
 			<div class="span3 name">
 				<p class="datasetFileName">{{dataset.name}}</p>
 			</div>
@@ -66,7 +66,7 @@
 		{{#if dataset.onError}}
 		{{else}}
 			{{#each raster in dataset.rasters}}
-				<div class="row-fluid">
+				<div class="row-fluid marginbottom">
 					{{#if raster.onError}}
 						<div class="span2 offset2">
 							<span class="label label-important">Raster Error</span>
@@ -100,10 +100,10 @@
 				</div>
 			{{/each}} 
 			{{bound_equals dataset.rasters.length value='0'
-				yes='<div class="row-fluid"><div>(No raster)</div></div>'
+				yes='<div class="row-fluid marginbottom"><div>(No raster)</div></div>'
 				no=''
 			}}
-			<div class="row-fluid">
+			<div class="row-fluid marginbottom">
 				<button {{action openConfigureRasterWindow dataset}} class="btn-small btn-success">
 					<i class="icon-plus icon-white"></i>
 				</button>

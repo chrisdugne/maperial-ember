@@ -19,6 +19,22 @@ function VectorialLayer ( mapParameters, inZoom ) {
    this.layerCount = 0;
 }
 
+VectorialLayer.prototype.AllocCanvas = function ( ) {
+   this.cnv             = document.createElement("canvas");
+   this.cnv.height      = MapParameters.tileSize ;
+   this.cnv.width       = MapParameters.tileSize ;
+   this.ctx             = this.cnv.getContext("2d");
+   ExtendCanvasContext  ( this.ctx );
+   this.ctx.globalCompositeOperation="source-over";
+
+   // Clear ...
+   this.ctx.beginPath   (  );
+   this.ctx.rect        ( 0,0,this.cnv.width,this.cnv.height );
+   this.ctx.closePath   (  );
+   this.ctx.fillStyle    = 'rgba(255,255,255,0.0)';
+   this.ctx.fill        (  );
+}
+
 VectorialLayer.prototype.GetType = function ( ) {
    return LayersManager.Vector;
 }
@@ -31,46 +47,23 @@ VectorialLayer.prototype.Init = function ( data ) {
    var gl      = this.gl;
    
    if (data) {
-      this.tex             = gl.createTexture();
-      this.cnv             = document.createElement("canvas");
-      this.cnv.height      = MapParameters.tileSize ;
-      this.cnv.width       = MapParameters.tileSize ;
-      this.ctx             = this.cnv.getContext("2d");
-      ExtendCanvasContext  ( this.ctx );
-      this.ctx.globalCompositeOperation="source-over";
-
-      // Clear ...
-      this.ctx.beginPath   (  );
-      this.ctx.rect        ( 0,0,this.cnv.width,this.cnv.height );
-      this.ctx.closePath   (  );
-      this.ctx.fillStyle    = 'rgba(255,255,255,0.0)';
-      this.ctx.fill        (  );
-   }
-   else { // create fake !
-      this.tex             = gl.createTexture();
-      this.layerCount      = null;
-      gl.bindTexture       ( gl.TEXTURE_2D           , this.tex     );
-      gl.pixelStorei       ( gl.UNPACK_FLIP_Y_WEBGL  , false        );
-      var byteArray        = new Uint8Array        ( [1,1,1,0 , 1,1,1,0 , 1,1,1,0 , 1,1,1,0] );
-      gl.texImage2D        ( gl.TEXTURE_2D           , 0                           , gl.RGBA, 2 , 2, 0, gl.RGBA, gl.UNSIGNED_BYTE, byteArray)
-      gl.texParameteri     ( gl.TEXTURE_2D           , gl.TEXTURE_MAG_FILTER  , gl.NEAREST );
-      gl.texParameteri     ( gl.TEXTURE_2D           , gl.TEXTURE_MIN_FILTER  , gl.NEAREST );
-      gl.bindTexture       ( gl.TEXTURE_2D           , null         );
+      this.AllocCanvas();
    }
 }
 
 VectorialLayer.prototype.Reset = function (  ) {
    var gl            = this.gl;
    this.layerCount   = 0
-   delete this.cnv;
-   this.cnv          = document.createElement("canvas");
-   this.cnv.height   = MapParameters.tileSize;
-   this.cnv.width    = MapParameters.tileSize;
-   this.ctx          = this.cnv.getContext("2d");
-   ExtendCanvasContext ( this.ctx );
-   this.ctx.globalCompositeOperation="source-over";
-   this.ctx.beginPath();
-   this.ctx.closePath();
+   if (this.cnv) {
+      delete this.cnv;
+      this.cnv          = null;
+      this.AllocCanvas ( );
+   }
+   if (this.tex) {
+      gl.deleteTexture ( this.tex );
+      delete this.tex;
+      this.tex = null;
+   }
 }
 
 VectorialLayer.prototype.Release = function (  ) {
@@ -78,7 +71,7 @@ VectorialLayer.prototype.Release = function (  ) {
    if (this.tex) {
       gl.deleteTexture ( this.tex );
       delete this.tex;
-      this.tex = 0;
+      this.tex = null;
    }
    if (this.cnv) {
       delete this.cnv;
@@ -91,6 +84,23 @@ VectorialLayer.prototype.IsUpToDate = function ( ) {
 }
 
 VectorialLayer.prototype.Update = function ( params, layerPosition ) {
+   if (this.tex == null ) {
+      if (this.data) {
+         this.tex             = gl.createTexture();
+      }
+      else { // create fake !
+         this.tex             = gl.createTexture();
+         this.layerCount      = null;
+         gl.bindTexture       ( gl.TEXTURE_2D           , this.tex     );
+         gl.pixelStorei       ( gl.UNPACK_FLIP_Y_WEBGL  , false        );
+         var byteArray        = new Uint8Array        ( [1,1,1,0 , 1,1,1,0 , 1,1,1,0 , 1,1,1,0] );
+         gl.texImage2D        ( gl.TEXTURE_2D           , 0                           , gl.RGBA, 2 , 2, 0, gl.RGBA, gl.UNSIGNED_BYTE, byteArray)
+         gl.texParameteri     ( gl.TEXTURE_2D           , gl.TEXTURE_MAG_FILTER  , gl.NEAREST );
+         gl.texParameteri     ( gl.TEXTURE_2D           , gl.TEXTURE_MIN_FILTER  , gl.NEAREST );
+         gl.bindTexture       ( gl.TEXTURE_2D           , null         );
+         return 2;
+      }
+   }
 
    var osmVisibilities = this.mapParameters.maperial.context.osmVisibilities;
    var styleUID   = params.styles[params.selectedStyle];
@@ -98,8 +108,9 @@ VectorialLayer.prototype.Update = function ( params, layerPosition ) {
 
    if ( ! style ) {
       console.log ( "Invalid style");
-      this.layerCount = 0;
+      this.layerCount = null;
       this._BuildTexture();
+      return 2;
    }
    var rendererStatus   = TileRenderer.RenderLayers (osmVisibilities, layerPosition,  this.ctx , this.data , this.z , style , this.layerCount ) ;
 

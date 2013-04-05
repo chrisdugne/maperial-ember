@@ -5,7 +5,7 @@
 		{{else}}
 			{{#if hasNoRaster}}
 			{{else}}
-				<div class="row-fluid datasetTitle">
+				<div class="row-fluid marginbottom datasetTitle">
 					<div class="span7 offset1 name">
 						<p class="datasetFileName">{{name}}</p>
 					</div>
@@ -13,7 +13,7 @@
 				
 				{{#each raster in dataset.rasters}}
 					{{#with raster}}
-						<div class="row-fluid">
+						<div class="row-fluid marginbottom">
 						{{#if onError}}
 							<div class="span3 offset1">
 								<span class="label label-important">Raster Error</span>

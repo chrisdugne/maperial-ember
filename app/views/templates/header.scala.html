@@ -42,22 +42,30 @@
 				{{else}}
 					<h1>{{user.selectedMap.name}}</h1>
 				{{/if}}
-				<div class="wizardStepper">
-					<div class="span2">
-						{{#if App.Globals.isViewLayerCreation}}
-						<h3>1 - Build the layers</h3>
-						{{else}}
-						<h4>1 - Build the layers</h4>
-						{{/if}}
-					</div>
-					<div class="span2">
-						{{#if App.Globals.isViewSettings}}
-						<h3>2 - Settings</h3>
-						{{else}}
-						<h4>2 - Settings</h4>
-						{{/if}}
-					</div>
-				</div>
+				{{#if user.isViewingAMap}}
+					<p class="marketing-byline">(final view)</p>
+				{{else}}
+					{{#if user.isExportingAMap}}
+						<p class="marketing-byline">(export)</p>
+					{{else}}
+						<div class="wizardStepper">
+							<div class="span2">
+								{{#if App.Globals.isViewLayerCreation}}
+								<h3>1 - Build the layers</h3>
+								{{else}}
+								<h4>1 - Build the layers</h4>
+								{{/if}}
+							</div>
+							<div class="span2">
+								{{#if App.Globals.isViewSettings}}
+								<h3>2 - Settings</h3>
+								{{else}}
+								<h4>2 - Settings</h4>
+								{{/if}}
+							</div>
+						</div>
+					{{/if}}
+				{{/if}}
 			{{/if}}
 	
 			{{bound_equals App.Globals.currentPage value='styleEditor'

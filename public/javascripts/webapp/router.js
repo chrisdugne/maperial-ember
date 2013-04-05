@@ -29,6 +29,7 @@
 			fonts: App.FontsRouting,
 			icons: App.IconsRouting,
 
+			viewMap: App.ViewMapRouting,
 			mapCreation: App.MapCreationRouting
 		})
 	})

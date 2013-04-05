@@ -175,3 +175,12 @@ Ember.Handlebars.registerBoundHelper('isset',
 );
 
 //---------------------------------------------------------------------------------------//
+
+/**
+ *
+ */
+Ember.Handlebars.registerBoundHelper('maperialtag', 
+   function(mapUID, options) {
+      return new Handlebars.SafeString("<textarea id=\"maperialTag\"><maperial uid=\""+mapUID+"\"/></textarea>");
+   }
+);

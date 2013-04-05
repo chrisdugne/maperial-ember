@@ -3,6 +3,7 @@
 @import views.html.templates.pages.dashboard.styles;
 @import views.html.templates.pages.dashboard.maps;
 @import views.html.templates.pages.dashboard.colorbars;
+@import views.html.popups.exportMapWindow; 
 
 <div id="userDisplay" class="googleUser">{{user.email}}</div>
 
@@ -28,5 +29,7 @@
 		 -->
 	</div>
 </div>
+
+@exportMapWindow()
 
 

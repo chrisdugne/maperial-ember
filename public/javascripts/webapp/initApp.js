@@ -93,29 +93,44 @@
       
       window.scriptLoader.getScripts(scripts, function(){
 
+         //-------------------------------------//
+         
          App.Globals.shaders.push(MapParameters.AlphaClip);
          App.Globals.shaders.push(MapParameters.AlphaBlend);
          App.Globals.shaders.push(MapParameters.MulBlend);
+
+         //-------------------------------------//
          
          $(window).on(MaperialEvents.LOADING, function(){
-            console.log("maperial is LOADING");
             App.user.set("waiting", true);
          });
          
          $(window).on(MaperialEvents.READY, function(){
             App.placeFooter(true);
             App.user.set("waiting", false);
-            console.log("maperial is READY");
          });
+
+         //-------------------------------------//
          
          App.maperial = new Maperial();
-         App.get('router').transitionTo(nextPage);
 
+         //-------------------------------------//
+
+         App.get('router').transitionTo(nextPage);
          App.user.set("waiting", false);
       });
    }
 
    //------------------------------------------------------//
+   
+   App.addMargins = function(config) {
+      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
+      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+   }
 
+   App.removeMargins = function(config) {
+      delete config.hud.options["margin-top"];
+      delete config.hud.options["margin-bottom"];
+   }
 
 })( this );

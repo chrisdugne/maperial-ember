@@ -327,6 +327,7 @@
    MapCreationController.openSettings = function(){
       MapCreationController.wizardSetView(MapCreationController.SETTINGS);
       App.maperial.apply(MapCreationController.getSettingsConfig());
+      MapCreationController.buildZoomSlider();
    }
 
    MapCreationController.backToLayers = function(){
@@ -344,6 +345,30 @@
 
    }
 
+   //------------------------------------------------------------------//
+   
+   MapCreationController.buildZoomSlider = function()
+   {
+      if(!App.user.selectedMap.config.map.defaultZoom)
+         App.user.set("selectedMap.config.map.defaultZoom", 12);
+         
+      $("#zoomSelector").slider({
+         range: "min",
+         min: 1,
+         max: 18,
+         value: App.user.selectedMap.config.map.defaultZoom,
+         slide: function( event, ui ) {
+            $("#zoomSelector a").html(ui.value);
+         },
+         change: function( event, ui ) {
+            App.user.set("selectedMap.config.map.defaultZoom", parseInt(ui.value));
+         }
+       });
+      
+      $("#zoomSelector a").html(App.user.selectedMap.config.map.defaultZoom);
+      Utils.buildSliderStyle("zoomSelector");      
+   }
+   
    //------------------------------------------------------------------//
    
    MapCreationController.editBoundingBox = function(){

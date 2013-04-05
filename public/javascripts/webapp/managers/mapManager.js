@@ -165,4 +165,8 @@ MapManager.prototype.deleteMap = function(map)
    });
 }
 
-//-------------------------------------------//
+//=================================================================//
+
+MapManager.prototype.exportMap = function(zoom){
+   console.log("exportMap", zoom, App.user.selectedMap.config.map);
+}

@@ -5,7 +5,7 @@
    	<!--  -------------       Header      ---------------- -->
     
     <br/>
-    <div class="row-fluid">
+    <div class="row-fluid marginbottom">
     
 	<br/>
         <div class="span3">
@@ -29,10 +29,10 @@
  
    	<!--  -------------       Content      ---------------- -->
    	
-   	<div class="row-fluid styleList">
+   	<div class="row-fluid marginbottom styleList">
 		{{#each style in styles}}
 			{{#with style}}
-				<div {{action selectStyle this}} class="row-fluid">
+				<div {{action selectStyle this}} class="row-fluid marginbottom">
 				    <div class="span2 name"><p class="filename">{{name}}</p></div>
 				   	<a class="offset3">{{stylethumb uid}}</a>
 				</div>
@@ -40,7 +40,7 @@
 		{{/each}}
 	</div>
 	
-    <div id="selectedStyleArea" class="row-fluid">
+    <div id="selectedStyleArea" class="row-fluid marginbottom">
 	    {{isset stylesData.selectedStyle
 	      yes='<div class="span6">
 	      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(App.stylesData.selectedStyle.uid)}"></img>

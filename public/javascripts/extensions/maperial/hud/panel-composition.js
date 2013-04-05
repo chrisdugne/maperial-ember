@@ -68,7 +68,6 @@ HUD.prototype.refreshCompositionsPanel = function() {
       // init selectbox value
       $("#"+shadersSelectionId).selectbox('change', "", composition.shader);
 
-
       if(composition.shader == MapParameters.MulBlend){
 
          //-----------------------------------------------------//
@@ -78,10 +77,10 @@ HUD.prototype.refreshCompositionsPanel = function() {
          var brightnessId = "mulblend_brightness_"+l;
          var bwId = "mulblend_bw_"+l;
 
-         var div = "<div class=\"row-fluid\">" +
-         "<div class=\"span1 offset4\"><div class=\"mulblendSlider\" id="+constrastId+"></div></div>" +
-         "<div class=\"span1 offset1\"><div class=\"mulblendSlider\" id="+brightnessId+"></div></div>" +
-         "<div class=\"span1 offset1\"><div class=\"mulblendSlider\" id="+bwId+"></div></div>" +
+         var div = "<div class=\"row-fluid marginbottom\">" +
+         "<div class=\"span1 offset4\"><i class=\"sprite-maperial maperial-contrast\"></i><div class=\"mulblendSlider\" id="+constrastId+"></div></div>" +
+         "<div class=\"span1 offset1\"><i class=\"sprite-maperial maperial-brightness\"></i><div class=\"mulblendSlider\" id="+brightnessId+"></div></div>" +
+         "<div class=\"span1 offset1\"><i class=\"icon-white icon-cog\"></i><div class=\"mulblendSlider\" id="+bwId+"></div></div>" +
          "</div>";
 
          this.element(HUD.COMPOSITIONS).append(div);
@@ -97,9 +96,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
             step: 0.01,
             value: composition.params.uParams[0],
             slide: function(constrastId){
-               return function( event, ui ) {
-                  $("#"+constrastId+" a").html(ui.value);
-               }
+               //-----
             }(constrastId),
             change: function(constrastId, composition){
                return function( event, ui ) {
@@ -120,9 +117,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
             step: 0.01,
             value: composition.params.uParams[1],
             slide: function(brightnessId){
-               return function( event, ui ) {
-                  $("#"+brightnessId+" a").html(ui.value);
-               }
+               //-----
             }(brightnessId),
             change: function(brightnessId, composition){
                return function( event, ui ) {
@@ -140,9 +135,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
             step: 1,
             value: composition.params.uParams[2],
             slide: function(bwId){
-               return function( event, ui ) {
-                  $("#"+bwId+" a").html(ui.value);
-               }
+               //-----
             }(bwId),
             change: function(bwId, composition){
                return function( event, ui ) {
@@ -152,7 +145,11 @@ HUD.prototype.refreshCompositionsPanel = function() {
             }(bwId, composition)
          });
 
-         panelHeight += 120;
+         panelHeight += 135;
+         
+         Utils.buildSliderStyle(constrastId);
+         Utils.buildSliderStyle(brightnessId);
+         Utils.buildSliderStyle(bwId);
       }
       //-----------------------------------------------------//
 

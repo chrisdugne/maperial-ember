@@ -1,0 +1,36 @@
+@import views.html.templates.components.sublayerVisibilities;
+
+<div id="exportMapWindow"
+	class="modal hide fade" role="dialog">
+
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer" data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i></a>
+	
+	<br />
+	<div class="row-fluid">
+		<div class="span5 offset1">
+ 			<p class="popuptitle">Export</p>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div id="exportArea">
+			<div class="span5 offset2" id="zoomSelector"></div>
+			<div class="btn-success btn-small span1 offset2" title="Export" {{action exportMap}}><i class="sprite-maperial maperial-map-go"></i></div>
+		</div>
+		{{#if App.user.selectedMap.config.map.latMin}}
+		{{else}}
+			<div class="offset2"> (You must choose a bounding box in order to export this map)</div>
+		{{/if}}
+	</div>
+		
+	<br />
+	<div class="row-fluid">
+		<div class="span5 offset1">
+			<p class="popuptitle">Tag</p>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="offset2">{{maperialtag App.user.selectedMap.uid}}</div>
+	</div>
+
+	<br />
+</div>

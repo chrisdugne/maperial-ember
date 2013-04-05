@@ -6,27 +6,22 @@ function Maperial(tagId, width, height){
    this.width = width;
    this.height = height;
 
-   this.config;
-   this.context;
+   this.config = null;
+   this.context = null;
 
-   this.mapRenderer;
-   this.mapMover;
-   this.mapMouse;
-   this.hud;
+   this.mapRenderer = null;
+   this.mapMover = null;
+   this.mapMouse = null;
+   this.hud = null;
 
-   this.stylesManager = new StylesManager(this);
-   this.layersManager = new LayersManager(this);
+//   this.stylesManager = new StylesManager(this);
+//   this.layersManager = new LayersManager(this);
+//   this.sourcesManager = new SourcesManager(this);
 
-   this.styleMenu;
+   this.styleMenu = null;
 
    this.templateBuilder = new TemplateBuilder();
 };
-
-//==================================================================//
-//doit  etre mis dans this.map.config : 
-
-//this.boundingBoxStartLat = boundingBoxStartLat;
-//this.boundingBoxStartLon = boundingBoxStartLon;
 
 //==================================================================//
 
@@ -67,8 +62,13 @@ Maperial.prototype.reset = function(){
       this.styleMenu.removeListeners();
    }catch(e){}
 
+   try{
+      this.sourcesManager.releaseEverything();
+   }catch(e){}
+   
    this.stylesManager = new StylesManager(this);
    this.layersManager = new LayersManager(this);
+   this.sourcesManager = new SourcesManager(this);
 
    console.log("stylesCache : ", window.maperialStyles);
 }
@@ -159,7 +159,6 @@ Maperial.prototype.createContext = function() {
 
       this.context = {};
       this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
-      this.context.zoom       = MapParameters.DEFAULT_ZOOM;
    }
    else
       console.log("reset context...");
@@ -169,6 +168,7 @@ Maperial.prototype.createContext = function() {
    this.context.centerM    = this.context.coordS.LatLonToMeters( this.startLatitude() , this.startLongitude() );
    this.context.mouseM     = this.context.centerM;     // Mouse coordinates in meters
    this.context.mouseP     = null;                     // Mouse coordinates inside the canvas
+   this.context.zoom       = this.startZoom();
 
    //----------------------------------------------------------
    // set new divs (ember erase and build new divs)
@@ -196,6 +196,13 @@ Maperial.prototype.startLongitude = function() {
       return (this.config.map.lonMin + this.config.map.lonMax)/2;
    else
       return MapParameters.DEFAULT_LONGITUDE;
+}
+
+Maperial.prototype.startZoom = function() {
+   if(this.config.map.defaultZoom)
+      return this.config.map.defaultZoom;
+   else
+      return MapParameters.DEFAULT_ZOOM;
 }
 
 //==================================================================//

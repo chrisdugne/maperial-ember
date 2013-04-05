@@ -65,9 +65,6 @@
       config.hud.elements[HUD.ZOOMS]         = {show : false, type : HUD.PANEL,  label : "Zooms" };
       config.hud.elements[HUD.MAGNIFIER]     = {show : true,  type : HUD.PANEL,  label : "Magnifier" };
 
-      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
-      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
-
       config.layers = 
          [{ 
             type: LayersManager.Vector, 

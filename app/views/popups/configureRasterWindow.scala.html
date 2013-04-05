@@ -20,12 +20,12 @@
 
 	<div id="rasterErrorArea"></div>
 
-	<div class="row-fluid">
+	<div class="row-fluid marginbottom">
 		@rasterParam("X", "{{action selectX selectedColumn}}", "x")
 		@rasterParam("Y", "{{action selectY selectedColumn}}", "y")
 	</div>
 		
-	<div class="row-fluid">
+	<div class="row-fluid marginbottom">
 		@rasterParam("Data", "{{action selectV selectedColumn}}", "v")
 		<div>
 		  <div class="paramName span1">Epsg: </div>
@@ -33,7 +33,7 @@
 		</div>
 	</div>
 
-	<div class="row-fluid">
+	<div class="row-fluid marginbottom">
 		Zoom ( {{datasetsData.rasterBeingConfigured.zMin}} <i class="icon-arrow-right"></i> {{datasetsData.rasterBeingConfigured.zMax}} )
 	</div>
 

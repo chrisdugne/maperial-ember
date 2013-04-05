@@ -7,8 +7,11 @@
 			        <td colspan="3">{{mapthumb map.config.layers}}</td>
 			        <td><p class="filename">{{map.name}}</p></td>
 
-			        <td><div class="btn-small btn-success touchable" {{action editMap map}} ><i class="icon-edit icon-white"></i></div></td>
-			        <td><div class="btn-small btn-danger touchable" {{action deleteMap map}} ><i class="icon-trash icon-white"></i></div></td>
+		        	<td><div class="btn-small btn-success touchable" title="Export" {{action openExportWindow map}} ><i class="sprite-maperial maperial-arrow-down"></i></div></td>
+			        <td><div class="btn-small btn-success touchable" title="Edit" {{action editMap map}} ><i class="sprite-maperial maperial-map-edit"></i></div></td>
+			        <td><div class="btn-small btn-success touchable" title="View" {{action viewMap map}} ><i class="sprite-maperial maperial-map-go"></i></div></td>
+			        <td><div class="btn-small btn-danger touchable" title="Delete" {{action deleteMap map}} ><i class="sprite-maperial maperial-map-delete"></i></div></td>
+					
 			    </tr>
 		    {{/each}}
 	    </tbody>
