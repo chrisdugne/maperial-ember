@@ -122,7 +122,6 @@ MapRenderer.prototype.fitToSize = function () {
 
 MapRenderer.prototype.InitGL = function () {
 
-   console.log("1")
    this.glAsset                           = new Object();
    this.glAsset.ctx                       = this.gl;
    this.context.parameters.assets         = this.glAsset;
@@ -130,7 +129,6 @@ MapRenderer.prototype.InitGL = function () {
    this.glAsset.shaderError               = false;
    var me                                 = this.glAsset;
 
-   console.log("2", this.glAsset)
    this.glAsset.ShaderReq  = $.ajax({
       type     : "GET",
       url      : MapParameters.shadersPath + "/all.json",
@@ -147,7 +145,6 @@ MapRenderer.prototype.InitGL = function () {
          console.log ( MapParameters.shadersPath + "/all.json" + " : loading failed : " + textStatus );
       }
    });
-   console.log("3")
 
    var vertices                                       = [ 0.0  , 0.0  , 0.0,     256.0, 0.0  , 0.0,      0.0  , 256.0, 0.0,      256.0, 256.0, 0.0 ];
    this.glAsset.squareVertexPositionBuffer            = this.gl.createBuffer();
@@ -156,7 +153,6 @@ MapRenderer.prototype.InitGL = function () {
    this.glAsset.squareVertexPositionBuffer.itemSize   = 3;
    this.glAsset.squareVertexPositionBuffer.numItems   = 4;
    
-   console.log("4")
    var textureCoords                                  = [ 0.0, 0.0,     1.0, 0.0,      0.0, 1.0,      1.0, 1.0 ]; // Y swap
    this.glAsset.squareVertexTextureBuffer             = this.gl.createBuffer();
    this.gl.bindBuffer   ( this.gl.ARRAY_BUFFER, this.glAsset.squareVertexTextureBuffer );
@@ -164,20 +160,16 @@ MapRenderer.prototype.InitGL = function () {
    this.glAsset.squareVertexTextureBuffer.itemSize    = 2;
    this.glAsset.squareVertexTextureBuffer.numItems    = 4;
 
-   console.log("5")
    this.gl.clearColor   ( 1.0, 1.0, 1.0, 1.0  );
    this.gl.disable      ( this.gl.DEPTH_TEST  );
 
-   console.log("7")
    this.glAsset.prog = {}
    
-   console.log("8")
    this.glAsset.prog["Tex"]                     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentTex"         , this.glAsset); 
    this.glAsset.prog["Clut"]                    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentClut"        , this.glAsset);
    this.glAsset.prog[MapParameters.MulBlend]     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"    , this.glAsset);
    this.glAsset.prog[MapParameters.AlphaClip]    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"   , this.glAsset);
    this.glAsset.prog[MapParameters.AlphaBlend]   = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"  , this.glAsset);
-   console.log("9")
    
    // Check good init !
    // ....

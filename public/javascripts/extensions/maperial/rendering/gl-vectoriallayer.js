@@ -84,6 +84,7 @@ VectorialLayer.prototype.IsUpToDate = function ( ) {
 }
 
 VectorialLayer.prototype.Update = function ( params, layerPosition ) {
+   var gl = this.gl;
    if (this.tex == null ) {
       if (this.data) {
          this.tex             = gl.createTexture();
