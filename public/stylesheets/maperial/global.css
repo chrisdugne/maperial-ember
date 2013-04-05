@@ -33,6 +33,12 @@
 .icon-ex-white-outline{background-position:-224px -64px;}
 
 /*--------------------------------*/
+/* contraint les site qui utilise bootstrap.marketing a bien cooler les canvas des maps sur la gauche */
+.maperial-container {
+	text-align: left;
+}
+
+/*--------------------------------*/
 .marginbottom{
 	margin-bottom: 20px;
 }
