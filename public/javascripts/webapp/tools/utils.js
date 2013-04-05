@@ -223,11 +223,11 @@ Utils.getSourceThumb = function(layer) {
    
       case Source.Vector:
       case Source.Images:
-         return " src=\"assets/images/icons/layer."+layer.source.params.src+".png\"";
+         return " src=\"../../images/icons/layer."+layer.source.params.src+".png\"";
          
       case Source.Raster:
       default:
-         return " src=\"assets/images/icons/layer.raster.png\""; // TODO : thumb du raster
+         return " src=\"../../images/icons/layer.raster.png\""; // TODO : thumb du raster
 
    }
 }
