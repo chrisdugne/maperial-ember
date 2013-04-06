@@ -1,71 +1,79 @@
-this.GeoLoc = {};
+//------------------------------------------------------------//
 
-GeoLoc.init = function(inputId, goButton, _maperial, tryGeoloc){
+function GeoLoc (maperial, inputId, goButton, geolocGranted) {
 
-     var geocoder;
-     var debug = false;
+   console.log("  linking geoloc...");
 
-     var maperial = _maperial;
+   this.maperial = maperial;
+   this.inputId = inputId;
+   this.geolocGranted = geolocGranted;
 
-     goButton.bind("click", function(){ codeAddress(); } );
+   this.geocoder = null;
 
-     // when ajax geocoder returns
-     function callBackGeoLoc(results, status) {
-         if (status == google.maps.GeocoderStatus.OK) {
-            var lat = results[0].geometry.location.lat();    
-            var lon = results[0].geometry.location.lng();   
-            maperial.SetCenter(lat,lon);
-         }
-         else {
-            if(debug)console.log("Geocode failed: " + status);
-         }
-     }
+   var me = this;
+   goButton.click( function(){ me.lookForLocation() } );
 
-     // when button "go" is clicked or "autocomplete"
-     function codeAddress() {
-         var address = document.getElementById(inputId).value;
-         geocoder.geocode( { 'address': address}, function (results,status) { callBackGeoLoc(results,status);  }  );
-     }
-     
-     // init autocomplete
-     function initialize2(){
-         var input = document.getElementById(inputId);
-         var options = {
-             //componentRestrictions: {country: 'fr'},
-             types: ['geocode']
-         };
-         var autocomplete = new google.maps.places.Autocomplete(input,options);
-         google.maps.event.addListener(autocomplete, 'place_changed', function() {
-             codeAddress();
-         });
-         codeAddress();
-     }
+   this.tryToFindPosition();
+}
 
-     // when geoloc ajax returns
-     function callBackGeoLocNav(position){
-         var lat = position.coords.latitude;
-         var lon = position.coords.longitude;
-         var zoom = 13;
-         maperial.SetCenter(lat,lon);
-         initialize2();
-     }  
+//------------------------------------------------------------//
 
-     // init geocoder and geoloc
-     function initialize(tryGeoloc) {
-         geocoder = new google.maps.Geocoder();
+//init geocoder and geoloc
+GeoLoc.prototype.tryToFindPosition = function() {
+   this.geocoder = new google.maps.Geocoder();
 
-         if (tryGeoloc && navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(callBackGeoLocNav);
-         }
-         else{
-            if(debug)console.log("No HTML5 geoloc OR tryGeoloc " + tryGeoloc);
-            initialize2();       
-         }
-     }
+   if (this.geolocGranted && navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(this.positionFound);
+   }
+   else{
+      this.initAutocomplete();       
+   }
+}
 
-     ////////////////////
-     initialize(tryGeoloc);
-     ////////////////////
-};
+//------------------------------------------------------------//
+
+//when geoloc ajax returns
+GeoLoc.prototype.positionFound = function(position){
+   var lat = position.coords.latitude;
+   var lon = position.coords.longitude;
+   var zoom = 13;
+   this.maperial.SetCenter(lat,lon);
+   this.initAutocomplete();
+}  
+
+//------------------------------------------------------------//
+
+//init autocomplete
+GeoLoc.prototype.initAutocomplete = function(){
+   var me = this;
+   var input = document.getElementById(this.inputId);
+   var options = {
+         //componentRestrictions: {country: 'fr'},
+         types: ['geocode']
+   };
+   var autocomplete = new google.maps.places.Autocomplete(input,options);
+   google.maps.event.addListener(autocomplete, 'place_changed', function(){ me.lookForLocation() });
+
+   this.lookForLocation();
+}
+
+//------------------------------------------------------------//
+
+//when button "go" is clicked or "autocomplete"
+GeoLoc.prototype.lookForLocation = function() {
+   var me = this;
+   var address = document.getElementById(this.inputId).value;
+   this.geocoder.geocode( { 'address': address}, function(results, status){ me.locationFound(results, status) } );
+}
 
 
+//------------------------------------------------------------//
+
+//when ajax geocoder returns
+GeoLoc.prototype.locationFound = function(results, status) {
+   if (status == google.maps.GeocoderStatus.OK) {
+      var lat = results[0].geometry.location.lat();    
+      var lon = results[0].geometry.location.lng();   
+      this.maperial.SetCenter(lat,lon);
+   }
+}

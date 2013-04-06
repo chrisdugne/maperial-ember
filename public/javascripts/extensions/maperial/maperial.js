@@ -18,6 +18,7 @@ function Maperial(tagId, width, height){
 //   this.layersManager = new LayersManager(this);
 //   this.sourcesManager = new SourcesManager(this);
 
+   this.geoloc = null;
    this.styleMenu = null;
 
    this.templateBuilder = new TemplateBuilder();
@@ -300,7 +301,8 @@ Maperial.prototype.build = function() {
 
    //--------------------------//
 
-   this.initGeoloc();
+   if(this.requireGeoloc())
+      this.initGeoloc();
 
    //--------------------------//
 
@@ -342,10 +344,12 @@ Maperial.prototype.buildMap = function() {
 
 //==================================================================//
 
+Maperial.prototype.requireGeoloc = function() {
+   return this.config.hud.elements[HUD.GEOLOC] && (this.config.hud.elements[HUD.GEOLOC].show || this.config.hud.elements[HUD.SETTINGS]);
+}
+
 Maperial.prototype.initGeoloc = function() {
-   if(this.config.hud.elements[HUD.GEOLOC]){
-      GeoLoc.init("GeoLoc"+this.tagId, $("#GeoLocGo"+this.tagId), this, false);
-   }   
+   this.geoloc = new GeoLoc(this, "GeoLoc"+this.tagId, $("#GeoLocGo"+this.tagId), false);
 }
 
 //==================================================================//

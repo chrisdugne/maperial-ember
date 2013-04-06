@@ -120,11 +120,63 @@ MapRenderer.prototype.fitToSize = function () {
 
 //----------------------------------------------------------------------//
 
+function GlobalInitGL( glAsset , gl , glTools) {
+   
+   glAsset.shaderData                = null;
+   glAsset.shaderError               = false;
+   var me                            = glAsset;
+   
+   glAsset.ShaderReq  = $.ajax({
+      type     : "GET",
+      url      : MapParameters.shadersPath + "/all.json",
+      dataType : "json",
+      async    : false,
+      success  : function(data, textStatus, jqXHR) {
+         me.shaderData = data;
+         for (k in me.shaderData) {
+            me.shaderData[k].code = me.shaderData[k].code.replace (/---/g,"\n") 
+         }
+      },
+      error : function(jqXHR, textStatus, errorThrown) {
+         me.shaderError = true
+         console.log ( MapParameters.shadersPath + "/all.json" + " : loading failed : " + textStatus );
+      }
+   });
+
+   var vertices                                  = [ 0.0  , 0.0  , 0.0,     256.0, 0.0  , 0.0,      0.0  , 256.0, 0.0,      256.0, 256.0, 0.0 ];
+   glAsset.squareVertexPositionBuffer            = gl.createBuffer();
+   gl.bindBuffer   ( gl.ARRAY_BUFFER, glAsset.squareVertexPositionBuffer );
+   gl.bufferData   ( gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW );
+   glAsset.squareVertexPositionBuffer.itemSize   = 3;
+   glAsset.squareVertexPositionBuffer.numItems   = 4;
+   
+   var textureCoords                             = [ 0.0, 0.0,     1.0, 0.0,      0.0, 1.0,      1.0, 1.0 ]; // Y swap
+   glAsset.squareVertexTextureBuffer             = gl.createBuffer();
+   gl.bindBuffer   ( gl.ARRAY_BUFFER, glAsset.squareVertexTextureBuffer );
+   gl.bufferData   ( gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW );
+   glAsset.squareVertexTextureBuffer.itemSize    = 2;
+   glAsset.squareVertexTextureBuffer.numItems    = 4;
+
+   gl.clearColor   ( 1.0, 1.0, 1.0, 1.0  );
+   gl.disable      ( gl.DEPTH_TEST  );
+   
+   glAsset.prog = {}
+   glAsset.prog["Tex"]                       = glTools.MakeProgram   ( "vertexTex" , "fragmentTex"          , glAsset); 
+   glAsset.prog["Clut"]                      = glTools.MakeProgram   ( "vertexTex" , "fragmentClut"         , glAsset);
+   glAsset.prog[MapParameters.MulBlend]      = glTools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"     , glAsset);
+   glAsset.prog[MapParameters.AlphaClip]     = glTools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"    , glAsset);
+   glAsset.prog[MapParameters.AlphaBlend]    = glTools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"   , glAsset);
+}
+
 MapRenderer.prototype.InitGL = function () {
 
    this.glAsset                           = new Object();
    this.glAsset.ctx                       = this.gl;
    this.context.parameters.assets         = this.glAsset;
+   
+   GlobalInitGL( this.glAsset , this.gl , this.gltools);
+   
+   /*
    this.glAsset.shaderData                = null;
    this.glAsset.shaderError               = false;
    var me                                 = this.glAsset;
@@ -170,7 +222,7 @@ MapRenderer.prototype.InitGL = function () {
    this.glAsset.prog[MapParameters.MulBlend]     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"    , this.glAsset);
    this.glAsset.prog[MapParameters.AlphaClip]    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"   , this.glAsset);
    this.glAsset.prog[MapParameters.AlphaBlend]   = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"  , this.glAsset);
-   
+   */
    // Check good init !
    // ....
 }
@@ -235,7 +287,6 @@ MapRenderer.prototype.Start = function () {
    }
    
    this.DrawScene();
-   if(this.drawSceneInterval)console.log("drawscene already BOUND with setInterval ! ")
    this.drawSceneInterval = setInterval( Utils.apply ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
    return true;
 } 
@@ -316,8 +367,8 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
    
    if ( this.UpdateTileCache ( this.context.zoom , tileC.x , tileC.x + nbTileX , tileC.y - nbTileY , tileC.y , forceTileRedraw ) || forceGlobalRedraw) {
 
-      mvMatrix      = mat4.create();
-      pMatrix       = mat4.create();
+      var mvMatrix      = mat4.create();
+      var pMatrix       = mat4.create();
       mat4.identity    ( pMatrix );
       mat4.ortho       ( 0, w , h, 0 , 0, 1, pMatrix ); // Y swap !
       this.gl.viewport ( 0, 0, w , h);
