@@ -5,24 +5,22 @@
    	<!--  -------------       Header      ---------------- -->
     
     <br/>
-    <div class="row">
-    
-	<br/>
-	
+    <div class="row-fluid marginbottom">
+		<br/>
         <div class="span3">
 			{{#equals App.Globals.currentView value='myColorbars'}}
-				<h1>My colorbars</h1>
+				<p class="popupTitle">My colorbars</p>
 			{{else}}			
-				<h1>Public colorbars</h1>
+				<p class="popupTitle">Public colorbars</p>
 			{{/equals}}
-           </div>
-        <div class="span2 offset1">
+        </div>
+        <div class="span3 offset5">
 			{{#equals App.Globals.currentView value='myColorbars'}}
 				<div class="btn-small btn-primary" {{action showPublicColorbars}}>Show public colorbars</div>
 			{{else}}			
 				<div class="btn-small btn-primary" {{action showMyColorbars}}>Show my colorbars</div>
 			{{/equals}}
-           </div>
+        </div>
     </div>
 	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark" data-dismiss="modal">
 		<i class="icon icon-ex-white-outline"></i>
@@ -30,27 +28,27 @@
  
    	<!--  -------------       Content      ---------------- -->
    	
-   	<div class=colorbarList>
+   	<div class="row-fluid marginbottom colorbarList">
 		{{#each colorbar in colorbars}}
 			{{#with colorbar}}
-				<div {{action selectColorbar this}} class="row">
+				<div {{action selectColorbar this}} class="row-fluid marginbottom">
 				    <div class="span2 name"><p class="filename">{{name}}</p></div>
-				   	<a class="selectable span2 offset2">{{colorbarthumb uid}}</a>
+				   	<a class="offset3">{{colorbarthumb uid}}</a>
 				</div>
 			{{/with}}
 		{{/each}}
 	</div>
 	
-    <div id="selectedColorbarArea" class="row">
+    <div id="selectedColorbarArea" class="row-fluid marginbottom">
     {{isset colorbarsData.selectedColorbar
-      yes='<div class="span2">
-      			<img id="selectedColorbarThumb" src="{Utils.colorbarThumbURL(context.colorbarsData.selectedColorbar.uid)}"></img>
-				<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.ColorbarsController.cancelSelectedColorbar()">
-					<i class="icon icon-ex-white-outline"></i>
-				</a>
-      	   </div>
-      	   <div id="continueButton" class="span3 offset1 btn-large btn-primary" onclick="App.ColorbarsController.continueColorbarCreation()">Continue with this preset</div>'
-      no='<h4 class="offset2">(Select a colorbar to start with)</h4>'}}
+	      yes='<div class="span6">
+	      			<img id="selectedColorbarThumb" src="{Utils.colorbarThumbURL(App.colorbarsData.selectedColorbar.uid)}"></img>
+					<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.ColorbarsController.cancelSelectedColorbar()">
+						<i class="icon icon-ex-white-outline"></i>
+					</a>
+	      	   </div>
+	      	   <div id="continueButton" class="span3 btn-large btn-primary" onclick="App.ColorbarsController.continueColorbarCreation()">Continue with this preset</div>'
+	      no='<h4 class="offset4">(Select a colorbar to start with)</h4>'}}
 	</div>
 
 	<br/>

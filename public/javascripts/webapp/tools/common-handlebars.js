@@ -115,7 +115,7 @@ Ember.Handlebars.registerBoundHelper('ministylethumb',
 Ember.Handlebars.registerBoundHelper('colorbarthumb', 
 	function(colorbarUID, options) 
 	{
-		return new Handlebars.SafeString("<img src=\""+Utils.colorbarThumbURL(colorbarUID)+"\"></img>");
+		return new Handlebars.SafeString("<img class=\"selectable\" src=\""+Utils.colorbarThumbURL(colorbarUID)+"\"></img>");
 	}
 );
 

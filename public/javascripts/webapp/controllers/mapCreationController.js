@@ -347,9 +347,6 @@
    
    MapCreationController.buildZoomSlider = function()
    {
-      if(!App.user.selectedMap.config.map.defaultZoom)
-         App.user.set("selectedMap.config.map.defaultZoom", 12);
-         
       $("#zoomSelector").slider({
          range: "min",
          min: 1,

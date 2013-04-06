@@ -141,12 +141,12 @@ Maperial.prototype.checkConfig = function() {
 //==================================================================//
 
 Maperial.prototype.emptyConfig = function() {
-   return {hud:{elements:{}, options:{}}, map: {}};
+   return {hud:{elements:{}, options:{}}, map: {defaultZoom: MapParameters.DEFAULT_ZOOM}};
 }
 
 Maperial.prototype.defaultConfig = function() {
    console.log("using default config");
-   var config = {};
+   var config = this.emptyConfig();
    HUD.applyDefaultHUD(config);
    return config;
 }

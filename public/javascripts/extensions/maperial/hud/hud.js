@@ -91,8 +91,6 @@ HUD.VIEWER_OPTIONS = {
 //----------------------------------------------------------------------//
 
 HUD.applyDefaultHUD = function(config) {
-   
-   config.hud = {elements:{}, options:{}};
 
    for (i in HUD.VIEWER_OPTIONS) {
       var element             = HUD.VIEWER_OPTIONS[i].element;
