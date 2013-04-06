@@ -7,32 +7,81 @@
    //==================================================================//
 
    ColorbarEditorController.renderUI = function() {
-
-      ScriptLoader.getScripts(["assets/javascripts/extensions/mapeditortools/map-editor.js"], function(){
-         //-----------------------------
-         // if creating a new colorbar : copy the selected colorbar as a new colorbar
-         if(!App.colorbarsData.editingColorbar)
-         {
-            var newColorbar = {
-                  name : "CopyOf" + App.colorbarsData.selectedColorbar.name,
-                  content : App.colorbarsData.selectedColorbar.content,
-                  uid  : App.colorbarsData.selectedColorbar.uid // the uid will we overidden after the save call. The copied one is used here to get content + thumb 
-            };
-
-            App.colorbarsData.set("selectedColorbar", newColorbar);
-         }
-
-         App.stylesData.set("selectedStyle", App.publicData.styles[0]);
-         ColorbarEditorController.mapEditor = new MapEditor(App.stylesData.selectedStyle, App.colorbarsData.selectedColorbar, false, true);
-         ColorbarEditorController.mapEditor.renderUI();
-         App.Globals.set("currentMapEditor", ColorbarEditorController.mapEditor);
-      });
+      App.maperial.apply(ColorbarEditorController.getConfig());
+      $(window).on(MaperialEvents.READY, ColorbarEditorController.maperialReady);
    }
 
    ColorbarEditorController.cleanUI = function() {
-      ColorbarEditorController.mapEditor.cleanUI();
+      $(window).off(MaperialEvents.READY, ColorbarEditorController.maperialReady);
    }
 
+   //==================================================================//
+
+   ColorbarEditorController.maperialReady = function (){
+      ColorbarEditorController.defaultColorbarSelection();
+   }
+
+   // init : once maperial is ready, use Maperial.SelectedColorbar to fill App.selectedColorbar
+   ColorbarEditorController.defaultColorbarSelection = function (){
+      console.log("ColorbarEditorController.defaultColorbarSelection");
+      var name = App.colorbarsData.selectedColorbar.name; // ---> name vient de la db heroku !! on le garde ici pour linstant 
+      App.colorbarsData.set("selectedColorbar", App.maperial.colorbarsManager.getSelectedColorbar());
+      App.colorbarsData.set("selectedColorbar.name", name);
+      
+      //-----------------------------
+      // if creating a new style : copy the selected style as a new style
+      if(!App.colorbarsData.editingColorbar)
+      {
+         var newColorbar = {
+               name : "CopyOf" + App.colorbarsData.selectedColorbar.name,
+               content : App.colorbarsData.selectedColorbar.content,
+               uid : "no_uid"  
+         };
+
+         App.colorbarsData.set("selectedColorbar", newColorbar);
+      }
+   }
+   
+   //==================================================================//
+
+   ColorbarEditorController.getConfig = function(){
+
+      var config = App.maperial.emptyConfig();
+
+      // custom
+      config.hud.elements["ColorbarEditorMenu"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true };
+
+      // maperial hud
+
+      config.layers = 
+         [{ 
+            type: LayersManager.Images, 
+            source: {
+               type: Source.IMAGES_MAPQUEST
+            },
+            params: {
+               
+            }
+         },
+         { 
+            type: LayersManager.Raster, 
+            source: {
+               type: Source.Raster,
+               params: { uid : "1_raster_13dcc4de76c874941ef" }
+            },
+            params: {
+               colorbar: App.colorbarsData.selectedColorbar.uid 
+            },
+            composition: {
+               shader : MapParameters.MulBlend,
+               params : { uParams : [ -0.5, -0.5, 1 ]}
+            }
+         }];
+
+      App.addMargins(config);
+      
+      return config;
+   }  
 
 // ==================================================================//
 // Controls

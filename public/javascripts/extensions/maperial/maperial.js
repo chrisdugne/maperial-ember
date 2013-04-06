@@ -14,9 +14,10 @@ function Maperial(tagId, width, height){
    this.mapMouse = null;
    this.hud = null;
 
-//   this.stylesManager = new StylesManager(this);
-//   this.layersManager = new LayersManager(this);
-//   this.sourcesManager = new SourcesManager(this);
+   this.stylesManager = null;
+   this.colorbarsManager = null;
+   this.layersManager = null;
+   this.sourcesManager = null;
 
    this.geoloc = null;
    this.styleMenu = null;
@@ -67,6 +68,7 @@ Maperial.prototype.reset = function(){
       this.sourcesManager.releaseEverything();
    }catch(e){}
    
+   this.colorbarsManager = new ColorbarsManager(this);
    this.stylesManager = new StylesManager(this);
    this.layersManager = new LayersManager(this);
    this.sourcesManager = new SourcesManager(this);

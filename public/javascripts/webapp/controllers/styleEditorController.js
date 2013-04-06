@@ -8,16 +8,13 @@
 
    //==================================================================//
 
-   StyleEditorController.renderUI = function()
-   {
-      App.maperial.apply(StyleEditorController.getMapEditorConfig());
+   StyleEditorController.renderUI = function() {
+      App.maperial.apply(StyleEditorController.getConfig());
       $(window).on(MaperialEvents.READY, StyleEditorController.maperialReady);
    }
 
-   StyleEditorController.cleanUI = function()
-   {
+   StyleEditorController.cleanUI = function() {
       $(window).off(MaperialEvents.READY, StyleEditorController.maperialReady);
-
    }
 
    //==================================================================//
@@ -49,14 +46,13 @@
    
    //==================================================================//
 
-   StyleEditorController.getMapEditorConfig = function(){
+   StyleEditorController.getConfig = function(){
 
       var config = App.maperial.emptyConfig();
-      
-      // mapCreation.styleAndColorbar
+
+      // custom
       config.hud.elements["StyleEditorMenu"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true };
 
-      // mapEditor tools
       // maperial hud
       config.hud.elements[HUD.SETTINGS]      = {show : true,  type : HUD.TRIGGER,  disableHide : true, disableDrag : true };
       config.hud.elements[HUD.GEOLOC]        = {show : true,  type : HUD.PANEL,  label : "Location" };
@@ -79,6 +75,8 @@
          }];
 
       config.map.edition = true;
+      
+      App.addMargins(config);
 
       return config;
    }  
