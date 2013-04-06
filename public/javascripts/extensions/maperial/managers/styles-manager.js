@@ -92,5 +92,5 @@ StylesManager.prototype.loadNextStyle = function() {
 //----------------------------//
 
 StylesManager.prototype.getURL = function(styleUID) {
-   return MapParameters.serverURL + "/api/style/" + styleUID;
+   return Maperial.serverURL + "/api/style/" + styleUID;
 }

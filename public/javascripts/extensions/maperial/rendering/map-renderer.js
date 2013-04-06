@@ -58,7 +58,7 @@ MapRenderer.prototype.reset = function () {
    });
    
    $(window).on(MaperialEvents.COLORBAR_CHANGED, function(){
-      renderer.BuildColorBar();
+      renderer.renderAllColorBars(); //optim : refresh que de la colorbar modifiée non ?
    });
    
    $(window).on(MaperialEvents.CONTRAST_CHANGED, function(){
@@ -128,7 +128,7 @@ function GlobalInitGL( glAsset , gl , glTools) {
    
    glAsset.ShaderReq  = $.ajax({
       type     : "GET",
-      url      : MapParameters.shadersPath + "/all.json",
+      url      : Maperial.shadersPath + "/all.json",
       dataType : "json",
       async    : false,
       success  : function(data, textStatus, jqXHR) {
@@ -139,7 +139,7 @@ function GlobalInitGL( glAsset , gl , glTools) {
       },
       error : function(jqXHR, textStatus, errorThrown) {
          me.shaderError = true
-         console.log ( MapParameters.shadersPath + "/all.json" + " : loading failed : " + textStatus );
+         console.log ( Maperial.shadersPath + "/all.json" + " : loading failed : " + textStatus );
       }
    });
 
@@ -163,16 +163,16 @@ function GlobalInitGL( glAsset , gl , glTools) {
    glAsset.prog = {}
    glAsset.prog["Tex"]                       = glTools.MakeProgram   ( "vertexTex" , "fragmentTex"          , glAsset); 
    glAsset.prog["Clut"]                      = glTools.MakeProgram   ( "vertexTex" , "fragmentClut"         , glAsset);
-   glAsset.prog[MapParameters.MulBlend]      = glTools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"     , glAsset);
-   glAsset.prog[MapParameters.AlphaClip]     = glTools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"    , glAsset);
-   glAsset.prog[MapParameters.AlphaBlend]    = glTools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"   , glAsset);
+   glAsset.prog[Maperial.MulBlend]      = glTools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"     , glAsset);
+   glAsset.prog[Maperial.AlphaClip]     = glTools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"    , glAsset);
+   glAsset.prog[Maperial.AlphaBlend]    = glTools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"   , glAsset);
 }
 
 MapRenderer.prototype.InitGL = function () {
 
-   this.glAsset                           = new Object();
-   this.glAsset.ctx                       = this.gl;
-   this.context.parameters.assets         = this.glAsset;
+   this.glAsset         = new Object();
+   this.glAsset.ctx     = this.gl;
+   this.context.assets  = this.glAsset;
    
    GlobalInitGL( this.glAsset , this.gl , this.gltools);
    
@@ -183,7 +183,7 @@ MapRenderer.prototype.InitGL = function () {
 
    this.glAsset.ShaderReq  = $.ajax({
       type     : "GET",
-      url      : MapParameters.shadersPath + "/all.json",
+      url      : Maperial.shadersPath + "/all.json",
       dataType : "json",
       async    : false,
       success  : function(data, textStatus, jqXHR) {
@@ -194,7 +194,7 @@ MapRenderer.prototype.InitGL = function () {
       },
       error : function(jqXHR, textStatus, errorThrown) {
          me.shaderError = true
-         console.log ( MapParameters.shadersPath + "/all.json" + " : loading failed : " + textStatus );
+         console.log ( Maperial.shadersPath + "/all.json" + " : loading failed : " + textStatus );
       }
    });
 
@@ -219,47 +219,52 @@ MapRenderer.prototype.InitGL = function () {
    
    this.glAsset.prog["Tex"]                     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentTex"         , this.glAsset); 
    this.glAsset.prog["Clut"]                    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentClut"        , this.glAsset);
-   this.glAsset.prog[MapParameters.MulBlend]     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"    , this.glAsset);
-   this.glAsset.prog[MapParameters.AlphaClip]    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"   , this.glAsset);
-   this.glAsset.prog[MapParameters.AlphaBlend]   = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"  , this.glAsset);
+   this.glAsset.prog[Maperial.MulBlend]     = this.gltools.MakeProgram   ( "vertexTex" , "fragmentMulBlend"    , this.glAsset);
+   this.glAsset.prog[Maperial.AlphaClip]    = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaClip"   , this.glAsset);
+   this.glAsset.prog[Maperial.AlphaBlend]   = this.gltools.MakeProgram   ( "vertexTex" , "fragmentAlphaBlend"  , this.glAsset);
    */
    // Check good init !
    // ....
 }
 
-MapRenderer.prototype.BuildColorBar = function () {
-   cbs = this.context.parameters.GetColorBars ();
+MapRenderer.prototype.renderAllColorBars = function () {
+
+   var colorbarUIDs = this.maperial.colorbarsManager.allColorbars();
    
    this.gl.flush ()
    this.gl.finish()
       
-   for ( k in cbs ) {
-      cbData = cbs[ k ].data;
-      if ( cbData == null || cbData.length != 256 * 4)  {
-         console.log ( "Invalid colorbar data : " + k )
+   for ( colorbarUID in colorbarUIDs ) {
+      
+      var colorbar = colorbarUIDs[ colorbarUID ];
+      console.log(colorbar);
+      
+      if ( colorbar.data == null || colorbar.data.length != 256 * 4)  {
+         console.log ( "Invalid colorbar data : " + colorbarUID )
          break;
       }
-      if ( cbs[ k ].tex ) {
-         this.gl.deleteTexture ( cbs[ k ].tex )
-         delete cbs[ k ].tex // good ??
-         cbs[ k ].tex = null;
+      
+      if ( colorbar.tex ) {
+         this.gl.deleteTexture ( colorbar.tex )
+         delete colorbar.tex // good ??
+         colorbar.tex = null;
       }
     
       try {
-         cbs[ k ].tex = this.gl.createTexture();
-         this.gl.bindTexture  (this.gl.TEXTURE_2D, cbs[ k ].tex );
+         colorbar.tex = this.gl.createTexture();
+         this.gl.bindTexture  (this.gl.TEXTURE_2D, colorbar.tex );
          this.gl.pixelStorei  (this.gl.UNPACK_FLIP_Y_WEBGL  , false    );
-         this.gl.texImage2D   (this.gl.TEXTURE_2D, 0 , this.gl.RGBA, 256 , 1 , 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, cbData );
+         this.gl.texImage2D   (this.gl.TEXTURE_2D, 0 , this.gl.RGBA, 256 , 1 , 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, colorbar.data );
          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S,this.gl.CLAMP_TO_EDGE);
          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T,this.gl.CLAMP_TO_EDGE);
          this.gl.bindTexture  (this.gl.TEXTURE_2D, null );
       } catch (e) { 
-         this.gl.deleteTexture ( cbs[ k ].tex );
-         delete cbs[ k ].tex;
-         cbs[ k ].tex = null;
-         console.log ( "Error in colorbar building : " + k );
+         this.gl.deleteTexture ( colorbar.tex );
+         delete colorbar.tex;
+         colorbar.tex = null;
+         console.log ( "Error in colorbar building : " + colorbarUID );
       }
    }
    return true;
@@ -280,14 +285,9 @@ MapRenderer.prototype.Start = function () {
 
    this.gltools = new GLTools ()
    this.InitGL()
-
-   if ( !this.BuildColorBar() ) {
-      console.log("Can't build colorbar")
-      return false;
-   }
    
    this.DrawScene();
-   this.drawSceneInterval = setInterval( Utils.apply ( this, "DrawScene" ) , MapParameters.refreshRate + 5 );
+   this.drawSceneInterval = setInterval( Utils.apply ( this, "DrawScene" ) , Maperial.refreshRate + 5 );
    return true;
 } 
 
@@ -325,7 +325,7 @@ MapRenderer.prototype.UpdateTileCache = function (zoom, txB , txE , tyB , tyE, f
    }
 
    var tileModified = false;
-   var timeRemaining = MapParameters.refreshRate;
+   var timeRemaining = Maperial.refreshRate;
    
    for (var ki = 0 ; ki < keyList.length ; ki++) {      
       var tile = this.tileCache[keyList[ki]];
@@ -360,10 +360,10 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
    var tileC   = this.context.coordS.MetersToTile ( originM.x, originM.y , this.context.zoom );
 
    var originP = this.context.coordS.MetersToPixels ( originM.x, originM.y, this.context.zoom );
-   var shift   = new Point ( Math.floor ( tileC.x * MapParameters.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * MapParameters.tileSize - originP.y ) ) );
+   var shift   = new Point ( Math.floor ( tileC.x * Maperial.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * Maperial.tileSize - originP.y ) ) );
 
-   var nbTileX = Math.floor ( w  / MapParameters.tileSize +1 );
-   var nbTileY = Math.floor ( h  / MapParameters.tileSize  +1 ) ; 
+   var nbTileX = Math.floor ( w  / Maperial.tileSize +1 );
+   var nbTileY = Math.floor ( h  / Maperial.tileSize  +1 ) ; 
    
    if ( this.UpdateTileCache ( this.context.zoom , tileC.x , tileC.x + nbTileX , tileC.y - nbTileY , tileC.y , forceTileRedraw ) || forceGlobalRedraw) {
 
@@ -373,8 +373,8 @@ MapRenderer.prototype.DrawScene = function (forceGlobalRedraw,forceTileRedraw) {
       mat4.ortho       ( 0, w , h, 0 , 0, 1, pMatrix ); // Y swap !
       this.gl.viewport ( 0, 0, w , h);
       this.gl.clear    ( this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT );
-      for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + MapParameters.tileSize , tx = tx + 1) {
-         for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+ MapParameters.tileSize , ty = ty - 1) {
+      for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + Maperial.tileSize , tx = tx + 1) {
+         for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+ Maperial.tileSize , ty = ty - 1) {
             mat4.identity (mvMatrix);
             mat4.translate(mvMatrix, [wx, wy , 0]);
             var key  = tx + "," + ty + "," + this.context.zoom;
@@ -404,7 +404,7 @@ MapRenderer.prototype.FindLayerId = function () {
    // find the click coordinates inside invisibleCanvas
    // http://map.x-ray.fr/wiki/pages/viewpage.action?pageId=2097159 [3rd graph]
    var clickP = this.context.coordS.MetersToPixels ( this.context.mouseM.x, this.context.mouseM.y, this.context.zoom );
-   var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*MapParameters.tileSize), Math.floor ( (tileCoord.y+1) * MapParameters.tileSize - clickP.y ) );
+   var tileClickCoord = new Point(Math.floor (clickP.x - tileCoord.x*Maperial.tileSize), Math.floor ( (tileCoord.y+1) * Maperial.tileSize - clickP.y ) );
    
    var style = this.maperial.stylesManager.getSelectedStyle();
    var subLayerId = tile.FindSubLayerId( tileClickCoord , this.context.zoom, style.content ) ;
@@ -428,7 +428,7 @@ MapRenderer.prototype.DrawMagnifier = function () {
    var tileC   = this.context.coordS.MetersToTile ( originM.x, originM.y , this.context.zoom );
 
    var originP = this.context.coordS.MetersToPixels ( originM.x, originM.y, this.context.zoom );
-   var shift   = new Point ( Math.floor ( tileC.x * MapParameters.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * MapParameters.tileSize - originP.y ) ) );
+   var shift   = new Point ( Math.floor ( tileC.x * Maperial.tileSize - originP.x ) , Math.floor ( - ( (tileC.y+1) * Maperial.tileSize - originP.y ) ) );
 
    var ctxMagnifier = this.context.magnifierCanvas[0].getContext("2d");
    ctxMagnifier.save();
@@ -436,8 +436,8 @@ MapRenderer.prototype.DrawMagnifier = function () {
    ctxMagnifier.scale(scale, scale);
 
    // wx/wy (pixels) in canvas mark ( coord ) !!
-   for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + MapParameters.tileSize , tx = tx + 1) {
-      for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+MapParameters.tileSize , ty = ty - 1) {
+   for ( var wx = shift.x, tx = tileC.x ; wx < w ; wx = wx + Maperial.tileSize , tx = tx + 1) {
+      for ( var wy = shift.y, ty = tileC.y ; wy < h ; wy = wy+Maperial.tileSize , ty = ty - 1) {
          var key  = tx + "," + ty + "," + this.context.zoom;
          var tile = this.tileCache[key] 
          TileRenderer.DrawImages(tile, ctxMagnifier, wx, wy);

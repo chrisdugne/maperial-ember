@@ -51,33 +51,10 @@
       // custom
       config.hud.elements["ColorbarEditorMenu"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true };
 
-      // maperial hud
-
-      config.layers = 
-         [{ 
-            type: LayersManager.Images, 
-            source: {
-               type: Source.IMAGES_MAPQUEST
-            },
-            params: {
-               
-            }
-         },
-         { 
-            type: LayersManager.Raster, 
-            source: {
-               type: Source.Raster,
-               params: { uid : "1_raster_13dcc4de76c874941ef" }
-            },
-            params: {
-               colorbar: App.colorbarsData.selectedColorbar.uid 
-            },
-            composition: {
-               shader : MapParameters.MulBlend,
-               params : { uParams : [ -0.5, -0.5, 1 ]}
-            }
-         }];
-
+      config.layers = [];
+      config.layers.push(LayersManager.getImagesLayerConfig(Source.IMAGES_MAPQUEST));
+      config.layers.push(LayersManager.getRasterLayerConfig("1_raster_13dcc4de76c874941ef", [App.colorbarsData.selectedColorbar.uid]));
+      
       App.addMargins(config);
       
       return config;

@@ -288,7 +288,7 @@ StyleMenu.prototype.LoadGroup = function(){
    if(this.debug)console.log("Loading groups");
    var me = this;
    $.ajax({
-      url: MapParameters.styleToolsPath+'/group3.json',
+      url: Maperial.styleToolsPath+'/group3.json',
       async: false,
       dataType: 'json',
       //contentType:"application/x-javascript",
@@ -354,7 +354,7 @@ StyleMenu.prototype.LoadMapping = function(){
    var me = this;
 
    $.ajax({
-      url: MapParameters.styleToolsPath+'/mapping.json',
+      url: Maperial.styleToolsPath+'/mapping.json',
       async: false,
       dataType: 'json',
       //contentType:"application/x-javascript",

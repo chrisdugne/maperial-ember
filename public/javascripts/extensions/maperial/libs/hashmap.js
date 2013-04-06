@@ -1,5 +1,5 @@
 
-this.HashMap = function() {
+function HashMap(){
     this.array = [];
 }
 

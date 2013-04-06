@@ -35,6 +35,10 @@ ColorbarsManager.prototype.getColorbar = function(uid){
    return window.maperialColorbars[uid];
 }
 
+ColorbarsManager.prototype.allColorbars = function(){
+   return window.maperialColorbars;
+}
+
 //-------------------------------------------//
 
 ColorbarsManager.prototype.fetchColorbars = function(colorbarUIDs, next) {
@@ -63,15 +67,16 @@ ColorbarsManager.prototype.loadColorbar = function(colorbarUID) {
    }
 
    var colorbarURL = this.getURL(colorbarUID);
-//   colorbarURL = "http://serv.x-ray.fr/project/mycarto/wwwClient/colorbar/colorbar.json";
    console.log("  fetching : " + colorbarURL);
 
    $.ajax({  
       type: "GET",  
       url: colorbarURL,
       dataType: "json",
-      success: function (colorbar) {
-         window.maperialColorbars[colorbarUID] = {uid : colorbarUID, name: colorbarUID, content:colorbar};
+      success: function (json) {
+         var data = new Uint8Array(json);
+         console.log(data);
+         window.maperialColorbars[colorbarUID] = {uid : colorbarUID, name: colorbarUID, content:json, data: data};
          me.loadNextColorbar();
       }
    });
@@ -87,5 +92,5 @@ ColorbarsManager.prototype.loadNextColorbar = function() {
 //----------------------------//
 
 ColorbarsManager.prototype.getURL = function(colorbarUID) {
-   return MapParameters.serverURL + "/api/colorbar/" + colorbarUID;
+   return Maperial.serverURL + "/api/colorbar/" + colorbarUID;
 }

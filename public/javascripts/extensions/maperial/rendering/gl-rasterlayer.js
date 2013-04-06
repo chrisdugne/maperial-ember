@@ -1,8 +1,8 @@
 
-function RasterLayer ( mapParameters , inZoom) {
-   this.mapParameters = mapParameters;
-   this.assets = mapParameters.assets;
-   this.gl     = mapParameters.assets.ctx;
+function RasterLayer ( maperial , inZoom) {
+   this.maperial = maperial;
+   this.assets = maperial.context.assets;
+   this.gl     = this.assets.ctx;
    
    this.tex    = null;
    this.data   = null;
@@ -61,13 +61,14 @@ RasterLayer.prototype.Update = function ( params ) {
       return 1;
 
    var gl = this.gl;
-   var cb = this.mapParameters.GetColorBar(params.colorbar);
+   var colorbarUID = params.colorbars[params.selectedColorbar];
+   var colorbar = this.maperial.colorbarsManager.getColorbar(colorbarUID).content;
    
-   if ( !cb || ! cb.tex) { 
-      console.log("Invalid color bar : setting default") ;
-      this.mapParameters.SetDefaultColorBar();
-      return 1;
-   }
+//   if ( !colorbar || ! colorbar.tex) { 
+//      console.log("Invalid color bar : setting default") ;
+//      this.Maperial.SetDefaultColorBar();
+//      return 1;
+//   }
 
    if ( this.data ) {
       var gltools                = new GLTools ()
@@ -91,7 +92,7 @@ RasterLayer.prototype.Update = function ( params ) {
       mvMatrix                   = mat4.create();
       pMatrix                    = mat4.create();
       mat4.identity              ( mvMatrix );
-      mat4.scale                 ( mvMatrix, [this.w  / MapParameters.tileSize , this.h / MapParameters.tileSize, 1.0] );
+      mat4.scale                 ( mvMatrix, [this.w  / Maperial.tileSize , this.h / Maperial.tileSize, 1.0] );
       mat4.identity              ( pMatrix );
       mat4.ortho                 ( 0, fbtx[0].width , 0, fbtx[0].height, 0, 1, pMatrix ); // Y swap !
       
@@ -113,7 +114,7 @@ RasterLayer.prototype.Update = function ( params ) {
       gl.uniform1i               (prog.params.uSamplerTex1, 0);
       
       gl.activeTexture           (gl.TEXTURE1);
-      gl.bindTexture             (gl.TEXTURE_2D, cb.tex );
+      gl.bindTexture             (gl.TEXTURE_2D, colorbar.tex );
       gl.uniform1i               (prog.params.uSamplerTex2, 1);
          
       gl.uniform4fv              (prog.params.uParams ,[0.0,2.0,0.0,1.0] ); 

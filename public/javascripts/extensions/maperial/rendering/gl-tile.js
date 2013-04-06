@@ -4,7 +4,6 @@ function Tile (maperial, x, y, z) {
    //--------------------------------//
 
    this.maperial = maperial;
-   this.context = maperial.context;
    this.config = maperial.config;
 
    this.x         = x;
@@ -13,8 +12,8 @@ function Tile (maperial, x, y, z) {
    
    this.layers    = {};
 
-   this.assets       = this.context.parameters.assets;
-   this.gl           = this.context.parameters.assets.ctx;
+   this.assets       = maperial.context.assets;
+   this.gl           = this.assets.ctx;
 
    // preparing double buffering to render as texture !
    this.frameBufferL = [];
@@ -43,15 +42,15 @@ Tile.prototype.initLayers = function () {
       switch(this.config.layers[i].type){
    
          case LayersManager.Vector:
-            this.layers[i] = new VectorialLayer ( this.context.parameters , this.z);
+            this.layers[i] = new VectorialLayer ( this.maperial , this.z);
             break;
    
          case LayersManager.Raster:
-            this.layers[i] = new RasterLayer    ( this.context.parameters , this.z);
+            this.layers[i] = new RasterLayer    ( this.maperial , this.z);
             break;
    
          case LayersManager.Images:
-            this.layers[i] = new ImageLayer     ( this.context.parameters , this.z);
+            this.layers[i] = new ImageLayer     ( this.maperial.context.assets.ctx , this.z);
             break;
             
       }
@@ -64,7 +63,7 @@ Tile.prototype.initLayers = function () {
 Tile.prototype.prepareBuffering = function () {
    var gltools = new GLTools ()
    for ( var i = 0 ; i < 2 ; i = i + 1 ) {
-      var fbtx = gltools.CreateFrameBufferTex(this.gl, MapParameters.tileSize, MapParameters.tileSize);
+      var fbtx = gltools.CreateFrameBufferTex(this.gl, Maperial.tileSize, Maperial.tileSize);
       this.frameBufferL.push        ( fbtx[0] );
       this.texL.push                ( fbtx[1] );
    }
@@ -74,16 +73,10 @@ Tile.prototype.prepareBuffering = function () {
 
 Tile.prototype.Release = function() {
 
-   for(var i = 0; i< this.context.parameters.sources.length; i++){
-
-      var source = this.context.parameters.sources[i];
-      this.maperial.sourcesManager.release(source, this.x, this.y, this.z);
-      
-      for(var j = 0; j< this.config.layers.length; j++){
-         if ( this.config.layers[j].source.type == source.type )
-            this.layers[j].Release();
-      } 
-   }
+   this.maperial.sourcesManager.release(this.x, this.y, this.z);
+   
+   for(var i = 0; i< this.config.layers.length; i++)
+         this.layers[i].Release();
    
    var gl = this.gl;
    for ( var i = 0 ; i < 2 ; i = i + 1 ) {
@@ -153,7 +146,7 @@ Tile.prototype.FindSubLayerId = function ( tileClickCoord, zoom, styleContent ) 
          continue;
 
       var data = this.maperial.sourcesManager.getData(this.config.layers[i].source, this.x, this.y, this.z);
-      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , data , zoom, styleContent, i, this.context.osmVisibilities );
+      var subLayerId = TileRenderer.FindSubLayerId(tileClickCoord , ctx , data , zoom, styleContent, i, this.maperial.context.osmVisibilities );
 
       if(subLayerId)
          return subLayerId;

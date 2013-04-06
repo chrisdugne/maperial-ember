@@ -21,9 +21,40 @@ function Maperial(tagId, width, height){
 
    this.geoloc = null;
    this.styleMenu = null;
+   this.colorbarRenderer = null;
 
    this.templateBuilder = new TemplateBuilder();
+   
+   this.shaders = [Maperial.AlphaClip, Maperial.AlphaBlend, Maperial.MulBlend];
 };
+
+//==================================================================//
+
+Maperial.serverURL              = "//maperial.com";
+
+Maperial.shadersPath            = Maperial.serverURL + "/assets/shaders";
+Maperial.styleToolsPath         = Maperial.serverURL + "/assets/style";
+//Maperial.styleToolsPath       = "http://192.168.1.19/project/mycarto/wwwClient/style";  // pour vivien :  )
+
+Maperial.DEFAULT_ZOOM           = 8;
+Maperial.DEFAULT_LATITUDE       = 45.7;
+Maperial.DEFAULT_LONGITUDE      = 3.12;
+
+Maperial.refreshRate            = 15; // ms
+Maperial.tileDLTimeOut          = 60000; //ms
+Maperial.tileSize               = 256;
+
+Maperial.autoMoveSpeedRate      = 0.2;
+Maperial.autoMoveMillis         = 700;
+Maperial.autoMoveDeceleration   = 0.005;
+Maperial.autoMoveAnalyseSize    = 10;
+
+Maperial.DEFAULT_STYLE_UID      = "1_style_13ba851b4e18833e08e";
+Maperial.DEFAULT_COLORBAR_UID   = "1_colorbar_13c630ec3a5068919c3";
+
+Maperial.AlphaClip              = "AlphaClip";
+Maperial.AlphaBlend             = "AlphaBlend";
+Maperial.MulBlend               = "MulBlend";
 
 //==================================================================//
 
@@ -97,9 +128,11 @@ Maperial.prototype.load = function() {
 
    if(this.config.layers.length > 0){
       var maperial = this;
-      this.loadStyles(function(){
-         maperial.checkOSMSets();
-         maperial.build();
+      maperial.loadStyles(function(){
+         maperial.loadColorbars(function(){
+            maperial.checkOSMSets();
+            maperial.build();
+         });
       });
    }
    else{
@@ -125,10 +158,13 @@ Maperial.prototype.checkConfig = function() {
    if(!this.config.map)
       this.config.map = {};
 
+   if(!this.config.layers)
+      this.config.layers = [];
+
    //--------------------------//
    // checking layer config
 
-   if(!this.config.layers)
+   if(this.config.layers.length == 0)
       this.layersManager.useDefaultLayers();
    else{
       console.log("  using custom layers...");
@@ -137,13 +173,13 @@ Maperial.prototype.checkConfig = function() {
    //--------------------------//
    // checking if Default style must be used
 
-   this.changeStyle(MapParameters.DEFAULT_STYLE_UID, 0, false);
+   this.changeStyle(Maperial.DEFAULT_STYLE_UID, 0, false);
 }
 
 //==================================================================//
 
 Maperial.prototype.emptyConfig = function() {
-   return {hud:{elements:{}, options:{}}, map: {defaultZoom: MapParameters.DEFAULT_ZOOM}};
+   return {hud:{elements:{}, options:{}}, map: {defaultZoom: Maperial.DEFAULT_ZOOM}, layers:[]};
 }
 
 Maperial.prototype.defaultConfig = function() {
@@ -161,7 +197,7 @@ Maperial.prototype.createContext = function() {
       console.log("creating context...");
 
       this.context = {};
-      this.context.coordS     = new CoordinateSystem ( MapParameters.tileSize );
+      this.context.coordS     = new CoordinateSystem ( Maperial.tileSize );
    }
    else
       console.log("reset context...");
@@ -183,29 +219,27 @@ Maperial.prototype.createContext = function() {
    }
 
    //----------------------------------------------------------
-
-   this.context.parameters = new MapParameters(this);
 }
 
 Maperial.prototype.startLatitude = function() {
    if(this.config.map.latMin)
       return (this.config.map.latMin + this.config.map.latMax)/2;
    else
-      return MapParameters.DEFAULT_LATITUDE;
+      return Maperial.DEFAULT_LATITUDE;
 }
 
 Maperial.prototype.startLongitude = function() {
    if(this.config.map.lonMin)
       return (this.config.map.lonMin + this.config.map.lonMax)/2;
    else
-      return MapParameters.DEFAULT_LONGITUDE;
+      return Maperial.DEFAULT_LONGITUDE;
 }
 
 Maperial.prototype.startZoom = function() {
    if(this.config.map.defaultZoom)
       return this.config.map.defaultZoom;
    else
-      return MapParameters.DEFAULT_ZOOM;
+      return Maperial.DEFAULT_ZOOM;
 }
 
 //==================================================================//
@@ -264,6 +298,27 @@ Maperial.prototype.changeStyle = function(styleUID, position, overidde){
 
 //==================================================================//
 
+Maperial.prototype.loadColorbars = function(next){
+
+   console.log("checking colorbars...");
+   var colorbarUIDs = [];
+
+   for(var i = 0; i < this.config.layers.length; i++){
+      var layerParams = this.config.layers[i].params;
+      if(layerParams.colorbars){
+         colorbarUIDs.push(layerParams.colorbars[layerParams.selectedColorbar]);
+      }
+   }
+
+   if(colorbarUIDs.length > 0){
+      this.colorbarsManager.fetchColorbars(colorbarUIDs, next);
+   }
+   else 
+      next();
+}
+
+//==================================================================//
+
 Maperial.prototype.checkOSMSets = function(){
 
    if(this.stylesManager.styleCacheEmpty())
@@ -298,8 +353,9 @@ Maperial.prototype.build = function() {
    if(this.config.map.edition)
       this.buildStyleMenu();
 
-// if(this.editedColorbarUID)
-// this.buildColorbar();
+   if(!this.colorbarsManager.colorbarCacheEmpty()){
+      this.buildColorbar();
+   }
 
    //--------------------------//
 
@@ -358,6 +414,19 @@ Maperial.prototype.initGeoloc = function() {
 
 Maperial.prototype.buildStyleMenu = function() {
    this.styleMenu = new StyleMenu($("#DetailsMenu"+this.tagId) , $("#QuickEdit"+this.tagId) , $("#Zooms"+this.tagId) , this);
+}
+
+//==================================================================//
+
+Maperial.prototype.buildColorbar = function() {
+   console.log("buildColorbar",$("#ColorBar"+this.tagId))
+   this.colorbar = new Colorbar(
+         $("#ColorBar"+this.tagId),
+         this.colorbarsManager.getColorbar(Maperial.DEFAULT_COLORBAR_UID),
+         50,355,50,40,true,25.4,375.89
+   );
+   
+   this.mapRenderer.renderAllColorBars();
 }
 
 //==================================================================//

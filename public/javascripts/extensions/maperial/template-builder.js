@@ -17,7 +17,7 @@ TemplateBuilder.prototype.build = function(maperial){
    this.container = $("#"+this.tagId);
    this.container.empty();
 
-   console.log("Drawing template "+this.tagId+"...");
+   console.log("drawing template "+this.tagId+"...");
    
    this.buildMap();
    this.buildHUD();

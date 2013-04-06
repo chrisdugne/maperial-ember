@@ -5,10 +5,10 @@ VectorialLayer.FRONT  = "front";
 
 //=============================================================//
 
-function VectorialLayer ( mapParameters, inZoom ) {
-   this.mapParameters = mapParameters;
-   this.assets = mapParameters.assets;
-   this.gl     = mapParameters.assets.ctx;
+function VectorialLayer ( maperial, inZoom ) {
+   this.maperial = maperial;
+   
+   this.gl     = maperial.context.assets.ctx;
 
    this.cnv    = null;
    this.tex    = null;
@@ -21,8 +21,8 @@ function VectorialLayer ( mapParameters, inZoom ) {
 
 VectorialLayer.prototype.AllocCanvas = function ( ) {
    this.cnv             = document.createElement("canvas");
-   this.cnv.height      = MapParameters.tileSize ;
-   this.cnv.width       = MapParameters.tileSize ;
+   this.cnv.height      = Maperial.tileSize ;
+   this.cnv.width       = Maperial.tileSize ;
    this.ctx             = this.cnv.getContext("2d");
    ExtendCanvasContext  ( this.ctx );
    this.ctx.globalCompositeOperation="source-over";
@@ -103,9 +103,9 @@ VectorialLayer.prototype.Update = function ( params, layerPosition ) {
       }
    }
 
-   var osmVisibilities = this.mapParameters.maperial.context.osmVisibilities;
+   var osmVisibilities = this.maperial.context.osmVisibilities;
    var styleUID   = params.styles[params.selectedStyle];
-   var style      = this.mapParameters.maperial.stylesManager.getStyle(styleUID).content;
+   var style      = this.maperial.stylesManager.getStyle(styleUID).content;
 
    if ( ! style ) {
       console.log ( "Invalid style");

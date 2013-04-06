@@ -41,8 +41,8 @@ HUD.prototype.refreshCompositionsPanel = function() {
 
       div += "<div class=\"span4 offset1\"><select class=\"shaderSelectbox\" name=\""+shadersSelectionId+"\" id=\""+shadersSelectionId+"\">";
 
-      for(var s=0; s< this.maperial.context.parameters.shaders.length; s++) 
-         div += "<option value=\""+s+"\">"+this.maperial.context.parameters.shaders[s]+"</option>";
+      for(var s=0; s< this.maperial.shaders.length; s++) 
+         div += "<option value=\""+s+"\">"+this.maperial.shaders[s]+"</option>";
 
       div += "</select></div>";
       div += "</div>";
@@ -68,7 +68,7 @@ HUD.prototype.refreshCompositionsPanel = function() {
       // init selectbox value
       $("#"+shadersSelectionId).selectbox('change', "", composition.shader);
 
-      if(composition.shader == MapParameters.MulBlend){
+      if(composition.shader == Maperial.MulBlend){
 
          //-----------------------------------------------------//
          // MulBlend params html 

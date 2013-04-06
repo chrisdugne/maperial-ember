@@ -201,7 +201,7 @@ TileRenderer.DrawImages = function (tile, ctx, wx, wy ) {
    
    if ( tile && tile.IsLoaded() && tile.IsUpToDate()) {
       ctx.beginPath();
-      ctx.rect(wx, wy , MapParameters.tileSize, MapParameters.tileSize);
+      ctx.rect(wx, wy , Maperial.tileSize, Maperial.tileSize);
       ctx.closePath();
       ctx.fillStyle = '#FFFFFF';
       ctx.fill();
@@ -212,7 +212,7 @@ TileRenderer.DrawImages = function (tile, ctx, wx, wy ) {
    }
    else {
       ctx.beginPath();
-      ctx.rect(wx, wy , MapParameters.tileSize, MapParameters.tileSize);
+      ctx.rect(wx, wy , Maperial.tileSize, Maperial.tileSize);
       ctx.closePath();
       ctx.fillStyle = '#EEEEEE';
       ctx.fill();

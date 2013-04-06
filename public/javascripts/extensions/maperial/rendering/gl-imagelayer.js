@@ -1,8 +1,6 @@
 
-function ImageLayer ( mapParameters , inZoom) {
-   this.mapParameters = mapParameters;
-   this.assets = mapParameters.assets;
-   this.gl     = mapParameters.assets.ctx;
+function ImageLayer (gl, inZoom) {
+   this.gl     = gl;
    
    this.tex    = null;
    this.data   = null;
@@ -19,9 +17,9 @@ ImageLayer.prototype.Init = function ( data ) {
    if (this.tex)
       return;
    if (data) {
-      this.w                     = data.width;      
-      this.h                     = data.height; 
-      this.data                  = data;
+      this.w      = data.width;      
+      this.h      = data.height; 
+      this.data   = data;
    }
 }
 
@@ -51,7 +49,7 @@ ImageLayer.prototype.IsUpToDate = function ( ) {
    return this.tex != null;
 }
 
-ImageLayer.prototype.Update = function ( params ) {
+ImageLayer.prototype.Update = function () {
    if (this.tex)
       return 1;
 

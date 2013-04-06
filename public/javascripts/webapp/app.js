@@ -95,9 +95,9 @@
 
          //-------------------------------------//
          
-         App.Globals.shaders.push(MapParameters.AlphaClip);
-         App.Globals.shaders.push(MapParameters.AlphaBlend);
-         App.Globals.shaders.push(MapParameters.MulBlend);
+         App.Globals.shaders.push(Maperial.AlphaClip);
+         App.Globals.shaders.push(Maperial.AlphaBlend);
+         App.Globals.shaders.push(Maperial.MulBlend);
 
          //-------------------------------------//
          

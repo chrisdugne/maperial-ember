@@ -160,14 +160,14 @@ MapMover.prototype.move = function (deltaX, deltaY, deltaTime) {
 
    var distance = Math.sqrt( deltaX*deltaX + deltaY*deltaY );
 
-   var speed = (distance*1000/deltaTime)/MapParameters.refreshRate;
+   var speed = (distance*1000/deltaTime)/Maperial.refreshRate;
 
-   var speedX = (speed*deltaX/distance)*MapParameters.autoMoveSpeedRate;
-   var speedY = (speed*deltaY/distance)*MapParameters.autoMoveSpeedRate;
+   var speedX = (speed*deltaX/distance)*Maperial.autoMoveSpeedRate;
+   var speedY = (speed*deltaY/distance)*Maperial.autoMoveSpeedRate;
 
    this.autoMoving = true;
 
-   this.moveScene(MapParameters.autoMoveMillis, speedX, speedY, 0);
+   this.moveScene(Maperial.autoMoveMillis, speedX, speedY, 0);
 }
 
 //==================================================================//
@@ -203,16 +203,16 @@ MapMover.prototype.moveScene = function (timeRemaining, speedX, speedY, nbAutoMo
    this.moveMap(speedX, speedY);
    this.moveDrawers(speedX, speedY);
 
-   var rate = 0.99 - nbAutoMove* MapParameters.autoMoveDeceleration;
+   var rate = 0.99 - nbAutoMove* Maperial.autoMoveDeceleration;
 
    var mover = this;
-   setTimeout(function() {mover.moveScene(timeRemaining - MapParameters.refreshRate, speedX*rate, speedY*rate, nbAutoMove+1)}, MapParameters.refreshRate );
+   setTimeout(function() {mover.moveScene(timeRemaining - Maperial.refreshRate, speedX*rate, speedY*rate, nbAutoMove+1)}, Maperial.refreshRate );
 }
 
 
 MapMover.prototype.registerMouseData = function (x, y) {
 
-   if(this.mouseData.length >= MapParameters.autoMoveAnalyseSize)
+   if(this.mouseData.length >= Maperial.autoMoveAnalyseSize)
       this.mouseData.shift();
 
    var data = new Object();

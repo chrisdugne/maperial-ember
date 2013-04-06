@@ -269,6 +269,19 @@ Utils.cloneJsonObject = function (jsonObject) {
    return $.parseJSON(JSON.stringify(jsonObject));
 }
 
+//----------------------------------------------------------------------------------------//
+
 function odump(o){
    console.log(Utils.cloneJsonObject(o));
 }
+
+//----------------------------------------------------------------------------------------//
+
+//upgrade Object prototype
+Object.size = function(obj) {
+   var size = 0, key;
+   for (key in obj) {
+       if (obj.hasOwnProperty(key)) size++;
+   }
+   return size;
+ };

@@ -19,107 +19,28 @@ LayersManager.prototype.addLayer = function(sourceType, params) {
 
    var layerConfig;
    switch(sourceType){
-      case Source.MaperialOSM :
-         layerConfig = this.getOSMLayerConfig();
-         break;
-   
-      case Source.Raster :
-         var rasterUID = params[0];
-         layerConfig = this.getRasterLayerConfig(rasterUID);
-         break;
-   
-      case Source.Vector :
-         layerConfig = this.getVectorLayerConfig();
-         break;
-   
-      case Source.Images :
-         var src = params[0];
-         layerConfig = this.getImagesLayerConfig(src);
-         break;
+   case Source.MaperialOSM :
+      layerConfig = LayersManager.getOSMLayerConfig();
+      break;
+
+   case Source.Raster :
+      var rasterUID = params[0];
+      layerConfig = LayersManager.getRasterLayerConfig(rasterUID);
+      break;
+
+   case Source.Vector :
+      layerConfig = LayersManager.getVectorLayerConfig();
+      break;
+
+   case Source.Images :
+      var src = params[0];
+      layerConfig = LayersManager.getImagesLayerConfig(src);
+      break;
    }
 
    this.maperial.config.layers.push(layerConfig);
    this.maperial.restart();
 
-}
-
-//-------------------------------------------//
-
-LayersManager.prototype.getOSMLayerConfig = function() {
-   return { 
-      type: LayersManager.Vector, 
-      source: {
-         type: Source.MaperialOSM
-      },
-      params: {
-         selectedStyle: 0,
-         styles: [MapParameters.DEFAULT_STYLE_UID]
-      },
-      composition: {
-         shader : MapParameters.MulBlend,
-         params : { uParams : [ -0.5, -0.5, 1.0 ]}
-      }
-   }
-}
-
-//-------------------------------------------//
-
-LayersManager.prototype.getRasterLayerConfig = function(rasterUID) {
-   return { 
-      type: LayersManager.Raster, 
-      source: {
-         type: Source.Raster,
-         params: { uid : rasterUID }
-      },
-      params: {
-         colorbar: MapParameters.DEFAULT_COLORBAR_UID 
-      },
-      composition: {
-         shader : MapParameters.MulBlend,
-         params : { uParams : [ -0.5, -0.5, 1 ]}
-      }
-   }
-}
-
-//-------------------------------------------//
-
-LayersManager.prototype.getVectorLayerConfig = function() {
-   return { 
-      type: LayersManager.Vector, 
-      source: {
-         type: Source.Vector
-      },
-      params: {
-
-      },
-      composition: {
-         shader : MapParameters.AlphaBlend
-      }
-   }
-}
-
-//-------------------------------------------//
-
-/**
- * src : 
- *    Source.IMAGES_MAPQUEST
- *    Source.IMAGES_MAPQUEST_SATELLITE
- *    Source.IMAGES_OSM
- */
-LayersManager.prototype.getImagesLayerConfig = function(src) {
-   return { 
-      type: LayersManager.Images, 
-      source: {
-         type: Source.Images,
-         params: { src: src }
-      },
-      params: {
-
-      },
-      composition: {
-         shader : MapParameters.AlphaBlend
-      }
-   }
 }
 
 //-------------------------------------------//
@@ -131,7 +52,7 @@ LayersManager.prototype.deleteLayer = function(layerRemovedPosition) {
       if(this.maperial.config.map.osmSets[i].layerPosition > layerRemovedPosition)
          this.maperial.config.map.osmSets[i].layerPosition--;
    }
-   
+
    this.maperial.restart();
 }
 
@@ -152,7 +73,7 @@ LayersManager.prototype.changeRaster = function(layerIndex, rasterUID) {
 LayersManager.prototype.changeImages = function(layerIndex, imagesSrc) {
 
    if(this.maperial.config.layers[layerIndex].type == Source.Images
-   && this.maperial.config.layers[layerIndex].source.params.src != imagesSrc){
+         && this.maperial.config.layers[layerIndex].source.params.src != imagesSrc){
 
       this.maperial.config.layers[layerIndex].source.params.src = imagesSrc;
       this.maperial.restart();
@@ -160,7 +81,7 @@ LayersManager.prototype.changeImages = function(layerIndex, imagesSrc) {
 }
 
 LayersManager.prototype.switchImagesTo = function(imagesSrc) {
-   
+
    for(var i = 0; i < this.maperial.config.layers.length; i++){
       if(this.maperial.config.layers[i].source.type == Source.Images){
          this.changeImages(i, imagesSrc);
@@ -172,12 +93,15 @@ LayersManager.prototype.switchImagesTo = function(imagesSrc) {
 //------------------------------------------------------------------//
 
 LayersManager.prototype.useDefaultLayers = function() {
-   console.log("  using default layers...");
 
-   if(this.maperial.config.map.layersCreation)
-      this.maperial.config.layers = [];
-   else
-      this.maperial.config.layers = [this.getOSMLayerConfig()];
+   if(this.maperial.config.map.layersCreation){
+      console.log("  using no layer...");
+   }
+   else{
+      console.log("  using default layers...");
+      this.maperial.config.layers.push(LayersManager.getOSMLayerConfig());
+   }
+   
 }
 
 //=======================================================================================//
@@ -282,17 +206,17 @@ LayersManager.prototype.defaultOSMSets = function(style) {
 //=======================================================================================//
 
 LayersManager.prototype.atLeastOneImageLayer = function() {
-   
+
    for(var i = 0; i < this.maperial.config.layers.length; i++){
       if(this.maperial.config.layers[i].source.type == Source.Images)
          return true;
    }
-   
+
    return false;
 }
-   
+
 //=======================================================================================//
-   
+
 LayersManager.buildOSMVisibilities = function(osmSets) {
 
    console.log("building OSM visibilities...");
@@ -307,4 +231,92 @@ LayersManager.buildOSMVisibilities = function(osmSets) {
    }
 
    return osmVisibilities;
+}
+
+//=======================================================================================//
+// Default configs
+//-------------------------------------------//
+
+LayersManager.getOSMLayerConfig = function(styleUIDs) {
+
+   var styles = (styleUIDs === undefined) ? [Maperial.DEFAULT_STYLE_UID] : styleUIDs; 
+   
+   return { 
+      type: LayersManager.Vector, 
+      source: {
+         type: Source.MaperialOSM
+      },
+      params: {
+         styles: styles,
+         selectedStyle: 0
+      },
+      composition: {
+         shader : Maperial.MulBlend,
+         params : { uParams : [ -0.5, -0.5, 1.0 ]}
+      }
+   }
+}
+
+//-------------------------------------------//
+
+LayersManager.getRasterLayerConfig = function(rasterUID, colorbarUIDs) {
+   
+   var colorbars = (colorbarUIDs === undefined) ? [Maperial.DEFAULT_COLORBAR_UID] : colorbarUIDs; 
+   
+   return { 
+      type: LayersManager.Raster, 
+      source: {
+         type: Source.Raster,
+         params: { uid : rasterUID }
+      },
+      params: {
+         colorbars: colorbars,
+         selectedColorbar : 0
+      },
+      composition: {
+         shader : Maperial.MulBlend,
+         params : { uParams : [ -0.5, -0.5, 1 ]}
+      }
+   }
+}
+
+//-------------------------------------------//
+
+LayersManager.getVectorLayerConfig = function() {
+   return { 
+      type: LayersManager.Vector, 
+      source: {
+         type: Source.Vector
+      },
+      params: {
+
+      },
+      composition: {
+         shader : Maperial.AlphaBlend
+      }
+   }
+}
+
+//-------------------------------------------//
+
+/**
+ * src : 
+ *    Source.IMAGES_MAPQUEST
+ *    Source.IMAGES_MAPQUEST_SATELLITE
+ *    Source.IMAGES_OSM
+ */
+LayersManager.getImagesLayerConfig = function(src) {
+   return { 
+      type: LayersManager.Images, 
+      source: {
+         type: Source.Images,
+         params: { src: src }
+      },
+      params: {
+
+      },
+      composition: {
+         shader : Maperial.AlphaBlend
+      }
+   }
 }
