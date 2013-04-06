@@ -66,6 +66,8 @@
    MapCreationController.getLayersCreationConfig = function(){
 
       var config = App.maperial.emptyConfig();
+
+      config.map.layersCreation = true;
       
       // custom
       config.hud.elements["Layers"]              = {show : true,  type : HUD.PANEL,  position : { right: "0", top: "0"},      disableHide : true, disableDrag : true };
@@ -77,11 +79,8 @@
       config.hud.elements[HUD.SCALE]         = {show : false, type : HUD.PANEL,    label : "Scale" };
       config.hud.elements[HUD.GEOLOC]        = {show : false, type : HUD.PANEL,    label : "Location" };
       
-      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
-      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
-      
-      config.map.layersCreation = true;
-      
+      App.addMargins(config);      
+
       return config;
    }  
 
@@ -97,8 +96,7 @@
       // custom
       config.hud.elements["Settings"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true, disableDrag : true };
 
-      config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
-      config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+      App.addMargins(config);
 
       // layers + map options previously chosen
       config.layers = App.maperial.config.layers;
@@ -380,8 +378,7 @@
       App.maperial.config.hud.elements["Settings"] = {show : true, type : HUD.PANEL, position : { right: "0", top: "0"}, disableHide : true, disableDrag : true };
       App.maperial.config.hud.elements[HUD.LATLON] = {show : true, type : HUD.PANEL, position : { left: "0", top: "0"}, disableHide : true, disableDrag : true };
       
-      App.maperial.config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
-      App.maperial.config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
+      App.addMargins(App.maperial.config);
       
       App.maperial.hud.refresh();
 
@@ -633,7 +630,7 @@
       delete App.maperial.config.map.requireBoundingBoxDrawer;
       delete App.maperial.config.map.layersCreation;
 
-      App.maperial.config.hud.options = {};
+      App.removeMargins(App.maperial.config);
       
       // update the selectedMap
       App.user.set('selectedMap.config', App.maperial.config);

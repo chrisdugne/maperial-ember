@@ -73,9 +73,13 @@ MapMover.prototype.removeListeners = function () {
 MapMover.prototype.reset = function () {
 
    this.mouseData    = [];
-   this.lastMouseX   = this.context.mouseP.x;
-   this.lastMouseY   = this.context.mouseP.y;
    this.autoMoving = false;
+
+   try{
+      this.lastMouseX   = this.context.mouseP.x;
+      this.lastMouseY   = this.context.mouseP.y;
+   }
+   catch(e){}
 
 }
 
