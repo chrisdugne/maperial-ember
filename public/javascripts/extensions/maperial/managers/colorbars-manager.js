@@ -99,8 +99,27 @@ ColorbarsManager.prototype.getURL = function(colorbarUID) {
 }
 
 //----------------------------//
+ColorbarsManager.prototype.SetDefaultColorBar = function (){
+
+   console.log("SetDefaultColorBar");
+   var cbData = [];   
+   cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 0 );
+   for ( i = 1 ; i < 256 ; i = i + 1) {
+      var r = Math.round(i*2);
+      if (r <= 255){
+         cbData.push ( 255 - r );cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 255 );
+      }
+      else {
+         cbData.push ( 0 ) ;cbData.push ( 0 );cbData.push ( 0 );cbData.push ( 255 );
+      }
+   }
+
+   return new Uint8Array(cbData);
+}
 
 ColorbarsManager.prototype.convertJsonToData = function(colorbarJson) {
+   
+   return this.SetDefaultColorBar();
    
    var data = [];   
    var previousStep = 0;

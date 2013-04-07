@@ -15,4 +15,4 @@ HomeMover.prototype.move = function() {
 // ----------------------------//
 
 window.homeMover = new HomeMover();
-setInterval( window.homeMover.move , 40 );
+setInterval( window.homeMover.move , 30 );

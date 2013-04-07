@@ -78,8 +78,22 @@
 	width: 70%;
 }
 
+/*--------------------------------*/
 .widget_sp_image-description p {
 	font-size: 14px;
+}
+
+.home-description {
+	text-align: left;
+}
+
+.home-container {
+	margin-bottom:50px;
+}
+
+.home-description h2{
+	color: #386d0f;
+	margin-bottom:20px;
 }
 
 /*--------------------------------*/
