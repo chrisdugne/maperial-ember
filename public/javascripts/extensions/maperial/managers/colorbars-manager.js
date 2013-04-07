@@ -74,8 +74,12 @@ ColorbarsManager.prototype.loadColorbar = function(colorbarUID) {
       url: colorbarURL,
       dataType: "json",
       success: function (json) {
-         var data = new Uint8Array(me.convertJsonToData(json));
-         window.maperialColorbars[colorbarUID] = {uid : colorbarUID, name: colorbarUID, content:json, data: data};
+         window.maperialColorbars[colorbarUID] = {
+               uid : colorbarUID, 
+               name: colorbarUID, 
+               content:json, 
+               data: me.convertJsonToData(json)
+         };
          me.loadNextColorbar();
       }
    });
@@ -112,5 +116,5 @@ ColorbarsManager.prototype.convertJsonToData = function(colorbarJson) {
    }
    
    console.log(data);
-   return data;
+   return new Uint8Array(data);
 }
