@@ -27,7 +27,7 @@ ColorbarsManager.prototype.getSelectedColorbar = function(layerIndex) {
       var colorbarUID = layerParams.colorbars[layerParams.selectedColorbar];
       return window.maperialColorbars[colorbarUID];
    }
-   
+
    return null;
 }
 
@@ -74,8 +74,7 @@ ColorbarsManager.prototype.loadColorbar = function(colorbarUID) {
       url: colorbarURL,
       dataType: "json",
       success: function (json) {
-         var data = new Uint8Array(json);
-         console.log(data);
+         var data = new Uint8Array(me.convertJsonToData(json));
          window.maperialColorbars[colorbarUID] = {uid : colorbarUID, name: colorbarUID, content:json, data: data};
          me.loadNextColorbar();
       }
@@ -93,4 +92,25 @@ ColorbarsManager.prototype.loadNextColorbar = function() {
 
 ColorbarsManager.prototype.getURL = function(colorbarUID) {
    return Maperial.serverURL + "/api/colorbar/" + colorbarUID;
+}
+
+//----------------------------//
+
+ColorbarsManager.prototype.convertJsonToData = function(colorbarJson) {
+   
+   var data = [];   
+   var previousStep = 0;
+   for ( i in colorbarJson) {
+      for ( var n = previousStep; n <= parseInt(i); n++) {
+         data.push ( colorbarJson[i].r );
+         data.push ( colorbarJson[i].g );
+         data.push ( colorbarJson[i].b );
+         data.push ( colorbarJson[i].a * 255 );
+      }
+      
+      previousStep = n;
+   }
+   
+   console.log(data);
+   return data;
 }

@@ -37,7 +37,7 @@ MapRenderer.prototype.reset = function () {
    
 //----------------------------------------------------------------------//
    
-   MapRenderer.prototype.initListeners = function () {
+MapRenderer.prototype.initListeners = function () {
 
    var renderer = this;
    
@@ -260,6 +260,8 @@ MapRenderer.prototype.renderAllColorBars = function () {
          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S,this.gl.CLAMP_TO_EDGE);
          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T,this.gl.CLAMP_TO_EDGE);
          this.gl.bindTexture  (this.gl.TEXTURE_2D, null );
+         
+         console.log ( "texture ok : " + colorbarUID );
       } catch (e) { 
          this.gl.deleteTexture ( colorbar.tex );
          delete colorbar.tex;
