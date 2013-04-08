@@ -180,12 +180,13 @@ MapManager.prototype.exportMap = function(zoom){
          latmax : bbox.latMax,
          lonmin : bbox.lonMin,
          lonmax : bbox.lonMax,
-   }
+         z      : zoom
+   };
    
    $.ajax({
-      type: "POST",  
+      type: "POST",
       url: App.Globals.mapServer + "/api/export",
-      data: $.param(_export),
+      data: _export,
       dataType: "json",
       error: function (e, message){
          console.log("Error during exportMap " + message);
@@ -222,6 +223,7 @@ MapManager.prototype.checkExport = function(_export){
       success: function (data)
       {
          if(data.done != undefined){
+            console.log(data.done);
             Utils.editObjectInArray(_export, "percentage", data.done);
             setTimeout(function(){me.checkExport(_export)}, MapManager.CHECK_RASTER_MILLIS);
          }
