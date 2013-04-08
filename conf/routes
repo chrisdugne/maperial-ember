@@ -24,6 +24,8 @@ POST /getAccount					controllers.AccountService.getAccount()
 POST /createMap						controllers.MapService.createMap()
 POST /editMap						controllers.MapService.editMap()
 POST /removeMap						controllers.MapService.removeMap()
+POST /addExport						controllers.MapService.addExport()
+POST /removeExport					controllers.MapService.removeExport()
 
 #---------------------------------------------------------------------------
 #   DatasetService 

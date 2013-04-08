@@ -2,8 +2,8 @@ package controllers;
 
 import java.util.Date;
 
+import models.Export;
 import models.Map;
-import models.Style;
 
 import org.codehaus.jackson.JsonNode;
 
@@ -97,5 +97,55 @@ public class MapService extends Application
 		return ok();
 	}
 	
-	// ---------------------------------------------//
+	// ===================================================================  //
+	
+	public static Result addExport()
+	{
+		//----------//
+
+		JsonNode params = request().body().asJson();
+		JsonNode mapJson = params.get("map");
+		JsonNode exportJson = params.get("export");
+		
+		//----------//
+		
+		Export export = new Export();
+		
+		String mapUID = mapJson.get("uid").asText();
+		String exportUID = exportJson.get("uid").asText();
+		String name = exportJson.get("name").asText();
+		
+		export.setUid(exportUID);
+		export.setName(name);
+		export.setCreationTime(new Date().getTime());
+		
+		//----------//
+		
+		AccountManager.addExport(mapUID, export);
+		
+		//----------//
+		
+		return ok(gson.toJson(export));
+	}
+
+	
+	public static Result removeExport()
+	{
+		//----------//
+		
+		JsonNode params = request().body().asJson();
+		JsonNode exportJson = params.get("export");
+		
+		//----------//
+
+		String exportUID = exportJson.get("uid").asText();
+		
+		//----------//
+		
+		AccountManager.removeExport(exportUID);
+		
+		//----------//
+		
+		return ok();
+	}
 }

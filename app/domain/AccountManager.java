@@ -6,6 +6,7 @@ import java.util.List;
 import models.Account;
 import models.Colorbar;
 import models.Dataset;
+import models.Export;
 import models.Font;
 import models.Icon;
 import models.Map;
@@ -248,6 +249,31 @@ public class AccountManager {
 		Map map = Map.find.where().ilike("uid", mapUID).findUnique();
 
 		Ebean.delete(map);
+	}
+
+	//======================================================================================//
+	//
+	// - Exports
+	//
+
+	@Transactional
+	public static void addExport(String mapUID, Export export) 
+	{
+		Map map = Map.find.where().ilike("uid", mapUID).findUnique();
+
+		export.setMap(map);
+
+		Ebean.save(export);  
+	}
+
+	//------------------------------------------------------------------------------------//
+
+	@Transactional
+	public static void removeExport(String exportUID) 
+	{
+		Export export = Export.find.where().ilike("uid", exportUID).findUnique();
+
+		Ebean.delete(export);
 	}
 	
 	//======================================================================================//

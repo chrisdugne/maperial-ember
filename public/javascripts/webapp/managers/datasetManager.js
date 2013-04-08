@@ -177,7 +177,7 @@ DatasetManager.createRaster = function(){
       data: $.param(raster),
       dataType: "json",
       error: function (e, message){
-         console.log("RASTER BANG " + message);
+         console.log("Error during createRaster " + message);
       },
       success: function (data)
       {

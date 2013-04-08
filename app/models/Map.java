@@ -1,8 +1,12 @@
 package models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.db.ebean.Model;
 
@@ -26,6 +30,10 @@ public class Map extends Model{
 	@Expose
 	private Long lastModifiedTime;
 
+	@OneToMany(cascade=CascadeType.ALL)
+	@Expose
+	private List<Export> exports;
+	
 	// -----------------------------------------------------------------------------------------------//
 
 	@ManyToOne
@@ -68,6 +76,14 @@ public class Map extends Model{
 
 	public void setLastModifiedTime(Long lastModifiedTime) {
 		this.lastModifiedTime = lastModifiedTime;
+	}
+
+	public List<Export> getExports() {
+		return exports;
+	}
+
+	public void setExports(List<Export> exports) {
+		this.exports = exports;
 	}
 
 	public Account getAccount() {

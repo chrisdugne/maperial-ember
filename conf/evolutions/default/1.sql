@@ -29,6 +29,14 @@ create table dataset (
   constraint pk_dataset primary key (uid))
 ;
 
+create table export (
+  uid                       varchar(255) not null,
+  name                      varchar(255),
+  creation_time             bigint,
+  map_uid                   varchar(255),
+  constraint pk_export primary key (uid))
+;
+
 create table font (
   uid                       varchar(255) not null,
   name                      varchar(255),
@@ -48,7 +56,6 @@ create table icon (
 create table map (
   uid                       varchar(255) not null,
   name                      varchar(255),
-  config                    varchar(255),
   creation_time             bigint,
   last_modified_time        bigint,
   account_uid               varchar(255),
@@ -77,6 +84,8 @@ create sequence colorbar_seq;
 
 create sequence dataset_seq;
 
+create sequence export_seq;
+
 create sequence font_seq;
 
 create sequence icon_seq;
@@ -91,16 +100,18 @@ alter table colorbar add constraint fk_colorbar_account_1 foreign key (account_u
 create index ix_colorbar_account_1 on colorbar (account_uid);
 alter table dataset add constraint fk_dataset_account_2 foreign key (account_uid) references account (uid);
 create index ix_dataset_account_2 on dataset (account_uid);
-alter table font add constraint fk_font_account_3 foreign key (account_uid) references account (uid);
-create index ix_font_account_3 on font (account_uid);
-alter table icon add constraint fk_icon_account_4 foreign key (account_uid) references account (uid);
-create index ix_icon_account_4 on icon (account_uid);
-alter table map add constraint fk_map_account_5 foreign key (account_uid) references account (uid);
-create index ix_map_account_5 on map (account_uid);
-alter table raster add constraint fk_raster_dataset_6 foreign key (dataset_uid) references dataset (uid);
-create index ix_raster_dataset_6 on raster (dataset_uid);
-alter table style add constraint fk_style_account_7 foreign key (account_uid) references account (uid);
-create index ix_style_account_7 on style (account_uid);
+alter table export add constraint fk_export_map_3 foreign key (map_uid) references map (uid);
+create index ix_export_map_3 on export (map_uid);
+alter table font add constraint fk_font_account_4 foreign key (account_uid) references account (uid);
+create index ix_font_account_4 on font (account_uid);
+alter table icon add constraint fk_icon_account_5 foreign key (account_uid) references account (uid);
+create index ix_icon_account_5 on icon (account_uid);
+alter table map add constraint fk_map_account_6 foreign key (account_uid) references account (uid);
+create index ix_map_account_6 on map (account_uid);
+alter table raster add constraint fk_raster_dataset_7 foreign key (dataset_uid) references dataset (uid);
+create index ix_raster_dataset_7 on raster (dataset_uid);
+alter table style add constraint fk_style_account_8 foreign key (account_uid) references account (uid);
+create index ix_style_account_8 on style (account_uid);
 
 
 
@@ -111,6 +122,8 @@ drop table if exists account cascade;
 drop table if exists colorbar cascade;
 
 drop table if exists dataset cascade;
+
+drop table if exists export cascade;
 
 drop table if exists font cascade;
 
@@ -127,6 +140,8 @@ drop sequence if exists account_seq;
 drop sequence if exists colorbar_seq;
 
 drop sequence if exists dataset_seq;
+
+drop sequence if exists export_seq;
 
 drop sequence if exists font_seq;
 
