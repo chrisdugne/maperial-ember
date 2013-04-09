@@ -282,6 +282,7 @@ MapRenderer.prototype.Start = function () {
    } catch (e) { }
    if (!this.gl) {
       console.log("Could not initialise WebGL")
+      window.location.href = "http://maperial.com/usechrome.html";
       return false;
    }
 

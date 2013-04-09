@@ -40,6 +40,10 @@
   margin: 10px 0;
 }
 
+.footer-fixed {
+  position:fixed;
+}
+
 .footer-links li {
   display: inline;
   padding: 0 2px;

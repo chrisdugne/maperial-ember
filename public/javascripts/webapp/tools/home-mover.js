@@ -1,18 +1,38 @@
 // ----------------------------//
 
-function HomeMover() {}
+function HomeMover (){
+   this.position = 0;
+}
 
+   
 // ----------------------------//
 
 HomeMover.prototype.move = function() {
    try{
-      var position = document.getElementById('homeImage').style.backgroundPositionX.split("px")[0];
-      document.getElementById('homeImage').style.backgroundPositionX = (position-1)+"px";
+      document.getElementById('homeImage').style.backgroundPosition = (this.position--)+"px 0px" ;
    }
    catch(e){}
 }
 
 // ----------------------------//
 
-window.homeMover = new HomeMover();
-setInterval( window.homeMover.move , 30 );
+HomeMover.prototype.tryNow = function() {
+   if(navigator.appName == "Microsoft Internet Explorer")
+      window.location.href = "http://maperial.com/usechrome.html";
+   else{
+      $("#tryButton").addClass("hide");
+      $("#signinButton").addClass("hide");
+      $("#body").append('<img class="headerButton" src="/assets/images/mapediting/spin.white.gif" width="25px"/>');
+      window.location.href = "http://maperial.com/#/tryscreen";
+   }
+}
+
+// ----------------------------//
+
+var homeMover = new HomeMover();
+setInterval( (function(homeMover){
+   return function(){
+      homeMover.move();
+   }
+})(homeMover) 
+, 30 );

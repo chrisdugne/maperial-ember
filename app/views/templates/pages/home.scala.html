@@ -3,60 +3,174 @@
 
 <div class="container-fluid" id="homeContent">
 
-	<div class="marketing">
-		
+	<!-- ----------------------------------------------------------------------------- -->
+	<!-- Content 																	   -->
+	<!-- ----------------------------------------------------------------------------- -->
+
+	<div class="marketing home-container">
+
+		<!-- -------------------------------------------------------------- -->
+		<!-- Top Image -->
+
 		<div id="homeImage"></div>
-		<img id="playImage" {{action showVideo}} class="touchable" src="@routes.Assets.at("images/home/part1/play.png")"></img>
+		<img id="playImage" onclick="window.youtubeManager.openVideoWindow()"
+			class="touchable" src="assets/images/home/part1/play.png"></img>
 
 		<div class="row-fluid" id="part1">
-			<h1 class="homeTitle">Maperial</h1>
-			<p class="homeSubtitle">Beautiful maps. Everywhere.</p>
-			
+			<h1 class="homeTitle">Awesome maps</h1>
+			<p class="homeSubtitle">Everywhere.</p>
 		</div>
 
+		<!-- -------------------------------------------------------------- -->
+		<!-- Upload/Organize/Customize/Share -->
+
+		<div class="row-fluid">
+
+			<div class="span8 offset2">
+				<div class="homepage_top">
+					<div class="span3">
+						<div id="widget_sp_image-2" class="widget widget_sp_image">
+							<img src="assets/images/home/part1/maperialize.mini.png">
+							<h4 class="title">Upload</h4>
+							<div class="widget_sp_image-description">
+								<p>Use your own data from your prefered GIS.</p>
+							</div>
+						</div>
+					</div>
+					<div class="span3">
+						<div id="widget_sp_image-3" class="widget widget_sp_image">
+							<img src="assets/images/home/part1/layers.mini.png">
+							<h4 class="title">Organize</h4>
+							<div class="widget_sp_image-description">
+								<p>Set all relevant content using our detailled layer
+									creation.</p>
+							</div>
+						</div>
+					</div>
+					<div class="span3">
+						<div id="widget_sp_image-4" class="widget widget_sp_image">
+							<img src="assets/images/home/part1/edit.mini.png">
+							<h4 class="title">Customize</h4>
+							<div class="widget_sp_image-description">
+								<p>Choose every color, to style the basemaps and your data</p>
+							</div>
+						</div>
+					</div>
+					<div class="span3">
+						<div id="widget_sp_image-5" class="widget widget_sp_image">
+							<img src="assets/images/home/part1/people.mini.png">
+							<h4 class="title">Share</h4>
+							<div class="widget_sp_image-description">
+								<p>Publish your maps on the web and export high quality
+									images.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- -------------------------------------------------------------- -->
+
+		<div class="row-fluid">
+			<hr class="soften span10 offset1" />
+		</div>
+
+		<!-- -------------------------------------------------------------- -->
+		<!-- Larger descriptions -->
+
 		<div class="row-fluid homePart" id="part2">
+
 			<div class="row-fluid">
-			
-				<div class="span4 offset2">
-					<img class="homeIcon" src="@routes.Assets.at("images/home/part1/clock.mini.png")">
+				<div class="home-description span6 offset2">
 					<h2>Quick and Easy</h2>
-					<p> Detailled layer creation within clicks
-						Generate quickly and store in the Cloud
-						Easy to use and powerful style editor
-						configure your maps interactivity to your specifics needs thanks to our intuitive UI</p>
+					<p>Detailled layer creation within clicks Generate quickly and
+						store in the Cloud Easy to use and powerful style editor configure
+						your maps interactivity to your specifics needs thanks to our
+						intuitive UI</p>
 				</div>
-			
-				<div class="span4">
-					<img class="homeIcon" src="@routes.Assets.at("images/home/part1/maperialize.mini.png")">
-					<h2>Maperialize your data</h2>
-					<p> Unlimited layers, custom ordering and composition
-						Upload your data : rasters, grids, vectors...
-						Visualize, question, analyze, interpret, and understand your data with a suited rendering	</p>
+				<div class="span2">
+					<img class="homeIcon" src="assets/images/home/part1/clock.mini.png">
 				</div>
-			
 			</div>
-			
+
+			<!-- --------- -->
+
 			<div class="row-fluid">
-				<div class="span4 offset2">
-					<img class="homeIcon" src="@routes.Assets.at("images/home/part1/edit.mini.png")">
-					<h2>Customize</h2>
-					<p> Customize your maps, your exports
-						Deep and Accurate edition	</p>
-				</div>
-			
-				<div class="span4">
-					<img class="homeIcon" src="@routes.Assets.at("images/home/part1/people.mini.png")">
-					<h2>Share</h2>
-					<p> Publish your maps on the web
-						Export high quality images
-						Interactive maps on your own domain
-						Get your own "Map Library"	</p>
-				</div>
-			
+				<hr class="soften span10 offset1" />
 			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>Maperialize your data</h2>
+					<p>Unlimited layers, custom ordering and composition Upload
+						your data : rasters, grids, vectors... Visualize, question,
+						analyze, interpret, and understand your data with a suited
+						rendering</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon"
+						src="assets/images/home/part1/maperialize.mini.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>Customize</h2>
+					<p>Customize your maps, your exports Deep and Accurate edition
+
+					</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="assets/images/home/part1/edit.mini.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>Share, Saas</h2>
+					<p>Store in the Cloud, Publish your maps on the web Export high
+						quality images Interactive maps on your own domain Get your own
+						"Map Library"</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon"
+						src="assets/images/home/part1/people.mini.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+			<div
+				onClick="window.location.href='http://maperial.localhost:9000/#/tryscreen'"
+				class="btn-large btn-primary span2 offset5 touchable">Try now !</div>
 		</div>
 
 	</div>
+	
 </div>
 
 
