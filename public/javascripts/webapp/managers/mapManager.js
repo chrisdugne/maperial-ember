@@ -6,6 +6,10 @@ function MapManager(){
 
 }
 
+//-------------------------------------------//
+
+MapManager.CHECK_EXPORT_MILLIS = 500;
+
 //=================================================================//
 
 MapManager.prototype.createNewMap = function(){
@@ -16,8 +20,10 @@ MapManager.prototype.createNewMap = function(){
 //=================================================================//
 
 MapManager.prototype.getMaps = function(user){
-
+   
+   var me = this;
    var list = {uids : []};
+   
    for(var i=0; i < user.maps.length; i++ ){
       list.uids.push(user.maps[i].uid);
    }
@@ -39,6 +45,7 @@ MapManager.prototype.getMaps = function(user){
             for(mapUID in mapConfigs){
                if(user.maps[i].uid == mapUID){
                   user.maps[i].config = mapConfigs[mapUID];
+                  me.initExports(user.maps[i]);
                   break;
                }
             }
@@ -167,20 +174,37 @@ MapManager.prototype.deleteMap = function(map)
 
 //=================================================================//
 
+MapManager.prototype.initExports = function(map)
+{
+   var me = this;
+   map.hasNoExport = map.exports.length == 0;
+   
+   for(var j=0; j< map.exports.length; j++){
+      (function(j, map){
+         me.checkExport(map.exports[j], map);
+      })(j, map);
+   }
+}
+
+
+//=================================================================//
+
 MapManager.prototype.exportMap = function(zoom){
 
    console.log("exportMap", zoom, App.user.selectedMap.config.map);
    var me = this;
    var bbox = App.user.selectedMap.config.map;
    var map = App.user.selectedMap;
+
    var _export = {
-         confuid : map.uid, 
-         mapUID : map.uid, 
-         latmin : bbox.latMin,
-         latmax : bbox.latMax,
-         lonmin : bbox.lonMin,
-         lonmax : bbox.lonMax,
-         z      : zoom
+         confuid  : map.uid, 
+         mapUID   : map.uid, 
+         latmin   : bbox.latMin,
+         latmax   : bbox.latMax,
+         lonmin   : bbox.lonMin,
+         lonmax   : bbox.lonMax,
+         z        : zoom,
+         name     : map.name + "_export_zoom_" + zoom 
    };
    
    $.ajax({
@@ -197,15 +221,15 @@ MapManager.prototype.exportMap = function(zoom){
          map.exports.pushObject(_export);
          Utils.editObjectInArray(map, "hasNoExport", false);
 
-         $('#exportMapWindow').modal("hide");
-
          me.addExport(_export);
-         me.checkExport(_export);
+         me.checkExport(_export, map);
       }
    });
 }
 
-MapManager.prototype.checkExport = function(_export){
+//-----------------------------------------------------------------//
+
+MapManager.prototype.checkExport = function(_export, map){
 
    var me = this;
    Utils.editObjectInArray(_export, "onError", false);
@@ -216,32 +240,61 @@ MapManager.prototype.checkExport = function(_export){
       url: App.Globals.mapServer + "/api/export/info/"+_export.uid,
       dataType: "json",
       error: function (e, message){
-         Utils.editObjectInArray(_export, "onError", true);
-         Utils.editObjectInArray(_export, "generating", false);
-         Utils.editObjectInArray(_export, "error", "Configuration refused by the server");
+         if(e.status == "404"){
+            // server is not ready yet, ask him again
+            Utils.editObjectInArray(_export, "percentage", 1);
+            setTimeout(function(){me.checkExport(_export, map)}, MapManager.CHECK_EXPORT_MILLIS);
+         }
+         else{
+            // server is on error.
+            console.log(e)
+            Utils.editObjectInArray(_export, "onError", true);
+            Utils.editObjectInArray(_export, "generating", false);
+            Utils.editObjectInArray(_export, "error", "Configuration refused by the server");
+         }
       },
       success: function (data)
       {
          if(data.done != undefined){
-            console.log(data.done);
-            Utils.editObjectInArray(_export, "percentage", data.done);
-            setTimeout(function(){me.checkExport(_export)}, MapManager.CHECK_RASTER_MILLIS);
+
+            var status = data.done.split(" / ");
+            var percentage = (parseInt(status[0])/parseInt(status[1]))*100;
+            if(percentage == 0)percentage = 1;
+            
+            me.disableNewExport(_export, map);
+            Utils.editObjectInArray(_export, "percentage", percentage);
+            
+            setTimeout(function(){me.checkExport(_export, map)}, MapManager.CHECK_EXPORT_MILLIS);
          }
          else{
+            me.enableNewExport(map);
             Utils.editObjectInArray(_export, "generating", false);
-
-            if(data.error != undefined && data.errCode != 0){
-               // { "errcode" : 3, "error" : "Projection failed" }
-
-               console.log("ERROR", data.error);
-               Utils.editObjectInArray(_export, "onError", true);
-               Utils.editObjectInArray(_export, "error", data.error);
-            }
          }
       }
    });
 
 }
+
+MapManager.prototype.disableNewExport = function(_export, map){
+   try{
+      Utils.editObjectInArray(map, "currentExport", _export);
+      
+      if(App.user.selectedMap.uid == map.uid)
+         $("#newExportArea").addClass("hide");
+   }
+   catch(e){}
+}
+
+MapManager.prototype.enableNewExport = function(map){
+   try{
+      Utils.editObjectInArray(map, "currentExport", null);
+      
+      if(App.user.selectedMap.uid == map.uid)
+         $("#newExportArea").removeClass("hide");
+   }
+   catch(e){}
+}
+
 
 //-------------------------------------------//
 
@@ -308,3 +361,9 @@ MapManager.prototype.deleteExport = function(_export, map)
    });
 }
 
+//-------------------------------------------//
+
+MapManager.prototype.openExport = function(_export)
+{
+   window.open(App.Globals.mapServer + "/api/export/" + _export.uid,'_blank');
+}

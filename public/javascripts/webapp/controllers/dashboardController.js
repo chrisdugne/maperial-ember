@@ -64,6 +64,11 @@
 	{
 	   App.mapManager.deleteMap(map);
 	}
+	
+	DashboardController.deleteExport = function(_export)
+	{
+	   App.mapManager.deleteExport(_export, App.user.selectedMap);
+	}
 
 	//----------------------//
 
@@ -72,6 +77,11 @@
       App.user.set("selectedMap", map);
       App.user.set("isExportingAMap", true);
       DashboardController.refreshExportSlider();
+      
+      if(!map.currentExport)
+         App.mapManager.enableNewExport(map);
+      else
+         App.mapManager.disableNewExport(map.currentExport, map);
       
       if(!map.config.map.latMin)
          $("#exportArea").addClass("hide")
@@ -136,6 +146,16 @@
       deleteMap: function(router, event){
          var map = event.context;
          DashboardController.deleteMap(map);
+      },
+      
+      deleteExport: function(router, event){
+         var _export = event.context;
+         DashboardController.deleteExport(_export);
+      },
+
+      openExport: function(router, event){
+         var _export = event.context;
+         App.mapManager.openExport(_export);
       },
       
 		styles: Ember.Route.transitionTo('styles'),

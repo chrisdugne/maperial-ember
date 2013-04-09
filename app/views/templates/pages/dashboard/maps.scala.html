@@ -5,12 +5,21 @@
     		{{#each map in user.maps}}
 			    <tr class="template-download">
 			        <td colspan="3">{{mapthumb map.config.layers}}</td>
-			        <td><p class="filename">{{map.name}}</p></td>
+			        <td><p class="mapname">{{map.name}}</p></td>
 
-		        	<td><div class="btn-small btn-success touchable" title="Export" {{action openExportWindow map}} ><i class="sprite-maperial maperial-arrow-down"></i></div></td>
-			        <td><div class="btn-small btn-success touchable" title="Edit" {{action editMap map}} ><i class="sprite-maperial maperial-map-edit"></i></div></td>
-			        <td><div class="btn-small btn-success touchable" title="View" {{action viewMap map}} ><i class="sprite-maperial maperial-map-go"></i></div></td>
-			        <td><div class="btn-small btn-danger touchable" title="Delete" {{action deleteMap map}} ><i class="sprite-maperial maperial-map-delete"></i></div></td>
+		        	<td colspan="3">
+		        		<div class="row-fluid marginbottom">
+				        	<div class="btn-small btn-success touchable span3" title="Export" {{action openExportWindow map}} ><i class="sprite-maperial maperial-arrow-down"></i></div>
+					        <div class="btn-small btn-success touchable span3" title="Edit" {{action editMap map}} ><i class="sprite-maperial maperial-map-edit"></i></div>
+					        <div class="btn-small btn-success touchable span3" title="View" {{action viewMap map}} ><i class="sprite-maperial maperial-map-go"></i></div>
+					        <div class="btn-small btn-danger touchable span3" title="Delete" {{action deleteMap map}} ><i class="sprite-maperial maperial-map-delete"></i></div>
+				        </div>
+				        {{#if map.currentExport}}
+			        		<div class="row-fluid">
+			        			{{progressBar map.currentExport.percentage class="export-dashboard-progress progress"}}
+					        </div>
+					    {{/if}}
+			        </td>
 					
 			    </tr>
 		    {{/each}}

@@ -16,7 +16,17 @@ Ember.Handlebars.registerBoundHelper('fileName',
  */
 Ember.Handlebars.registerBoundHelper('progressBar', 
       function(percentage, options) {
-         return new Handlebars.SafeString("<div class=\"progress "+options.hash.span+"\"><div class=\"bar\" style=\"width: "+percentage+"%;\"></div></div>");
+         var customclass = "";
+
+         if(options.hash.class)
+            customclass += " " + options.hash.class;
+         else
+            customclass += " progress";
+         
+         if(options.hash.span)
+            customclass += " " + options.hash.span;
+         
+         return new Handlebars.SafeString("<div class=\""+customclass+"\"><div class=\"bar\" style=\"width: "+percentage+"%;\"></div></div>");
       }
 );
 

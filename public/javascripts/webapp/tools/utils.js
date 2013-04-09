@@ -179,7 +179,10 @@ Utils.editObjectInArray = function(object, property, value)
       content: object
    });
 
-   proxy.set(property, value);
+   try{
+      proxy.set(property, value);
+   }
+   catch(e){}
 }
 
 //----------------------------------------------------------------------------------------//

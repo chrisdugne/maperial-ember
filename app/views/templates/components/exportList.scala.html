@@ -1,0 +1,44 @@
+
+{{#if user.selectedMap.hasNoExport}}
+	<div class="span3 offset1">
+		<span class="label label-important">(no export yet)</span>
+	</div>
+{{else}}
+	{{#each export in user.selectedMap.exports}}
+		{{#with export}}
+			<div class="row-fluid marginbottom">
+			{{#if onError}}
+				<div class="span3 offset1">
+					<span class="label label-important">Export Error</span>
+				</div>
+				<div class="span4">
+					<span>{{error}}</span>
+				</div>
+			{{else}}
+				<div class="span3 offset1 name">
+					<p class="filename">{{name}}</p>
+				</div>
+				{{#if generating}}
+					{{progressBar percentage span="span4 offset2"}}
+					<div class="span1">
+						<img src="@routes.Assets.at("images/mapediting/spin.gif")" width="30px"/>
+					</div>
+				{{else}}
+					<div class="span3 offset2">
+						<span>{{formatDate creationTime}}</span>
+					</div>
+					<div class="span1 btn-small btn-success" {{action openExport export}}>
+						<i class="icon-zoom-in icon-white"></i>
+					</div>
+					<div class="span1 btn-small btn-danger" {{action deleteExport export}}>
+						<i class="icon-trash icon-white"></i>
+					</div>
+				{{/if}}
+			{{/if}}
+			</div>
+		{{/with}}
+	{{/each}} 
+{{/if}}
+
+
+<br /> <br />
