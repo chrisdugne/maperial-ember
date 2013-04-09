@@ -17,7 +17,7 @@ HomeMover.prototype.move = function() {
 
 HomeMover.prototype.tryNow = function() {
    if(navigator.appName == "Microsoft Internet Explorer")
-      window.location.href = "http://maperial.com/usechrome.html";
+      window.location.href = "http://maperial.com/pages/usechrome.html";
    else{
       $("#tryButton").addClass("hide");
       $("#signinButton").addClass("hide");
