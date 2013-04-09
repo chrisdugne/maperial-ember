@@ -563,11 +563,12 @@ Colorbar.prototype.Import = function(){
    }
    for(var key in this.colorbar.content){
       this.colorbar.content.hasOwnProperty(key);
+      
       var color = new RGBColor("black");
       color.r = this.colorbar.content[key].r;
       color.g = this.colorbar.content[key].g;
       color.b = this.colorbar.content[key].b;  
-      console.log(this.colorbar.content[key]);
+      
       if ( key == 0 ){
          this.AddFirst(color);
       }

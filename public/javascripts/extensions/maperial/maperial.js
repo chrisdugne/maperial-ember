@@ -419,7 +419,6 @@ Maperial.prototype.buildStyleMenu = function() {
 //==================================================================//
 
 Maperial.prototype.buildColorbar = function() {
-   console.log("buildColorbar",$("#ColorBar"+this.tagId))
    this.colorbar = new Colorbar(
          $("#ColorBar"+this.tagId),
          this.colorbarsManager.getColorbar(Maperial.DEFAULT_COLORBAR_UID),

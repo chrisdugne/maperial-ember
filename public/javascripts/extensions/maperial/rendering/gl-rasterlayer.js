@@ -62,15 +62,13 @@ RasterLayer.prototype.Update = function ( params ) {
 
    var gl = this.gl;
    var colorbarUID = params.colorbars[params.selectedColorbar];
-   var colorbar = this.maperial.colorbarsManager.getColorbar(colorbarUID).content;
+   var colorbar = this.maperial.colorbarsManager.getColorbar(colorbarUID).tex;
    
-//   if ( !colorbar || ! colorbar.tex) { 
-//      console.log("Invalid color bar : setting default") ;
-//      this.Maperial.SetDefaultColorBar();
-//      return 1;
-//   }
+   if ( !colorbar ) { 
+      console.log("Invalid color bar : setting default") ;
+   }
 
-   if ( this.data ) {
+   if ( this.data && colorbar) {
       var gltools                = new GLTools ()
       var fbtx                   = gltools.CreateFrameBufferTex(gl,this.w,this.h)
       var tmpTex                 = gl.createTexture (      );
@@ -114,7 +112,7 @@ RasterLayer.prototype.Update = function ( params ) {
       gl.uniform1i               (prog.params.uSamplerTex1, 0);
       
       gl.activeTexture           (gl.TEXTURE1);
-      gl.bindTexture             (gl.TEXTURE_2D, colorbar.tex );
+      gl.bindTexture             (gl.TEXTURE_2D, colorbar );
       gl.uniform1i               (prog.params.uSamplerTex2, 1);
          
       gl.uniform4fv              (prog.params.uParams ,[0.0,2.0,0.0,1.0] ); 
