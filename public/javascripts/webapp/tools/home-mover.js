@@ -3,7 +3,6 @@
 function HomeMover (){
    this.position = 0;
 }
-
    
 // ----------------------------//
 
@@ -23,7 +22,7 @@ HomeMover.prototype.tryNow = function() {
       $("#tryButton").addClass("hide");
       $("#signinButton").addClass("hide");
       $("#body").append('<img class="headerButton" src="/assets/images/mapediting/spin.white.gif" width="25px"/>');
-      window.location.href = "http://maperial.com/#/tryscreen";
+      window.location.href = "http://maperial.herokuapp.com/#/tryscreen";
    }
 }
 

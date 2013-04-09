@@ -131,7 +131,7 @@
 }
 
 .headerButton {
-	margin-top: 19px;
+	top: 19px;
 	margin-left: 80%;
 	cursor: pointer;
 	cursor: hand;
