@@ -1062,7 +1062,7 @@ CanvasUtilities.Clock=function(id)
   var clockcanvas=document.getElementById(id);
   var ctx=clockcanvas.getContext('2d');
   var pi=Math.PI;	            // just for convenience
-  this.now;		            // so we know what time it is.
+  this.now = null;		            // so we know what time it is.
   var xc=clockcanvas.width/2;	    // x center of clock
   var yc=clockcanvas.height/2;      // y center of clock
   var radius=Math.min(.85*xc,.85*yc); // size of the radius of the circle 

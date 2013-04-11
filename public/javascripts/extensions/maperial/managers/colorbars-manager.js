@@ -6,8 +6,8 @@ function ColorbarsManager(maperial){
 
    this.maperial = maperial;
 
-   this.colorbarsToLoad;
-   this.nextFunction;
+   this.colorbarsToLoad = null;
+   this.nextFunction = null;
 
    window.maperialColorbars = window.maperialColorbars || {};  // cache containing all previously loaded colorbars
 }

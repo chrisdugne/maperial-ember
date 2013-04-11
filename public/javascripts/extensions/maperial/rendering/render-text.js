@@ -436,7 +436,7 @@ function RenderTextCufon (text,font, size, ctx ,l ,fill) {
          g.scale(scale, scale );
          //g.translate(accJ, 0);
          var glyph = glyphs[chars[i]] || font.missingGlyph;
-         if (!glyph) {continue;g.resore();}
+         if (!glyph) {g.restore();continue;}
          if (glyph.d) {
             g.beginPath();
             // the following moveTo is for Opera 9.2. if we don't

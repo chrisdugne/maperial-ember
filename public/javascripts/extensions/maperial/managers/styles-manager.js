@@ -6,8 +6,8 @@ function StylesManager(maperial){
 
    this.maperial = maperial;
 
-   this.stylesToLoad;
-   this.nextFunction;
+   this.stylesToLoad = null;
+   this.nextFunction = null;
 
    window.maperialStyles = window.maperialStyles || {};  // cache containing all previously loaded styles
 }
