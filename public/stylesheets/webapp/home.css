@@ -5,9 +5,8 @@
 	width: 100%;
 }
 .homepage_top .widget_sp_image {
-	padding: 0 10%;
+	padding: 0px 0px 0px 30px;
 	background: url(../../images/home/column_bkg.gif) no-repeat left -2px;
-	padding-bottom:10px;
 }	
 .homepage_top .three:first-child .widget_sp_image {
 	background: none;
@@ -17,7 +16,7 @@
 	padding-top: 26px;
 }
 .homepage_top .widget_sp_image h4 {
-	color: #27c200;
+	color: #27a200;
 	text-align: center;
 	font-size: 1.8em;
 	font-weight: normal;
@@ -92,7 +91,7 @@
 }
 
 .home-description h2{
-	color: #27c200;
+	color: #27a200;
 	margin-bottom:20px;
 }
 
