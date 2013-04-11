@@ -2,11 +2,19 @@
 
 <div id="header" class="snapper">
 	<div {{action openHome}} class="span1 pointerCursor">
-		<img id="logoHeader" src="@routes.Assets.at("images/global/logo.png")"/>
+		<img id="logoHeader" src="@routes.Assets.at("images/global/logo.png")" onClick="App.translator.setLang('fr')"/>
 	</div>
 	<div {{action openHome}} class="span1 pointerCursor">
 		<h1>@Messages("applicationName")</h1>
 	</div>
+</div>
+
+<!-- --------------------------- -->
+<!-- Language buttons -->
+
+<div id="langButtons">
+	<div id="enButton" onClick="App.translator.setLang('en')" class="langButton">{{App.translations.messages.en}}</div>
+	<div id="frButton" onClick="App.translator.setLang('fr')" class="langButton">{{App.translations.messages.fr}}</div>
 </div>
 
 @if(defaultHeader){
@@ -84,13 +92,8 @@
 	        </button>
 			<div id="userDisplay" class="googleUser">{{user.email}}</div>
 		{{else}}
-			<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">@Messages("try")</div>
-			
-			{{bound_equals App.Globals.currentPage value='home'
-				yes='<div id="signinButton" onClick="$(&#39;#loginWindow&#39;).modal();" class="btn-large btn-primary">Log in</div>'
-		   	 	no='<div id="signinButton" onClick="window.location.href=&#39;/?login&#39;" class="btn-large btn-primary">Log in</div>'
-		   	}}
-		   	
+			<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">{{App.translations.messages.Try}}</div>
+			<div id="signinButton" {{action signin}} class="btn-large btn-primary">{{App.translations.messages.LogIn}}</div>
 		{{/if}}
 	{{/if}}
 }

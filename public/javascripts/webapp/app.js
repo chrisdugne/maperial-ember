@@ -15,8 +15,8 @@
    //------------------------------------------------------//
 
    App.initWindowSize = function() {
-      
-//      App.homeScroller = new HomeScroller();
+
+//    App.homeScroller = new HomeScroller();
       App.homeMover = new HomeMover();
       App.resize();
 
@@ -26,9 +26,9 @@
    }
 
    //------------------------------------------------------//
-   
+
    App.placeFooter = function(forceFix){
- 
+
       if($("#webappDiv").height() < $(window).height() || forceFix){
          $("#footerClassic").css({ position : "fixed" });
       }
@@ -44,7 +44,7 @@
    App.finishLoadings = function(nextPage){
 
       App.user.set("waiting", true);
-      
+
       //------------------------------------------------------//
       // gather epsg list
 
@@ -55,7 +55,7 @@
                App.Globals.epsg.push(lines[i].substr(2, lines[i].length-2));
          }
       });
-      
+
       //-------------------------------------------//
       //init getPublicData
 
@@ -75,43 +75,43 @@
             App.publicData.set("icons", publicData.icons);
          }
       });
-      
+
       //-------------------------------------------//
-      
+
       var scripts = [];
-      
+
       var maperialJSScripts = "";
       if(window.location.hostname != "maperial.localhost"){
          scripts.push(App.Globals.WEB_URL + "js/min/maperialjs.min.js");
       }
-      
+
       scripts.push("http://fabricjs.com/lib/fabric.js");
       scripts.push("assets/javascripts/extensions/upload/jquery.fileupload.js");
       scripts.push("assets/javascripts/extensions/upload/main.js");
 
       //-------------------------------------------//
-      
+
       window.scriptLoader.getScripts(scripts, function(){
 
          //-------------------------------------//
-         
+
          App.Globals.shaders.push(Maperial.AlphaClip);
          App.Globals.shaders.push(Maperial.AlphaBlend);
          App.Globals.shaders.push(Maperial.MulBlend);
 
          //-------------------------------------//
-         
+
          $(window).on(MaperialEvents.LOADING, function(){
             App.user.set("waiting", true);
          });
-         
+
          $(window).on(MaperialEvents.READY, function(){
             App.placeFooter(true);
             App.user.set("waiting", false);
          });
 
          //-------------------------------------//
-         
+
          App.maperial = new Maperial();
 
          //-------------------------------------//
@@ -122,7 +122,7 @@
    }
 
    //------------------------------------------------------//
-   
+
    App.addMargins = function(config) {
       config.hud.options["margin-top"] = App.Globals.HEADER_HEIGHT;
       config.hud.options["margin-bottom"] = App.Globals.FOOTER_HEIGHT;
@@ -132,5 +132,12 @@
       delete config.hud.options["margin-top"];
       delete config.hud.options["margin-bottom"];
    }
+
+   //------------------------------------------------------//
+
+   App.changedTranslations = function(event, messages) {
+      App.translations.set("messages", messages);
+   }
+
 
 })( this );

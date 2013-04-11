@@ -34,12 +34,16 @@
       isViewLayerCreation: false,
       isViewDatasetSelection: false,
       isViewStyleAndColorbar: false,
-      isViewGeneration: false
+      isViewGeneration: false,
+
+      //-------------------------------------------//
+
    });
 
    //------------------------------------------------------//
 
    App.Globals = Globals.create();
+
    App.mapManager = new MapManager();
    App.styleManager = new StyleManager();
    App.youtubeManager = new YoutubeManager();

@@ -42,7 +42,6 @@
       config.layers.push(LayersManager.getImagesLayerConfig(Source.IMAGES_MAPQUEST));
       config.layers.push(LayersManager.getRasterLayerConfig("1_raster_13dcc4de76c874941ef"));
       
-      
       App.addMargins(config);
 
       return config;
@@ -61,7 +60,7 @@
 		connectOutlets: function(router){
 			App.Router.openPage(router, "tryscreen");
 		},
-		openLoginWindow: function(){App.HomeController.openLoginWindow()}
+      signin: function(){window.location.href="/?login"},
 	});
 
 	//==================================================================//

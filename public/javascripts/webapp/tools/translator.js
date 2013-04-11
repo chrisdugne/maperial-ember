@@ -1,15 +1,14 @@
 //---------------------------------------------------------------------//
 
-function Translator(){
+function Translator(storeMessagesHere){
+   
+   this.storeMessagesHere = storeMessagesHere;
    this.lang = 'en';
    this.defaultLang = 'en';
    this.cookievalid = 1000*60*60*24;
    this.messages = null;
-
+   
    var me = this;
-   Handlebars.registerHelper('trad', function(key) {
-      return me.messages[key];
-   });
    
    this.initLang();
 }
@@ -17,15 +16,17 @@ function Translator(){
 //---------------------------------------------------------------------//
 
 Translator.LANG_CHANGED = "Translator.CHANGED_LANG";
+Translator.messages = null;
 
 //---------------------------------------------------------------------//
 
 Translator.prototype.extractLang = function(urlParameters){
    var lang = null;
-   for (var i in urlParameters) {
+   for (var i = 0; i<urlParameters.length; i++) {
       var param = urlParameters[i].split('=');
-      if (param[0]==='lang')
+      if (param[0]==='lang'){
          lang = param[1];
+      }
    }
    
    return lang;
@@ -65,7 +66,8 @@ Translator.prototype.initLang = function() {
 
 Translator.prototype.setLang = function(lang, dontStoreCookie) {
    
-   this.lang = lang;
+   this.lang = lang.charAt(0) + lang.charAt(1);
+   
    if (!dontStoreCookie) {
       var location = window.location;
       var now = new Date();
@@ -83,7 +85,13 @@ Translator.prototype.setLang = function(lang, dontStoreCookie) {
 Translator.prototype.load = function() {
    var me = this;
    $.getJSON('/assets/translations/'+this.lang, function(data) {
-      me.messages = data;
-      $(window).trigger(Translator.LANG_CHANGED);
+      if(me.storeMessagesHere){
+         Translator.messages = data;
+         $(window).trigger(Translator.LANG_CHANGED);
+      }
+      else{
+         $(window).trigger(Translator.LANG_CHANGED, [data]);
+      }
+      
    });
 }

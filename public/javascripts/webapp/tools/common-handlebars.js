@@ -17,5 +17,11 @@ Handlebars.registerHelper('email',
 //---------------------------------------------------------------------------------------//
 
 Handlebars.registerHelper('T', function(key) {
-   return Translator.messages[key]; 
+   try{
+      return Translator.messages[key]; 
+   }
+   catch(e){
+      console.log("key not found : " + key)
+      return key; 
+   }
 });

@@ -1,4 +1,20 @@
 /*--------------------------------*/
+
+.langButton{
+	color: #eee;
+	cursor: pointer;
+	cursor: hand;
+	background: transparent;
+}
+
+#langButtons{
+	margin-top: 10px;
+	right: 30px;
+	position: fixed;
+	z-index: 2;
+}
+
+/*--------------------------------*/
 .btn-primary {
 	background-color: #f66c00;
 	background-image: -moz-linear-gradient(top, #606D57, #27a200);
@@ -377,14 +393,14 @@
 }
 
 #signinButton:hover {
-	background-image: -moz-linear-gradient(top, #606D57, #27a200);
-	background-image: -ms-linear-gradient(top, #606D57, #27a200);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#606D57),
-		to(#27a200) );
-	background-image: -webkit-linear-gradient(top, #606D57, #27a200);
-	background-image: -o-linear-gradient(top, #606D57, #27a200);
-	background-image: linear-gradient(top, #606D57, #27a200);
-	background-repeat: repeat-x;
+	background: #eee;
+	color: #222;
+	-webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), inset 0px 1px
+		0px 0px rgba(255, 255, 255, 0.2);
+	-moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), inset 0px 1px 0px
+		0px rgba(255, 255, 255, 0.2);
+	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), inset 0px 1px 0px 0px
+		rgba(255, 255, 255, 0.2);
 }
 
 #tryButton {
@@ -398,14 +414,14 @@
 }
 
 #tryButton:hover {
-	background-image: -moz-linear-gradient(top, #606D57, #27a200);
-	background-image: -ms-linear-gradient(top, #606D57, #27a200);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#606D57),
-		to(#27a200) );
-	background-image: -webkit-linear-gradient(top, #606D57, #27a200);
-	background-image: -o-linear-gradient(top, #606D57, #27a200);
-	background-image: linear-gradient(top, #606D57, #27a200);
-	background-repeat: repeat-x;
+	background: #eee;
+	color: #222;
+	-webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), inset 0px 1px
+		0px 0px rgba(255, 255, 255, 0.2);
+	-moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), inset 0px 1px 0px
+		0px rgba(255, 255, 255, 0.2);
+	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), inset 0px 1px 0px 0px
+		rgba(255, 255, 255, 0.2);
 }
 
 .headerButton {

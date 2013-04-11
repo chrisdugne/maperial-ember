@@ -19,24 +19,10 @@
 .homepage_top .widget_sp_image h4 {
 	color: #27a200;
 	text-align: center;
-	font-size: 1.8em;
+	font-size: 1.3em;
 	font-weight: normal;
 	/* margin: 20px 0 5px; */
 	margin-bottom: 25px;
-}
-
-/***** [ ecrans etroits ] *****/
-@media (max-width: 1000px) {
-	.homepage_top .widget_sp_image h4 {
-		font-size: 1.2em;
-	}
-}
-
-/***** [ ecrans mobiles ] *****/
-@media (max-width: 700px) {
-	.homepage_top .widget_sp_image h4 {
-		font-size: 0.9em;
-	}
 }
 
 .homepage_top .widget_sp_image P {

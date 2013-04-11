@@ -1,0 +1,32 @@
+{
+    "en"				: "En",
+    "fr"				: "Fr",
+
+    "Try"				: "Essayer",
+  	"LogIn"				: "Se logguer",
+    
+    "AwesomeMaps"		: "Vos données à la carte",
+    "Everywhere"		: "Maperial.",
+
+    "Choose"			: "Sélectionnez",
+    "chooseText1"		: "Une base parmi les ",
+    "chooseText2"		: "(Google, Mapquest, OSM)",
+    "chooseText3"		: "bases classiques",
+    "chooseText4"		: "ou votre propre style.",
+
+    "Upload"			: "Upload",
+    "uploadText"		: "Utilisez vos propres données géoréférencées",
+
+    "Organize"			: "Organisez",
+    "organizeText"		: "Construisez un contenu pertinent grâce à notre système de couches détaillé",
+
+    "Customize"			: "Personnalisez",
+    "customizeText"		: "Chaque élément du style et de vos données",
+
+    "Share"				: "Partagez",
+    "shareText"			: "Publiez vos carte sur le web et exportez des images 'haute définition'.",
+
+    "QuickAndEasy"		: "Simple et rapide",
+
+    "":""
+}

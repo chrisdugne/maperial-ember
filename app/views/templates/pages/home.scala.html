@@ -17,52 +17,62 @@
 			class="touchable" src="assets/images/home/part1/play.png"></img>
 
 		<div class="row-fluid" id="part1">
-			<h1 class="homeTitle">Awesome maps</h1>
-			<p class="homeSubtitle">Everywhere.</p>
+			<h1 class="homeTitle">{{App.translations.messages.AwesomeMaps}}</h1>
+			<p class="homeSubtitle">{{App.translations.messages.Everywhere}}</p>
+
 		</div>
 
 		<!-- -------------------------------------------------------------- -->
-		<!-- Upload/Organize/Customize/Share -->
+		<!-- Choose/Upload/Organize/Customize/Share -->
 
 		<div class="row-fluid">
 
-			<div class="span8 offset2">
+			<div class="span12">
 				<div class="homepage_top">
 					<div class="span3">
 						<div id="widget_sp_image-2" class="widget widget_sp_image">
-							<img src="assets/images/home/part1/maperialize.mini.png">
-							<h4 class="title">Upload</h4>
+							<img src="assets/images/home/part1/choose.mini.png">
+							<h4 class="title">{{App.translations.messages.Choose}}</h4>
 							<div class="widget_sp_image-description">
-								<p>Use your own data from your prefered GIS.</p>
+								<p>
+									{{App.translations.messages.chooseText1}} <a class="hint"> {{App.translations.messages.chooseText3}}</a> {{App.translations.messages.chooseText4}}
+								</p>
 							</div>
 						</div>
 					</div>
-					<div class="span3">
+					<div class="span2">
+						<div id="widget_sp_image-2" class="widget widget_sp_image">
+							<img src="assets/images/home/part1/maperialize.mini.png">
+							<h4 class="title">{{App.translations.messages.Upload}}</h4>
+							<div class="widget_sp_image-description">
+								<p>{{App.translations.messages.uploadText}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="span2">
 						<div id="widget_sp_image-3" class="widget widget_sp_image">
 							<img src="assets/images/home/part1/layers.mini.png">
-							<h4 class="title">Organize</h4>
+							<h4 class="title">{{App.translations.messages.Organize}}</h4>
 							<div class="widget_sp_image-description">
-								<p>Set all relevant content using our detailled layer
-									creation.</p>
+								<p>{{App.translations.messages.organizeText}}</p>
 							</div>
 						</div>
 					</div>
-					<div class="span3">
+					<div class="span2">
 						<div id="widget_sp_image-4" class="widget widget_sp_image">
 							<img src="assets/images/home/part1/edit.mini.png">
-							<h4 class="title">Customize</h4>
+							<h4 class="title">{{App.translations.messages.Customize}}</h4>
 							<div class="widget_sp_image-description">
-								<p>Choose every color, to style the basemaps and your data</p>
+								<p>{{App.translations.messages.customizeText}}</p>
 							</div>
 						</div>
 					</div>
 					<div class="span3">
 						<div id="widget_sp_image-5" class="widget widget_sp_image">
 							<img src="assets/images/home/part1/people.mini.png">
-							<h4 class="title">Share</h4>
+							<h4 class="title">{{App.translations.messages.Share}}</h4>
 							<div class="widget_sp_image-description">
-								<p>Publish your maps on the web and export high quality
-									images.</p>
+								<p>{{App.translations.messages.shareText}}</p>
 							</div>
 						</div>
 					</div>

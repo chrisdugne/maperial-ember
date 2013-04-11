@@ -1,0 +1,33 @@
+{
+    "en"				: "En",
+    "fr"				: "Fr",
+
+    "Try"				: "Try",
+  	"LogIn"				: "Log In",
+    
+    "AwesomeMaps"		: "Awesome maps",
+    "Everywhere"		: "Everywhere.",
+
+    "Choose"			: "Choose",
+    "chooseText1"		: "A basemap from classic",
+    "chooseText2"		: "(Google, Mapquest, OSM)",
+    "chooseText3"		: "libraries",
+    "chooseText4"		: "or your own styles",
+
+    "Upload"			: "Upload",
+    "uploadText"		: "Use your own georeferenced data",
+
+    "Organize"			: "Organize",
+    "organizeText"		: "Set all relevant content using our detailled layer creation.",
+
+    "Customize"			: "Customize",
+    "customizeText"		: "Choose everything, to style the basemaps and your data",
+
+    "Share"				: "Share",
+    "shareText"			: "Publish your maps on the web and export high quality images.",
+
+    "QuickAndEasy"		: "Quick and Easy",
+    "shareText"			: "Publish your maps on the web and export high quality images.",
+
+    "":""
+}
