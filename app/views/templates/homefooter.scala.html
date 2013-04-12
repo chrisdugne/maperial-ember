@@ -1,27 +1,42 @@
 @()
 
+	<!-- -------------------------------------------------------------- -->
+	<!-- Footer -->
+
 	<div id="footerHome" class="snapper">
 		<div class="row-fluid">
-			<div class="span2 offset3 footerContent">
-				<div class="footerTitle">Plans</div>
-				<div class="link">Ploumqwe qwed qwe</div>
-				<div class="link">Ploumqwe qwed qwe</div>
-				<div class="link">Ploumqwe qwed qwe</div>
-				<div class="link">Ploumqwe qwed qwe</div>
+			<div class="span2 offset1 footerContent">
+				<div class="footerTitle">{{App.translations.messages.AboutUs}}</div>
+				<div class="link">{{App.translations.messages.Team}}</div>
+				<div class="link">{{App.translations.messages.Blog}}</div>
 			</div>
 			<div class="span2 footerContent">
-				<div class="footerTitle">Maps</div>
-				<div class="link" onClick="window.location.href='http://maperial.com/pages/demos/demo.tag.html'">Paris roads</div>
-				<div class="link" onClick="window.location.href='http://maperial.com/pages/demos/demo.cartotheque.html'">Maperial Library</div>
+				<div class="footerTitle">{{App.translations.messages.Maps}}</div>
+				<div class="link" onClick="window.location.href='/pages/demos/demo.tag.html'">{{App.translations.messages.ParisRoads}}</div>
+				<div class="link" onClick="window.location.href='/pages/demos/demo.cartotheque.html'">{{App.translations.messages.Cartotheque}}</div>
 			</div>
 			<div class="span2 footerContent">
-				<div class="footerTitle">Recent blog posts</div>
-				<div class="link">Ploumqwe qwed qwe</div>
-				<div class="link">Ploumqwe qwed qwe</div>
-				<div class="link">Ploumqwe qwed qwe</div>
-				<div class="link">Ploumqwe qwed qwe</div>
+				<div class="footerTitle">{{App.translations.messages.RecentPosts}}</div>
+				<div class="link">Ok</div>
+			</div>
+			<div class="span2 footerContent">
+				<div class="SocialIconsWidget">
+					<ul class="widget_socials">
+						<li><a href="/blog/" class="rss" target="_blank"></a></li>
+						<li><a href="https://twitter.com/maperial" class="twitter" target="_blank"></a></li>
+						<li><a href="https://plus.google.com/" class="googleplus" target="_blank"></a></li>
+						<li><a href="mailto:{{email here}}" class="mail" target="_blank"></a></li>
+						<li><a href="http://www.linkedin.com/company/maperial" class="linkedin" target="_blank"></a></li>
+						<li><a href="http://www.slideshare.net/maperial" class="slideshare" target="_blank"></a></li>
+						<li><a href="http://pinterest.com/maperial/" class="pinterest" target="_blank"></a></li>
+						<li><a href="https://github.com/Maperial" class="github" target="_blank"></a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="span2 footerContent">
+				<div class="link">&copy; 2013 Maperial</div>
+				<br/>
+				<div class="link"> {{email here}}</div>
 			</div>
 		</div>
-		<div class="footerEnd">&copy; 2013 Maperial contact : {{email d}}</div>
-
 	</div>

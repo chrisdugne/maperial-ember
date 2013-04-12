@@ -21,7 +21,10 @@ Handlebars.registerHelper('T', function(key) {
       return Translator.messages[key]; 
    }
    catch(e){
-      console.log("key not found : " + key)
+      if(!Translator.messages)
+         console.log("Translator missconfig");
+      else
+         console.log("key not found : " + key);
       return key; 
    }
 });

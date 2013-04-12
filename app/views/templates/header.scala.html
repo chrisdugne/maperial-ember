@@ -1,10 +1,10 @@
 @(defaultHeader:Boolean = true)
 
 <div id="header" class="snapper">
-	<div {{action openHome}} class="span1 pointerCursor">
-		<img id="logoHeader" src="@routes.Assets.at("images/global/logo.png")" onClick="App.translator.setLang('fr')"/>
+	<div class="span1 pointerCursor">
+		<img id="logoHeader" src="@routes.Assets.at("images/global/logo.png")"/>
 	</div>
-	<div {{action openHome}} class="span1 pointerCursor">
+	<div class="span1 pointerCursor">
 		<h1>@Messages("applicationName")</h1>
 	</div>
 </div>

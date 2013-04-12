@@ -21,6 +21,7 @@ Translator.messages = null;
 //---------------------------------------------------------------------//
 
 Translator.prototype.extractLang = function(urlParameters){
+   
    var lang = null;
    for (var i = 0; i<urlParameters.length; i++) {
       var param = urlParameters[i].split('=');
@@ -69,12 +70,13 @@ Translator.prototype.setLang = function(lang, dontStoreCookie) {
    this.lang = lang.charAt(0) + lang.charAt(1);
    
    if (!dontStoreCookie) {
-      var location = window.location;
+      var location = window.location.hostname;
       var now = new Date();
       var time = now.getTime();
       time += this.cookievalid;
       now.setTime(time);
-      document.cookie = 'lang='+lang+';path='+location.pathname+';domain='+location.host+';expires='+now.toGMTString();
+      
+      document.cookie = 'lang='+lang+';domain='+location+';expires='+now.toGMTString();
    }
    
    this.load();

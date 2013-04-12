@@ -520,21 +520,20 @@
 	outline: 3px solid #27a200;
 }
 
-/*--------------------------------------------------*/
+/*------------------------------------------------
 
-/* Let's get this party started */
 ::-webkit-scrollbar {
 	width: 12px;
 }
 
-/* Track */
+ Track 
 ::-webkit-scrollbar-track {
 	-webkit-border-radius: 20px;
 	background: rgba(255, 255, 255, 1);
 	border-radius: 20px;
 }
 
-/* Handle */
+ Handle 
 ::-webkit-scrollbar-thumb {
 	-webkit-border-radius: 20px;
 	border-radius: 20px;
@@ -545,3 +544,4 @@
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(34, 34, 34, 0.4);
 }
+--*/

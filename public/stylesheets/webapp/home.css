@@ -3,6 +3,7 @@
 ************************************************/
 .homepage_top {
 	width: 100%;
+	margin-top: 35px;
 }
 .homepage_top .widget_sp_image {
 	padding: 0px 0px 0px 30px;
@@ -107,6 +108,17 @@
 	margin-bottom:50px;
 }
 
+.home-details p {
+	font-size: 20px;
+	margin-bottom: 25px;
+	max-width: 300px;
+}
+
+.gallery-container {
+	padding-bottom: 120px;
+	padding-top: 60px;
+}
+
 .home-description h2{
 	color: #27a200;
 	margin-bottom:20px;
@@ -139,6 +151,8 @@
 	width: 843px;
 	height: 480px;
 }
+
+.gallery li { display: inline; }
 
 /*--------------------------------*/
 #playImage {

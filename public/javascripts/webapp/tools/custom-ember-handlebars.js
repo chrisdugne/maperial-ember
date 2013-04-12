@@ -3,21 +3,6 @@
 /**
  * data contains the file to upload
  */
-Ember.Handlebars.registerBoundHelper('T', function(data, options){
-   try{
-      console.log("ttt", App.translations.messages);
-      return "rr : " + App.translations.messages[options.hash.m]; 
-   }
-   catch(e){
-      return key; 
-   }
-});
-
-//---------------------------------------------------------------------------------------//
-
-/**
- * data contains the file to upload
- */
 Ember.Handlebars.registerBoundHelper('fileName', 
    function(data, options) {
       return data.files[0].name;
