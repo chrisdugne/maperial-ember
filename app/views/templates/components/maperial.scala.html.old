@@ -12,9 +12,9 @@
 
 	<div class="panel snapper hide" id="panelSwitchImages">
 		<div id="SwitchImages">
-			<img id="imagesMapquest" class="sourceThumb touchable" src="http://resources.maperial.localhost/images/icons/layer.images.mapquest.png"></img>
-			<img id="imagesMapquestSatellite" class="sourceThumb touchable" src="http://resources.maperial.localhost/images/icons/layer.images.mapquest.satellite.png"></img>
-			<img id="imagesOSM" class="sourceThumb touchable" src="http://resources.maperial.localhost/images/icons/layer.images.osm.png"></img>
+			<img id="imagesMapquest" class="sourceThumb touchable" src="http://static.maperial.localhost/images/icons/layer.images.mapquest.png"></img>
+			<img id="imagesMapquestSatellite" class="sourceThumb touchable" src="http://static.maperial.localhost/images/icons/layer.images.mapquest.satellite.png"></img>
+			<img id="imagesOSM" class="sourceThumb touchable" src="http://static.maperial.localhost/images/icons/layer.images.osm.png"></img>
 		</div>
 	</div>
 
@@ -38,7 +38,7 @@
 
 	<div class="panel snapper hide" id="panelMapKey">
 		<div id="mapkeydiv">
-			<img src="http://resources.maperial.localhost/images/global/dummy.legend.png"></img>
+			<img src="http://static.maperial.localhost/images/global/dummy.legend.png"></img>
 		</div>
 	</div>
 
