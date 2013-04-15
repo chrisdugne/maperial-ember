@@ -1,6 +1,0 @@
-{
-   "type": "x-shader/x-fragment", 
-   "parameters": {
-      "uSamplerTex1": "uSamplerTex"
-   }
-}
