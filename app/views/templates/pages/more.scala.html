@@ -1,0 +1,191 @@
+@import views.html.popups.loginWindow;
+@import views.html.popups.videoWindow;
+
+<div class="container-fluid" id="homeContent">
+
+
+	<!-- ----------------------------------------------------------------------------- -->
+	<!-- Content 																	   -->
+	<!-- ----------------------------------------------------------------------------- -->
+
+	<div class="marketing home-container">
+		
+		<!-- -------------------------------------------------------------- -->
+		<!-- Top Image -->
+
+		<div id="homeImage"></div>
+		<img id="playImage" onclick="window.youtubeManager.openVideoWindow()" class="touchable" src="http://static.maperial.localhost/images/home/part1/play.png"></img>
+
+		<div class="row-fluid" id="part1">
+			<h1 class="homeTitle">{{App.translations.messages.AwesomeMaps}}</h1>
+			<p class="homeSubtitle">{{App.translations.messages.Everywhere}}</p>
+
+		</div>
+
+		<!-- -------------------------------------------------------------- -->
+		<!-- Larger descriptions -->
+
+		<div class="row-fluid homepage_top">
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>{{App.translations.messages.QuickAndEasy}}</h2>
+					<p>{{App.translations.messages.QEText1}}</p>
+					<p>{{App.translations.messages.QEText2}}</p>
+					<p>{{App.translations.messages.QEText3}}</p>
+					<p>{{App.translations.messages.QEText4}}</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/clock.medium.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>{{App.translations.messages.ToolForEveryone}}</h2>
+					<p>{{App.translations.messages.TEText1}}</p>
+					<p>{{App.translations.messages.TEText2}}</p>
+					<p>{{App.translations.messages.TEText3}}</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/everyone.medium.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>{{App.translations.messages.Customize}}</h2>
+					<p>{{App.translations.messages.CustomizeText1}}</p>
+					<p>{{App.translations.messages.CustomizeText2}}</p>
+					<p>{{App.translations.messages.CustomizeText3}}</p>
+					<p>{{App.translations.messages.CustomizeText4}}</p>
+					<br/><br/>
+					<p>{{App.translations.messages.CustomizeText5}}</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/edit.medium.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>{{App.translations.messages.Maperialize}}</h2>
+					<p>{{App.translations.messages.MaperializeText1}}</p>
+					<p>{{App.translations.messages.MaperializeText2}}</p>
+					<p>{{App.translations.messages.MaperializeText3}}</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/maperialize.medium.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>{{App.translations.messages.Share}}</h2>
+					<p>{{App.translations.messages.ShareText1}}</p>
+					<p>{{App.translations.messages.ShareText2}}</p>
+					<p>{{App.translations.messages.ShareText3}}</p>
+					<p>{{App.translations.messages.ShareText4}}</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/people.medium.png">
+				</div>
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<div class="home-description span6 offset2">
+					<h2>{{App.translations.messages.Saas}}</h2>
+					<p>{{App.translations.messages.SaasText1}}</p>
+					<p>{{App.translations.messages.SaasText2}}</p>
+					<p>{{App.translations.messages.SaasText3}}</p>
+				</div>
+				<div class="span2">
+					<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/saas.medium.png">
+				</div>
+			</div>
+
+			<!-- -------------------------------------------------------------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- -------------------------------------------------------------- -->
+			<!-- For You -->
+	
+			<div class="row-fluid">
+	
+					<div class="row-fluid">
+					<div class="home-description span6 offset2">
+						<h2>{{App.translations.messages.ToolForYou}}</h2>
+						<p>{{App.translations.messages.ToolForYouText1}}</p>
+						<p>{{App.translations.messages.ToolForYouText2}}</p>
+						<p>{{App.translations.messages.ToolForYouText3}}</p>
+						<br/>
+						<p>{{App.translations.messages.ToolForYouText4}}   <b>{{email here}}</b></p>
+					</div>
+					<div class="span2">
+						<img class="homeIcon" src="http://static.maperial.localhost/images/home/part1/note.medium.png">
+					</div>
+				</div>
+
+			</div>
+
+			<!-- --------- -->
+
+			<div class="row-fluid">
+				<hr class="soften span10 offset1" />
+			</div>
+
+			<!-- --------- -->
+
+			<div {{action openTryscreen}} class="btn-large btn-primary span2 offset5 touchable">{{App.translations.messages.TryNow}}</div>
+		</div>
+
+	</div>
+
+</div>
+
+
+@loginWindow()
+@videoWindow()

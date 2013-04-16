@@ -1,10 +1,10 @@
 @(defaultHeader:Boolean = true)
 
 <div id="header" class="snapper">
-	<div class="span1 pointerCursor">
+	<div class="span1 pointerCursor" {{action openHome}}>
 		<img id="logoHeader" src="http://static.maperial.localhost/images/global/logo.png"/>
 	</div>
-	<div class="span1 pointerCursor">
+	<div class="span1 pointerCursor" {{action openHome}}>
 		<h1>@Messages("applicationName")</h1>
 	</div>
 </div>

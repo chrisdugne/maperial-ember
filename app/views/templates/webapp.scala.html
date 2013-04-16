@@ -7,6 +7,9 @@
 <!-- Pages -->
 
 @import views.html.templates.pages.home;
+@import views.html.templates.pages.more;
+@import views.html.templates.pages.usechrome;
+
 @import views.html.templates.pages.dashboard.dashboard;
 @import views.html.templates.pages.tryscreen;
 
@@ -36,6 +39,9 @@
 
 <!-- --- Pages --- -->
 @pageTemplate("home", true){@home()}
+@pageTemplate("more", true){@more()}
+@pageTemplate("usechrome", true){@usechrome()}
+
 @pageTemplate("dashboard"){@dashboard()}
 @pageTemplate("tryscreen"){@tryscreen()}
 @pageTemplate("mapCreation"){@mapCreation()}
