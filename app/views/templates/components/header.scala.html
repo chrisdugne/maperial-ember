@@ -13,8 +13,8 @@
 <!-- Language buttons -->
 
 <div id="langButtons">
-	<div id="enButton" onClick="App.translator.setLang('en')" class="langButton">{{App.translations.messages.en}}</div>
-	<div id="frButton" onClick="App.translator.setLang('fr')" class="langButton">{{App.translations.messages.fr}}</div>
+	<div id="enButton" {{action translateEn}} class="langButton">{{App.translations.messages.en}}</div>
+	<div id="frButton" {{action translateFr}} class="langButton">{{App.translations.messages.fr}}</div>
 </div>
 
 @if(defaultHeader){

@@ -7,17 +7,17 @@
 		<div class="row-fluid">
 			<div class="span2 offset1 footerContent">
 				<div class="footerTitle">{{App.translations.messages.AboutUs}}</div>
-				<div class="link">{{App.translations.messages.Team}}</div>
-				<div class="link">{{App.translations.messages.Blog}}</div>
+				<div class="link" {{action openTeam}}>{{App.translations.messages.Team}}</div>
+				<div class="link" {{action openCredits}}>{{App.translations.messages.Credits}}</div>
+				<div class="link" onClick="window.location.href='http://blog.maperial.com/'">{{App.translations.messages.Blog}}</div>
 			</div>
 			<div class="span2 footerContent">
 				<div class="footerTitle">{{App.translations.messages.Maps}}</div>
-				<div class="link" onClick="window.location.href='/pages/demos/demo.tag.html'">{{App.translations.messages.ParisRoads}}</div>
-				<div class="link" onClick="window.location.href='/pages/demos/demo.cartotheque.html'">{{App.translations.messages.Cartotheque}}</div>
+				<div class="link" {{action openDemos}}>{{App.translations.messages.Cartotheque}}</div>
 			</div>
 			<div class="span2 footerContent">
 				<div class="footerTitle">{{App.translations.messages.RecentPosts}}</div>
-				<div class="link">Ok</div>
+				<div class="link">-</div>
 			</div>
 			<div class="span2 footerContent">
 				<div class="SocialIconsWidget">
