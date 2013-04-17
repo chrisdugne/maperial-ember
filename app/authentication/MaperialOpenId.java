@@ -5,8 +5,8 @@ import java.util.Map;
 
 import play.Logger;
 import play.mvc.Result;
-import views.html.auth.badtoken;
-import views.html.auth.goodtoken;
+import views.html.pages.auth.badtoken;
+import views.html.pages.auth.goodtoken;
 
 import utils.HttpHelper;
 
