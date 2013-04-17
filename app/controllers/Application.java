@@ -10,6 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.main;
 import views.html.mainDev;
+import views.html.pages.demos.demos;
 
 public class Application extends Controller
 {
@@ -37,6 +38,14 @@ public class Application extends Controller
 
 		// prod
 		return ok(main.render(true, popupLoginWindow));
+	}
+
+	// ---------------------------------------------//
+	
+	public static Result demos()
+	{
+		Boolean isProd = !request().host().contains("localhost");
+		return ok(demos.render(isProd));
 	}
 
 	// ---------------------------------------------//
