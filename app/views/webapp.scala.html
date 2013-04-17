@@ -1,6 +1,7 @@
 <!-- ------------------------------------------------------------------- -->
 
 @import views.html.templates.pageTemplate;
+@import views.html.templates.pages.website.websitePage;
 @import views.html.templates.componentTemplate;
 
 <!-- Pages -->
@@ -37,9 +38,9 @@
 <!-- ------------------------------------------------------------------- -->
 
 <!-- --- Pages --- -->
-@pageTemplate("home", true){@home()}
-@pageTemplate("more", true){@more()}
-@pageTemplate("usechrome", true){@usechrome()}
+@pageTemplate("home", true){@websitePage(){@home()}}
+@pageTemplate("more", true){@websitePage(){@more()}}
+@pageTemplate("usechrome", true){@websitePage(){@usechrome()}}
 
 @pageTemplate("dashboard"){@dashboard()}
 @pageTemplate("tryscreen"){@tryscreen()}
