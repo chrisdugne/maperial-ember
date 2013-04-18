@@ -1,9 +1,18 @@
 @(isProd:Boolean)
+@import views.html.templates.components.headerSimple;
+@import views.html.templates.components.footerSimple;
+
 <html>
 
 <head>
 	<title>Maperial</title>
 	
+    @if(isProd){
+		<link rel="stylesheet" media="screen" href="http://static.maperial.com/css/maperial-webapp.min.css" />
+   	}else{
+		<link rel="stylesheet" media="screen" href="http://static.maperial.localhost/css/maperial-webapp.min.localhost.css" /> 
+   	}
+   	
 	<style>
 	.title{
 		margin-bottom:55px!important;
@@ -17,14 +26,13 @@
 
 <body id="body">
 
+	@headerSimple()
+	
 	<div class="container-fluid">
 
-		<div class="marketing">
-
-			<div class="row-fluid title">
-				<h1 class="homeTitle">Maperial</h1>
-				<p class="homeSubtitle">Beautiful maps.</p>
-			</div>
+		<div class="marketing home-container websiteContent hugemarginbottom">
+			
+			<h1 class="hugemarginbottom">Demos</h1>
 
 			<div class="row-fluid line">
 				<div class="span4 offset2 maperial-container" id="map">
@@ -48,6 +56,8 @@
 
 		</div>
 	</div>
+	
+	@footerSimple()
 
 	@if(isProd){
 		<script src="http://static.maperial.com/js/maperial-builder.o.js" type="text/javascript"></script>
