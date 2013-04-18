@@ -30,6 +30,8 @@ public class Application extends Controller
 		Boolean isDev = request().host().contains("localhost");
 		Boolean popupLoginWindow = login != null;
 		
+		response().setHeader("X-UA-Compatible", "IE=edge,chrome=1");
+		
 		if(isDev && !isDeploy)
 			return ok(mainDev.render(popupLoginWindow));
 		
