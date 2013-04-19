@@ -91,8 +91,10 @@
 	        </button>
 			<div id="userDisplay" class="googleUser">{{user.email}}</div>
 		{{else}}
-			<div {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">{{App.translations.messages.Try}}</div>
-			<div id="signinButton" {{action signin}} class="btn-large btn-primary">{{App.translations.messages.LogIn}}</div>
+			<ul id="headerButtons">
+				<li {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">{{App.translations.messages.Try}}</li>
+				<li id="signinButton" {{action signin}} class="btn-large btn-primary">{{App.translations.messages.LogIn}}</li>
+			</ul>
 		{{/if}}
 	{{/if}}
 }

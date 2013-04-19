@@ -73,17 +73,117 @@
 
 	</div>
 	
+	<!-- 
 	<div class="home-container gallery-container">
 		<div class="home-description span6 offset3">
 			<ul class="gallery clearfix">
-				<li><a href="{{static path='/images/maperialscreens/fullscreen/1.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/t1.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/maperialscreens/fullscreen/2.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/t2.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/maperialscreens/fullscreen/3.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/t3.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/maperialscreens/fullscreen/4.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/t4.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/maperialscreens/fullscreen/5.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/t5.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/maperialscreens/fullscreen/6.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/t6.png'}}" width="60" height="60" alt="" /></a></li>
+				<li><a href="{{static path='/images/maperialscreens/fullscreen/screenshot1.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/thumb1.png'}}" width="60" height="60" alt="" /></a></li>
+				<li><a href="{{static path='/images/maperialscreens/fullscreen/screenshot2.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/thumb2.png'}}" width="60" height="60" alt="" /></a></li>
+				<li><a href="{{static path='/images/maperialscreens/fullscreen/screenshot3.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/thumb3.png'}}" width="60" height="60" alt="" /></a></li>
+				<li><a href="{{static path='/images/maperialscreens/fullscreen/screenshot4.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/thumb4.png'}}" width="60" height="60" alt="" /></a></li>
+				<li><a href="{{static path='/images/maperialscreens/fullscreen/screenshot5.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/thumb5.png'}}" width="60" height="60" alt="" /></a></li>
+				<li><a href="{{static path='/images/maperialscreens/fullscreen/screenshot6.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/maperialscreens/thumbnails/thumb6.png'}}" width="60" height="60" alt="" /></a></li>
 			</ul>
 		</div>
 
-		<div {{action more}} class="marketing btn-large btn-primary span2 offset1 touchable">{{App.translations.messages.FindOutMore}}</div>
 	</div>
+	 -->
+
+
+<div class="row-fluid hugemarginbottom">
+
+    <div id="galleria" class="span8 offset2">
+        <a href="{{static path='/images/maperialscreens/fullscreen/screenshot1.png'}}">
+            <img 
+                src="{{static path='/images/maperialscreens/thumbnails/thumb1.png'}}"
+                data-big="{{static path='/images/maperialscreens/fullscreen/screenshot1.png'}}"
+                data-title="{{App.translations.messages.Screenshot1Title}}"
+                data-description="{{App.translations.messages.Screenshot1Text}}"
+            >
+        </a>
+        <a href="{{static path='/images/maperialscreens/fullscreen/screenshot2.png'}}">
+            <img 
+                src="{{static path='/images/maperialscreens/thumbnails/thumb2.png'}}"
+                data-big="{{static path='/images/maperialscreens/fullscreen/screenshot2.png'}}"
+                data-title="{{App.translations.messages.Screenshot2Title}}"
+                data-description="{{App.translations.messages.Screenshot2Text}}"
+            >
+        </a>
+        <a href="{{static path='/images/maperialscreens/fullscreen/screenshot3.png'}}">
+            <img 
+                src="{{static path='/images/maperialscreens/thumbnails/thumb3.png'}}"
+                data-big="{{static path='/images/maperialscreens/fullscreen/screenshot3.png'}}"
+                data-title="{{App.translations.messages.Screenshot3Title}}"
+                data-description="{{App.translations.messages.Screenshot3Text}}"
+            >
+        </a>
+        <a href="{{static path='/images/maperialscreens/fullscreen/screenshot4.png'}}">
+            <img 
+                src="{{static path='/images/maperialscreens/thumbnails/thumb4.png'}}"
+                data-big="{{static path='/images/maperialscreens/fullscreen/screenshot4.png'}}"
+                data-title="{{App.translations.messages.Screenshot4Title}}"
+                data-description="{{App.translations.messages.Screenshot4Text}}"
+            >
+        </a>
+        <a href="{{static path='/images/maperialscreens/fullscreen/screenshot5.png'}}">
+            <img 
+                src="{{static path='/images/maperialscreens/thumbnails/thumb5.png'}}"
+                data-big="{{static path='/images/maperialscreens/fullscreen/screenshot5.png'}}"
+                data-title="{{App.translations.messages.Screenshot5Title}}"
+                data-description="{{App.translations.messages.Screenshot5Text}}"
+            >
+        </a>
+        <a href="{{static path='/images/maperialscreens/fullscreen/screenshot6.png'}}">
+            <img 
+                src="{{static path='/images/maperialscreens/thumbnails/thumb6.png'}}"
+                data-big="{{static path='/images/maperialscreens/fullscreen/screenshot6.png'}}"
+                data-title="{{App.translations.messages.Screenshot6Title}}"
+                data-description="{{App.translations.messages.Screenshot6Text}}"
+            >
+        </a>
+    </div>
+</div>
+
+<div class="row-fluid hugemarginbottom">
+	<div {{action more}} class="marketing btn-large btn-primary span2 offset5 touchable">{{App.translations.messages.FindOutMore}}</div>
+</div>
+
+
+<div class="row-fluid hugemarginbottom">
+	<div class="span12">
+		<div class="coda-slider" id="news">
+			<div class="row-fluid">
+				<div class="span4 offset2">
+					<img src="{{static path='/images/home/djoul.jpg'}}" width="250px" />
+				</div>
+				<div class="span4">
+					<p class="marketing-byline">Julien Bost - {{App.translations.messages.cofounder}}</p>
+					<p>{{App.translations.messages.djoulText}}</p>
+					<p>{{App.translations.messages.djoulText2}}</p>
+					<div class="SocialIconsWidget">
+						<ul class="widget_socials">
+							<li><a href="mailto:{{email name='djoul'}}" class="mail"></a></li>
+							<li><a href="http://www.linkedin.com/in/jbost" class="linkedin" target="_blank"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span4 offset2">
+					<img src="{{static path='/images/home/chris.jpg'}}" width="250px" />
+				</div>
+				<div class="span4">
+					<p class="marketing-byline">Julien Bost - {{App.translations.messages.cofounder}}</p>
+					<p>{{App.translations.messages.djoulText}}</p>
+					<p>{{App.translations.messages.djoulText2}}</p>
+					<div class="SocialIconsWidget">
+						<ul class="widget_socials">
+							<li><a href="mailto:{{email name='djoul'}}" class="mail"></a></li>
+							<li><a href="http://www.linkedin.com/in/jbost" class="linkedin" target="_blank"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
