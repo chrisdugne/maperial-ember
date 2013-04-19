@@ -1,4 +1,8 @@
 eclipse.preferences.version=1
+encoding//app/views/templates/pages/website/news=UTF-8
+encoding//app/views/templates/pages/website/news/new1.scala.html=UTF-8
+encoding//app/views/templates/pages/website/news/new2.scala.html=UTF-8
+encoding//app/views/templates/pages/website/news/new3.scala.html=UTF-8
 encoding//app/views/templates/pages/website/team.scala.html=UTF-8
 encoding/<project>=UTF-8
 encoding/app=UTF-8
