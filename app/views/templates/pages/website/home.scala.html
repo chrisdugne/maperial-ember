@@ -1,7 +1,3 @@
-@import views.html.templates.pages.website.news.new1; 
-@import views.html.templates.pages.website.news.new2; 
-@import views.html.templates.pages.website.news.new3; 
-
 	<div class="marketing home-container">
 
 		<!-- -------------------------------------------------------------- -->
@@ -29,7 +25,7 @@
 							<h4 class="title">{{App.translations.messages.Choose}}</h4>
 							<div class="widget_sp_image-description">
 								<p>
-									{{App.translations.messages.chooseText1}} <a class="link"> {{App.translations.messages.chooseText3}}</a> {{App.translations.messages.chooseText4}}
+									{{App.translations.messages.chooseText1}} {{App.translations.messages.chooseText3}} {{App.translations.messages.chooseText4}}
 								</p>
 							</div>
 						</div>
@@ -76,85 +72,39 @@
 
 	</div>
 	
-	<!-- 
-	<div class="home-container gallery-container">
-		<div class="home-description span6 offset3">
-			<ul class="gallery clearfix">
-				<li><a href="{{static path='/images/home/fullscreen/screenshot1.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/home/thumbnails/thumb1.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/home/fullscreen/screenshot2.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/home/thumbnails/thumb2.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/home/fullscreen/screenshot3.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/home/thumbnails/thumb3.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/home/fullscreen/screenshot4.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/home/thumbnails/thumb4.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/home/fullscreen/screenshot5.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/home/thumbnails/thumb5.png'}}" width="60" height="60" alt="" /></a></li>
-				<li><a href="{{static path='/images/home/fullscreen/screenshot6.png'}}" rel="prettyPhoto[gallery2]"><img src="{{static path='/images/home/thumbnails/thumb6.png'}}" width="60" height="60" alt="" /></a></li>
-			</ul>
-		</div>
+<hr class="soften"/>
 
+<!-- News -->
+
+{{outlet}}
+
+
+<div class="marketing hugemarginbottom">
+
+	<hr class="soften hugemarginbottom"/>
+	<div class="row-fluid hugemarginbottom">
+		<div class="span3 offset3 presentation">{{App.translations.messages.openMoreText}}</div>
+		<div {{action openMore}} class="btn-large btn-primary span2 offset1 touchable">{{App.translations.messages.FindOutMore}}</div>
 	</div>
-	 -->
 
+	<hr class="soften hugemarginbottom"/>
+	<div class="row-fluid hugemarginbottom">
+		<div {{action openTryscreen}} class="btn-large btn-primary span2 offset3 touchable">{{App.translations.messages.TryNow}}</div>
+		<div class="span3 offset1 presentation">{{App.translations.messages.openTryscreenText}}</div>
+	</div>
 
-<div class="row-fluid hugemarginbottom">
+	<hr class="soften hugemarginbottom"/>
+	<div class="row-fluid hugemarginbottom">
+		<div class="span3 offset3 presentation">{{App.translations.messages.openDemosText}}</div>
+		<div onClick="window.location.href='/demos'" class="btn-large btn-primary span2 offset1 touchable">{{App.translations.messages.Demos}}</div>
+	</div>
 
-    <div id="galleria" class="span8 offset2">
-        <a href="{{static path='/images/home/fullscreen/screenshot1.png'}}">
-            <img 
-                src="{{static path='/images/home/thumbnails/thumb1.png'}}"
-                data-big="{{static path='/images/home/fullscreen/screenshot1.png'}}"
-                data-title="{{App.translations.messages.Screenshot1Title}}"
-                data-description="{{App.translations.messages.Screenshot1Text}}"
-            />
-        </a>
-        <a href="{{static path='/images/home/fullscreen/screenshot2.png'}}">
-            <img 
-                src="{{static path='/images/home/thumbnails/thumb2.png'}}"
-                data-big="{{static path='/images/home/fullscreen/screenshot2.png'}}"
-                data-title="{{App.translations.messages.Screenshot2Title}}"
-                data-description="{{App.translations.messages.Screenshot2Text}}"
-            />
-        </a>
-        <a href="{{static path='/images/home/fullscreen/screenshot3.png'}}">
-            <img 
-                src="{{static path='/images/home/thumbnails/thumb3.png'}}"
-                data-big="{{static path='/images/home/fullscreen/screenshot3.png'}}"
-                data-title="{{App.translations.messages.Screenshot3Title}}"
-                data-description="{{App.translations.messages.Screenshot3Text}}"
-            />
-        </a>
-        <a href="{{static path='/images/home/fullscreen/screenshot4.png'}}">
-            <img 
-                src="{{static path='/images/home/thumbnails/thumb4.png'}}"
-                data-big="{{static path='/images/home/fullscreen/screenshot4.png'}}"
-                data-title="{{App.translations.messages.Screenshot4Title}}"
-                data-description="{{App.translations.messages.Screenshot4Text}}"
-            />
-        </a>
-        <a href="{{static path='/images/home/fullscreen/screenshot5.png'}}">
-            <img 
-                src="{{static path='/images/home/thumbnails/thumb5.png'}}"
-                data-big="{{static path='/images/home/fullscreen/screenshot5.png'}}"
-                data-title="{{App.translations.messages.Screenshot5Title}}"
-                data-description="{{App.translations.messages.Screenshot5Text}}"
-            />
-        </a>
-        <a href="{{static path='/images/home/fullscreen/screenshot6.png'}}">
-            <img 
-                src="{{static path='/images/home/thumbnails/thumb6.png'}}"
-                data-big="{{static path='/images/home/fullscreen/screenshot6.png'}}"
-                data-title="{{App.translations.messages.Screenshot6Title}}"
-                data-description="{{App.translations.messages.Screenshot6Text}}"
-            />
-        </a>
-    </div>
-</div>
+	<hr class="soften hugemarginbottom"/>
+	<div class="row-fluid hugemarginbottom">
+		<div {{action openScreenshots}} class="btn-large btn-primary span2 offset3 touchable">{{App.translations.messages.Screenshots}}</div>
+		<div class="span3 offset1 presentation">{{App.translations.messages.openScreenshotsText}}</div>
+	</div>
 
-<div class="row-fluid hugemarginbottom">
-	<div {{action more}} class="marketing btn-large btn-primary span2 offset5 touchable">{{App.translations.messages.FindOutMore}}</div>
 </div>
 
 
-<p id="titleNews">News<p>
-<div class="coda-slider hugemarginbottom" id="news">
-	@new1()
-	@new2()
-	@new3()
-</div>

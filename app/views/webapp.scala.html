@@ -12,7 +12,9 @@
 @import views.html.templates.pages.website.team;
 @import views.html.templates.pages.website.credits;
 @import views.html.templates.pages.website.jobs;
+@import views.html.templates.pages.website.screenshots;
 @import views.html.templates.pages.website.cartotheque;
+@import views.html.templates.pages.website.allnews;
 
 @import views.html.templates.pages.dashboard.dashboard;
 @import views.html.templates.pages.tryscreen;
@@ -33,6 +35,8 @@
 @import views.html.templates.components.styleList;
 @import views.html.templates.components.colorbarList;
 
+@import views.html.templates.pages.website.news.news;
+
 <!-- ------------------------------------------------------------------- -->
 
 <script type="text/x-handlebars" data-template-name="application">
@@ -48,6 +52,8 @@
 @pageTemplate("team", true){@websitePage(){@team()}}
 @pageTemplate("credits", true){@websitePage(){@credits()}}
 @pageTemplate("jobs", true){@websitePage(){@jobs()}}
+@pageTemplate("allNews", true){@websitePage(){@allnews()}}
+@pageTemplate("screenshots", true){@websitePage(){@screenshots()}}
 @pageTemplate("cartotheque", true){@websitePage(){@cartotheque()}}
 
 @pageTemplate("dashboard"){@dashboard()}
@@ -65,6 +71,7 @@
 
 <!-- --- Components --- -->
 
+@componentTemplate("news"){@news()}
 @componentTemplate("styleList"){@styleList()}
 @componentTemplate("colorbarList"){@colorbarList()}
 
