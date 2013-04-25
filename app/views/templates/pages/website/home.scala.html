@@ -12,99 +12,102 @@
 
 		</div>
 
-		<!-- -------------------------------------------------------------- -->
-		<!-- Choose/Upload/Organize/Customize/Share -->
-
-		<div class="row-fluid">
-
-			<div class="span12">
-				<div class="homepage_top">
-					<div class="span2 offset1">
-						<div id="widget_sp_image-2" class="widget widget_sp_image">
-							<img src="{{static path='/images/home/part1/choose.mini.png'}}">
-							<h4 class="title">{{App.translations.messages.Choose}}</h4>
-							<div class="widget_sp_image-description">
-								<p>
-									{{App.translations.messages.chooseText1}} {{App.translations.messages.chooseText3}} {{App.translations.messages.chooseText4}}
-								</p>
+		<div class="container">
+		
+			<!-- -------------------------------------------------------------- -->
+			<!-- Choose/Upload/Organize/Customize/Share -->
+	
+			<div class="row-fluid">
+	
+				<div class="span12">
+					<div class="homepage_top">
+						<div class="span2 offset1">
+							<div id="widget_sp_image-2" class="widget widget_sp_image">
+								<img src="{{static path='/images/home/part1/choose.mini.png'}}">
+								<h4 class="title">{{App.translations.messages.Choose}}</h4>
+								<div class="widget_sp_image-description">
+									<p>
+										{{App.translations.messages.chooseText1}} {{App.translations.messages.chooseText3}} {{App.translations.messages.chooseText4}}
+									</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="span2">
-						<div id="widget_sp_image-2" class="widget widget_sp_image">
-							<img src="{{static path='/images/home/part1/maperialize.mini.png'}}">
-							<h4 class="title">{{App.translations.messages.Upload}}</h4>
-							<div class="widget_sp_image-description">
-								<p>{{App.translations.messages.uploadText}}</p>
+						<div class="span2">
+							<div id="widget_sp_image-2" class="widget widget_sp_image">
+								<img src="{{static path='/images/home/part1/maperialize.mini.png'}}">
+								<h4 class="title">{{App.translations.messages.Upload}}</h4>
+								<div class="widget_sp_image-description">
+									<p>{{App.translations.messages.uploadText}}</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="span2">
-						<div id="widget_sp_image-3" class="widget widget_sp_image">
-							<img src="{{static path='/images/home/part1/layers.mini.png'}}">
-							<h4 class="title">{{App.translations.messages.Organize}}</h4>
-							<div class="widget_sp_image-description">
-								<p>{{App.translations.messages.organizeText}}</p>
+						<div class="span2">
+							<div id="widget_sp_image-3" class="widget widget_sp_image">
+								<img src="{{static path='/images/home/part1/layers.mini.png'}}">
+								<h4 class="title">{{App.translations.messages.Organize}}</h4>
+								<div class="widget_sp_image-description">
+									<p>{{App.translations.messages.organizeText}}</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="span2">
-						<div id="widget_sp_image-4" class="widget widget_sp_image">
-							<img src="{{static path='/images/home/part1/edit.mini.png'}}">
-							<h4 class="title">{{App.translations.messages.Customize}}</h4>
-							<div class="widget_sp_image-description">
-								<p>{{App.translations.messages.customizeText}}</p>
+						<div class="span2">
+							<div id="widget_sp_image-4" class="widget widget_sp_image">
+								<img src="{{static path='/images/home/part1/edit.mini.png'}}">
+								<h4 class="title">{{App.translations.messages.Customize}}</h4>
+								<div class="widget_sp_image-description">
+									<p>{{App.translations.messages.customizeText}}</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="span2">
-						<div id="widget_sp_image-5" class="widget widget_sp_image">
-							<img src="{{static path='/images/home/part1/people.mini.png'}}">
-							<h4 class="title">{{App.translations.messages.Share}}</h4>
-							<div class="widget_sp_image-description">
-								<p>{{App.translations.messages.shareText}}</p>
+						<div class="span2">
+							<div id="widget_sp_image-5" class="widget widget_sp_image">
+								<img src="{{static path='/images/home/part1/people.mini.png'}}">
+								<h4 class="title">{{App.translations.messages.Share}}</h4>
+								<div class="widget_sp_image-description">
+									<p>{{App.translations.messages.shareText}}</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+	
 		</div>
-
+		
+	<hr class="soften"/>
 	</div>
 	
-<hr class="soften"/>
-
-<!-- News -->
-
-{{outlet}}
-
-
-<div class="marketing hugemarginbottom">
-
-	<hr class="soften hugemarginbottom"/>
-	<div class="row-fluid hugemarginbottom">
-		<div class="span3 offset3 presentation">{{App.translations.messages.openMoreText}}</div>
-		<div {{action openMore}} class="btn-large btn-primary span2 offset1 touchable">{{App.translations.messages.FindOutMore}}</div>
+	<!-- News -->
+	
+	{{outlet}}
+	
+	
+	<div class="marketing container hugemarginbottom">
+	
+		<hr class="soften"/>
+		<div class="row-fluid touchable" {{action openMore}}>
+			<div class="span3 offset4 homeAction">{{App.translations.messages.FindOutMore}}</div>
+			<img class="miniarrow" src="{{static path='/images/global/arrow-right-mini.png'}}"></img>
+		</div>
+	
+		<hr class="soften"/>
+		<div class="row-fluid touchable" {{action openTryscreen}}>
+			<div class="span3 offset4 homeAction">{{App.translations.messages.TryNow}}</div>
+			<img class="miniarrow" src="{{static path='/images/global/arrow-right-mini.png'}}"></img>
+		</div>
+	
+		<hr class="soften"/>
+		<div class="row-fluid touchable" onClick="window.location.href='/demos'">
+			<div class="span3 offset4 homeAction">{{App.translations.messages.Demos}}</div>
+			<img class="miniarrow" src="{{static path='/images/global/arrow-right-mini.png'}}"></img>
+		</div>
+	
+		<hr class="soften"/>
+		<div class="row-fluid touchable" {{action openScreenshots}}>
+			<div class="span3 offset4 homeAction">{{App.translations.messages.Screenshots}}</div>
+			<img class="miniarrow" src="{{static path='/images/global/arrow-right-mini.png'}}"></img>
+		</div>
+	
 	</div>
-
-	<hr class="soften hugemarginbottom"/>
-	<div class="row-fluid hugemarginbottom">
-		<div {{action openTryscreen}} class="btn-large btn-primary span2 offset3 touchable">{{App.translations.messages.TryNow}}</div>
-		<div class="span3 offset1 presentation">{{App.translations.messages.openTryscreenText}}</div>
-	</div>
-
-	<hr class="soften hugemarginbottom"/>
-	<div class="row-fluid hugemarginbottom">
-		<div class="span3 offset3 presentation">{{App.translations.messages.openDemosText}}</div>
-		<div onClick="window.location.href='/demos'" class="btn-large btn-primary span2 offset1 touchable">{{App.translations.messages.Demos}}</div>
-	</div>
-
-	<hr class="soften hugemarginbottom"/>
-	<div class="row-fluid hugemarginbottom">
-		<div {{action openScreenshots}} class="btn-large btn-primary span2 offset3 touchable">{{App.translations.messages.Screenshots}}</div>
-		<div class="span3 offset1 presentation">{{App.translations.messages.openScreenshotsText}}</div>
-	</div>
-
-</div>
 
 
