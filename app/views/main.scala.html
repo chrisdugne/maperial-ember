@@ -4,11 +4,25 @@
 <!doctype html>
 <html itemscope="itemscope" itemtype="http://schema.org/WebPage">
 	<head>
+		<!--[IF IE 7]>
+		    <script type="text/javascript">
+		    	//if(window.location.indexOf("usechrome") < 0)
+				//	window.location.href="/#/usechrome"
+				alert("Maperial works with Chrome or Firefox")	
+		    </script>
+		<![endif]-->
+
+		<!--[IF IE 8]>
+		    <script type="text/javascript">
+				alert("Maperial works with Chrome or Firefox")	
+		    </script>
+		<![endif]-->
+		
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
         <title>Maperial</title>
         <link rel="shortcut icon" type="image/png" href="http://static.maperial.com/images/global/favicon.png">
-        
+		
 	    @if(isProd){
 			<link rel="stylesheet" media="screen" href="http://static.maperial.com/css/maperial-webapp.min.css" />
 	   	}else{
