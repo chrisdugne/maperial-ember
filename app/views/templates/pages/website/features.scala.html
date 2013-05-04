@@ -1,36 +1,153 @@
 
 
 <div class="marketing container home-container websiteContent hugemarginbottom">
-	<h1 class="hugemarginbottom">{{App.translations.messages.Features}}</h1>
+	<h1 class="">{{App.translations.messages.Features}}</h1>
+	<hr/>
+	<div class="row-fluid">
+		<div class="span8 offset2">
+			<p>{{App.translations.messages.KeepInMind}}</p>
+			<div class="SocialIconsWidget">
+				<ul class="widget_socials">
+					<li><a href="mailto:{{email name='maperial'}}" class="mail"></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 	
-	<table class="table table-bordered">
+	<hr/>
+	<h2 class="hugemarginbottom">{{App.translations.messages.DataManagement}}</h2>
+
+	<table class="table table-bordered hugemarginbottom">
 	    <tbody>
 	      <tr>
-	        <td rowspan="3">{{App.translations.messages.DataManagement}}</td>
-	        <td>basemaps</td>
-	        <td>(Google, OSM, mapquest...)</td>
+	        <td><b>{{App.translations.messages.Basemap}}</b></td>
+	        <td>{{App.translations.messages.BasemapDetails}}</td>
 	      </tr>
 	      <tr>
-	        <td>bibliotheque de styles predefinis et personalisables</td>
-	        <td>(voir edition)</td>
+	        <td><b>{{App.translations.messages.Presets}}</b></td>
+	        <td>{{App.translations.messages.PresetsDetails}}</td>
 	      </tr>
 	      <tr>
-	        <td>import de données</td>
-	        <td>json, csv, ...</td>
+	        <td rowspan="4"><b>{{App.translations.messages.Upload}}</b></td>
+	        <td>{{App.translations.messages.UploadDetails}}</td>
 	      </tr>
-	      
-	      
 	      <tr>
-	        <td>edition</td>
-	        <td>Jacob</td>
-	        <td>Thornton</td>
+	        <td>{{App.translations.messages.ScatterPlots}}</td>
 	      </tr>
-	      
-	      
 	      <tr>
-	        <td>publication</td>
-	        <td colspan="2">Larry the Bird</td>
+	        <td>{{App.translations.messages.Vectors}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.ImagesGeorefencees}}</td>
+	      </tr>
+	      <tr>
+	        <td rowspan="2"><b>{{App.translations.messages.Projections}}</b></td>
+	        <td>{{App.translations.messages.ProjectionsClassic}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.ProjectionsPerso}}</td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.TileCreation}}</b></td>
+	        <td></td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.Dynamic}}</b></td>
+	        <td></td>
 	      </tr>
 	    </tbody>
 	  </table>
+	      
+	<h2 class="hugemarginbottom">{{App.translations.messages.Edition}}</h2>
+	      
+	<table class="table table-bordered hugemarginbottom">
+	    <tbody>
+	      <tr>
+	        <td rowspan="8"><b>{{App.translations.messages.Style}}</b></td>
+	        <td>{{App.translations.messages.Picking}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.Dico}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.DetailledEdition}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.ElementColor}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.ElementThickness}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.ElementOpacity}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.ElementRepresentation}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.LineThickness}}</td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.Colorbar}}</b></td>
+	        <td>{{App.translations.messages.ColorbarDetails}}</td>
+	      </tr>
+	      <tr>
+	        <td rowspan="4"><b>{{App.translations.messages.Composition}}</b></td>
+	        <td>{{App.translations.messages.AlphaBlending}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.AlphaClipping}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.LuminosityAtt}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.Repartition}}</td>
+	      </tr>
+	      <tr>
+	        <td rowspan="4"><b>{{App.translations.messages.PublishParams}}</b></td>
+	        <td>{{App.translations.messages.BoundingBox}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.HUDPerso}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.MapKeys}}</td>
+	      </tr>
+	      <tr>
+	        <td>{{App.translations.messages.PublicPrivate}}</td>
+	      </tr>
+	  </tbody>
+	</table>
+
+	<h2 class="hugemarginbottom">{{App.translations.messages.Publish}}</h2>
+	      
+	<table class="table table-bordered hugemarginbottom">
+	    <tbody>
+	      <tr>
+	        <td><b>{{App.translations.messages.TagJS}}</b></td>
+	        <td></td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.ExportPNG}}</b></td>
+	        <td></td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.APIJS}}</b></td>
+	        <td></td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.APIRest}}</b></td>
+	        <td>{{App.translations.messages.APIRestDetails}}</td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.Showcase}}</b></td>
+	        <td></td>
+	      </tr>
+	      <tr>
+	        <td><b>{{App.translations.messages.Mobile}}</b></td>
+	        <td></td>
+	      </tr>
+	  </tbody>
+	</table>
 </div>
