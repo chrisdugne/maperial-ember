@@ -1,14 +1,15 @@
 
 
 <div class="marketing container home-container websiteContent hugemarginbottom">
-	<h1 class="hugemarginbottom">{{App.translations.messages.Team}}</h1>
+	<h1>{{App.translations.messages.Team}}</h1>
+	<p class="marketing-byline hugemarginbottom">{{App.translations.messages.Founders}}</p>
 
 	<div id="djoul" class="row-fluid hugemarginbottom">
 		<div class="span4 offset2">
-			<img src="{{static path='/images/home/djoul.jpg'}}" width="250px"/>
+			<img src="{{static path='/images/home/djoul.jpg'}}" width="220px"/>
 		</div>
 		<div class="span4">
-			<p class="marketing-byline">Julien Bost - {{App.translations.messages.cofounder}}</p>
+			<p class="marketing-byline">Julien Bost</p>
 			<p>{{App.translations.messages.djoulText}}</p>
 			<p>{{App.translations.messages.djoulText2}}</p>
 			<div class="SocialIconsWidget">
@@ -20,12 +21,29 @@
 		</div>
 	</div>
 
-	<div id="chris" class="row-fluid hugemarginbottom">
+	<div id="vivien" class="row-fluid hugemarginbottom">
 		<div class="span4 offset2">
-			<img src="{{static path='/images/home/chris2.jpg'}}" width="250px"/>
+			<img src="{{static path='/images/home/vivien2.jpg'}}" width="250px"/>
 		</div>
 		<div class="span4">
-			<p class="marketing-byline">Christophe Dugne-Esquevin - {{App.translations.messages.cofounder}}</p>
+			<p class="marketing-byline">Vivien Clauzon</p>
+			<p>{{App.translations.messages.vivienText}}</p>
+			<p>{{App.translations.messages.vivienText2}}</p>
+			<div class="SocialIconsWidget">
+				<ul class="widget_socials">
+					<li><a href="mailto:{{email name='vivien'}}" class="mail"></a></li>
+					<li><a href="http://www.linkedin.com/pub/vivien-clauzon/38/356/856" class="linkedin" target="_blank"></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="chris" class="row-fluid hugemarginbottom">
+		<div class="span4 offset2">
+			<img src="{{static path='/images/home/chris2.jpg'}}" width="200px"/>
+		</div>
+		<div class="span4">
+			<p class="marketing-byline">Christophe Dugne-Esquevin</p>
 			<p>{{App.translations.messages.chrisText}}	
 			<a class="link" href="http://www.uralys.com" target="_blank">{{App.translations.messages.chrisText2}}</a>	{{App.translations.messages.chrisText3}}
 			<a class="link" href="http://www.facebook.com/appcenter/cadeaux-serendi" target="_blank">{{App.translations.messages.chrisText4}}</a> {{App.translations.messages.chrisText5}}</p>
