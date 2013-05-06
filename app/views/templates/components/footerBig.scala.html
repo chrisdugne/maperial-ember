@@ -6,16 +6,18 @@
 	<div id="footerHome" class="snapper">
 		<div class="container">
 			<div class="row-fluid">
-				<div class="span2 offset2 footerContent">
+				<div class="span3 offset1 footerContent">
 					<div class="footerTitle">{{App.translations.messages.AboutUs}}</div>
 					<div class="link" {{action openTeam}}>{{App.translations.messages.Team}}</div>
 					<div class="link" onClick="window.location.href='http://blog.maperial.com/'">{{App.translations.messages.Blog}}</div>
 					<div class="link" {{action openJobs}}>{{App.translations.messages.Jobs}}</div>
 					<div class="link" {{action openCredits}}>{{App.translations.messages.Credits}}</div>
 				</div>
-				<div class="span2 footerContent">
+				<div class="span3 footerContent">
 					<div class="footerTitle">Maperial</div>
+					<div class="link" {{action openPresentation}}>{{App.translations.messages.Presentation}}</div>
 					<div class="link" {{action openFeatures}}>{{App.translations.messages.Features}}</div>
+					<div class="link" {{action openPrices}}>{{App.translations.messages.Prices}}</div>
 					<div class="link" onClick="window.location.href='/demos'">{{App.translations.messages.Cartotheque}}</div>
 				</div>
 				<div class="span2 footerContent">
@@ -33,9 +35,11 @@
 					</div>
 				</div>
 				<div class="span2 footerContent">
-					<div class="link">&copy; 2013 Maperial</div>
 					<br/>
-					<div class="link" onClick="window.location.href='mailto:{{email name='maperial'}}'"> {{email name='maperial'}}</div>
+					<br/>
+					<br/>
+					<br/>
+					<div class="link">&copy; 2013 Maperial</div>
 				</div>
 			</div>
 		</div>
