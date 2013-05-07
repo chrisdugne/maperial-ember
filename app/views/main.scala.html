@@ -28,6 +28,26 @@
 	   	}else{
 			<link rel="stylesheet" media="screen" href="http://static.maperial.localhost/css/maperial-webapp.min.localhost.css" /> 
 	   	}
+	   	
+		<!-- --------------------------------------------->
+		
+		<!-- Analytics |  You can verify site ownership only with the asynchronous snippet placed in the <head> section of your home page. -->
+		<script type="text/javascript">
+
+			  var _gaq = _gaq || [];
+			  _gaq.push(['_setAccount', 'UA-40162385-1']);
+			  _gaq.push(['_setDomainName', 'maperial.com']);
+			  _gaq.push(['_setAllowLinker', true]);
+			  _gaq.push(['_trackPageview']);
+			
+			  (function() {
+			    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			  })();
+			
+		</script>
+		
     </head>
     
   	<body id="body">
@@ -72,25 +92,6 @@
 		    	setTimeout(function(){$('#loginWindow').modal()}, 500);
 		    </script>
 		}
-
-		<!-- --------------------------------------------->
-		
-		<!-- Analytics -->
-		<script type="text/javascript">
-
-			  var _gaq = _gaq || [];
-			  _gaq.push(['_setAccount', 'UA-40162385-1']);
-			  _gaq.push(['_setDomainName', 'maperial.com']);
-			  _gaq.push(['_setAllowLinker', true]);
-			  _gaq.push(['_trackPageview']);
-			
-			  (function() {
-			    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			  })();
-			
-		</script>
     </body>
         
 </html>
