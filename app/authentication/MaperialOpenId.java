@@ -33,7 +33,7 @@ public class MaperialOpenId extends Application {
 
 		//--------------------------------------------------------------------------------//
 		
-		String url = "http://map.x-ray.fr/user/validate";
+		String url = "http://auth.maperial.com/user/validate";
 		Map<String, String> parameters = new HashMap<String, String>(); 
 		parameters.put("token", token);
 		parameters.put("clientid", CLIENT_ID);
