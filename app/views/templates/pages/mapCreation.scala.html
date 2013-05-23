@@ -3,6 +3,7 @@
 @import views.html.popups.selectStyleWindow; 
 @import views.html.popups.selectRasterWindow; 
 @import views.html.popups.selectImagesWindow; 
+@import views.html.popups.selectWMSWindow; 
 @import views.html.popups.customizeLayerOSMWindow; 
 
 <div id="_maperial"></div>
@@ -22,7 +23,10 @@
 		<div class="row-fluid marginbottom">
 			<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
 			<div class="span3 offset5 btn-small btn-danger" {{action backToLayers}}>Back</div>
-			<div class="span3 btn-small btn-primary" {{action saveMap}}>Save</div>
+			{{#if App.Globals.isTryscreen}}
+			{{else}}
+				<div class="span3 btn-small btn-primary" {{action saveMap}}>Save</div>
+			{{/if}}
 		</div>
 		<div class="row-fluid marginbottom">
 			<div class="span2 offset1" >Default Zoom</div>
@@ -79,4 +83,5 @@
 @selectStyleWindow()
 @selectRasterWindow()
 @selectImagesWindow()
+@selectWMSWindow()
 @customizeLayerOSMWindow()
