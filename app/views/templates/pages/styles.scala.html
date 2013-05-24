@@ -24,7 +24,11 @@
 		        	<tbody class="files">
 			    		{{#each style in user.styles}}
 						    <tr class="template-download">
-						        <td>{{stylethumb style.uid}}</td>
+						        {{#if style.isPublic}}
+						        	<td>{{stylethumb style.uid}}</td>
+						        {{else}}
+						        	<td {{action editStyle style}}>{{stylethumb style.uid}}</td>
+						        {{/if}}
 						        <td class="name"><p class="longfilename">{{style.name}}</p></td>
 						        {{#if style.isPublic}}
 						        {{else}}

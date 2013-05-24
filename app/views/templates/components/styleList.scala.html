@@ -28,7 +28,7 @@
  
    	<!--  -------------       Content      ---------------- -->
    	
-   	<div class="row-fluid marginbottom styleList">
+   	<div class="row-fluid hugemarginbottom styleList">
 		{{#each style in styles}}
 			{{#with style}}
 				<div {{action selectStyle this}} class="row-fluid marginbottom">
@@ -42,7 +42,7 @@
     <div id="selectedStyleArea" class="row-fluid marginbottom">
 	    {{isset stylesData.selectedStyle
 	      yes='<div class="span6">
-	      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(App.stylesData.selectedStyle.uid)}"></img>
+	      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(App.stylesData.selectedStyle.uid, "m")}"></img>
 					<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
 						<i class="icon icon-ex-white-outline"></i>
 					</a>
