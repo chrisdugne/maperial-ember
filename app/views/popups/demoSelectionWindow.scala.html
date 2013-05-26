@@ -1,0 +1,52 @@
+
+<div id="demoSelectionWindow"
+	class="modal hide fade" role="dialog">
+
+	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer" data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i></a>
+
+	<br />
+	<div class="row-fluid">
+		<div class="span7">
+			<p class="popuptitle">Build your own map</p>
+		</div>
+      	<div {{action startDemo}} id="startButton" class="span3 btn-large btn-primary">Start !</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span10">
+			<p class="popuptitle">Or choose a demo</p>
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div {{action loadDemo Maperial.DEMO_MAP_1}} class="span4" title="demo1">
+			<img src="{{static path='/images/buttons/sources/button.demo.map1.png'}}" class="bigbutton"></img>
+		</div>
+		<div {{action loadDemo Maperial.DEMO_MAP_2}} class="span4" title="demo2">
+			<img src="{{static path='/images/buttons/sources/button.demo.map2.png'}}" class="bigbutton"></img>
+		</div>
+		<!-- 
+		<div {{action loadDemo Maperial.DEMO_MAP_3}} class="span4" title="demo3">
+			<img src="{{static path='/images/buttons/sources/button.demo.map3.png'}}" class="bigbutton"></img>
+		</div>
+		 -->
+	</div>
+
+	<div class="row-fluid">
+		<!-- 
+		<div {{action loadDemo Maperial.DEMO_MAP_4}} class="span4" title="demo4">
+			<img src="{{static path='/images/buttons/sources/button.demo.map4.png'}}" class="bigbutton"></img>
+		</div>
+		<div {{action loadDemo Maperial.DEMO_MAP_5}} class="span4" title="demo5">
+			<img src="{{static path='/images/buttons/sources/button.demo.map5.png'}}" class="bigbutton"></img>
+		</div>
+		<div {{action loadDemo Maperial.DEMO_MAP_6}} class="span4" title="demo6">
+			<img src="{{static path='/images/buttons/sources/button.demo.map6.png'}}" class="bigbutton"></img>
+		</div>
+		 -->
+	</div>
+
+	
+	<br />
+</div>
+
