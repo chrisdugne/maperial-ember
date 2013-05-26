@@ -22,7 +22,10 @@
 <div class="panel panel-webapp panelSettings snapper hide" id="panelSettings_maperial">
 	<div id="globalSettings">
 		<div class="row-fluid marginbottom">
+			{{#if App.Globals.isTryscreen}}
+			{{else}}
 			<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
+			{{/if}}
 			<div class="span3 offset5 btn-small btn-danger" {{action backToLayers}}>Back</div>
 			{{#if App.Globals.isTryscreen}}
 			{{else}}
