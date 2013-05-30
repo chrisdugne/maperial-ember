@@ -11,12 +11,17 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid">
-		<div {{action addLayer Source.MaperialOSM Source.MAPERIAL_BROWNIE}} class="span3" title="Brownie">
-			<img src="{{static path='/images/buttons/sources/button.maperial.brownie.png'}}" class="bigbutton"></img>
-		</div>
+	<div class="row-fluid marginbottom">
 		<div {{action addLayer Source.MaperialOSM Source.MAPERIAL_CLASSIC}} class="span3" title="Classic">
 			<img src="{{static path='/images/buttons/sources/button.maperial.classic.png'}}" class="bigbutton"></img>
+		</div>
+
+		<div {{action addLayer Source.SRTM}} class="span3" title="SRTM">
+			<img src="{{static path='/images/buttons/sources/button.srtm.png'}}" class="bigbutton"></img>
+		</div>
+		<!-- 
+		<div {{action addLayer Source.MaperialOSM Source.MAPERIAL_BROWNIE}} class="span3" title="Brownie">
+			<img src="{{static path='/images/buttons/sources/button.maperial.brownie.png'}}" class="bigbutton"></img>
 		</div>
 		<div {{action addLayer Source.MaperialOSM Source.MAPERIAL_COOKIES}} class="span3" title="Cookies">
 			<img src="{{static path='/images/buttons/sources/button.maperial.cookies.png'}}" class="bigbutton"></img>
@@ -24,9 +29,12 @@
 		<div {{action addLayer Source.MaperialOSM Source.MAPERIAL_FLUO}} class="span3" title="Fluo">
 			<img src="{{static path='/images/buttons/sources/button.maperial.fluo.png'}}" class="bigbutton"></img>
 		</div>
+		 -->
 	</div>
 
+		<!-- 
 	<div class="row-fluid marginbottom">
+	
 		<div {{action addLayer Source.MaperialOSM Source.MAPERIAL_GREEN}} class="span3" title="Green">
 			<img src="{{static path='/images/buttons/sources/button.maperial.green.png'}}" class="bigbutton"></img>
 		</div>
@@ -40,6 +48,7 @@
 			<img src="{{static path='/images/buttons/sources/button.maperial.yellow.png'}}" class="bigbutton"></img>
 		</div>
 	</div>
+		-->
 
 	<div class="row-fluid">
 		<div class="span10">
@@ -74,6 +83,15 @@
 		</div>
 		<div {{action addLayer Source.Images Source.IMAGES_STAMEN_TONER_BG}} class="span3" title="Toner BG">
 			<img src="{{static path='/images/buttons/sources/button.images.stamen.toner-background.png'}}" class="bigbutton"></img>
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div {{action addLayer Source.Images Source.IMAGES_OCM_TRANSPORT}} class="span3" title="Transport">
+			<img src="{{static path='/images/buttons/sources/button.images.ocm.transport.png'}}" class="bigbutton"></img>
+		</div>
+		<div {{action addLayer Source.Images Source.IMAGES_OCM_LANDSCAPE}} class="span3" title="Landscape">
+			<img src="{{static path='/images/buttons/sources/button.images.ocm.landscape.png'}}" class="bigbutton"></img>
 		</div>
 	</div>
 	
