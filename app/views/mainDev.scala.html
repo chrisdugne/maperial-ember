@@ -270,7 +270,8 @@
 		
 	    @if(popupLoginWindow){
 		    <script type="text/javascript">
-		    	setTimeout(function(){$('#loginWindow').modal()}, 500);
+		    	//setTimeout(function(){$('#loginWindow').modal()}, 500);
+		    	setTimeout(function(){MaperialAuth.authorize()}, 500);
 		    </script>
 		}
 		
