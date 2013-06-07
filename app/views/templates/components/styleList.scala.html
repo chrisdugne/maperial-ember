@@ -41,13 +41,14 @@
 	
     <div id="selectedStyleArea" class="row-fluid marginbottom">
 	    {{isset stylesData.selectedStyle
-	      yes='<div class="span6">
+	      yes='<div class="span5">
 	      			<img id="selectedStyleThumb" src="{Utils.styleThumbURL(App.stylesData.selectedStyle.uid, "m")}"></img>
 					<a id="cancelSelection" class="btn btn-rounded btn-icon-only btn-dark" onclick="App.StylesController.cancelSelectedStyle()">
 						<i class="icon icon-ex-white-outline"></i>
 					</a>
 	      	   </div>
-	      	   <div id="continueButton" class="span3 btn-large btn-primary" onclick="App.StylesController.changeStyle()">Continue</div>'
+	      	   <div id="continueButton" class="span3 btn-large btn-primary" onclick="App.StylesController.editStyle(App.stylesData.selectedStyle)">Edit</div>
+	      	   <div id="continueButton" class="span3 btn-large btn-primary" onclick="App.StylesController.changeStyle()">Choose</div>'
 	      no='<h4 class="offset4">(Select a style)</h4>'}}
 	</div>
 

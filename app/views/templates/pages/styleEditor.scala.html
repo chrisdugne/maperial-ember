@@ -3,9 +3,16 @@
 
 <!-- Custom Menu  -->
 <div class="panel panel-webapp panelStyleEditorMenu snapper hide" id="panelStyleEditorMenu_maperial">
-	<div class="row-fluid">
-		<div class="span1">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
-		<div class="span3 offset8 btn-small btn-primary" onclick="App.StyleEditorController.saveStyle()">Save</div>
-	</div>
+{{#if App.Globals.isTryscreen}}
+<div class="row-fluid">
+	<div class="span6 offset3 btn-small btn-primary" onclick="App.finishLoadings('tryscreen')">Done editing</div>
+</div>
+{{else}}
+<div class="span1">{{textInput App.user.selectedMap.name id='mapNameInput'}}</div>
+<div class="row-fluid">
+	<div class="span1">{{textInput App.stylesData.selectedStyle.name id='styleNameInput'}}</div>
+	<div class="span3 offset8 btn-small btn-primary" onclick="App.StyleEditorController.saveStyle()">Save</div>
+</div>
+{{/if}}
 </div>
 
