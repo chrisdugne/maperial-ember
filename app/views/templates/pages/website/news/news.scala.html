@@ -1,10 +1,13 @@
-@import views.html.templates.pages.website.news.new4; 
 @import views.html.templates.pages.website.news.new5; 
 @import views.html.templates.pages.website.news.new6; 
+@import views.html.templates.pages.website.news.new7; 
+@import views.html.templates.pages.website.news.new8; 
 
 <p id="titleNews"><a class="link" {{action openAllNews}}>News</a><p>
+<p><a class="link subtitleNews" {{action openAllNews}}>({{App.translations.messages.SeeAll}} )</a></p>
 <div class="coda-slider hugemarginbottom" id="news">
-	@new6()
-	@new5()
-	@new4()
+	@new8(true)
+	@new7(true)
+	@new6(true)
+	@new5(true)
 </div>
