@@ -16,7 +16,7 @@
 @if(defaultHeader){
 
 	{{#if user.waiting}}
-		<img class="headerButton" src="{{static path='/images/mapediting/spin.white.gif'}}" width="25px"/>
+		<img class="headerWaitingSpin" src="{{static path='/images/mapediting/spin.white.gif'}}" width="25px"/>
 	{{else}}
 		{{#if user.loggedIn}}
 			<div class="headerTitle">
@@ -83,14 +83,16 @@
 		   	}}
 			</div>
 			
-	        <button {{action openDashboard}} class="btn-small btn-success headerButton">
+	        <button {{action openDashboard}} class="btn-small btn-success headerWaitingSpin">
 	            <i class="icon-th-large icon-white"></i>
 	        </button>
 			<div id="userDisplay" class="googleUser">{{user.email}}</div>
 		{{else}}
 			<ul id="headerButtons">
-				<li {{action openTryscreen}} id="tryButton" class="btn-large btn-primary">{{App.translations.messages.Try}}</li>
-				<li id="signinButton" {{action maperialLogin}} class="btn-large btn-primary">{{App.translations.messages.LogIn}}</li>
+				<li {{action openDemos}} class="btn-large btn-primary headerButton">{{App.translations.messages.Demos}}</li>
+				<li {{action openTryscreen}} class="btn-large btn-primary headerButton">{{App.translations.messages.Try}}</li>
+				<li class="btn-large btn-primary headerButton" onClick="window.location.href='mailto:{{email name='maperial'}}'">{{App.translations.messages.Contact}}</li>
+				<li {{action maperialLogin}} class="btn-large btn-primary headerButton">{{App.translations.messages.LogIn}}</li>
 			</ul>
 		{{/if}}
 	{{/if}}
