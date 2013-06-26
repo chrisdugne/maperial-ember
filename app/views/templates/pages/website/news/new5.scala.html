@@ -1,7 +1,7 @@
 @(isSmall:Boolean)
 <div class="row-fluid">
 	@if(isSmall){
-		<img class="span4 rounded touchable" onClick="window.location.href='/#/tryscreen'" src="{{static path='/images/home/news/new5.png'}}" />
+		<img id="imageNews5" class="span4 polaroid rounded touchable" onClick="window.location.href='/#/tryscreen'" src="{{static path='/images/home/news/new5.png'}}" />
 		<div class="span5 offset1">
 			<p class="titleNew">{{App.translations.messages.New5Title}} </p>
 			<p>{{App.translations.messages.New5Text}}</p>
@@ -11,7 +11,7 @@
 		<div class="span2 offset1">
 			<p class="dateNew">{{date value='2013-05-28'}}</p>
 		</div>
-		<img class="span4 rounded" src="{{static path='/images/home/news/new5.png'}}" />
+		<img id="imageNews5" class="span4 polaroid rounded" src="{{static path='/images/home/news/new5.png'}}" />
 		<div class="span4">
 			<p class="titleNew">{{App.translations.messages.New5Title}}</p>
 			<p>{{App.translations.messages.New5Text}}</p>
