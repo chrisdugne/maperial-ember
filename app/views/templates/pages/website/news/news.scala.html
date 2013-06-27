@@ -3,8 +3,10 @@
 @import views.html.templates.pages.website.news.new7; 
 @import views.html.templates.pages.website.news.new8; 
 
-<p id="titleNews"><a class="link" {{action openAllNews}}>News</a><p>
-<p><a class="link subtitleNews" {{action openAllNews}}>({{App.translations.messages.SeeAll}} )</a></p>
+<div class="span4 offset4">
+	<p id="titleNews"><a class="link" {{action openAllNews}}>News</a><p>
+</div>
+
 <div class="coda-slider hugemarginbottom" id="news">
 	@new8(true)
 	@new7(true)
