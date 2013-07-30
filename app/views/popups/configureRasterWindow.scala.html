@@ -1,10 +1,8 @@
 
 @import views.html.templates.components.rasterParam;
 
-<div style="display: none;" id="configureRasterWindow"
-	class="modal hide fade" tabindex="-1" role="dialog"
-	aria-labelledby="configureRasterWindowLabel" aria-hidden="true">
-
+<div id="configureRasterWindow" class="reveal-modal">
+	
 	<br />
 	<div class="row-fluid">
 		<div class="span6">
@@ -13,10 +11,9 @@
 		<div class="span2">
 			<input id="rasterNameInput" type="text" />
 		</div>
-	</div>
-	<a id="lightbox-close" class="btn btn-rounded btn-icon-only btn-dark closer"
-		data-dismiss="modal"> <i class="icon icon-ex-white-outline"></i>
-	</a>
+	</div>	
+	
+	<a id="lightbox-close" class="close-reveal-modal btn btn-rounded btn-icon-only btn-dark closer"> <i class="icon icon-ex-white-outline"></i></a>
 
 	<div id="rasterErrorArea"></div>
 
