@@ -89,6 +89,12 @@
 			<div id="userDisplay" class="googleUser">{{user.email}}</div>
 		{{else}}
 			<ul id="headerButtons">
+				<li class="btn-large">
+					<img onclick="window.youtubeManager.openVideoWindow(App.translator.lang)" class="touchable" src="{{static path='/images/home/part1/play.45.png'}}"></img>
+				</li>
+				<li class="btn-large">
+					<img {{action openPrezi}} class="touchable" src="{{static path='/images/home/part1/play.prezi.png'}}"></img>
+				</li>
 				<li {{action openDemos}} class="btn-large btn-primary headerButton">{{App.translations.messages.Demos}}</li>
 				<li {{action openTryscreen}} class="btn-large btn-primary headerButton">{{App.translations.messages.Try}}</li>
 				<li class="btn-large btn-primary headerButton" onClick="window.location.href='mailto:{{email name='maperial'}}'">{{App.translations.messages.Contact}}</li>
