@@ -1,15 +1,15 @@
-@import views.html.templates.pages.website.news.new5; 
-@import views.html.templates.pages.website.news.new6; 
-@import views.html.templates.pages.website.news.new7; 
 @import views.html.templates.pages.website.news.new8; 
+@import views.html.templates.pages.website.news.new9; 
+@import views.html.templates.pages.website.news.new10; 
+@import views.html.templates.pages.website.news.new11; 
 
 <div class="span4 offset4">
 	<p id="titleNews"><a class="link" {{action openAllNews}}>News</a><p>
 </div>
 
 <div class="coda-slider hugemarginbottom" id="news">
+	@new11(true)
+	@new10(true)
+	@new9(true)
 	@new8(true)
-	@new7(true)
-	@new6(true)
-	@new5(true)
 </div>

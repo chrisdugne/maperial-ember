@@ -1,0 +1,23 @@
+@(isSmall:Boolean)
+
+<div class="row-fluid">
+	@if(isSmall){
+		<img {{action openPrezi}} id="imageNews11" class="span4 polaroid rounded touchable" src="{{static path='/images/home/news/prezi.png'}}" />
+		<div class="span5 offset1">
+			<p class="titleNew">{{App.translations.messages.New11Title}} </p>
+			<p>{{App.translations.messages.New11Text}}</p>
+			<img {{action openPrezi}} class="touchable" src="{{static path='/images/home/part1/play.prezi.png'}}"></img>	
+		</div>
+	}else{
+		<div class="span2 offset1">
+			<p class="dateNew">{{date value='2013-08-03'}}</p>
+		</div>
+		<img {{action openPrezi}} id="imageNews11" class="span4 polaroid rounded touchable" src="{{static path='/images/home/news/prezi.png'}}" />
+		<div class="span4">
+			<p class="titleNew">{{App.translations.messages.New11Title}}</p>
+			<p>{{App.translations.messages.New11Text}}</p>
+			<img {{action openPrezi}} class="touchable" src="{{static path='/images/home/part1/play.prezi.png'}}"></img>	
+		</div>
+	}
+</div>
+
